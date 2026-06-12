@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ultra Gacha</title>
+</head>
+<body>
+  <style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  #app {
+    width: 100%;
+    min-height: 100vh;
+    background: #020208;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+    background: rgba(5, 5, 20, 0.97);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  #nav-logo {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: #e8e8e8;
+  }
+
+  #nav-tabs {
+    display: flex;
+    gap: 4px;
+  }
+
+  .nav-tab {
+    padding: 7px 20px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    border: 0.5px solid transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    background: transparent;
+    color: #666;
+    transition: all 0.2s;
+  }
+
+  .nav-tab:hover {
+    color: #aaa;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .nav-tab.active {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  /* GACHA PAGE */
+  #gacha-page {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 55px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #gacha-page.active {
+    display: flex;
+  }
+
+  #bg-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 40%, rgba(80, 40, 180, 0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  #gacha-idle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    z-index: 10;
+  }
+
+  #gacha-title-main {
+    font-size: 11px;
+    letter-spacing: 8px;
+    color: #444;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  #gacha-title-big {
+    font-size: 46px;
+    font-weight: 900;
+    letter-spacing: 12px;
+    background: linear-gradient(135deg, #fff 30%, #888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+  }
+
+  #stats-row {
+    display: flex;
+    gap: 36px;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ccc;
+  }
+
+  .stat-lbl {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #444;
+    margin-top: 2px;
+  }
+
+  #pity-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  #pity-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #444;
+  }
+
+  #pity-bar-wrap {
+    width: 220px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  #pity-bar {
+    height: 100%;
+    background: #666;
+    border-radius: 2px;
+    transition: width 0.4s, background 0.4s;
+  }
+
+  /* POTION BAR */
+  #potion-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 10px 18px;
+  }
+
+  #potion-icon {
+    font-size: 22px;
+  }
+
+  #potion-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  #potion-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #555;
+    text-transform: uppercase;
+  }
+
+  #potion-count-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  #potion-count {
+    font-size: 18px;
+    font-weight: 700;
+    color: #c084fc;
+  }
+
+  #potion-use-btn {
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border: 0.5px solid rgba(192, 132, 252, 0.3);
+    border-radius: 4px;
+    background: rgba(192, 132, 252, 0.08);
+    color: #a855f7;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  #potion-use-btn:hover {
+    background: rgba(192, 132, 252, 0.18);
+    color: #c084fc;
+  }
+
+  #potion-use-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  #potion-active-badge {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #c084fc;
+    background: rgba(192, 132, 252, 0.12);
+    border-radius: 4px;
+    padding: 2px 8px;
+    display: none;
+    animation: pulse-badge 1s ease infinite;
+  }
+
+  @keyframes pulse-badge {
+
+    0%,
+    100% {
+      opacity: 1
+    }
+
+    50% {
+      opacity: 0.5
+    }
+  }
+
+  #potion-effect-desc {
+    font-size: 10px;
+    color: #444;
+    letter-spacing: 1px;
+  }
+
+  /* ROLL BUTTONS */
+  #roll-btns {
+    display: flex;
+    gap: 10px;
+  }
+
+  .roll-btn {
+    height: 50px;
+    font-size: 13px;
+    letter-spacing: 4px;
+    font-weight: 700;
+    background: transparent;
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+    color: #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    padding: 0 24px;
+  }
+
+  .roll-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #fff;
+  }
+
+  .roll-btn:active {
+    transform: scale(0.97);
+  }
+
+  #last-result-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #333;
+    min-height: 16px;
+  }
+
+  /* SINGLE ANIM */
+  #gacha-anim {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+  }
+
+  #star-svg {
+    width: 260px;
+    height: 260px;
+    animation: spin 1s linear infinite;
+    transform-origin: center;
+    overflow: visible;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg)
+    }
+
+    to {
+      transform: rotate(360deg)
+    }
+  }
+
+  #result-text {
+    font-size: 38px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    text-align: center;
+    margin-top: 28px;
+    text-transform: uppercase;
+  }
+
+  #crack-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 25;
+    opacity: 0;
+  }
+
+  #flash-div {
+    position: absolute;
+    inset: 0;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 22;
+  }
+
+  /* CUTSCENE */
+  #cutscene {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    background: #000;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  #cutscene.active {
+    display: flex;
+  }
+
+  #cutscene-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+
+  #cutscene-rays {
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    opacity: 0;
+    transition: opacity 1s ease;
+    animation: ray-spin 12s linear infinite;
+    transform-origin: center;
+  }
+
+  @keyframes ray-spin {
+    from {
+      transform: rotate(0deg)
+    }
+
+    to {
+      transform: rotate(360deg)
+    }
+  }
+
+  #cutscene-art {
+    position: relative;
+    z-index: 2;
+    width: 280px;
+    height: 280px;
+    opacity: 0;
+    transform: scale(0.6) translateY(20px);
+    transition: opacity 1.1s ease, transform 1.4s cubic-bezier(.16, 1, .3, 1);
+  }
+
+  #cutscene-art.show {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  #cutscene-art.pulse {
+    animation: cutscene-pulse 1.6s ease-in-out infinite;
+  }
+
+  @keyframes cutscene-pulse {
+
+    0%,
+    100% {
+      transform: scale(1) translateY(0);
+    }
+
+    50% {
+      transform: scale(1.05) translateY(-4px);
+    }
+  }
+
+  #cutscene-name {
+    position: absolute;
+    bottom: 16%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 3;
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #777;
+    opacity: 0;
+    transition: opacity 0.8s ease, letter-spacing 0.8s ease;
+  }
+
+  #cutscene-name .cs-tier-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #555;
+    margin-bottom: 8px;
+  }
+
+  #cutscene-name .cs-title {
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: 8px;
+  }
+
+  #cutscene-name.show {
+    opacity: 1;
+    letter-spacing: 4px;
+  }
+
+  #cutscene-particles {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .cs-particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+  }
+
+  #cutscene-flash {
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    opacity: 0;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  #cutscene-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.85) 100%);
+  }
+
+  /* POTION TOAST */
+  #potion-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(192, 132, 252, 0.15);
+    border: 0.5px solid rgba(192, 132, 252, 0.3);
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #c084fc;
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  /* DOJANG */
+  #dojang-page {
+    display: none;
+    padding: 40px 32px;
+    min-height: calc(100vh - 55px);
+  }
+
+  #dojang-page.active {
+    display: block;
+  }
+
+  #dojang-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+
+  #dojang-title {
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: #444;
+    text-transform: uppercase;
+  }
+
+  #dojang-count {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #444;
+  }
+
+  #dojang-filter {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 5px 12px;
+    border-radius: 4px;
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    background: transparent;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover {
+    color: #aaa;
+  }
+
+  .filter-btn.active {
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #ddd;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  #dojang-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .dojang-card {
+    border: 0.5px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 16px 18px;
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    animation: fadeInUp 0.3s ease;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(8px)
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0)
+    }
+  }
+
+  .dojang-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dojang-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .dojang-name {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dojang-time {
+    font-size: 10px;
+    color: #444;
+    letter-spacing: 1px;
+    margin-top: 3px;
+  }
+
+  .dojang-empty {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 80px 0;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: #333;
+    text-transform: uppercase;
+  }
+
+  /* ODDS */
+  #odds-page {
+    display: none;
+    padding: 40px 32px;
+    min-height: calc(100vh - 55px);
+  }
+
+  #odds-page.active {
+    display: block;
+  }
+
+  #odds-title {
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: #444;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  #odds-subtitle {
+    font-size: 12px;
+    color: #333;
+    letter-spacing: 1px;
+    margin-bottom: 32px;
+  }
+
+  .odds-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .odds-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .odds-name {
+    min-width: 160px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    font-weight: 600;
+  }
+
+  .odds-bar-wrap {
+    flex: 1;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .odds-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+  }
+
+  .odds-pct {
+    min-width: 52px;
+    text-align: right;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #666;
+  }
+
+  .odds-cumul {
+    min-width: 80px;
+    text-align: right;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #333;
+  }
+
+  .odds-table-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 0 12px 0;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 4px;
+  }
+
+  .odds-th {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #333;
+    text-transform: uppercase;
+  }
+
+  .odds-potion {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #a855f7;
+    min-width: 80px;
+    text-align: right;
+  }
+</style>
+
+<div id="app">
+  <div id="nav">
+    <div id="nav-logo">Ultra Gacha</div>
+    <div id="nav-tabs">
+      <button class="nav-tab active" onclick="switchTab('gacha')">ROLL</button>
+      <button class="nav-tab" onclick="switchTab('dojang')">도감</button>
+      <button class="nav-tab" onclick="switchTab('odds')">확률표</button>
+    </div>
+  </div>
+
+  <div id="gacha-page" class="active">
+    <div id="bg-glow"></div>
+    <div id="gacha-idle">
+      <div style="text-align:center">
+        <div id="gacha-title-main">Premium Summon</div>
+        <div id="gacha-title-big">Gacha</div>
+      </div>
+      <div id="stats-row">
+        <div class="stat-item">
+          <div class="stat-num" id="stat-total">0</div>
+          <div class="stat-lbl">TOTAL</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" id="stat-legendary">0</div>
+          <div class="stat-lbl">LEGENDARY+</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" id="stat-rate">0.0%</div>
+          <div class="stat-lbl">RATE</div>
+        </div>
+      </div>
+
+      <!-- POTION BAR -->
+      <div id="potion-bar">
+        <div id="potion-icon">🧪</div>
+        <div id="potion-info">
+          <div id="potion-label">Luck Potion</div>
+          <div id="potion-count-row">
+            <div id="potion-count">0</div>
+            <button id="potion-use-btn" onclick="usePotion()" disabled>USE</button>
+            <div id="potion-active-badge">ACTIVE ✦</div>
+          </div>
+          <div id="potion-effect-desc">Epic+ 확률 2배 · Beast+ 획득 시 포션 지급</div>
+        </div>
+      </div>
+
+      <div id="pity-section">
+        <div id="pity-label">PITY &nbsp;0 / 100</div>
+        <div id="pity-bar-wrap">
+          <div id="pity-bar" style="width:0%"></div>
+        </div>
+      </div>
+      <div id="roll-btns">
+        <button class="roll-btn" onclick="doRoll(1)">▶ ROLL 1</button>
+      </div>
+      <div id="last-result-label"></div>
+    </div>
+
+    <div id="gacha-anim">
+      <svg id="star-svg" viewBox="-70 -70 140 140" xmlns="http://www.w3.org/2000/svg">
+        <polygon id="star-poly" points="0,-65 10,-10 65,0 10,10 0,65 -10,10 -65,0 -10,-10" fill="white" />
+      </svg>
+      <div id="result-text"></div>
+    </div>
+    <canvas id="crack-canvas"></canvas>
+    <div id="flash-div"></div>
+
+    <!-- CUTSCENE -->
+    <div id="cutscene">
+      <div id="cutscene-bg"></div>
+      <svg id="cutscene-rays" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div id="cutscene-particles"></div>
+      <div id="cutscene-art"></div>
+      <div id="cutscene-vignette"></div>
+      <div id="cutscene-name">
+        <div class="cs-tier-label" id="cs-tier-label"></div>
+        <div class="cs-title" id="cs-title"></div>
+      </div>
+      <div id="cutscene-flash"></div>
+    </div>
+  </div>
+
+  <div id="dojang-page">
+    <div id="dojang-header">
+      <div id="dojang-title">도감 — Collection</div>
+      <div id="dojang-count">획득 기록 <span id="dojang-count-num">0</span>개</div>
+    </div>
+    <div id="dojang-filter">
+      <button class="filter-btn active" onclick="setFilter('all', this)">ALL</button>
+      <button class="filter-btn" onclick="setFilter('good', this)">GOOD ONLY</button>
+      <button class="filter-btn" onclick="setFilter('legendary', this)">LEGENDARY+</button>
+    </div>
+    <div id="dojang-grid">
+      <div class="dojang-empty">아직 뽑은 기록이 없습니다</div>
+    </div>
+  </div>
+
+  <div id="odds-page">
+    <div id="odds-title">확률표 — Drop Rates</div>
+    <div id="odds-subtitle">100회 보장 시스템 · Legendary 이상 달성 시 보장 초기화 · 포션 사용 시 Epic+ 확률 2배</div>
+    <div id="odds-table-wrap"></div>
+  </div>
+</div>
+
+<div id="potion-toast">🧪 Lucky Potion 획득!</div>
+
+<script>
+  const pool = [
+    { name: "Common", chance: 28.17, color: "#888", tier: 0 },
+    { name: "Uncommon", chance: 19, color: "#4caf50", tier: 1 },
+    { name: "Rare", chance: 13, color: "#2196f3", tier: 2 },
+    { name: "Polished", chance: 9, color: "#00bcd4", tier: 3 },
+    { name: "Epic", chance: 8, color: "#9c27b0", tier: 4 },
+    { name: "Refined", chance: 6, color: "#7c4dff", tier: 5 },
+    { name: "Mythic", chance: 4.5, color: "#ff9800", tier: 6 },
+    { name: "Legendary", chance: 3.5, color: "#ffd700", tier: 7 },
+    { name: "Vanguard", chance: 2.2, color: "#ff6f00", tier: 8 },
+    { name: "Beast", chance: 1.6, color: "#ff3d00", tier: 9 },
+    { name: "Phantom", chance: 1.2, color: "#7e57c2", tier: 10 },
+    { name: "Celestial", chance: 0.9, color: "#00e5ff", tier: 11 },
+    { name: "Wraithlord", chance: 0.7, color: "#d500f9", tier: 12 },
+    { name: "Cosmic", chance: 0.55, color: "#651fff", tier: 13 },
+    { name: "Stormcaller", chance: 0.45, color: "#29b6f6", tier: 14 },
+    { name: "Ultra", chance: 0.35, color: "#ff1744", tier: 15 },
+    { name: "Voidwalker", chance: 0.28, color: "#1a237e", tier: 16 },
+    { name: "Hyper", chance: 0.2, color: "#00ff9d", tier: 17 },
+    { name: "Astral Monarch", chance: 0.15, color: "#f48fb1", tier: 18 },
+    { name: "Infinity", chance: 0.1, color: "#ffffff", tier: 19 },
+    { name: "Genesis", chance: 0.07, color: "#ffeb3b", tier: 20 },
+    { name: "ETERNAL DESTROYER", chance: 0.05, color: "#ff00ff", tier: 21 },
+    { name: "VOID SOVEREIGN", chance: 0.03, color: "#e0e0ff", tier: 22 }
+  ];
+
+  // Potion rewards per tier (Vanguard=8 and up)
+  const potionRewards = { 8: 1, 9: 1, 10: 2, 11: 2, 12: 3, 13: 3, 14: 4, 15: 4, 16: 5, 17: 5, 18: 6, 19: 7, 20: 8, 21: 10, 22: 15 };
+
+  let rolling = false, pity = 0, totalRolls = 0, legendaryCount = 0;
+  let potions = 0, potionActive = false;
+  const history = [];
+  let dojangFilter = 'all';
+
+  function pick(boosted) {
+    if (boosted) {
+      // Build boosted pool: Epic+ chance doubled, redistribute from Common/Uncommon/Rare
+      const boostedPool = pool.map(p => ({ ...p }));
+      let bonus = 0;
+      for (let p of boostedPool) {
+        if (p.tier >= 4) { const extra = p.chance; p.chance = p.chance * 2; bonus += extra; }
+      }
+      // Reduce low tiers proportionally
+      const lowTotal = boostedPool[0].chance + boostedPool[1].chance + boostedPool[2].chance;
+      const scale = Math.max(0, lowTotal - bonus) / lowTotal;
+      boostedPool[0].chance *= scale; boostedPool[1].chance *= scale; boostedPool[2].chance *= scale;
+      let r = Math.random() * 100, sum = 0;
+      for (let p of boostedPool) { sum += p.chance; if (r < sum) return pool[p.tier]; }
+      return pool[4];
+    }
+    let r = Math.random() * 100, sum = 0;
+    for (let p of pool) { sum += p.chance; if (r < sum) return p; }
+    return pool[0];
+  }
+
+  function usePotion() {
+    if (potions <= 0 || potionActive) return;
+    potions--;
+    potionActive = true;
+    document.getElementById('potion-count').innerText = potions;
+    document.getElementById('potion-use-btn').style.display = 'none';
+    document.getElementById('potion-active-badge').style.display = 'block';
+    document.getElementById('potion-use-btn').disabled = true;
+    updatePotionBtn();
+  }
+
+  function earnPotions(tier) {
+    const reward = potionRewards[tier];
+    if (!reward) return;
+    potions += reward;
+    updatePotionBtn();
+    showPotionToast('🧪 Lucky Potion ×' + reward + ' 획득! (' + pool[tier].name + ')');
+  }
+
+  function showPotionToast(msg) {
+    const t = document.getElementById('potion-toast');
+    t.innerText = msg;
+    t.style.opacity = '1';
+    setTimeout(() => { t.style.opacity = '0'; }, 2800);
+  }
+
+  function updatePotionBtn() {
+    const btn = document.getElementById('potion-use-btn');
+    const badge = document.getElementById('potion-active-badge');
+    document.getElementById('potion-count').innerText = potions;
+    if (potionActive) {
+      btn.style.display = 'none'; badge.style.display = 'block';
+    } else {
+      btn.style.display = 'block'; badge.style.display = 'none';
+      btn.disabled = potions <= 0;
+    }
+  }
+
+  function rollOne() {
+    pity++; totalRolls++;
+    const item = pity >= 100 ? pool[pool.length - 1] : pick(potionActive);
+    if (item.tier >= 7) { legendaryCount++; pity = 0; }
+    earnPotions(item.tier);
+    if (potionActive) { potionActive = false; updatePotionBtn(); }
+    const now = new Date();
+    const t = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0') + ':' + now.getSeconds().toString().padStart(2, '0');
+    history.unshift({ item, time: t, roll: totalRolls });
+    return item;
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', ['gacha', 'dojang', 'odds'][i] === tab));
+    document.getElementById('gacha-page').classList.toggle('active', tab === 'gacha');
+    document.getElementById('dojang-page').classList.toggle('active', tab === 'dojang');
+    document.getElementById('odds-page').classList.toggle('active', tab === 'odds');
+    if (tab === 'dojang') renderDojang();
+    if (tab === 'odds') renderOdds();
+  }
+
+  function doRoll(count) {
+    if (rolling) return;
+    rolling = true;
+    const item = rollOne();
+    updateUI();
+    document.getElementById('gacha-idle').style.display = 'none';
+    const animDiv = document.getElementById('gacha-anim');
+    animDiv.style.display = 'flex';
+    const starSvg = document.getElementById('star-svg');
+    const starPoly = document.getElementById('star-poly');
+    const res = document.getElementById('result-text');
+    starSvg.style.display = 'block'; starSvg.style.opacity = '1'; starSvg.style.transition = '';
+    starPoly.setAttribute('fill', item.color);
+    starPoly.style.filter = 'drop-shadow(0 0 24px ' + item.color + ')';
+    res.style.opacity = '0';
+    const speeds = [1, 1, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.7, 2.9, 3.1, 3.3, 3.6];
+    const delays = [700, 700, 750, 800, 900, 1000, 1100, 1300, 1500, 1700, 1850, 2000, 2150, 2300, 2450, 2600, 2750, 2900, 3050, 3200, 3400, 3600, 3900];
+    starSvg.style.animationDuration = speeds[item.tier] + 's';
+    setTimeout(() => {
+      starSvg.style.transition = 'opacity 0.2s'; starSvg.style.opacity = '0';
+      setTimeout(() => {
+        starSvg.style.display = 'none';
+        if (item.tier >= 8) showCutscene(item); else if (item.tier >= 7) showCrack(item); else showResult(item);
+      }, 220);
+    }, delays[item.tier]);
+  }
+
+  function showCrack(item) {
+    const canvas = document.getElementById('crack-canvas');
+    const root = document.getElementById('gacha-page');
+    canvas.width = root.offsetWidth || 800; canvas.height = root.offsetHeight || 600;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const cx = canvas.width / 2, cy = canvas.height / 2;
+    const crackLines = [];
+    for (let i = 0; i < 5 + item.tier * 2; i++) {
+      const angle = (Math.PI * 2 * i / (5 + item.tier * 2)) + (Math.random() - 0.5) * 0.5;
+      const len = canvas.width * 0.55 + Math.random() * canvas.width * 0.35;
+      const pts = [{ x: cx, y: cy }]; let curX = cx, curY = cy;
+      for (let s = 0; s < 4 + Math.floor(Math.random() * 4); s++) {
+        const t = (s + 1) / (4 + Math.floor(Math.random() * 4)), jitter = (1 - t) * 28;
+        curX = cx + Math.cos(angle) * len * t + (Math.random() - 0.5) * jitter;
+        curY = cy + Math.sin(angle) * len * t + (Math.random() - 0.5) * jitter;
+        pts.push({ x: curX, y: curY });
+        if (Math.random() < 0.35 && s > 0) { const ba = angle + (Math.random() - 0.5) * 1.2, bl = len * 0.25 * Math.random(); pts.push({ x: curX + Math.cos(ba) * bl, y: curY + Math.sin(ba) * bl }); pts.push({ x: curX, y: curY }); }
+      }
+      crackLines.push(pts);
+    }
+    let frame = 0;
+    function drawFrame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const progress = frame / 18;
+      for (const pts of crackLines) {
+        const visCount = Math.floor(progress * pts.length); if (visCount < 2) continue;
+        ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y); for (let i = 1; i < visCount; i++)ctx.lineTo(pts[i].x, pts[i].y);
+        ctx.strokeStyle = item.color; ctx.lineWidth = 2; ctx.shadowColor = item.color; ctx.shadowBlur = 10 + item.tier * 3; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y); for (let i = 1; i < visCount; i++)ctx.lineTo(pts[i].x, pts[i].y);
+        ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = 0.8; ctx.shadowBlur = 0; ctx.stroke();
+      }
+      canvas.style.opacity = Math.min(1, frame / 4); frame++;
+      if (frame <= 18) requestAnimationFrame(drawFrame); else afterCrack(item);
+    }
+    requestAnimationFrame(drawFrame);
+  }
+
+  function afterCrack(item) {
+    const flash = document.getElementById('flash-div'), canvas = document.getElementById('crack-canvas');
+    const fc = 1; let f = 0;
+    function doFlash() {
+      flash.style.transition = 'opacity 0.07s'; flash.style.opacity = '1';
+      setTimeout(() => {
+        flash.style.transition = 'opacity 0.18s'; flash.style.opacity = '0'; f++;
+        if (f < fc) setTimeout(doFlash, 120);
+        else { canvas.style.transition = 'opacity 0.3s'; canvas.style.opacity = '0'; setTimeout(() => showResult(item), 300); }
+      }, 70);
+    }
+    doFlash();
+  }
+
+  function showResult(item) {
+    const res = document.getElementById('result-text');
+    res.innerText = item.name; res.style.color = item.color; res.style.textShadow = '0 0 40px ' + item.color; res.style.opacity = '1';
+    setTimeout(() => {
+      document.getElementById('gacha-anim').style.display = 'none';
+      document.getElementById('gacha-idle').style.display = 'flex';
+      const ll = document.getElementById('last-result-label');
+      ll.innerText = 'LAST · ' + item.name; ll.style.color = item.color;
+      const canvas = document.getElementById('crack-canvas');
+      canvas.style.opacity = '0'; canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+      rolling = false;
+    }, 2000);
+  }
+
+  // ===== CUTSCENE SYSTEM (Vanguard tier 8 and above) =====
+  const cutsceneArt = {
+    // 8: Vanguard - amber sentinel shield
+    8: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="g8" cx="50%" cy="40%" r="65%">
+        <stop offset="0%" stop-color="#ffd54f"/><stop offset="100%" stop-color="#e65100"/>
+      </radialGradient></defs>
+      <path d="M100 18 L172 50 L172 110 C172 155 140 180 100 192 C60 180 28 155 28 110 L28 50 Z" fill="url(#g8)" stroke="#ff6f00" stroke-width="3"/>
+      <path d="M100 45 L145 65 L145 108 C145 138 124 156 100 165 C76 156 55 138 55 108 L55 65 Z" fill="#3e1d00" opacity="0.5"/>
+      <polygon points="100,75 112,98 138,102 112,108 100,132 88,108 62,102 88,98" fill="#fff8e1"/>
+    </svg>`,
+    // 9: Beast - molten brute
+    9: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="g9" cx="50%" cy="45%" r="60%">
+        <stop offset="0%" stop-color="#ff7043"/><stop offset="100%" stop-color="#bf360c"/>
+      </radialGradient></defs>
+      <path d="M100 20 L160 70 L150 160 L100 185 L50 160 L40 70 Z" fill="url(#g9)" stroke="#ff3d00" stroke-width="3"/>
+      <path d="M100 50 L130 80 L120 140 L100 155 L80 140 L70 80 Z" fill="#1a0500" opacity="0.5"/>
+      <circle cx="85" cy="90" r="6" fill="#ffccbc"/><circle cx="115" cy="90" r="6" fill="#ffccbc"/>
+      <path d="M75 130 Q100 150 125 130" stroke="#ffccbc" stroke-width="3" fill="none"/>
+    </svg>`,
+    // 10: Phantom - violet wraith
+    10: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="g10" cx="50%" cy="35%" r="70%">
+        <stop offset="0%" stop-color="#d1c4e9"/><stop offset="100%" stop-color="#4527a0"/>
+      </radialGradient></defs>
+      <path d="M100 15 C140 15 165 50 165 90 C165 130 150 150 165 185 L135 170 L115 190 L100 175 L85 190 L65 170 L35 185 C50 150 35 130 35 90 C35 50 60 15 100 15 Z" fill="url(#g10)" stroke="#7e57c2" stroke-width="3" opacity="0.92"/>
+      <ellipse cx="82" cy="80" rx="8" ry="12" fill="#1a0b3a"/><ellipse cx="118" cy="80" rx="8" ry="12" fill="#1a0b3a"/>
+      <ellipse cx="82" cy="80" rx="3" ry="5" fill="#d1c4e9"><animate attributeName="opacity" values="1;0.2;1" dur="1.6s" repeatCount="indefinite"/></ellipse>
+      <ellipse cx="118" cy="80" rx="3" ry="5" fill="#d1c4e9"><animate attributeName="opacity" values="1;0.2;1" dur="1.6s" repeatCount="indefinite"/></ellipse>
+    </svg>`,
+    // 11: Celestial - cyan crystal
+    11: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="g11" cx="50%" cy="40%" r="65%">
+        <stop offset="0%" stop-color="#80ffff"/><stop offset="100%" stop-color="#0091ea"/>
+      </radialGradient></defs>
+      <polygon points="100,15 175,60 175,140 100,185 25,140 25,60" fill="url(#g11)" stroke="#00e5ff" stroke-width="3"/>
+      <polygon points="100,45 150,75 150,125 100,155 50,125 50,75" fill="#001a33" opacity="0.45"/>
+      <circle cx="100" cy="100" r="14" fill="#e0ffff"><animate attributeName="r" values="10;16;10" dur="2s" repeatCount="indefinite"/></circle>
+      <circle cx="100" cy="100" r="30" fill="none" stroke="#80ffff" stroke-width="1.5" opacity="0.6"><animate attributeName="r" values="20;36;20" dur="2s" repeatCount="indefinite"/></circle>
+    </svg>`,
+    // 12: Wraithlord - magenta reaper
+    12: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="g12" cx="50%" cy="35%" r="70%">
+        <stop offset="0%" stop-color="#f8bbd0"/><stop offset="100%" stop-color="#6a0080"/>
+      </radialGradient></defs>
+      <path d="M100 12 C145 12 175 55 168 100 C162 140 175 165 158 192 L100 170 L42 192 C25 165 38 140 32 100 C25 55 55 12 100 12 Z" fill="url(#g12)" stroke="#d500f9" stroke-width="3"/>
+      <path d="M70 80 L100 60 L130 80 L120 130 L100 145 L80 130 Z" fill="#26002b" opacity="0.6"/>
+      <line x1="100" y1="70" x2="100" y2="125" stroke="#f8bbd0" stroke-width="3"/>
+      <line x1="78" y1="98" x2="122" y2="98" stroke="#f8bbd0" stroke-width="3"/>
+    </svg>`,
+    // 13: Cosmic - purple nebula sphere
+    13: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="g13" cx="50%" cy="45%" r="65%">
+        <stop offset="0%" stop-color="#b388ff"/><stop offset="100%" stop-color="#311b92"/>
+      </radialGradient></defs>
+      <circle cx="100" cy="100" r="85" fill="url(#g13)" stroke="#651fff" stroke-width="3"/>
+      <g stroke="#d1c4e9" stroke-width="2" fill="none" opacity="0.7">
+        <ellipse cx="100" cy="100" rx="80" ry="28"><animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="6s" repeatCount="indefinite"/></ellipse>
+        <ellipse cx="100" cy="100" rx="80" ry="28"><animateTransform attributeName="transform" type="rotate" from="60 100 100" to="420 100 100" dur="6s" repeatCount="indefinite"/></ellipse>
+        <ellipse cx="100" cy="100" rx="80" ry="28"><animateTransform attributeName="transform" type="rotate" from="120 100 100" to="480 100 100" dur="6s" repeatCount="indefinite"/></ellipse>
+      </g>
+      <circle cx="100" cy="100" r="12" fill="#fff"/>
+    </svg>`,
+    // 14: Stormcaller - sky-blue lightning
+    14: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="g14" cx="50%" cy="40%" r="70%">
+        <stop offset="0%" stop-color="#e1f5fe"/><stop offset="100%" stop-color="#01579b"/>
+      </radialGradient></defs>
+      <circle cx="100" cy="100" r="80" fill="url(#g14)" stroke="#29b6f6" stroke-width="3"/>
+      <path d="M110 30 L70 105 L100 105 L85 175 L135 90 L102 90 Z" fill="#fff" stroke="#0288d1" stroke-width="2">
+        <animate attributeName="opacity" values="1;0.3;1" dur="0.5s" repeatCount="indefinite"/>
+      </path>
+      <circle cx="100" cy="100" r="92" fill="none" stroke="#81d4fa" stroke-width="2" opacity="0.5">
+        <animate attributeName="r" values="80;100;80" dur="1.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.6;0;0.6" dur="1.4s" repeatCount="indefinite"/>
+      </circle>
+    </svg>`,
+    // 15: Ultra - red diamond
+    15: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="g15" cx="50%" cy="40%" r="70%">
+        <stop offset="0%" stop-color="#ff8a80"/><stop offset="100%" stop-color="#b71c1c"/>
+      </radialGradient></defs>
+      <path d="M100 10 L185 100 L100 190 L15 100 Z" fill="url(#g15)" stroke="#ff1744" stroke-width="3"/>
+      <path d="M100 10 L185 100 L100 190 L15 100 Z" fill="none" stroke="#fff" stroke-width="1" opacity="0.4">
+        <animateTransform attributeName="transform" type="scale" additive="sum" values="1;1.15;1" dur="1.2s" repeatCount="indefinite"/>
+      </path>
+      <path d="M75 95 L105 75 L95 100 L120 100 L85 130 L95 105 L75 105 Z" fill="#fff1f0"/>
+    </svg>`,
+    // 16: Voidwalker - dark indigo portal
+    16: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="g16" cx="50%" cy="50%" r="70%">
+        <stop offset="0%" stop-color="#3949ab"/><stop offset="60%" stop-color="#1a237e"/><stop offset="100%" stop-color="#000010"/>
+      </radialGradient></defs>
+      <circle cx="100" cy="100" r="85" fill="url(#g16)" stroke="#3949ab" stroke-width="3"/>
+      <ellipse cx="100" cy="100" rx="70" ry="22" fill="none" stroke="#7986cb" stroke-width="2" opacity="0.7">
+        <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="4s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="100" cy="100" rx="45" ry="14" fill="none" stroke="#9fa8da" stroke-width="2" opacity="0.8">
+        <animateTransform attributeName="transform" type="rotate" from="180 100 100" to="-180 100 100" dur="3s" repeatCount="indefinite"/>
+      </ellipse>
+      <circle cx="100" cy="100" r="10" fill="#000"/>
+    </svg>`,
+    // 17: Hyper - teal nova
+    17: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="g17" cx="50%" cy="40%" r="70%">
+        <stop offset="0%" stop-color="#b9ffe4"/><stop offset="100%" stop-color="#00bfa5"/>
+      </radialGradient></defs>
+      <path d="M100 12 C150 20 188 60 188 110 C188 160 148 192 100 192 C52 192 12 160 12 110 C12 60 50 20 100 12 Z" fill="url(#g17)" stroke="#00ff9d" stroke-width="3"/>
+      <g fill="none" stroke="#e0fff5" stroke-width="2">
+        <path d="M55 110 a45 45 0 1 0 90 0 a45 45 0 1 0 -90 0" opacity="0.6">
+          <animateTransform attributeName="transform" type="rotate" from="0 100 110" to="360 100 110" dur="4s" repeatCount="indefinite"/>
+        </path>
+      </g>
+      <circle cx="100" cy="110" r="18" fill="#fff">
+        <animate attributeName="r" values="14;22;14" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+    </svg>`,
+    // 18: Astral Monarch - pink royal crown
+    18: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="g18" cx="50%" cy="35%" r="70%">
+        <stop offset="0%" stop-color="#fff0f5"/><stop offset="100%" stop-color="#ad1457"/>
+      </radialGradient></defs>
+      <circle cx="100" cy="115" r="70" fill="url(#g18)" stroke="#f48fb1" stroke-width="3"/>
+      <path d="M45 95 L65 50 L85 90 L100 40 L115 90 L135 50 L155 95 L150 110 L50 110 Z" fill="#fff0f5" stroke="#f48fb1" stroke-width="2"/>
+      <circle cx="100" cy="40" r="6" fill="#ff80ab"><animate attributeName="r" values="4;8;4" dur="1.3s" repeatCount="indefinite"/></circle>
+      <circle cx="65" cy="50" r="4" fill="#ff80ab"/><circle cx="135" cy="50" r="4" fill="#ff80ab"/>
+    </svg>`,
+    // 19: Infinity - white prism
+    19: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="g19" cx="50%" cy="45%" r="70%">
+        <stop offset="0%" stop-color="#ffffff"/><stop offset="60%" stop-color="#e0e0ff"/><stop offset="100%" stop-color="#7c7cff"/>
+      </radialGradient></defs>
+      <g stroke="#ffffff" stroke-width="1.5" opacity="0.5" fill="none">
+        <path d="M100 100 L100 5 M100 100 L100 195 M100 100 L5 100 M100 100 L195 100 M100 100 L30 30 M100 100 L170 30 M100 100 L30 170 M100 100 L170 170">
+          <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="10s" repeatCount="indefinite"/>
+        </path>
+      </g>
+      <circle cx="100" cy="100" r="55" fill="url(#g19)" stroke="#fff" stroke-width="2"/>
+      <circle cx="100" cy="100" r="55" fill="none" stroke="#fff" stroke-width="1" opacity="0.8">
+        <animate attributeName="r" values="40;75;40" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0;0.8" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <polygon points="100,75 110,95 130,100 110,105 100,125 90,105 70,100 90,95" fill="#fff"/>
+    </svg>`,
+    // 20: Genesis - golden seed of creation
+    20: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="g20" cx="50%" cy="45%" r="70%">
+        <stop offset="0%" stop-color="#ffffff"/><stop offset="40%" stop-color="#ffeb3b"/><stop offset="100%" stop-color="#f57f17"/>
+      </radialGradient></defs>
+      <g stroke="#fff9c4" stroke-width="1.5" opacity="0.6" fill="none">
+        <circle cx="100" cy="100" r="92"><animate attributeName="r" values="70;95;70" dur="2.2s" repeatCount="indefinite"/></circle>
+      </g>
+      <g fill="none" stroke="#ffeb3b" stroke-width="2" opacity="0.7">
+        <path d="M100 20 a80 80 0 0 1 0 160 a80 80 0 0 1 0 -160" stroke-dasharray="12 8">
+          <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="8s" repeatCount="indefinite"/>
+        </path>
+      </g>
+      <circle cx="100" cy="100" r="26" fill="url(#g20)">
+        <animate attributeName="r" values="20;32;20" dur="1.4s" repeatCount="indefinite"/>
+      </circle>
+    </svg>`,
+    // 21: Eternal Destroyer - magenta star burst
+    21: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="g21" cx="50%" cy="45%" r="70%">
+          <stop offset="0%" stop-color="#ffffff"/><stop offset="35%" stop-color="#ff00ff"/><stop offset="100%" stop-color="#1a0033"/>
+        </radialGradient>
+      </defs>
+      <g stroke="#ff00ff" stroke-width="1" opacity="0.6" fill="none">
+        <circle cx="100" cy="100" r="90"><animate attributeName="r" values="60;95;60" dur="1.6s" repeatCount="indefinite"/></circle>
+        <circle cx="100" cy="100" r="70"><animate attributeName="r" values="50;80;50" dur="1.6s" repeatCount="indefinite" begin="0.4s"/></circle>
+      </g>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="5s" repeatCount="indefinite"/>
+        <path d="M100 25 L130 80 L185 100 L130 120 L100 175 L70 120 L15 100 L70 80 Z" fill="url(#g21)" stroke="#ff00ff" stroke-width="2.5"/>
+      </g>
+      <circle cx="100" cy="100" r="20" fill="#fff">
+        <animate attributeName="r" values="16;26;16" dur="1.1s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="80" cy="85" r="4" fill="#ff00ff"/><circle cx="120" cy="85" r="4" fill="#ff00ff"/>
+    </svg>`,
+    // 22: VOID SOVEREIGN - cosmic black hole with rainbow ring
+    22: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="g22core" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" stop-color="#000000"/><stop offset="70%" stop-color="#1a0033"/><stop offset="100%" stop-color="#000000"/>
+        </radialGradient>
+        <linearGradient id="g22ring" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ff00ff"/><stop offset="25%" stop-color="#00e5ff"/><stop offset="50%" stop-color="#ffeb3b"/><stop offset="75%" stop-color="#76ff03"/><stop offset="100%" stop-color="#ff1744"/>
+        </linearGradient>
+      </defs>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="6s" repeatCount="indefinite"/>
+        <circle cx="100" cy="100" r="92" fill="none" stroke="url(#g22ring)" stroke-width="6" stroke-dasharray="30 8"/>
+      </g>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="360 100 100" to="0 100 100" dur="4s" repeatCount="indefinite"/>
+        <circle cx="100" cy="100" r="70" fill="none" stroke="url(#g22ring)" stroke-width="3" stroke-dasharray="14 6" opacity="0.8"/>
+      </g>
+      <circle cx="100" cy="100" r="48" fill="url(#g22core)" stroke="#fff" stroke-width="1.5">
+        <animate attributeName="r" values="40;52;40" dur="1.8s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="100" cy="100" r="6" fill="#fff">
+        <animate attributeName="opacity" values="1;0.3;1" dur="0.8s" repeatCount="indefinite"/>
+      </circle>
+    </svg>`
+  };
+
+  // Background gradient per tier, ray color, particle config
+  const cutsceneTheme = {
+    8: { bg: 'radial-gradient(circle at 50% 55%, #4a2c00 0%, #0a0500 70%)', ray: 'rgba(255,111,0,0.18)', particleColor: '#ffd54f', particleCount: 12, duration: 5000 },
+    9: { bg: 'radial-gradient(circle at 50% 55%, #4a1500 0%, #0a0200 70%)', ray: 'rgba(255,61,0,0.18)', particleColor: '#ff6e40', particleCount: 13, duration: 5200 },
+    10: { bg: 'radial-gradient(circle at 50% 55%, #2a1450 0%, #060212 70%)', ray: 'rgba(126,87,194,0.2)', particleColor: '#d1c4e9', particleCount: 15, duration: 5500 },
+    11: { bg: 'radial-gradient(circle at 50% 55%, #003a4a 0%, #00050a 70%)', ray: 'rgba(0,229,255,0.18)', particleColor: '#80ffff', particleCount: 16, duration: 5800 },
+    12: { bg: 'radial-gradient(circle at 50% 55%, #4a0048 0%, #0a0010 70%)', ray: 'rgba(213,0,249,0.2)', particleColor: '#f8bbd0', particleCount: 18, duration: 6100 },
+    13: { bg: 'radial-gradient(circle at 50% 55%, #1a0050 0%, #050010 70%)', ray: 'rgba(101,31,255,0.2)', particleColor: '#b388ff', particleCount: 19, duration: 6400 },
+    14: { bg: 'radial-gradient(circle at 50% 55%, #002f4a 0%, #00060c 70%)', ray: 'rgba(41,182,246,0.22)', particleColor: '#81d4fa', particleCount: 20, duration: 6700 },
+    15: { bg: 'radial-gradient(circle at 50% 55%, #4a0008 0%, #0a0002 70%)', ray: 'rgba(255,23,68,0.22)', particleColor: '#ff8a80', particleCount: 21, duration: 7000 },
+    16: { bg: 'radial-gradient(circle at 50% 55%, #0d1450 0%, #02030c 70%)', ray: 'rgba(57,73,171,0.24)', particleColor: '#9fa8da', particleCount: 22, duration: 7300 },
+    17: { bg: 'radial-gradient(circle at 50% 55%, #00352c 0%, #000a08 70%)', ray: 'rgba(0,255,157,0.22)', particleColor: '#b9ffe4', particleCount: 23, duration: 7600 },
+    18: { bg: 'radial-gradient(circle at 50% 55%, #4a002a 0%, #0a0006 70%)', ray: 'rgba(244,143,177,0.24)', particleColor: '#ffcdd2', particleCount: 24, duration: 7900 },
+    19: { bg: 'radial-gradient(circle at 50% 55%, #2a2a55 0%, #03030a 70%)', ray: 'rgba(255,255,255,0.25)', particleColor: '#ffffff', particleCount: 26, duration: 8200 },
+    20: { bg: 'radial-gradient(circle at 50% 55%, #4a3500 0%, #0a0700 70%)', ray: 'rgba(255,235,59,0.26)', particleColor: '#fff9c4', particleCount: 28, duration: 8500 },
+    21: { bg: 'radial-gradient(circle at 50% 55%, #4a0048 0%, #05000a 70%)', ray: 'rgba(255,0,255,0.28)', particleColor: '#ff66ff', particleCount: 32, duration: 8800 },
+    22: { bg: 'radial-gradient(circle at 50% 55%, #1a0030 0%, #000000 70%)', ray: 'rgba(255,255,255,0.3)', particleColor: '#ffffff', particleCount: 40, duration: 9500 }
+  };
+
+
+  function buildRays(color) {
+    let html = '';
+    for (let i = 0; i < 12; i++) {
+      const angle = (360 / 12) * i;
+      html += `<rect x="98" y="0" width="4" height="200" fill="${color}" transform="rotate(${angle} 100 100)"/>`;
+    }
+    return html;
+  }
+
+  function spawnParticles(container, color, count) {
+    container.innerHTML = '';
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'cs-particle';
+      const size = 2 + Math.random() * 4;
+      const startX = 50 + (Math.random() - 0.5) * 10;
+      const startY = 50 + (Math.random() - 0.5) * 10;
+      const endX = startX + (Math.random() - 0.5) * 80;
+      const endY = startY - 20 - Math.random() * 50;
+      const delay = Math.random() * 1.5;
+      const dur = 1.8 + Math.random() * 1.8;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = startX + '%';
+      p.style.top = startY + '%';
+      p.style.background = color;
+      p.style.boxShadow = '0 0 6px ' + color;
+      p.style.transition = `transform ${dur}s ease-out ${delay}s, opacity ${dur}s ease-out ${delay}s`;
+      container.appendChild(p);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          p.style.opacity = '1';
+          p.style.transform = `translate(${endX - startX}vw, ${endY - startY}vh) scale(0.4)`;
+          setTimeout(() => { p.style.opacity = '0'; }, dur * 1000 * 0.7);
+        });
+      });
+    }
+  }
+
+  function showCutscene(item) {
+    const theme = cutsceneTheme[item.tier] || cutsceneTheme[8];
+    const overlay = document.getElementById('cutscene');
+    const bg = document.getElementById('cutscene-bg');
+    const rays = document.getElementById('cutscene-rays');
+    const art = document.getElementById('cutscene-art');
+    const nameBox = document.getElementById('cutscene-name');
+    const tierLabel = document.getElementById('cs-tier-label');
+    const title = document.getElementById('cs-title');
+    const particles = document.getElementById('cutscene-particles');
+    const flash = document.getElementById('cutscene-flash');
+
+    // reset state
+    bg.style.opacity = '0';
+    rays.style.opacity = '0';
+    art.className = '';
+    art.style.opacity = '';
+    art.style.transform = '';
+    nameBox.className = '';
+    nameBox.style.opacity = '';
+    flash.style.opacity = '0';
+    flash.style.transition = '';
+    particles.innerHTML = '';
+
+    bg.style.background = theme.bg;
+    rays.innerHTML = buildRays(theme.ray);
+    art.innerHTML = cutsceneArt[item.tier] || cutsceneArt[8];
+    tierLabel.innerText = '★ '.repeat(Math.min(7, Math.max(1, item.tier - 6))) + ' SUMMON';
+    tierLabel.style.color = item.color;
+    title.innerText = item.name;
+    title.style.color = item.color;
+    title.style.textShadow = '0 0 30px ' + item.color + ', 0 0 60px ' + item.color;
+
+    overlay.classList.add('active');
+
+    // STAGE 1: ambience fade in
+    requestAnimationFrame(() => {
+      bg.style.opacity = '1';
+      rays.style.opacity = '1';
+    });
+
+    // STAGE 2: particles rise
+    setTimeout(() => spawnParticles(particles, theme.particleColor, theme.particleCount), 250);
+
+    // STAGE 3: art reveals (build-up)
+    setTimeout(() => {
+      art.classList.add('show');
+    }, 600);
+
+    // STAGE 4: flash + pulse begins
+    const flashTime = item.tier >= 19 ? 2400 : item.tier >= 14 ? 2000 : 1700;
+    setTimeout(() => {
+      flash.style.transition = 'opacity 0.08s';
+      flash.style.opacity = '1';
+      setTimeout(() => {
+        flash.style.transition = 'opacity 0.5s ease';
+        flash.style.opacity = '0';
+        art.classList.add('pulse');
+      }, 90);
+    }, flashTime);
+
+    // STAGE 5: name reveal
+    setTimeout(() => {
+      nameBox.classList.add('show');
+    }, flashTime + 500);
+
+    // STAGE 6: extra flashes for top tiers
+    if (item.tier >= 15) {
+      setTimeout(() => {
+        flash.style.transition = 'opacity 0.06s';
+        flash.style.opacity = '0.6';
+        setTimeout(() => { flash.style.transition = 'opacity 0.4s ease'; flash.style.opacity = '0'; }, 70);
+      }, flashTime + 1200);
+    }
+    if (item.tier >= 21) {
+      setTimeout(() => spawnParticles(particles, theme.particleColor, theme.particleCount), flashTime + 1300);
+    }
+
+    // STAGE 7: close cutscene
+    setTimeout(() => {
+      nameBox.style.transition = 'opacity 0.6s ease';
+      art.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      bg.style.transition = 'opacity 0.6s ease';
+      rays.style.transition = 'opacity 0.6s ease';
+      nameBox.style.opacity = '0';
+      art.style.opacity = '0';
+      art.style.transform = 'scale(1.15)';
+      bg.style.opacity = '0';
+      rays.style.opacity = '0';
+      setTimeout(() => {
+        overlay.classList.remove('active');
+        document.getElementById('gacha-anim').style.display = 'none';
+        document.getElementById('gacha-idle').style.display = 'flex';
+        const ll = document.getElementById('last-result-label');
+        ll.innerText = 'LAST · ' + item.name; ll.style.color = item.color;
+        rolling = false;
+        // restore inline transitions for next time
+        nameBox.style.transition = ''; art.style.transition = ''; bg.style.transition = ''; rays.style.transition = '';
+      }, 650);
+    }, theme.duration);
+  }
+
+  function updateUI() {
+    const p = Math.min(pity, 100);
+    document.getElementById('pity-label').innerText = 'PITY  ' + p + ' / 100';
+    const bar = document.getElementById('pity-bar');
+    bar.style.width = p + '%'; bar.style.background = p > 70 ? '#ff1744' : p > 40 ? '#ff9800' : '#666';
+    document.getElementById('stat-total').innerText = totalRolls;
+    document.getElementById('stat-legendary').innerText = legendaryCount;
+    document.getElementById('stat-rate').innerText = (totalRolls > 0 ? ((legendaryCount / totalRolls) * 100).toFixed(1) : '0.0') + '%';
+  }
+
+  function setFilter(f, btn) {
+    dojangFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderDojang();
+  }
+
+  function renderDojang() {
+    const grid = document.getElementById('dojang-grid');
+    document.getElementById('dojang-count-num').innerText = history.length;
+    let filtered = history;
+    if (dojangFilter === 'good') filtered = history.filter(h => h.item.tier >= 4);
+    if (dojangFilter === 'legendary') filtered = history.filter(h => h.item.tier >= 7);
+    if (filtered.length === 0) { grid.innerHTML = '<div class="dojang-empty">해당 등급 기록 없음</div>'; return; }
+    grid.innerHTML = filtered.map(h => `
+    <div class="dojang-card">
+      <div class="dojang-dot" style="background:${h.item.color};box-shadow:0 0 8px ${h.item.color}44"></div>
+      <div class="dojang-info">
+        <div class="dojang-name" style="color:${h.item.color}">${h.item.name}</div>
+        <div class="dojang-time">${h.time} · #${h.roll}</div>
+      </div>
+    </div>`).join('');
+  }
+
+  function renderOdds() {
+    const wrap = document.getElementById('odds-table-wrap');
+    const maxChance = pool[0].chance; let cumul = 0;
+    wrap.innerHTML = `
+    <div class="odds-table-header">
+      <div style="width:8px"></div>
+      <div class="odds-th" style="min-width:160px">등급</div>
+      <div class="odds-th" style="flex:1">분포</div>
+      <div class="odds-th" style="min-width:52px;text-align:right">확률</div>
+      <div class="odds-th" style="min-width:80px;text-align:right">누적</div>
+      <div class="odds-th" style="min-width:80px;text-align:right">포션 보상</div>
+    </div>
+    ${pool.map(p => {
+      cumul += p.chance; return `
+      <div class="odds-row">
+        <div class="odds-dot" style="background:${p.color}"></div>
+        <div class="odds-name" style="color:${p.color}">${p.name}</div>
+        <div class="odds-bar-wrap"><div class="odds-bar-fill" style="width:${(p.chance / maxChance * 100).toFixed(1)}%;background:${p.color};opacity:0.7"></div></div>
+        <div class="odds-pct">${p.chance}%</div>
+        <div class="odds-cumul">${Math.min(100, cumul).toFixed(2)}%</div>
+        <div class="odds-potion">${potionRewards[p.tier] ? '🧪 ×' + potionRewards[p.tier] : '—'}</div>
+      </div>`;
+    }).join('')}`;
+  }
+</script>
+</body>
+</html>
