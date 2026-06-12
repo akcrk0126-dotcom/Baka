@@ -70,6 +70,149 @@
     background: rgba(255, 255, 255, 0.07);
   }
 
+  #nav-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #777;
+  }
+
+  #nav-user-name {
+    color: #ccc;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  #nav-logout-btn {
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border: 0.5px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    background: transparent;
+    color: #666;
+    cursor: pointer;
+  }
+
+  #nav-logout-btn:hover {
+    color: #ccc;
+    border-color: rgba(255,255,255,0.25);
+  }
+
+  /* LOGIN OVERLAY */
+  #login-overlay {
+    position: fixed;
+    inset: 0;
+    background: #020208;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  #login-overlay.hidden {
+    display: none;
+  }
+
+  #login-box {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    padding: 40px 32px;
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    background: rgba(255,255,255,0.02);
+  }
+
+  #login-title-main {
+    font-size: 11px;
+    letter-spacing: 8px;
+    color: #444;
+    text-transform: uppercase;
+  }
+
+  #login-title-big {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 10px;
+    background: linear-gradient(135deg, #fff 30%, #888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  #login-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .login-input {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.03);
+    border: 0.5px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: #eee;
+    font-size: 13px;
+    letter-spacing: 1px;
+    outline: none;
+  }
+
+  .login-input:focus {
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  #login-btn {
+    width: 100%;
+    height: 44px;
+    margin-top: 4px;
+    border: 0.5px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    background: transparent;
+    color: #ccc;
+    font-size: 13px;
+    letter-spacing: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  #login-btn:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.4);
+    color: #fff;
+  }
+
+  #login-msg {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #ff6e6e;
+    min-height: 14px;
+    text-align: center;
+  }
+
+  #login-hint {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #444;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  #login-loading {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #555;
+  }
+
   /* GACHA PAGE */
   #gacha-page {
     display: none;
@@ -514,6 +657,33 @@
     pointer-events: none;
   }
 
+  /* ACHIEVEMENT TOAST */
+  #achievement-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 215, 0, 0.12);
+    border: 0.5px solid rgba(255, 215, 0, 0.35);
+    border-radius: 8px;
+    padding: 12px 26px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #ffd700;
+    z-index: 201;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    text-align: center;
+  }
+
+  #achievement-toast .ach-title {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #b8860b;
+    margin-bottom: 4px;
+  }
+
   /* DOJANG */
   #dojang-page {
     display: none;
@@ -741,15 +911,131 @@
     min-width: 80px;
     text-align: right;
   }
+
+  /* ACHIEVEMENTS PAGE */
+  #ach-page {
+    display: none;
+    padding: 40px 32px;
+    min-height: calc(100vh - 55px);
+  }
+
+  #ach-page.active {
+    display: block;
+  }
+
+  #ach-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+
+  #ach-title {
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: #444;
+    text-transform: uppercase;
+  }
+
+  #ach-count {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #444;
+  }
+
+  #ach-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+
+  .ach-card {
+    border: 0.5px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 16px 18px;
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.2s;
+  }
+
+  .ach-card.unlocked {
+    border-color: rgba(255, 215, 0, 0.25);
+    background: rgba(255, 215, 0, 0.04);
+  }
+
+  .ach-icon {
+    font-size: 24px;
+    width: 36px;
+    text-align: center;
+    flex-shrink: 0;
+    opacity: 0.35;
+  }
+
+  .ach-card.unlocked .ach-icon {
+    opacity: 1;
+  }
+
+  .ach-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ach-name {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #999;
+  }
+
+  .ach-card.unlocked .ach-name {
+    color: #ffd700;
+  }
+
+  .ach-desc {
+    font-size: 10px;
+    color: #444;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  .ach-progress {
+    font-size: 10px;
+    color: #555;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
 </style>
 
-<div id="app">
+<div id="login-overlay">
+  <div id="login-box">
+    <div style="text-align:center">
+      <div id="login-title-main">Premium Summon</div>
+      <div id="login-title-big">Ultra Gacha</div>
+    </div>
+    <div id="login-form">
+      <input type="text" id="login-nickname" class="login-input" placeholder="닉네임" autocomplete="off">
+      <input type="password" id="login-password" class="login-input" placeholder="비밀번호" autocomplete="off">
+      <button id="login-btn" onclick="handleLogin()">접속</button>
+      <div id="login-msg"></div>
+    </div>
+    <div id="login-hint">닉네임 + 비밀번호로 진행도가 클라우드에 저장됩니다.<br>처음 입력하는 닉네임은 자동으로 계정이 생성됩니다.</div>
+  </div>
+</div>
+
+<div id="app" style="display:none">
   <div id="nav">
     <div id="nav-logo">Ultra Gacha</div>
     <div id="nav-tabs">
       <button class="nav-tab active" onclick="switchTab('gacha')">ROLL</button>
       <button class="nav-tab" onclick="switchTab('dojang')">도감</button>
+      <button class="nav-tab" onclick="switchTab('ach')">업적</button>
       <button class="nav-tab" onclick="switchTab('odds')">확률표</button>
+    </div>
+    <div id="nav-user">
+      <span id="nav-user-name"></span>
+      <button id="nav-logout-btn" onclick="handleLogout()">LOGOUT</button>
     </div>
   </div>
 
@@ -840,6 +1126,14 @@
     </div>
   </div>
 
+  <div id="ach-page">
+    <div id="ach-header">
+      <div id="ach-title">업적 — Achievements</div>
+      <div id="ach-count"><span id="ach-count-num">0</span> / <span id="ach-count-total">0</span> 달성</div>
+    </div>
+    <div id="ach-grid"></div>
+  </div>
+
   <div id="odds-page">
     <div id="odds-title">확률표 — Drop Rates</div>
     <div id="odds-subtitle">100회 보장 시스템 · Legendary 이상 달성 시 보장 초기화 · 포션 사용 시 Epic+ 확률 2배</div>
@@ -848,6 +1142,7 @@
 </div>
 
 <div id="potion-toast">🧪 Lucky Potion 획득!</div>
+<div id="achievement-toast"><div class="ach-title">ACHIEVEMENT UNLOCKED</div><div id="achievement-toast-name"></div></div>
 
 <script>
   const pool = [
@@ -914,6 +1209,7 @@
     document.getElementById('potion-active-badge').style.display = 'block';
     document.getElementById('potion-use-btn').disabled = true;
     updatePotionBtn();
+    saveProgress();
   }
 
   function earnPotions(tier) {
@@ -956,12 +1252,14 @@
   }
 
   function switchTab(tab) {
-    document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', ['gacha', 'dojang', 'odds'][i] === tab));
+    document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', ['gacha', 'dojang', 'ach', 'odds'][i] === tab));
     document.getElementById('gacha-page').classList.toggle('active', tab === 'gacha');
     document.getElementById('dojang-page').classList.toggle('active', tab === 'dojang');
+    document.getElementById('ach-page').classList.toggle('active', tab === 'ach');
     document.getElementById('odds-page').classList.toggle('active', tab === 'odds');
     if (tab === 'dojang') renderDojang();
     if (tab === 'odds') renderOdds();
+    if (tab === 'ach') renderAchievements();
   }
 
   function doRoll(count) {
@@ -969,6 +1267,8 @@
     rolling = true;
     const item = rollOne();
     updateUI();
+    checkAchievements(item);
+    saveProgress();
     document.getElementById('gacha-idle').style.display = 'none';
     const animDiv = document.getElementById('gacha-anim');
     animDiv.style.display = 'flex';
@@ -1487,4 +1787,4 @@
   }
 </script>
 </body>
-</html>
+  </html>
