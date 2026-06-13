@@ -409,7 +409,8 @@
 
       <div id="gacha-anim">
         <svg id="star-svg" viewBox="-70 -70 140 140" xmlns="http://www.w3.org/2000/svg">
-          <polygon id="star-poly" points="0,-65 10,-10 65,0 10,10 0,65 -10,10 -65,0 -10,-10" fill="white"/>
+          <polygon id="star-poly-main" points="0,-65 8,-8 65,0 8,8 0,65 -8,8 -65,0 -8,-8" fill="white"/>
+          <polygon id="star-poly-sub" points="0,-38 5,-5 38,0 5,5 0,38 -5,5 -38,0 -5,-5" fill="white" opacity="0.55" transform="rotate(45)"/>
         </svg>
         <div id="result-text"></div>
       </div>
@@ -886,11 +887,13 @@
     const animDiv=document.getElementById('gacha-anim');
     animDiv.style.display='flex';
     const starSvg=document.getElementById('star-svg');
-    const starPoly=document.getElementById('star-poly');
+    const starPolyMain=document.getElementById('star-poly-main');
+    const starPolySub=document.getElementById('star-poly-sub');
     const res=document.getElementById('result-text');
     starSvg.style.display='block'; starSvg.style.opacity='1'; starSvg.style.transition='';
-    starPoly.setAttribute('fill',item.color);
-    starPoly.style.filter='drop-shadow(0 0 24px '+item.color+')';
+    starPolyMain.setAttribute('fill',item.color);
+    starPolySub.setAttribute('fill',item.color);
+    starSvg.style.filter='drop-shadow(0 0 24px '+item.color+')';
     res.style.opacity='0';
     starSvg.style.animationDuration=SPEEDS[item.tier]+'s';
     setTimeout(()=>{
@@ -1284,3 +1287,4 @@
 </script>
 </body>
 </html>
+
