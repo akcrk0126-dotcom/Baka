@@ -297,6 +297,107 @@
       pointer-events: none;
     }
 
+    /* GOLDEN GACHA BUTTON (좌측 고정) */
+    #golden-gacha-btn {
+      position: absolute;
+      left: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 16px 14px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-align: center;
+      width: 110px;
+    }
+
+    #golden-gacha-btn.available {
+      border: 1px solid rgba(255, 215, 0, 0.5);
+      background: radial-gradient(circle at 50% 30%, rgba(255, 215, 0, 0.18) 0%, rgba(255, 215, 0, 0.04) 100%);
+      box-shadow: 0 0 24px rgba(255, 215, 0, 0.25), inset 0 0 14px rgba(255, 215, 0, 0.08);
+      animation: golden-btn-pulse 1.6s ease-in-out infinite;
+    }
+
+    #golden-gacha-btn.available:hover {
+      transform: translateY(-50%) scale(1.06);
+      box-shadow: 0 0 36px rgba(255, 215, 0, 0.4), inset 0 0 18px rgba(255, 215, 0, 0.15);
+    }
+
+    @keyframes golden-btn-pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 24px rgba(255, 215, 0, 0.25), inset 0 0 14px rgba(255, 215, 0, 0.08);
+      }
+
+      50% {
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.5), inset 0 0 22px rgba(255, 215, 0, 0.18);
+      }
+    }
+
+    #golden-gacha-btn.locked {
+      border: 0.5px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.02);
+      cursor: default;
+      opacity: 0.7;
+    }
+
+    #golden-gacha-icon {
+      font-size: 30px;
+    }
+
+    #golden-gacha-btn.available #golden-gacha-icon {
+      animation: golden-icon-spin 3s linear infinite;
+    }
+
+    @keyframes golden-icon-spin {
+      from {
+        transform: rotate(0deg)
+      }
+
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    #golden-gacha-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    #golden-gacha-btn.available #golden-gacha-label {
+      color: #ffd700;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+    }
+
+    #golden-gacha-btn.locked #golden-gacha-label {
+      color: #555;
+    }
+
+    .golden-gacha-sub-cls {
+      font-size: 9px;
+      letter-spacing: 1px;
+      color: #888;
+      line-height: 1.5;
+    }
+
+    #golden-gacha-btn.available .golden-gacha-sub-cls {
+      color: #ffe082;
+    }
+
+    #golden-gacha-ticket-count {
+      font-size: 16px;
+      font-weight: 900;
+      color: #ffd700;
+    }
+
     #gacha-idle {
       display: flex;
       flex-direction: column;
@@ -559,6 +660,113 @@
     }
 
     #ultra-potion-effect-desc {
+      font-size: 10px;
+      color: #444;
+      letter-spacing: 1px;
+    }
+
+    /* CELESTIAL POTION */
+    #celestial-potion-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 0.5px solid rgba(255, 213, 79, 0.2);
+      border-radius: 10px;
+      padding: 10px 18px;
+    }
+
+    #celestial-potion-icon {
+      font-size: 22px;
+    }
+
+    #celestial-potion-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    #celestial-potion-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #555;
+      text-transform: uppercase;
+    }
+
+    #celestial-potion-count-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #celestial-potion-count {
+      font-size: 18px;
+      font-weight: 700;
+      color: #e0c46a;
+      background: linear-gradient(90deg, #fff59d, #80d8ff, #fff59d);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: mutation-rainbow-shift 3s linear infinite;
+    }
+
+    #celestial-potion-use-btn {
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border: 0.5px solid rgba(255, 213, 79, 0.35);
+      border-radius: 4px;
+      background: rgba(255, 213, 79, 0.08);
+      color: #ffe082;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #celestial-potion-use-btn:hover {
+      background: rgba(255, 213, 79, 0.18);
+      color: #fff3c4;
+    }
+
+    #celestial-potion-use-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    #celestial-potion-craft-btn {
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border: 0.5px solid rgba(128, 216, 255, 0.35);
+      border-radius: 4px;
+      background: rgba(128, 216, 255, 0.08);
+      color: #80d8ff;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #celestial-potion-craft-btn:hover {
+      background: rgba(128, 216, 255, 0.18);
+      color: #b3e5fc;
+    }
+
+    #celestial-potion-craft-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    #celestial-potion-active-badge {
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: #ffe082;
+      background: rgba(255, 213, 79, 0.12);
+      border-radius: 4px;
+      padding: 2px 8px;
+      display: none;
+      animation: pulse-badge 1s ease infinite;
+    }
+
+    #celestial-potion-effect-desc {
       font-size: 10px;
       color: #444;
       letter-spacing: 1px;
@@ -899,6 +1107,282 @@
       background: rgba(255, 255, 255, 0.05);
       border-color: rgba(255, 255, 255, 0.4);
       color: #fff;
+    }
+
+    /* GOLDEN GACHA PAGE (가챠 화면 위 오버레이) */
+    #golden-page {
+      display: none;
+      position: absolute;
+      inset: 0;
+      z-index: 80;
+      background: radial-gradient(circle at 50% 35%, rgba(255, 215, 0, 0.08) 0%, #050300 70%);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      padding: 24px;
+    }
+
+    #golden-page.active {
+      display: flex;
+    }
+
+    #golden-page-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      padding: 7px 14px;
+      border-radius: 6px;
+      border: 0.5px solid rgba(255, 255, 255, 0.15);
+      background: transparent;
+      color: #999;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    #golden-page-close:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    #golden-page-title {
+      font-size: 11px;
+      letter-spacing: 8px;
+      color: #ffd700;
+      text-transform: uppercase;
+      text-shadow: 0 0 14px rgba(255, 215, 0, 0.5);
+    }
+
+    #golden-page-title-big {
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: 10px;
+      background: linear-gradient(135deg, #fff 20%, #ffd700 60%, #ff8f00 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    #golden-page-tickets {
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: #ffe082;
+    }
+
+    #golden-page-tickets b {
+      font-size: 22px;
+      color: #ffd700;
+    }
+
+    #golden-roll-btn {
+      height: 54px;
+      font-size: 14px;
+      letter-spacing: 5px;
+      font-weight: 900;
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(255, 143, 0, 0.08));
+      border: 1px solid rgba(255, 215, 0, 0.45);
+      color: #ffd700;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      padding: 0 36px;
+    }
+
+    #golden-roll-btn:hover {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.22), rgba(255, 143, 0, 0.14));
+      box-shadow: 0 0 26px rgba(255, 215, 0, 0.35);
+    }
+
+    #golden-roll-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    #golden-page-lastresult {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #444;
+      min-height: 16px;
+      text-align: center;
+    }
+
+    #golden-page-stardust {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #b3e5fc;
+    }
+
+    #golden-page-stardust b {
+      color: #80d8ff;
+      font-size: 16px;
+    }
+
+    /* ===== MEGA EFFECT (Tier 47 ??? 전용, 20초 초화려 연출) ===== */
+    #mega-effect {
+      display: none;
+      position: absolute;
+      inset: 0;
+      z-index: 90;
+      overflow: hidden;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+    }
+
+    #mega-effect.active {
+      display: flex;
+    }
+
+    #mega-bg {
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg,
+          #ff0040, #ff9100, #ffee00, #00e676, #00b0ff, #d500f9, #ff0040);
+      animation: mega-bg-spin 2.5s linear infinite, mega-bg-pulse 0.4s ease-in-out infinite alternate;
+      opacity: 0.55;
+    }
+
+    @keyframes mega-bg-spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes mega-bg-pulse {
+      from {
+        filter: brightness(1) saturate(1.2);
+      }
+
+      to {
+        filter: brightness(1.6) saturate(1.8);
+      }
+    }
+
+    #mega-flash {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    #mega-flash.go {
+      animation: mega-flash-strobe 0.18s steps(1, end) infinite;
+    }
+
+    @keyframes mega-flash-strobe {
+
+      0%,
+      100% {
+        opacity: 0;
+      }
+
+      50% {
+        opacity: 0.55;
+      }
+    }
+
+    #mega-content {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    #mega-star {
+      width: 280px;
+      height: 280px;
+      animation: mega-star-spin 0.9s linear infinite, mega-star-scale 0.6s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 40px #fff) drop-shadow(0 0 80px #ffd700);
+    }
+
+    @keyframes mega-star-spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes mega-star-scale {
+      from {
+        transform: scale(1) rotate(0deg);
+      }
+
+      to {
+        transform: scale(1.25) rotate(180deg);
+      }
+    }
+
+    #mega-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 52px;
+      font-weight: 900;
+      letter-spacing: 10px;
+      text-align: center;
+      background-image: linear-gradient(90deg, #ff0040, #ff9100, #ffee00, #00e676, #00b0ff, #d500f9, #ff0040);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: mutation-rainbow-shift 1s linear infinite, mega-title-pulse 0.4s ease-in-out infinite alternate;
+      text-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+    }
+
+    @keyframes mega-title-pulse {
+      from {
+        transform: scale(1);
+      }
+
+      to {
+        transform: scale(1.08);
+      }
+    }
+
+    #mega-subtitle {
+      font-size: 13px;
+      letter-spacing: 6px;
+      color: #fff;
+      text-transform: uppercase;
+      animation: pulse-badge 0.5s ease infinite;
+    }
+
+    #mega-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .mega-particle {
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    #mega-countdown {
+      position: absolute;
+      bottom: 24px;
+      right: 28px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.6);
+      z-index: 3;
     }
 
     #flash-div {
@@ -2004,6 +2488,191 @@
       flex-shrink: 0;
     }
 
+    /* SHOP */
+    #shop-page {
+      display: none;
+      padding: 40px 32px;
+      min-height: calc(100vh - 55px);
+    }
+
+    #shop-page.active {
+      display: block;
+    }
+
+    #shop-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    #shop-title {
+      font-size: 11px;
+      letter-spacing: 6px;
+      color: #444;
+      text-transform: uppercase;
+    }
+
+    #shop-refresh-label {
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: #444;
+    }
+
+    #shop-merchant {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      border: 0.5px solid rgba(255, 23, 68, 0.18);
+      border-radius: 12px;
+      padding: 18px 22px;
+      background: rgba(255, 23, 68, 0.04);
+      margin-bottom: 16px;
+    }
+
+    #shop-merchant-portrait {
+      font-size: 40px;
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255, 23, 68, 0.1);
+      border: 0.5px solid rgba(255, 23, 68, 0.25);
+      flex-shrink: 0;
+    }
+
+    #shop-merchant-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    #shop-merchant-name {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #ff8a80;
+      margin-bottom: 6px;
+    }
+
+    #shop-merchant-line {
+      font-size: 12px;
+      color: #ccc;
+      letter-spacing: 1px;
+      line-height: 1.6;
+    }
+
+    #shop-subtitle {
+      font-size: 11px;
+      color: #333;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+    }
+
+    #shop-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .shop-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 0.5px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 16px 18px;
+      background: rgba(255, 255, 255, 0.02);
+      animation: fadeInUp 0.3s ease;
+    }
+
+    .shop-card.fulfilled {
+      border-color: rgba(105, 240, 174, 0.25);
+      background: rgba(105, 240, 174, 0.04);
+    }
+
+    .shop-card-icon {
+      font-size: 28px;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      flex-shrink: 0;
+    }
+
+    .shop-card-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .shop-card-want {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .shop-card-want .shop-mutation-tag {
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-left: 6px;
+    }
+
+    .shop-card-reward {
+      font-size: 10px;
+      color: #555;
+      letter-spacing: 1px;
+      margin-top: 5px;
+    }
+
+    .shop-card-stock {
+      font-size: 10px;
+      color: #444;
+      letter-spacing: 1px;
+      margin-top: 3px;
+    }
+
+    .shop-card-btn {
+      font-size: 10px;
+      letter-spacing: 2px;
+      padding: 9px 18px;
+      border-radius: 6px;
+      border: 0.5px solid rgba(105, 240, 174, 0.3);
+      background: rgba(105, 240, 174, 0.06);
+      color: #69f0ae;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .shop-card-btn:hover {
+      background: rgba(105, 240, 174, 0.15);
+      border-color: rgba(105, 240, 174, 0.5);
+    }
+
+    .shop-card-btn:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+      color: #888;
+      border-color: rgba(255, 255, 255, 0.1);
+      background: transparent;
+    }
+
+    .shop-card-done {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #69f0ae;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
 
     #logout-modal {
       position: fixed;
@@ -2135,6 +2804,7 @@
         <button class="nav-tab" onclick="switchTab('ach')">업적</button>
         <button class="nav-tab" onclick="switchTab('odds')">확률표</button>
         <button class="nav-tab" onclick="switchTab('cutscenes')">컷씬</button>
+        <button class="nav-tab" onclick="switchTab('shop')">상점</button>
         <button class="nav-tab" onclick="switchTab('ranking')">랭킹</button>
       </div>
       <div id="nav-user">
@@ -2145,6 +2815,12 @@
 
     <div id="gacha-page" class="active">
       <div id="bg-glow"></div>
+      <div id="golden-gacha-btn" class="locked" onclick="openGoldenGacha()">
+        <div id="golden-gacha-icon">⭐</div>
+        <div id="golden-gacha-label">GOLDEN</div>
+        <div id="golden-gacha-sub-text" class="golden-gacha-sub-cls">다음 황금시간까지<br><span
+            id="golden-gacha-countdown">--:--:--</span></div>
+      </div>
       <div id="gacha-idle">
         <div style="text-align:center">
           <div id="gacha-title-main">Premium Summon</div>
@@ -2187,6 +2863,19 @@
               <div id="ultra-potion-active-badge">ACTIVE ✦</div>
             </div>
             <div id="ultra-potion-effect-desc">Lucky Potion 50개 합성 · 사용 시 Nightshade 이상 확정 획득</div>
+          </div>
+        </div>
+        <div id="celestial-potion-bar">
+          <div id="celestial-potion-icon">🌟</div>
+          <div id="celestial-potion-info">
+            <div id="celestial-potion-label">Celestial Potion</div>
+            <div id="celestial-potion-count-row">
+              <div id="celestial-potion-count">0</div>
+              <button id="celestial-potion-use-btn" onclick="useCelestialPotion()" disabled>USE</button>
+              <button id="celestial-potion-craft-btn" onclick="craftCelestialPotion()" disabled>합성 (Ultra ×5)</button>
+              <div id="celestial-potion-active-badge">ACTIVE ✦</div>
+            </div>
+            <div id="celestial-potion-effect-desc">Ultra Potion 5개 합성 · 사용 시 Solflare 이상 확정 획득</div>
           </div>
         </div>
         <div id="pity-section">
@@ -2260,6 +2949,33 @@
         <div id="multi-result-grid"></div>
         <button id="multi-result-continue-btn" onclick="continueAfterMultiRoll()">계속</button>
       </div>
+
+      <div id="golden-page">
+        <button id="golden-page-close" onclick="closeGoldenGacha()">✕ 닫기</button>
+        <div style="text-align:center">
+          <div id="golden-page-title">Golden Hour</div>
+          <div id="golden-page-title-big">Gacha</div>
+        </div>
+        <div id="golden-page-tickets">보유 골든롤 티켓 <b id="golden-page-ticket-count">0</b>개</div>
+        <div id="golden-page-stardust">⭐ Stardust <b id="golden-page-stardust-count">0</b>개</div>
+        <button id="golden-roll-btn" onclick="doGoldenRoll()">▶ GOLDEN ROLL</button>
+        <div id="golden-page-lastresult"></div>
+      </div>
+
+      <div id="mega-effect">
+        <div id="mega-bg"></div>
+        <div id="mega-particles"></div>
+        <div id="mega-flash"></div>
+        <div id="mega-content">
+          <svg id="mega-star" viewBox="-70 -70 140 140" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="0,-65 8,-8 65,0 8,8 0,65 -8,8 -65,0 -8,-8" fill="#fff" />
+            <polygon points="0,-38 5,-5 38,0 5,5 0,38 -5,5 -38,0 -5,-5" fill="#ffd700" opacity="0.8"
+              transform="rotate(45)" />
+          </svg>
+          <div id="mega-title">???</div>
+          <div id="mega-subtitle">★ THE ULTIMATE ★</div>
+        </div>
+      </div>
     </div>
 
     <div id="dojang-page">
@@ -2289,8 +3005,8 @@
       <div id="odds-title">확률표 — Drop Rates</div>
       <div id="odds-subtitle">100회 보장 시스템(ABSOLUTE ZERO 확정) · Legendary 이상 달성 시 보장 초기화 · Legendary 이상은 화이트 크랙 인트로 후 고유
         컷씬 · 포션 사용 시 Epic+
-        확률 2배 · Lucky Potion 50개 합성 시 Ultra Potion 획득 · Ultra Potion 사용 시 Nightshade 이상 확정 획득 · ABSOLUTE ZERO 이상의 초월 등급
-        10종 추가</div>
+        확률 2배 · Lucky Potion 50개 합성 시 Ultra Potion 획득 · Ultra Potion 사용 시 Nightshade 이상 확정 획득 · Ultra Potion 5개 합성 시
+        Celestial Potion 획득 · Celestial Potion 사용 시 Solflare 이상 확정 획득 · ABSOLUTE ZERO 이상의 초월 등급 10종 추가</div>
       <div id="odds-table-wrap"></div>
     </div>
 
@@ -2316,6 +3032,23 @@
       </div>
       <div id="cutscenes-subtitle">뽑아본 적 있는 등급만 다시 볼 수 있습니다 · 보유한 뮤테이션 중 최고 등급으로 재생됩니다</div>
       <div id="cutscenes-list"></div>
+    </div>
+
+    <div id="shop-page">
+      <div id="shop-header">
+        <div id="shop-title">상점 — Merchant</div>
+        <div id="shop-refresh-label">최소 등급: Epic · 납품 시 즉시 더 어려운 요청으로 교체</div>
+      </div>
+      <div id="shop-merchant">
+        <div id="shop-merchant-portrait">🧙</div>
+        <div id="shop-merchant-info">
+          <div id="shop-merchant-name">나이트셰이드 상인</div>
+          <div id="shop-merchant-line"></div>
+        </div>
+      </div>
+      <div id="shop-subtitle">도감에서 요청한 등급 + 뮤테이션 조합을 가져오면 포션으로 교환해줍니다 · 납품한 아이템은 도감에서 사라지고, 해당 요청은 즉시 더 어려운 새 요청으로 바뀝니다
+      </div>
+      <div id="shop-list"></div>
     </div>
   </div>
 
@@ -2486,15 +3219,23 @@
       { name: "Akashic Lord", chance: 0.00006, color: "#1a237e", tier: 41 },
       { name: "Transcendent", chance: 0.00004, color: "#ffffff", tier: 42 },
       { name: "Primordial", chance: 0.000025, color: "#3e0000", tier: 43 },
-      { name: "GOD EMPEROR", chance: 0.000015, color: "#ffd700", tier: 44 }
+      { name: "GOD EMPEROR", chance: 0.000015, color: "#ffd700", tier: 44 },
+      // ===== 골든 가챠 전용 등급 (일반 가챠에는 등장하지 않음) =====
+      { name: "리얼골드", chance: 1, color: "#ffc400", tier: 45 },
+      { name: "레전드골드", chance: 0.1, color: "#ff8f00", tier: 46 },
+      { name: "???", chance: 0.0001, color: "#fffde7", tier: 47 }
 
     ];
 
-    const potionRewards = { 9: 1, 10: 2, 11: 3, 12: 4, 13: 5, 14: 6, 15: 7, 16: 8, 17: 9, 18: 10, 19: 11, 20: 12, 21: 13, 22: 14, 23: 15, 24: 16, 25: 17, 26: 18, 27: 19, 28: 20, 29: 20, 30: 20, 31: 20, 32: 20, 33: 20, 34: 20, 35: 20, 36: 20, 37: 20, 38: 20, 39: 20, 40: 20, 41: 20, 42: 20, 43: 20, 44: 20 };
+    // 골든 가챠 전용 등급 (45~47)
+    const GOLDEN_ONLY_TIERS = [45, 46, 47];
+
+    const potionRewards = { 9: 1, 10: 2, 11: 3, 12: 4, 13: 5, 14: 6, 15: 7, 16: 8, 17: 9, 18: 10, 19: 11, 20: 12, 21: 13, 22: 14, 23: 15, 24: 16, 25: 17, 26: 18, 27: 19, 28: 20, 29: 20, 30: 20, 31: 20, 32: 20, 33: 20, 34: 20, 35: 20, 36: 20, 37: 20, 38: 20, 39: 20, 40: 20, 41: 20, 42: 20, 43: 20, 44: 20, 45: 30, 46: 40, 47: 50 };
 
     let rolling = false, pity = 0, totalRolls = 0, legendaryCount = 0;
     let potions = 0, potionActive = false;
     let ultraPotions = 0, ultraPotionActive = false;
+    let celestialPotions = 0, celestialPotionActive = false;
     let bestTier = -1;
     let bestMutationByTier = {}; // { [tier]: mutationRank(0-4) } 해당 등급에서 얻은 최고 뮤테이션
     const history = [];
@@ -2575,9 +3316,15 @@
     let unlockedAchievements = new Set(), tiersObtained = new Set();
     let potionsEarnedTotal = 0, potionsUsedTotal = 0;
     let ultraPotionsEarnedTotal = 0, ultraPotionsUsedTotal = 0;
+    let celestialPotionsEarnedTotal = 0, celestialPotionsUsedTotal = 0;
     let currentEpicStreak = 0, maxEpicStreak = 0;
     let currentLegendaryStreak = 0, maxLegendaryStreak = 0;
     let lastPityUsed = 0, lucky10Done = false;
+    let shopDate = '', shopRerollCount = [0, 0, 0], shopDeliveredTotal = 0; // 상점 갱신 날짜, 슬롯별 리롤(=납품) 횟수, 누적 납품 수
+    let stardust = 0, stardustEarnedTotal = 0; // 골든 가챠 ???(tier 47) 등급에서만 획득되는 최상위 재화
+    let equippedTitle = ''; // 장착 중인 타이틀
+    let goldenRollsTotal = 0; // 누적 골든 가챠 횟수
+    let goldenTickets = 0, lastGoldenClaimDate = ''; // 보유 골든롤 티켓 수, 마지막 티켓 수령 날짜
 
     // ===================== AUTH =====================
     let currentUser = null;
@@ -2689,8 +3436,13 @@
       document.getElementById('login-btn').innerText = '접속';
       updatePotionBtn();
       updateUltraPotionBtn();
+      updateCelestialPotionBtn();
       updateUI();
       switchTab('gacha');
+      checkGoldenTicketClaim();
+      updateGoldenButton();
+      if (goldenButtonInterval) clearInterval(goldenButtonInterval);
+      goldenButtonInterval = setInterval(updateGoldenButton, 1000);
     }
 
     function openLogoutModal() {
@@ -2711,14 +3463,21 @@
         pity: 0, totalRolls: 0, legendaryCount: 0,
         potions: 0, potionActive: false,
         ultraPotions: 0, ultraPotionActive: false,
+        celestialPotions: 0, celestialPotionActive: false,
         bestTier: -1,
         bestMutationByTier: {},
         history: [],
         unlocked: [], tiers: [],
         potionsEarnedTotal: 0, potionsUsedTotal: 0,
         ultraPotionsEarnedTotal: 0, ultraPotionsUsedTotal: 0,
+        celestialPotionsEarnedTotal: 0, celestialPotionsUsedTotal: 0,
         maxEpicStreak: 0, maxLegendaryStreak: 0,
-        lucky10Done: false
+        lucky10Done: false,
+        shopDate: '', shopRerollCount: [0, 0, 0], shopDeliveredTotal: 0,
+        stardust: 0, stardustEarnedTotal: 0,
+        equippedTitle: '',
+        goldenRollsTotal: 0,
+        goldenTickets: 0, lastGoldenClaimDate: ''
       };
     }
 
@@ -2732,6 +3491,8 @@
       // ⚠️ 긴급 리셋: 모든 유저의 보유 Ultra Potion을 0으로 초기화 (1회성)
       ultraPotions = 0;
       ultraPotionActive = false;
+      celestialPotions = state.celestialPotions ?? d.celestialPotions;
+      celestialPotionActive = state.celestialPotionActive ?? d.celestialPotionActive;
       bestTier = state.bestTier ?? d.bestTier;
       bestMutationByTier = state.bestMutationByTier ?? {};
       history.length = 0;
@@ -2742,9 +3503,20 @@
       potionsUsedTotal = state.potionsUsedTotal ?? 0;
       ultraPotionsEarnedTotal = state.ultraPotionsEarnedTotal ?? 0;
       ultraPotionsUsedTotal = state.ultraPotionsUsedTotal ?? 0;
+      celestialPotionsEarnedTotal = state.celestialPotionsEarnedTotal ?? 0;
+      celestialPotionsUsedTotal = state.celestialPotionsUsedTotal ?? 0;
       maxEpicStreak = state.maxEpicStreak ?? 0;
       maxLegendaryStreak = state.maxLegendaryStreak ?? 0;
       lucky10Done = state.lucky10Done ?? false;
+      shopDate = state.shopDate ?? '';
+      shopRerollCount = Array.isArray(state.shopRerollCount) ? state.shopRerollCount : [0, 0, 0];
+      shopDeliveredTotal = state.shopDeliveredTotal ?? 0;
+      stardust = state.stardust ?? 0;
+      stardustEarnedTotal = state.stardustEarnedTotal ?? 0;
+      equippedTitle = state.equippedTitle ?? '';
+      goldenRollsTotal = state.goldenRollsTotal ?? 0;
+      goldenTickets = state.goldenTickets ?? 0;
+      lastGoldenClaimDate = state.lastGoldenClaimDate ?? '';
       currentEpicStreak = 0; currentLegendaryStreak = 0;
     }
 
@@ -2753,6 +3525,7 @@
         pity, totalRolls, legendaryCount,
         potions, potionActive,
         ultraPotions, ultraPotionActive,
+        celestialPotions, celestialPotionActive,
         bestTier,
         bestMutationByTier,
         history: history.slice(0, 300),
@@ -2760,8 +3533,14 @@
         tiers: Array.from(tiersObtained),
         potionsEarnedTotal, potionsUsedTotal,
         ultraPotionsEarnedTotal, ultraPotionsUsedTotal,
+        celestialPotionsEarnedTotal, celestialPotionsUsedTotal,
         maxEpicStreak, maxLegendaryStreak,
-        lucky10Done
+        lucky10Done,
+        shopDate, shopRerollCount, shopDeliveredTotal,
+        stardust, stardustEarnedTotal,
+        equippedTitle,
+        goldenRollsTotal,
+        goldenTickets, lastGoldenClaimDate
       };
     }
 
@@ -2778,8 +3557,8 @@
       }, 400);
     }
 
-    const SPEEDS = [1.0, 1.0, 1.0, 1.07, 1.15, 1.23, 1.3, 1.38, 1.45, 1.52, 1.6, 1.67, 1.75, 1.82, 1.9, 1.98, 2.05, 2.12, 2.2, 2.27, 2.35, 2.42, 2.5, 2.58, 2.65, 2.72, 2.8, 2.88, 2.95, 3.02, 3.1, 3.17, 3.25, 3.32, 3.4, 3.47, 3.55, 3.62, 3.7, 3.77, 3.85, 3.92, 4.0, 4.07, 4.15];
-    const DELAYS = [700, 700, 700, 805, 910, 1015, 1120, 1225, 1330, 1435, 1540, 1645, 1750, 1855, 1960, 2065, 2170, 2275, 2380, 2485, 2590, 2695, 2800, 2905, 3010, 3115, 3220, 3325, 3430, 3535, 3640, 3745, 3850, 3955, 4060, 4165, 4270, 4375, 4480, 4585, 4690, 4795, 4900, 5005, 5110];
+    const SPEEDS = [1.0, 1.0, 1.0, 1.07, 1.15, 1.23, 1.3, 1.38, 1.45, 1.52, 1.6, 1.67, 1.75, 1.82, 1.9, 1.98, 2.05, 2.12, 2.2, 2.27, 2.35, 2.42, 2.5, 2.58, 2.65, 2.72, 2.8, 2.88, 2.95, 3.02, 3.1, 3.17, 3.25, 3.32, 3.4, 3.47, 3.55, 3.62, 3.7, 3.77, 3.85, 3.92, 4.0, 4.07, 4.15, 4.22, 4.3, 4.5];
+    const DELAYS = [700, 700, 700, 805, 910, 1015, 1120, 1225, 1330, 1435, 1540, 1645, 1750, 1855, 1960, 2065, 2170, 2275, 2380, 2485, 2590, 2695, 2800, 2905, 3010, 3115, 3220, 3325, 3430, 3535, 3640, 3745, 3850, 3955, 4060, 4165, 4270, 4375, 4480, 4585, 4690, 4795, 4900, 5005, 5110, 5215, 5320, 5500];
 
     // ===================== GACHA =====================
     // multiplier: 포션 등으로 인한 Epic+ 확률 배수 (>1이면 상승)
@@ -2804,6 +3583,21 @@
       return pool[0];
     }
 
+    // ===================== GOLDEN GACHA =====================
+    // 골든 가챠: 일반 풀(0~44) 확률을 살짝 줄이고, 골든 전용 등급(45~47)을 추가한다.
+    // 포션 효과는 무시되고 항상 순수 확률로만 진행된다.
+    function pickGolden() {
+      const goldenSum = pool.filter(p => GOLDEN_ONLY_TIERS.includes(p.tier)).reduce((s, p) => s + p.chance, 0);
+      const scale = (100 - goldenSum) / 100;
+      let r = Math.random() * 100, sum = 0;
+      for (const p of pool) {
+        const chance = GOLDEN_ONLY_TIERS.includes(p.tier) ? p.chance : p.chance * scale;
+        sum += chance;
+        if (r < sum) return p;
+      }
+      return pool[0];
+    }
+
     // minTier 이상의 등급들만 가중치 비례로 뽑기 (Ultra Potion: Nightshade(13) 이상 확정)
     function pickFromTier(minTier) {
       const candidates = pool.filter(p => p.tier >= minTier);
@@ -2816,7 +3610,9 @@
     function rollOne(luckFactor) {
       pity++; totalRolls++;
       let item;
-      if (ultraPotionActive) {
+      if (celestialPotionActive) {
+        item = pickFromTier(19); // Solflare(19) 이상 확정
+      } else if (ultraPotionActive) {
         item = pickFromTier(13); // Nightshade(13) 이상 확정
       } else {
         const multiplier = potionActive ? 2 : 1;
@@ -2828,7 +3624,8 @@
       const potionMsg = computePotionEarn(item.tier);
       if (potionActive) { potionActive = false; }
       if (ultraPotionActive) { ultraPotionActive = false; }
-      updatePotionBtn(); updateUltraPotionBtn();
+      if (celestialPotionActive) { celestialPotionActive = false; }
+      updatePotionBtn(); updateUltraPotionBtn(); updateCelestialPotionBtn();
       const now = new Date();
       const t = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0') + ':' + now.getSeconds().toString().padStart(2, '0');
       const mutation = rollMutation();
@@ -2838,12 +3635,34 @@
       return { item, potionMsg };
     }
 
+    // 골든 가챠 1회: 포션 효과 무시, pity/totalRolls와 무관한 별도 카운터 사용. 티켓 1개 소모.
+    function rollGolden() {
+      if (goldenTickets <= 0) return null;
+      goldenTickets--;
+      const item = pickGolden();
+      goldenRollsTotal++;
+      if (item.tier > bestTier) bestTier = item.tier;
+      const potionMsg = computePotionEarn(item.tier);
+      let stardustGain = 0;
+      if (item.tier === 47) { stardustGain = 1; stardust += stardustGain; stardustEarnedTotal += stardustGain; }
+      updatePotionBtn(); updateUltraPotionBtn(); updateCelestialPotionBtn();
+      const now = new Date();
+      const t = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0') + ':' + now.getSeconds().toString().padStart(2, '0');
+      const mutation = rollMutation();
+      const mRank = mutationRank(mutation);
+      if (mRank > (bestMutationByTier[item.tier] ?? 0)) bestMutationByTier[item.tier] = mRank;
+      history.unshift({ item, time: t, roll: 'G' + goldenRollsTotal, mutation, golden: true });
+      tiersObtained.add(item.tier);
+      checkGenericAchievements();
+      return { item, potionMsg, stardustGain };
+    }
+
     function usePotion() {
       if (potions <= 0 || potionActive) return;
       potions--; potionsUsedTotal++; potionActive = true;
       document.getElementById('potion-use-btn').style.display = 'none';
       document.getElementById('potion-active-badge').style.display = 'block';
-      updatePotionBtn(); updateUltraPotionBtn(); saveProgress();
+      updatePotionBtn(); updateUltraPotionBtn(); updateCelestialPotionBtn(); saveProgress();
     }
 
     function useUltraPotion() {
@@ -2851,7 +3670,7 @@
       ultraPotions--; ultraPotionsUsedTotal++; ultraPotionActive = true;
       document.getElementById('ultra-potion-use-btn').style.display = 'none';
       document.getElementById('ultra-potion-active-badge').style.display = 'block';
-      updateUltraPotionBtn(); saveProgress();
+      updateUltraPotionBtn(); updateCelestialPotionBtn(); checkGenericAchievements(); saveProgress();
     }
 
     const ULTRA_CRAFT_COST = 50;
@@ -2859,8 +3678,25 @@
       if (potions < ULTRA_CRAFT_COST || ultraPotionActive) return;
       potions -= ULTRA_CRAFT_COST;
       ultraPotions++; ultraPotionsEarnedTotal++;
-      updatePotionBtn(); updateUltraPotionBtn(); saveProgress();
+      updatePotionBtn(); updateUltraPotionBtn(); updateCelestialPotionBtn(); checkGenericAchievements(); saveProgress();
       showPotionToast('🔴 Lucky Potion ×' + ULTRA_CRAFT_COST + ' 합성 → Ultra Potion ×1 획득!');
+    }
+
+    function useCelestialPotion() {
+      if (celestialPotions <= 0 || celestialPotionActive) return;
+      celestialPotions--; celestialPotionsUsedTotal++; celestialPotionActive = true;
+      document.getElementById('celestial-potion-use-btn').style.display = 'none';
+      document.getElementById('celestial-potion-active-badge').style.display = 'block';
+      updateCelestialPotionBtn(); checkGenericAchievements(); saveProgress();
+    }
+
+    const CELESTIAL_CRAFT_COST = 5; // Ultra Potion 5개
+    function craftCelestialPotion() {
+      if (ultraPotions < CELESTIAL_CRAFT_COST || celestialPotionActive) return;
+      ultraPotions -= CELESTIAL_CRAFT_COST;
+      celestialPotions++; celestialPotionsEarnedTotal++;
+      updateUltraPotionBtn(); updateCelestialPotionBtn(); checkGenericAchievements(); saveProgress();
+      showPotionToast('🔴 Ultra Potion ×' + CELESTIAL_CRAFT_COST + ' 합성 → 🌟 Celestial Potion ×1 획득!');
     }
 
     // 이번 롤로 얻을 포션 정보를 계산만 하고, 토스트는 결과 공개 시점에 표시한다 (스포일러 방지)
@@ -2911,11 +3747,26 @@
       }
     }
 
+    function updateCelestialPotionBtn() {
+      const btn = document.getElementById('celestial-potion-use-btn');
+      const craftBtn = document.getElementById('celestial-potion-craft-btn');
+      const badge = document.getElementById('celestial-potion-active-badge');
+      document.getElementById('celestial-potion-count').innerText = celestialPotions;
+      if (celestialPotionActive) {
+        btn.style.display = 'none'; badge.style.display = 'block';
+        craftBtn.disabled = true;
+      } else {
+        btn.style.display = 'block'; badge.style.display = 'none'; btn.disabled = celestialPotions <= 0;
+        craftBtn.disabled = ultraPotions < CELESTIAL_CRAFT_COST;
+      }
+    }
+
     // 진행 중인 롤의 정보 (스킵 시 사용)
     let currentRollItem = null;
     let currentPotionMsg = null;
     let isReplaying = false;
     let isMultiRoll = false;
+    let isGoldenRoll = false;
 
     function doRoll(count) {
       if (rolling) return;
@@ -3050,6 +3901,187 @@
       finishRoll(best || { name: '', color: '#ccc' });
     }
 
+    // ===================== GOLDEN GACHA UI =====================
+    let goldenButtonInterval = null;
+
+    function todayDateStrGolden() {
+      const now = new Date();
+      return now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
+    }
+
+    // 골든 가챠 활성 시간대 (시작 시각, 각 1시간): 07:00~08:00, 21:00~22:00
+    const GOLDEN_HOURS = [7, 21];
+    function isGoldenWindow(now) {
+      return GOLDEN_HOURS.includes(now.getHours());
+    }
+    // 다음 골든 시간대까지 남은 ms 계산
+    function nextGoldenWindowDiff(now) {
+      let best = null;
+      for (const h of GOLDEN_HOURS) {
+        const next = new Date(now);
+        next.setHours(h, 0, 0, 0);
+        if (next <= now) next.setDate(next.getDate() + 1);
+        const diff = next - now;
+        if (best === null || diff < best) best = diff;
+      }
+      return best;
+    }
+
+    // 매일 골든 시간대(07:00~08:00, 21:00~22:00)에 접속하면 골든롤 티켓 50개 지급 (하루 1회, 두 시간대 중 먼저 들어온 1회만)
+    function checkGoldenTicketClaim() {
+      const now = new Date();
+      const today = todayDateStrGolden();
+      if (isGoldenWindow(now) && lastGoldenClaimDate !== today) {
+        goldenTickets += 50;
+        lastGoldenClaimDate = today;
+        saveProgress();
+        showPotionToast('⭐ 황금시간 접속! 골든롤 티켓 ×50 획득!');
+      }
+    }
+
+    // 좌측 골든 가챠 버튼 상태 갱신 (1초마다 호출)
+    function updateGoldenButton() {
+      const btn = document.getElementById('golden-gacha-btn');
+      const icon = document.getElementById('golden-gacha-icon');
+      const label = document.getElementById('golden-gacha-label');
+      const sub = document.getElementById('golden-gacha-sub-text');
+      const now = new Date();
+      const inWindow = isGoldenWindow(now);
+
+      if (inWindow) {
+        const today = todayDateStrGolden();
+        if (lastGoldenClaimDate !== today) checkGoldenTicketClaim();
+      }
+
+      if (goldenTickets > 0 || inWindow) {
+        btn.classList.add('available'); btn.classList.remove('locked');
+        icon.innerText = '⭐';
+        label.innerText = 'GOLDEN';
+        sub.innerHTML = '보유 티켓<br><b id="golden-gacha-ticket-count">' + goldenTickets + '</b>개';
+      } else {
+        btn.classList.remove('available'); btn.classList.add('locked');
+        icon.innerText = '🔒';
+        label.innerText = 'GOLDEN';
+        // 다음 골든시간까지 남은 시간 계산
+        const diff = Math.max(0, nextGoldenWindowDiff(now));
+        const hh = Math.floor(diff / 3600000);
+        const mm = Math.floor((diff % 3600000) / 60000);
+        const ss = Math.floor((diff % 60000) / 1000);
+        const pad = n => String(n).padStart(2, '0');
+        sub.innerHTML = '다음 황금시간까지<br><span id="golden-gacha-countdown">' + pad(hh) + ':' + pad(mm) + ':' + pad(ss) + '</span>';
+      }
+    }
+
+    function openGoldenGacha() {
+      if (rolling) return;
+      if (goldenTickets <= 0) {
+        const now = new Date();
+        if (!isGoldenWindow(now)) return; // 티켓도 없고 시간도 아니면 입장 불가
+      }
+      document.getElementById('golden-page').classList.add('active');
+      document.getElementById('golden-page-ticket-count').innerText = goldenTickets;
+      document.getElementById('golden-page-stardust-count').innerText = stardust;
+      document.getElementById('golden-page-lastresult').innerText = '';
+      document.getElementById('golden-roll-btn').disabled = goldenTickets <= 0;
+    }
+
+    function closeGoldenGacha() {
+      if (rolling) return;
+      document.getElementById('golden-page').classList.remove('active');
+      document.getElementById('gacha-idle').style.display = 'flex';
+    }
+
+    // 골든 가챠 1회 진행: 별 애니메이션 -> (45/46은 컷씬, 47은 메가 이펙트, 그 외는 일반 결과)
+    function doGoldenRoll() {
+      if (rolling) return;
+      if (goldenTickets <= 0) return;
+      const result = rollGolden();
+      if (!result) return;
+      const { item, potionMsg, stardustGain } = result;
+      item.mutation = history[0].mutation;
+      updateUI(); saveProgress();
+
+      rolling = true;
+      skipRequested = false;
+      isMultiRoll = false; isReplaying = false; isGoldenRoll = true;
+      clearPendingTimeouts();
+      currentRollItem = item;
+      currentPotionMsg = potionMsg;
+      if (stardustGain > 0) {
+        currentPotionMsg = currentPotionMsg || { lines: [] };
+        currentPotionMsg.lines = (currentPotionMsg.lines || []).concat(['⭐ Stardust ×' + stardustGain + ' 획득!']);
+      }
+
+      document.getElementById('golden-page').classList.remove('active');
+      document.getElementById('mutation-reel-wrap').classList.remove('show');
+      document.getElementById('gacha-idle').style.display = 'none';
+      const animDiv = document.getElementById('gacha-anim');
+      animDiv.style.display = 'flex';
+      const starSvg = document.getElementById('star-svg');
+      const starPolyMain = document.getElementById('star-poly-main');
+      const starPolySub = document.getElementById('star-poly-sub');
+      const res = document.getElementById('result-text');
+      starSvg.style.display = 'block'; starSvg.style.opacity = '1'; starSvg.style.transition = '';
+      starPolyMain.setAttribute('fill', item.color);
+      starPolySub.setAttribute('fill', item.color);
+      starSvg.style.filter = 'drop-shadow(0 0 32px ' + item.color + ') drop-shadow(0 0 60px gold)';
+      res.style.opacity = '0';
+      starSvg.style.animationDuration = SPEEDS[item.tier] + 's';
+      document.getElementById('skip-btn').classList.add('show');
+      setT(() => {
+        starSvg.style.transition = 'opacity 0.2s'; starSvg.style.opacity = '0';
+        setT(() => {
+          starSvg.style.display = 'none';
+          if (item.tier === 47) showMegaEffect(item);
+          else if (item.tier >= 9) showWhiteCrack(item);
+          else showResult(item);
+        }, 220);
+      }, DELAYS[item.tier]);
+    }
+
+    // ===================== TIER 47 "???" 메가 이펙트 (20초) =====================
+    function showMegaEffect(item) {
+      const overlay = document.getElementById('mega-effect');
+      const flash = document.getElementById('mega-flash');
+      const particles = document.getElementById('mega-particles');
+      particles.innerHTML = '';
+      const colors = ['#ff0040', '#ff9100', '#ffee00', '#00e676', '#00b0ff', '#d500f9', '#ffffff'];
+      for (let i = 0; i < 80; i++) {
+        const p = document.createElement('div');
+        p.className = 'mega-particle';
+        const size = 4 + Math.random() * 14;
+        p.style.width = size + 'px'; p.style.height = size + 'px';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.boxShadow = '0 0 ' + (size * 2) + 'px ' + p.style.background;
+        p.style.animation = 'mega-bg-pulse ' + (0.3 + Math.random() * 0.6) + 's ease-in-out infinite alternate';
+        p.style.animationDelay = (Math.random() * 1) + 's';
+        particles.appendChild(p);
+      }
+      overlay.classList.add('active');
+      flash.classList.add('go');
+
+      let remaining = 20;
+      const countdownEl = document.getElementById('mega-countdown');
+      countdownEl.innerText = remaining + 's';
+      const tick = setInterval(() => {
+        if (skipRequested) { clearInterval(tick); return; }
+        remaining--;
+        countdownEl.innerText = Math.max(0, remaining) + 's';
+        if (remaining <= 0) clearInterval(tick);
+      }, 1000);
+
+      setT(() => {
+        clearInterval(tick);
+        overlay.classList.remove('active');
+        flash.classList.remove('go');
+        showMutationReel(item.mutation, () => {
+          setT(() => finishRoll(item), 600);
+        });
+      }, 20000);
+    }
+
     // 모든 애니메이션을 즉시 멈추고 결과(등급+뮤테이션)만 보여준다
     function skipAnimation() {
       if (!rolling || !currentRollItem) return;
@@ -3063,6 +4095,8 @@
       document.getElementById('cutscene').classList.remove('active');
       document.getElementById('cutscene').classList.remove('shake');
       document.getElementById('flash-div').style.opacity = '0';
+      document.getElementById('mega-effect').classList.remove('active');
+      document.getElementById('mega-flash').classList.remove('go');
       const crackCanvas = document.getElementById('crack-canvas');
       crackCanvas.style.opacity = '0';
       try { crackCanvas.getContext('2d').clearRect(0, 0, crackCanvas.width, crackCanvas.height); } catch (e) { }
@@ -3109,6 +4143,21 @@
       if (isMultiRoll) {
         isMultiRoll = false;
         showMultiRollGrid();
+        return;
+      }
+
+      if (isGoldenRoll) {
+        isGoldenRoll = false;
+        document.getElementById('mutation-reel-wrap').classList.remove('show');
+        const lr = document.getElementById('golden-page-lastresult');
+        lr.innerText = 'LAST · ' + item.name; lr.style.color = item.color;
+        document.getElementById('golden-page').classList.add('active');
+        document.getElementById('golden-page-ticket-count').innerText = goldenTickets;
+        document.getElementById('golden-page-stardust-count').innerText = stardust;
+        document.getElementById('golden-roll-btn').disabled = goldenTickets <= 0;
+        if (currentPotionMsg && currentPotionMsg.lines) showPotionToastLines(currentPotionMsg.lines);
+        currentRollItem = null; currentPotionMsg = null;
+        rolling = false;
         return;
       }
 
@@ -3614,13 +4663,14 @@
     }
 
     function switchTab(tab) {
-      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'cutscenes', 'ranking'];
+      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'cutscenes', 'shop', 'ranking'];
       document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', tabs[i] === tab));
       tabs.forEach(id => document.getElementById(id + '-page').classList.toggle('active', id === tab));
       if (tab === 'dojang') renderDojang();
       if (tab === 'odds') renderOdds();
       if (tab === 'ach') renderAchievements();
       if (tab === 'cutscenes') renderCutscenes();
+      if (tab === 'shop') renderShop();
       if (tab === 'ranking') renderRanking();
     }
 
@@ -3651,7 +4701,8 @@
 
     function renderOdds() {
       const wrap = document.getElementById('odds-table-wrap');
-      const maxChance = pool[0].chance; let cumul = 0;
+      const normalPool = pool.filter(p => !GOLDEN_ONLY_TIERS.includes(p.tier));
+      const maxChance = normalPool[0].chance; let cumul = 0;
       wrap.innerHTML = `
     <div class="odds-table-header">
       <div style="width:8px"></div>
@@ -3661,7 +4712,7 @@
       <div class="odds-th" style="min-width:80px;text-align:right">누적</div>
       <div class="odds-th" style="min-width:80px;text-align:right">포션 보상</div>
     </div>
-    ${pool.map(p => {
+    ${normalPool.map(p => {
         cumul += p.chance; return `
       <div class="odds-row">
         <div class="odds-dot" style="background:${p.color}"></div>
@@ -3671,13 +4722,33 @@
         <div class="odds-cumul">${Math.min(100, cumul).toFixed(3)}%</div>
         <div class="odds-potion">${potionRewards[p.tier] ? '🧪 ×' + potionRewards[p.tier] : '—'}</div>
       </div>`;
+      }).join('')}
+    <div class="odds-table-header" style="margin-top:24px">
+      <div style="width:8px"></div>
+      <div class="odds-th" style="min-width:160px">⭐ 골든 가챠 전용 등급</div>
+      <div class="odds-th" style="flex:1"></div>
+      <div class="odds-th" style="min-width:52px;text-align:right">확률</div>
+      <div class="odds-th" style="min-width:80px;text-align:right">비고</div>
+      <div class="odds-th" style="min-width:80px;text-align:right">포션 보상</div>
+    </div>
+    ${pool.filter(p => GOLDEN_ONLY_TIERS.includes(p.tier)).map(p => {
+        const note = p.tier === 45 ? 'Genesis보다 약간 위' : p.tier === 46 ? 'CHRONO OVERLORD급' : '최상위 · Stardust 획득';
+        return `
+      <div class="odds-row">
+        <div class="odds-dot" style="background:${p.color}"></div>
+        <div class="odds-name" style="color:${p.color}">${p.name}</div>
+        <div class="odds-bar-wrap"></div>
+        <div class="odds-pct">${p.chance}%</div>
+        <div class="odds-cumul" style="font-size:10px">${note}</div>
+        <div class="odds-potion">${potionRewards[p.tier] ? '🧪 ×' + potionRewards[p.tier] : '—'}</div>
+      </div>`;
       }).join('')}`;
     }
 
     // ===================== CUTSCENE REPLAY =====================
     function renderCutscenes() {
       const list = document.getElementById('cutscenes-list');
-      const cutsceneTiers = pool.filter(p => p.tier >= 9);
+      const cutsceneTiers = pool.filter(p => p.tier >= 9 && !GOLDEN_ONLY_TIERS.includes(p.tier));
       const unlockedCount = cutsceneTiers.filter(p => tiersObtained.has(p.tier)).length;
       document.getElementById('cutscenes-count-num').innerText = unlockedCount;
       document.getElementById('cutscenes-count-total').innerText = cutsceneTiers.length;
@@ -3735,6 +4806,174 @@
       if (item.tier >= 9) showWhiteCrack(item);
       else showResult(item);
     }
+
+    // ===================== SHOP (나이트셰이드 상인) =====================
+    // 요청 가능한 등급 범위: Epic(5) ~ ABSOLUTE ZERO(34).
+    const SHOP_MIN_TIER = 5;
+    const SHOP_MAX_TIER = 34;
+    const SHOP_REQUEST_COUNT = 3;
+
+    const SHOP_MERCHANT_LINES = {
+      low: [
+        '음, 이 정도면 거래는 성립이지. 다음엔 좀 더 좋은 걸 가져와봐.',
+        '나쁘지 않아. 받아주마.',
+        '이 정도는 기본이지. 거래 성립이다.'
+      ],
+      mid: [
+        '오, 이건 제법인데. 뮤테이션까지 붙어있으면 더 좋고.',
+        '이 정도 등급에 그 뮤테이션이라... 흔하지 않은 조합이군.',
+        '이 정도 등급은 나도 자주 못 봐. 가져온다면 후하게 쳐주지.'
+      ],
+      high: [
+        '...진짜로? 이걸 가져온다면 내 전 재산을 걸겠다.',
+        'ABSOLUTE ZERO에 Rainbow라... 그건 전설 속에만 있는 줄 알았는데.',
+        '이 요청은... 솔직히 나도 장난으로 적은 거다. 그래도 가져오면 인정한다.'
+      ]
+    };
+
+    function shopMerchantLineFor(maxTier) {
+      const lines = maxTier >= 28 ? SHOP_MERCHANT_LINES.high : maxTier >= 18 ? SHOP_MERCHANT_LINES.mid : SHOP_MERCHANT_LINES.low;
+      // 날짜+유저+리롤 횟수 기준으로 고정되도록 시드 사용
+      const totalRerolls = (shopRerollCount || []).reduce((a, b) => a + b, 0);
+      const idx = Math.abs(hashStr((shopDate || '') + (currentUser || '') + 'line' + totalRerolls)) % lines.length;
+      return lines[idx];
+    }
+
+    // 간단한 문자열 해시 (시드용)
+    function hashStr(str) {
+      let h = 0;
+      for (let i = 0; i < str.length; i++) {
+        h = (h * 31 + str.charCodeAt(i)) | 0;
+      }
+      return h;
+    }
+
+    // 시드 기반 LCG
+    function seededRandom(seed) {
+      let s = seed % 2147483647;
+      if (s <= 0) s += 2147483646;
+      return function () {
+        s = (s * 16807) % 2147483647;
+        return (s - 1) / 2147483646;
+      };
+    }
+
+    function todayDateStr() {
+      const now = new Date();
+      return now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
+    }
+
+    // 슬롯별 요청 생성: 유저+날짜+슬롯+해당 슬롯의 리롤 횟수로 시드 고정
+    // 납품 즉시 해당 슬롯의 리롤 횟수가 증가하여 새로운(더 어려운) 요청으로 교체된다
+    function getShopRequests() {
+      const date = todayDateStr();
+      if (shopDate !== date) {
+        shopDate = date;
+        shopRerollCount = [0, 0, 0];
+      }
+      if (!Array.isArray(shopRerollCount) || shopRerollCount.length !== SHOP_REQUEST_COUNT) {
+        shopRerollCount = [0, 0, 0];
+      }
+      const requests = [];
+      for (let i = 0; i < SHOP_REQUEST_COUNT; i++) {
+        const reroll = shopRerollCount[i] || 0;
+        const seed = Math.abs(hashStr((currentUser || 'guest') + date + 'shop' + i + 'r' + reroll));
+        const rand = seededRandom(seed || 1);
+
+        // 리롤할수록(=납품할수록) 점점 더 어려운 등급/뮤테이션을 요구한다
+        const difficultyBoost = Math.min(reroll * 0.08, 0.6);
+
+        // 등급은 낮은 쪽에 가중치를 둔 분포, 리롤이 누적될수록 분포가 높은 쪽으로 이동
+        const tierRoll = Math.pow(rand(), 1.8 - difficultyBoost);
+        const tier = SHOP_MIN_TIER + Math.floor(tierRoll * (SHOP_MAX_TIER - SHOP_MIN_TIER + 1));
+        const clampedTier = Math.min(SHOP_MAX_TIER, Math.max(SHOP_MIN_TIER, tier));
+
+        // 뮤테이션은 None부터 시작 가능, 리롤이 누적될수록 더 좋은 걸 요구하는 경향
+        const mutBias = Math.floor(rand() * 3 + difficultyBoost * 2.5);
+        const mutRank = Math.max(0, Math.min(4, mutBias));
+
+        const base = pool[clampedTier];
+        const baseReward = potionRewards[clampedTier] || 5;
+        const rewardPotions = Math.max(3, Math.round(baseReward * (1 + mutRank * 0.6)));
+        const rewardUltra = (clampedTier >= 18 || mutRank >= 3) ? 1 + Math.floor(difficultyBoost) : 0;
+        // Celestial Potion은 "정말 좋은 등급" 미션 성공 시에만: Infinity(27)+ & Ultra 이상,
+        // 또는 ABSOLUTE ZERO(34) & Big 이상일 때 보상으로 지급
+        const rewardCelestial = ((clampedTier >= 27 && mutRank >= 3) || (clampedTier >= 34 && mutRank >= 1)) ? 1 : 0;
+
+        requests.push({
+          tier: clampedTier, mutationRank: mutRank,
+          name: base.name, color: base.color,
+          rewardPotions, rewardUltra, rewardCelestial
+        });
+      }
+      return requests;
+    }
+
+    // 도감(history)에서 해당 등급+뮤테이션과 정확히 일치하는 항목 반환
+    function findShopMatch(tier, mutationRank_) {
+      const mutName = MUTATION_NAMES[mutationRank_];
+      const wantMutation = mutName === 'None' ? null : mutName;
+      return history.find(h => h.item.tier === tier && (h.mutation || null) === wantMutation);
+    }
+
+    function renderShop() {
+      const requests = getShopRequests();
+      const maxTier = Math.max(...requests.map(r => r.tier));
+      document.getElementById('shop-merchant-line').innerText = shopMerchantLineFor(maxTier);
+
+      const list = document.getElementById('shop-list');
+      list.innerHTML = requests.map((req, idx) => {
+        const mutName = MUTATION_NAMES[req.mutationRank] || 'None';
+        const mutTag = req.mutationRank > 0
+          ? `<span class="shop-mutation-tag badge-mutation-${mutName.toLowerCase()}" style="position:static;display:inline-block">${mutName.toUpperCase()}</span>`
+          : '';
+        let rewardText = '🧪 Lucky Potion ×' + req.rewardPotions;
+        if (req.rewardUltra) rewardText += ' · 🔴 Ultra Potion ×' + req.rewardUltra;
+        if (req.rewardCelestial) rewardText += ' · 🌟 Celestial Potion ×' + req.rewardCelestial;
+        const match = findShopMatch(req.tier, req.mutationRank);
+        const canDeliver = !!match;
+
+        return `<div class="shop-card">
+        <div class="shop-card-icon" style="color:${req.color}">📦</div>
+        <div class="shop-card-info">
+          <div class="shop-card-want" style="color:${req.color}">${req.name}${mutTag}</div>
+          <div class="shop-card-reward">보상: ${rewardText}</div>
+          <div class="shop-card-stock">${canDeliver ? '도감에 보유 중 — 납품 가능' : '도감에 해당 조합 없음'}</div>
+        </div>
+        <button class="shop-card-btn" ${canDeliver ? '' : 'disabled'} onclick="deliverToShop(${idx})">납품</button>
+      </div>`;
+      }).join('');
+    }
+
+    function deliverToShop(idx) {
+      const requests = getShopRequests();
+      if (idx < 0 || idx >= requests.length) return;
+      const req = requests[idx];
+      const match = findShopMatch(req.tier, req.mutationRank);
+      if (!match) return;
+
+      // 도감에서 해당 아이템 1개 제거
+      const pos = history.indexOf(match);
+      if (pos >= 0) history.splice(pos, 1);
+
+      potions += req.rewardPotions; potionsEarnedTotal += req.rewardPotions;
+      if (req.rewardUltra) { ultraPotions += req.rewardUltra; ultraPotionsEarnedTotal += req.rewardUltra; }
+      if (req.rewardCelestial) { celestialPotions += req.rewardCelestial; celestialPotionsEarnedTotal += req.rewardCelestial; }
+
+      // 해당 슬롯을 즉시 리롤하여 더 어려운 새 요청으로 교체
+      if (!Array.isArray(shopRerollCount) || shopRerollCount.length !== SHOP_REQUEST_COUNT) shopRerollCount = [0, 0, 0];
+      shopRerollCount[idx] = (shopRerollCount[idx] || 0) + 1;
+      shopDeliveredTotal = (shopDeliveredTotal || 0) + 1;
+
+      updatePotionBtn(); updateUltraPotionBtn(); updateCelestialPotionBtn(); checkGenericAchievements(); saveProgress();
+      let msg = '🧪 Lucky Potion ×' + req.rewardPotions + ' 획득!';
+      if (req.rewardUltra) msg += ' · 🔴 Ultra Potion ×' + req.rewardUltra + ' 획득!';
+      if (req.rewardCelestial) msg += ' · 🌟 Celestial Potion ×' + req.rewardCelestial + ' 획득!';
+      showPotionToast(msg);
+      renderShop();
+      if (document.getElementById('dojang-page').classList.contains('active')) renderDojang();
+    }
+
 
 
     // ===================== RANKING =====================
@@ -3870,6 +5109,15 @@
       { id: 'potion_use_10', name: '행운의 가호', icon: '✨', desc: '포션 10개 사용', check: () => potionsUsedTotal >= 10, progress: () => `${Math.min(potionsUsedTotal, 10)} / 10` },
       { id: 'ultra_potion_first', name: '붉은 정수', icon: '🔴', desc: 'Lucky Potion 50개를 합성해 Ultra Potion 첫 획득', check: () => ultraPotionsEarnedTotal >= 1, progress: () => ultraPotionsEarnedTotal >= 1 ? '완료' : '미달성' },
       { id: 'ultra_potion_use_5', name: '극한의 도박', icon: '💢', desc: 'Ultra Potion 5개 사용', check: () => ultraPotionsUsedTotal >= 5, progress: () => `${Math.min(ultraPotionsUsedTotal, 5)} / 5` },
+      { id: 'celestial_potion_first', name: '천상의 빛', icon: '🌟', desc: 'Ultra Potion 5개를 합성해 Celestial Potion 첫 획득', check: () => celestialPotionsEarnedTotal >= 1, progress: () => celestialPotionsEarnedTotal >= 1 ? '완료' : '미달성' },
+      { id: 'celestial_potion_use_3', name: '천상의 가호', icon: '✨', desc: 'Celestial Potion 3개 사용', check: () => celestialPotionsUsedTotal >= 3, progress: () => `${Math.min(celestialPotionsUsedTotal, 3)} / 3` },
+      { id: 'shop_deliver_first', name: '상인과의 거래', icon: '🤝', desc: '상점에 첫 납품 완료', check: () => shopDeliveredTotal >= 1, progress: () => shopDeliveredTotal >= 1 ? '완료' : '미달성' },
+      { id: 'shop_deliver_10', name: '단골 손님', icon: '📦', desc: '상점에 10회 납품', check: () => shopDeliveredTotal >= 10, progress: () => `${Math.min(shopDeliveredTotal, 10)} / 10` },
+      { id: 'first_real_gold', name: '리얼골드', icon: '🥇', desc: '골든 가챠에서 리얼골드 첫 획득', check: () => tiersObtained.has(45), progress: () => tiersObtained.has(45) ? '완료' : '미달성' },
+      { id: 'first_legend_gold', name: '레전드골드', icon: '🏅', desc: '골든 가챠에서 레전드골드 첫 획득', check: () => tiersObtained.has(46), progress: () => tiersObtained.has(46) ? '완료' : '미달성' },
+      { id: 'first_question_mark', name: '???', icon: '✨', desc: '골든 가챠 최상위 등급 첫 획득', check: () => tiersObtained.has(47), progress: () => tiersObtained.has(47) ? '완료' : '미달성' },
+      { id: 'stardust_first', name: '별의 먼지', icon: '⭐', desc: 'Stardust 첫 획득', check: () => stardustEarnedTotal >= 1, progress: () => stardustEarnedTotal >= 1 ? '완료' : '미달성' },
+      { id: 'golden_roll_10', name: '황금시간 단골', icon: '🌇', desc: '골든 가챠 10회 진행', check: () => goldenRollsTotal >= 10, progress: () => `${Math.min(goldenRollsTotal, 10)} / 10` },
     ];
 
     function checkAchievements(item) {
@@ -3880,6 +5128,11 @@
         currentLegendaryStreak++; maxLegendaryStreak = Math.max(maxLegendaryStreak, currentLegendaryStreak);
         if (lastPityUsed <= 10) lucky10Done = true;
       } else currentLegendaryStreak = 0;
+      checkGenericAchievements();
+    }
+
+    // 롤 외 행동(포션 합성/사용, 상점 납품 등)으로도 달성될 수 있는 업적을 검사
+    function checkGenericAchievements() {
       for (const a of ACHIEVEMENTS) {
         if (!unlockedAchievements.has(a.id) && a.check()) {
           unlockedAchievements.add(a.id);
