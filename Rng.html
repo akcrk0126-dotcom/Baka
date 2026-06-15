@@ -2197,7 +2197,7 @@
         </div>
         <div id="roll-btns">
           <button class="roll-btn" onclick="doRoll(1)">▶ ROLL 1</button>
-          <button class="roll-btn" onclick="doRoll(10)">▶ ROLL 10 <span class="roll-btn-sub">(0.8x LUCK)</span></button>
+          <button class="roll-btn" onclick="doRoll(10)">▶ ROLL 10 <span class="roll-btn-sub">(0.5x LUCK)</span></button>
         </div>
         <div id="last-result-label"></div>
       </div>
@@ -2957,7 +2957,7 @@
       }, DELAYS[item.tier]);
     }
 
-    // ===================== MULTI ROLL (10연차, 각 롤 0.8배 럭) =====================
+    // ===================== MULTI ROLL (10연차, 각 롤 0.5배 럭) =====================
     let multiRollResults = null;
     let multiRollBestItem = null;
     function doMultiRoll() {
@@ -2971,7 +2971,7 @@
       let totalPotionGain = 0;
       const bonusLines = [];
       for (let i = 0; i < 10; i++) {
-        const { item, potionMsg } = rollOne(0.8);
+        const { item, potionMsg } = rollOne(0.5);
         item.mutation = history[0].mutation;
         results.push(item);
         if (potionMsg && potionRewards[item.tier]) totalPotionGain += potionRewards[item.tier];
