@@ -3325,7 +3325,8 @@
       <div id="golden-gacha-btn" class="locked" onclick="openGoldenGacha()">
         <div id="golden-gacha-icon">⭐</div>
         <div id="golden-gacha-label">GOLDEN</div>
-        <div id="golden-gacha-sub-text" class="golden-gacha-sub-cls">다음 황금시간까지<br><span id="golden-gacha-countdown">--:--:--</span></div>
+        <div id="golden-gacha-sub-text" class="golden-gacha-sub-cls">다음 황금시간까지<br><span
+            id="golden-gacha-countdown">--:--:--</span></div>
       </div>
       <div id="gacha-idle">
         <div style="text-align:center">
@@ -3515,8 +3516,10 @@
 
     <div id="odds-page">
       <div id="odds-title">확률표 — Drop Rates</div>
-      <div id="odds-subtitle">100회 보장 시스템(ABSOLUTE ZERO 확정) · Legendary 이상 달성 시 보장 초기화 · Legendary 이상은 화이트 크랙 인트로 후 고유 컷씬 · 포션 사용 시 Epic+
-        확률 2배 · Lucky Potion 50개 합성 시 Ultra Potion 획득 · Ultra Potion 사용 시 Nightshade 이상 확정 획득 · Ultra Potion 5개 합성 시 Celestial Potion 획득 · Celestial Potion 사용 시 Solflare 이상 확정 획득 · ABSOLUTE ZERO 이상의 초월 등급 10종 추가</div>
+      <div id="odds-subtitle">100회 보장 시스템(ABSOLUTE ZERO 확정) · Legendary 이상 달성 시 보장 초기화 · Legendary 이상은 화이트 크랙 인트로 후 고유
+        컷씬 · 포션 사용 시 Epic+
+        확률 2배 · Lucky Potion 50개 합성 시 Ultra Potion 획득 · Ultra Potion 사용 시 Nightshade 이상 확정 획득 · Ultra Potion 5개 합성 시
+        Celestial Potion 획득 · Celestial Potion 사용 시 Solflare 이상 확정 획득 · ABSOLUTE ZERO 이상의 초월 등급 10종 추가</div>
       <div id="odds-table-wrap"></div>
     </div>
 
@@ -3529,13 +3532,16 @@
         <button class="ranking-subtab active" onclick="setRankingMode('tier', this)">최고 등급</button>
         <button class="ranking-subtab" onclick="setRankingMode('rolls', this)">롤 횟수</button>
       </div>
-      <div id="ranking-list"><div class="ranking-loading">로딩 중...</div></div>
+      <div id="ranking-list">
+        <div class="ranking-loading">로딩 중...</div>
+      </div>
     </div>
 
     <div id="cutscenes-page">
       <div id="cutscenes-header">
         <div id="cutscenes-title">컷씬 — Replay</div>
-        <div id="cutscenes-count"><span id="cutscenes-count-num">0</span> / <span id="cutscenes-count-total">0</span> 해금</div>
+        <div id="cutscenes-count"><span id="cutscenes-count-num">0</span> / <span id="cutscenes-count-total">0</span> 해금
+        </div>
       </div>
       <div id="cutscenes-subtitle">뽑아본 적 있는 등급만 다시 볼 수 있습니다 · 보유한 뮤테이션 중 최고 등급으로 재생됩니다</div>
       <div id="cutscenes-list"></div>
@@ -3553,7 +3559,8 @@
           <div id="shop-merchant-line"></div>
         </div>
       </div>
-      <div id="shop-subtitle">도감에서 요청한 등급 + 뮤테이션 조합을 가져오면 포션으로 교환해줍니다 · 납품한 아이템은 도감에서 사라지고, 해당 요청은 즉시 더 어려운 새 요청으로 바뀝니다</div>
+      <div id="shop-subtitle">도감에서 요청한 등급 + 뮤테이션 조합을 가져오면 포션으로 교환해줍니다 · 납품한 아이템은 도감에서 사라지고, 해당 요청은 즉시 더 어려운 새 요청으로 바뀝니다
+      </div>
       <div id="shop-list"></div>
     </div>
 
@@ -4066,6 +4073,15 @@
       celestialPotions = state.celestialPotions ?? d.celestialPotions;
       celestialPotionActive = state.celestialPotionActive ?? d.celestialPotionActive;
       bestTier = state.bestTier ?? d.bestTier;
+      if (history.length > 0) {
+        let realBest = bestTier;
+        for (const h of history) {
+          if (tierPowerRank(h.item.tier) > tierPowerRank(realBest)) {
+            realBest = h.item.tier;
+          }
+        }
+        bestTier = realBest;
+      }
       bestMutationByTier = state.bestMutationByTier ?? {};
       history.length = 0;
       (state.history || []).forEach(h => history.push(h));
@@ -4192,7 +4208,7 @@
         item = pickFromTier(13); // Nightshade(13) 이상 확정
       } else {
         const multiplier = potionActive ? 2 : 1;
-        item = pity >= 100 ? pool[34] : pick(multiplier, luckFactor);
+        item = pity >= 100 ? pool[20] : pick(multiplier, luckFactor);
       }
       lastPityUsed = pity;
       if (tierPowerRank(item.tier) > tierPowerRank(bestTier)) bestTier = item.tier;
