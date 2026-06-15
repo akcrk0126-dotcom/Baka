@@ -525,6 +525,28 @@
       cursor: not-allowed;
     }
 
+    #ultra-potion-craft-btn {
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border: 0.5px solid rgba(192, 132, 252, 0.3);
+      border-radius: 4px;
+      background: rgba(192, 132, 252, 0.08);
+      color: #c084fc;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #ultra-potion-craft-btn:hover {
+      background: rgba(192, 132, 252, 0.18);
+      color: #d8b4fe;
+    }
+
+    #ultra-potion-craft-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
     #ultra-potion-active-badge {
       font-size: 10px;
       letter-spacing: 1px;
@@ -1905,9 +1927,10 @@
             <div id="ultra-potion-count-row">
               <div id="ultra-potion-count">0</div>
               <button id="ultra-potion-use-btn" onclick="useUltraPotion()" disabled>USE</button>
+              <button id="ultra-potion-craft-btn" onclick="craftUltraPotion()" disabled>합성 (10)</button>
               <div id="ultra-potion-active-badge">ACTIVE ✦</div>
             </div>
-            <div id="ultra-potion-effect-desc">Epic+ 확률 10배 · 50회 롤마다 1개 지급</div>
+            <div id="ultra-potion-effect-desc">Lucky Potion 10개 합성 · 사용 시 Nightshade 이상 확정 획득</div>
           </div>
         </div>
         <div id="pity-section">
@@ -2002,7 +2025,7 @@
     <div id="odds-page">
       <div id="odds-title">확률표 — Drop Rates</div>
       <div id="odds-subtitle">100회 보장 시스템 · Legendary 이상 달성 시 보장 초기화 · Legendary 이상은 화이트 크랙 인트로 후 고유 컷씬 · 포션 사용 시 Epic+
-        확률 2배 · Ultra Potion 사용 시 Epic+ 확률 10배 · 50회 롤마다 Ultra Potion 1개 지급</div>
+        확률 2배 · Lucky Potion 10개 합성 시 Ultra Potion 획득 · Ultra Potion 사용 시 Nightshade 이상 확정 획득</div>
       <div id="odds-table-wrap"></div>
     </div>
 
@@ -2478,21 +2501,28 @@
       return pool[0];
     }
 
+    // minTier 이상의 등급들만 가중치 비례로 뽑기 (Ultra Potion: Nightshade(13) 이상 확정)
+    function pickFromTier(minTier) {
+      const candidates = pool.filter(p => p.tier >= minTier);
+      const total = candidates.reduce((s, p) => s + p.chance, 0);
+      let r = Math.random() * total, sum = 0;
+      for (const p of candidates) { sum += p.chance; if (r < sum) return p; }
+      return candidates[candidates.length - 1];
+    }
+
     function rollOne() {
       pity++; totalRolls++;
-      const multiplier = ultraPotionActive ? 10 : (potionActive ? 2 : 1);
-      const item = pity >= 100 ? pool[pool.length - 1] : pick(multiplier);
+      let item;
+      if (ultraPotionActive) {
+        item = pickFromTier(13); // Nightshade(13) 이상 확정
+      } else {
+        const multiplier = potionActive ? 2 : 1;
+        item = pity >= 100 ? pool[pool.length - 1] : pick(multiplier);
+      }
       lastPityUsed = pity;
       if (item.tier > bestTier) bestTier = item.tier;
       if (item.tier >= 9) { legendaryCount++; pity = 0; }
       const potionMsg = computePotionEarn(item.tier);
-      if (totalRolls % 50 === 0) {
-        ultraPotions++;
-        ultraPotionsEarnedTotal++;
-        if (potionMsg) {
-          potionMsg.lines.push('🔴 Ultra Potion ×1 획득! (50회 달성)');
-        }
-      }
       if (potionActive) { potionActive = false; }
       if (ultraPotionActive) { ultraPotionActive = false; }
       updatePotionBtn(); updateUltraPotionBtn();
@@ -2507,7 +2537,7 @@
       potions--; potionsUsedTotal++; potionActive = true;
       document.getElementById('potion-use-btn').style.display = 'none';
       document.getElementById('potion-active-badge').style.display = 'block';
-      updatePotionBtn(); saveProgress();
+      updatePotionBtn(); updateUltraPotionBtn(); saveProgress();
     }
 
     function useUltraPotion() {
@@ -2518,10 +2548,19 @@
       updateUltraPotionBtn(); saveProgress();
     }
 
+    const ULTRA_CRAFT_COST = 10;
+    function craftUltraPotion() {
+      if (potions < ULTRA_CRAFT_COST || ultraPotionActive) return;
+      potions -= ULTRA_CRAFT_COST;
+      ultraPotions++; ultraPotionsEarnedTotal++;
+      updatePotionBtn(); updateUltraPotionBtn(); saveProgress();
+      showPotionToast('🔴 Lucky Potion ×' + ULTRA_CRAFT_COST + ' 합성 → Ultra Potion ×1 획득!');
+    }
+
     // 이번 롤로 얻을 포션 정보를 계산만 하고, 토스트는 결과 공개 시점에 표시한다 (스포일러 방지)
     function computePotionEarn(tier) {
       const reward = potionRewards[tier];
-      if (!reward) return totalRolls % 50 === 0 ? { lines: [] } : null;
+      if (!reward) return null;
       potions += reward; potionsEarnedTotal += reward;
       return { lines: ['🧪 Lucky Potion ×' + reward + ' 획득! (' + pool[tier].name + ')'] };
     }
@@ -2554,10 +2593,16 @@
 
     function updateUltraPotionBtn() {
       const btn = document.getElementById('ultra-potion-use-btn');
+      const craftBtn = document.getElementById('ultra-potion-craft-btn');
       const badge = document.getElementById('ultra-potion-active-badge');
       document.getElementById('ultra-potion-count').innerText = ultraPotions;
-      if (ultraPotionActive) { btn.style.display = 'none'; badge.style.display = 'block'; }
-      else { btn.style.display = 'block'; badge.style.display = 'none'; btn.disabled = ultraPotions <= 0; }
+      if (ultraPotionActive) {
+        btn.style.display = 'none'; badge.style.display = 'block';
+        craftBtn.disabled = true;
+      } else {
+        btn.style.display = 'block'; badge.style.display = 'none'; btn.disabled = ultraPotions <= 0;
+        craftBtn.disabled = potions < ULTRA_CRAFT_COST;
+      }
     }
 
     // 진행 중인 롤의 정보 (스킵 시 사용)
@@ -3242,7 +3287,7 @@
       { id: 'potion_collect_10', name: '포션 수집가', icon: '🧪', desc: '누적 포션 10개 획득', check: () => potionsEarnedTotal >= 10, progress: () => `${Math.min(potionsEarnedTotal, 10)} / 10` },
       { id: 'potion_collect_50', name: '포션 연금술사', icon: '🧴', desc: '누적 포션 50개 획득', check: () => potionsEarnedTotal >= 50, progress: () => `${Math.min(potionsEarnedTotal, 50)} / 50` },
       { id: 'potion_use_10', name: '행운의 가호', icon: '✨', desc: '포션 10개 사용', check: () => potionsUsedTotal >= 10, progress: () => `${Math.min(potionsUsedTotal, 10)} / 10` },
-      { id: 'ultra_potion_first', name: '붉은 정수', icon: '🔴', desc: 'Ultra Potion 첫 획득 (50회 롤 달성)', check: () => ultraPotionsEarnedTotal >= 1, progress: () => ultraPotionsEarnedTotal >= 1 ? '완료' : '미달성' },
+      { id: 'ultra_potion_first', name: '붉은 정수', icon: '🔴', desc: 'Lucky Potion 10개를 합성해 Ultra Potion 첫 획득', check: () => ultraPotionsEarnedTotal >= 1, progress: () => ultraPotionsEarnedTotal >= 1 ? '완료' : '미달성' },
       { id: 'ultra_potion_use_5', name: '극한의 도박', icon: '💢', desc: 'Ultra Potion 5개 사용', check: () => ultraPotionsUsedTotal >= 5, progress: () => `${Math.min(ultraPotionsUsedTotal, 5)} / 5` },
     ];
 
