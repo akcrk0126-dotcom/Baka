@@ -92,6 +92,13 @@
       letter-spacing: 2px;
     }
 
+    #nav-user-title {
+      color: #ffd700;
+      font-size: 10px;
+      letter-spacing: 1px;
+      margin-right: 8px;
+    }
+
     #nav-logout-btn {
       font-size: 10px;
       letter-spacing: 1px;
@@ -2209,6 +2216,75 @@
       margin-top: 4px;
     }
 
+    /* TITLE (타이틀) SECTION */
+    #title-section {
+      margin-bottom: 32px;
+    }
+
+    #title-section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    #title-section-label {
+      font-size: 11px;
+      letter-spacing: 6px;
+      color: #444;
+      text-transform: uppercase;
+    }
+
+    #title-equipped-current {
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: #ffd700;
+    }
+
+    #title-equipped-current b {
+      color: #fff;
+    }
+
+    #title-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .title-chip {
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: 0.5px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.02);
+      color: #999;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .title-chip:hover {
+      border-color: rgba(255, 215, 0, 0.35);
+      color: #ffd700;
+    }
+
+    .title-chip.equipped {
+      border-color: rgba(255, 215, 0, 0.5);
+      background: rgba(255, 215, 0, 0.08);
+      color: #ffd700;
+      font-weight: 700;
+    }
+
+    .title-chip.none {
+      font-style: italic;
+    }
+
+    #title-empty {
+      font-size: 11px;
+      color: #444;
+      letter-spacing: 1px;
+    }
+
     /* RANKING */
     #ranking-page {
       display: none;
@@ -2674,6 +2750,276 @@
     }
 
 
+    /* GUILD */
+    #guild-page {
+      display: none;
+      padding: 40px 32px;
+      min-height: calc(100vh - 55px);
+    }
+
+    #guild-page.active {
+      display: block;
+    }
+
+    #guild-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    #guild-title {
+      font-size: 11px;
+      letter-spacing: 6px;
+      color: #444;
+      text-transform: uppercase;
+    }
+
+    #guild-refresh {
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 5px 12px;
+      border-radius: 4px;
+      border: 0.5px solid rgba(255, 255, 255, 0.08);
+      background: transparent;
+      color: #555;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #guild-refresh:hover {
+      color: #aaa;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    #guild-noguild {
+      display: none;
+    }
+
+    #guild-noguild.show {
+      display: block;
+    }
+
+    #guild-search-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    #guild-search-input {
+      flex: 1;
+      height: 42px;
+      padding: 0 14px;
+      border-radius: 8px;
+      border: 0.5px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.02);
+      color: #ddd;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    #guild-search-input:focus {
+      outline: none;
+      border-color: rgba(124, 77, 255, 0.4);
+    }
+
+    #guild-search-btn {
+      height: 42px;
+      padding: 0 22px;
+      border-radius: 8px;
+      border: 0.5px solid rgba(124, 77, 255, 0.3);
+      background: rgba(124, 77, 255, 0.08);
+      color: #c084fc;
+      font-size: 12px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #guild-search-btn:hover {
+      background: rgba(124, 77, 255, 0.18);
+    }
+
+    #guild-search-result {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .guild-result-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 0.5px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.02);
+      animation: fadeInUp 0.3s ease;
+    }
+
+    .guild-result-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .guild-result-name {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #ddd;
+    }
+
+    .guild-result-meta {
+      font-size: 10px;
+      color: #555;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    .guild-join-btn {
+      font-size: 10px;
+      letter-spacing: 2px;
+      padding: 9px 18px;
+      border-radius: 6px;
+      border: 0.5px solid rgba(124, 77, 255, 0.3);
+      background: rgba(124, 77, 255, 0.08);
+      color: #c084fc;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .guild-join-btn:hover {
+      background: rgba(124, 77, 255, 0.18);
+    }
+
+    #guild-joined {
+      display: none;
+    }
+
+    #guild-joined.show {
+      display: block;
+    }
+
+    #guild-info-card {
+      border: 0.5px solid rgba(124, 77, 255, 0.2);
+      border-radius: 12px;
+      padding: 22px 26px;
+      background: rgba(124, 77, 255, 0.04);
+      margin-bottom: 20px;
+    }
+
+    #guild-info-name {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #c084fc;
+      margin-bottom: 16px;
+    }
+
+    #guild-info-stats {
+      display: flex;
+      gap: 36px;
+      margin-bottom: 16px;
+    }
+
+    .guild-stat-item {
+      text-align: center;
+    }
+
+    .guild-stat-num {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ddd;
+    }
+
+    .guild-stat-lbl {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #555;
+      margin-top: 2px;
+    }
+
+    #guild-level-bar-wrap {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    #guild-level-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #7c4dff, #c084fc);
+      border-radius: 2px;
+      transition: width 0.4s;
+    }
+
+    #guild-level-sub {
+      font-size: 10px;
+      color: #555;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    #guild-leave-btn {
+      font-size: 10px;
+      letter-spacing: 2px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 0.5px solid rgba(255, 82, 82, 0.25);
+      background: rgba(255, 82, 82, 0.05);
+      color: #ff8a80;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    #guild-leave-btn:hover {
+      background: rgba(255, 82, 82, 0.15);
+    }
+
+    #guild-member-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .guild-member-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border: 0.5px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .guild-member-name {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #ddd;
+    }
+
+    .guild-member-tier {
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    .guild-loading,
+    .guild-empty {
+      text-align: center;
+      padding: 40px 0;
+      color: #444;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
     #logout-modal {
       position: fixed;
       inset: 0;
@@ -2805,9 +3151,11 @@
         <button class="nav-tab" onclick="switchTab('odds')">확률표</button>
         <button class="nav-tab" onclick="switchTab('cutscenes')">컷씬</button>
         <button class="nav-tab" onclick="switchTab('shop')">상점</button>
+        <button class="nav-tab" onclick="switchTab('guild')">길드</button>
         <button class="nav-tab" onclick="switchTab('ranking')">랭킹</button>
       </div>
       <div id="nav-user">
+        <span id="nav-user-title"></span>
         <span id="nav-user-name"></span>
         <button id="nav-logout-btn" onclick="openLogoutModal()">LOGOUT</button>
       </div>
@@ -2818,8 +3166,7 @@
       <div id="golden-gacha-btn" class="locked" onclick="openGoldenGacha()">
         <div id="golden-gacha-icon">⭐</div>
         <div id="golden-gacha-label">GOLDEN</div>
-        <div id="golden-gacha-sub-text" class="golden-gacha-sub-cls">다음 황금시간까지<br><span
-            id="golden-gacha-countdown">--:--:--</span></div>
+        <div id="golden-gacha-sub-text" class="golden-gacha-sub-cls">다음 황금시간까지<br><span id="golden-gacha-countdown">--:--:--</span></div>
       </div>
       <div id="gacha-idle">
         <div style="text-align:center">
@@ -2998,15 +3345,20 @@
         <div id="ach-title">업적 — Achievements</div>
         <div id="ach-count"><span id="ach-count-num">0</span> / <span id="ach-count-total">0</span> 달성</div>
       </div>
+      <div id="title-section">
+        <div id="title-section-header">
+          <div id="title-section-label">타이틀 — Titles</div>
+          <div id="title-equipped-current">장착 중: <b id="title-equipped-name">없음</b></div>
+        </div>
+        <div id="title-list"></div>
+      </div>
       <div id="ach-grid"></div>
     </div>
 
     <div id="odds-page">
       <div id="odds-title">확률표 — Drop Rates</div>
-      <div id="odds-subtitle">100회 보장 시스템(ABSOLUTE ZERO 확정) · Legendary 이상 달성 시 보장 초기화 · Legendary 이상은 화이트 크랙 인트로 후 고유
-        컷씬 · 포션 사용 시 Epic+
-        확률 2배 · Lucky Potion 50개 합성 시 Ultra Potion 획득 · Ultra Potion 사용 시 Nightshade 이상 확정 획득 · Ultra Potion 5개 합성 시
-        Celestial Potion 획득 · Celestial Potion 사용 시 Solflare 이상 확정 획득 · ABSOLUTE ZERO 이상의 초월 등급 10종 추가</div>
+      <div id="odds-subtitle">100회 보장 시스템(ABSOLUTE ZERO 확정) · Legendary 이상 달성 시 보장 초기화 · Legendary 이상은 화이트 크랙 인트로 후 고유 컷씬 · 포션 사용 시 Epic+
+        확률 2배 · Lucky Potion 50개 합성 시 Ultra Potion 획득 · Ultra Potion 사용 시 Nightshade 이상 확정 획득 · Ultra Potion 5개 합성 시 Celestial Potion 획득 · Celestial Potion 사용 시 Solflare 이상 확정 획득 · ABSOLUTE ZERO 이상의 초월 등급 10종 추가</div>
       <div id="odds-table-wrap"></div>
     </div>
 
@@ -3019,16 +3371,13 @@
         <button class="ranking-subtab active" onclick="setRankingMode('tier', this)">최고 등급</button>
         <button class="ranking-subtab" onclick="setRankingMode('rolls', this)">롤 횟수</button>
       </div>
-      <div id="ranking-list">
-        <div class="ranking-loading">로딩 중...</div>
-      </div>
+      <div id="ranking-list"><div class="ranking-loading">로딩 중...</div></div>
     </div>
 
     <div id="cutscenes-page">
       <div id="cutscenes-header">
         <div id="cutscenes-title">컷씬 — Replay</div>
-        <div id="cutscenes-count"><span id="cutscenes-count-num">0</span> / <span id="cutscenes-count-total">0</span> 해금
-        </div>
+        <div id="cutscenes-count"><span id="cutscenes-count-num">0</span> / <span id="cutscenes-count-total">0</span> 해금</div>
       </div>
       <div id="cutscenes-subtitle">뽑아본 적 있는 등급만 다시 볼 수 있습니다 · 보유한 뮤테이션 중 최고 등급으로 재생됩니다</div>
       <div id="cutscenes-list"></div>
@@ -3046,9 +3395,49 @@
           <div id="shop-merchant-line"></div>
         </div>
       </div>
-      <div id="shop-subtitle">도감에서 요청한 등급 + 뮤테이션 조합을 가져오면 포션으로 교환해줍니다 · 납품한 아이템은 도감에서 사라지고, 해당 요청은 즉시 더 어려운 새 요청으로 바뀝니다
-      </div>
+      <div id="shop-subtitle">도감에서 요청한 등급 + 뮤테이션 조합을 가져오면 포션으로 교환해줍니다 · 납품한 아이템은 도감에서 사라지고, 해당 요청은 즉시 더 어려운 새 요청으로 바뀝니다</div>
       <div id="shop-list"></div>
+    </div>
+
+    <div id="guild-page">
+      <div id="guild-header">
+        <div id="guild-title">길드 — Guild</div>
+        <button id="guild-refresh" onclick="renderGuild()">새로고침</button>
+      </div>
+
+      <div id="guild-noguild">
+        <div id="guild-search-row">
+          <input id="guild-search-input" type="text" placeholder="길드 이름 검색 또는 생성할 이름 입력" maxlength="20" />
+          <button id="guild-search-btn" onclick="searchGuild()">검색</button>
+        </div>
+        <div id="guild-search-result"></div>
+      </div>
+
+      <div id="guild-joined">
+        <div id="guild-info-card">
+          <div id="guild-info-name"></div>
+          <div id="guild-info-stats">
+            <div class="guild-stat-item">
+              <div class="guild-stat-num" id="guild-info-score">0</div>
+              <div class="guild-stat-lbl">길드 점수</div>
+            </div>
+            <div class="guild-stat-item">
+              <div class="guild-stat-num" id="guild-info-level">1</div>
+              <div class="guild-stat-lbl">길드 레벨</div>
+            </div>
+            <div class="guild-stat-item">
+              <div class="guild-stat-num" id="guild-info-members">0</div>
+              <div class="guild-stat-lbl">멤버 수</div>
+            </div>
+          </div>
+          <div id="guild-level-bar-wrap">
+            <div id="guild-level-bar" style="width:0%"></div>
+          </div>
+          <div id="guild-level-sub"></div>
+          <button id="guild-leave-btn" onclick="leaveGuild()">길드 탈퇴</button>
+        </div>
+        <div id="guild-member-list"></div>
+      </div>
     </div>
   </div>
 
@@ -3325,6 +3714,7 @@
     let equippedTitle = ''; // 장착 중인 타이틀
     let goldenRollsTotal = 0; // 누적 골든 가챠 횟수
     let goldenTickets = 0, lastGoldenClaimDate = ''; // 보유 골든롤 티켓 수, 마지막 티켓 수령 날짜
+    let guildName = '', guildJoinRolls = 0; // 가입한 길드 이름, 가입 시점의 totalRolls (레벨 계산용)
 
     // ===================== AUTH =====================
     let currentUser = null;
@@ -3430,6 +3820,7 @@
     function loginSuccess(nick) {
       currentUser = nick;
       document.getElementById('nav-user-name').innerText = nick;
+      updateNavTitle();
       document.getElementById('auth-overlay').classList.add('hidden');
       document.getElementById('app').style.display = 'flex';
       document.getElementById('login-btn').disabled = false;
@@ -3477,7 +3868,8 @@
         stardust: 0, stardustEarnedTotal: 0,
         equippedTitle: '',
         goldenRollsTotal: 0,
-        goldenTickets: 0, lastGoldenClaimDate: ''
+        goldenTickets: 0, lastGoldenClaimDate: '',
+        guildName: '', guildJoinRolls: 0
       };
     }
 
@@ -3517,6 +3909,8 @@
       goldenRollsTotal = state.goldenRollsTotal ?? 0;
       goldenTickets = state.goldenTickets ?? 0;
       lastGoldenClaimDate = state.lastGoldenClaimDate ?? '';
+      guildName = state.guildName ?? '';
+      guildJoinRolls = state.guildJoinRolls ?? 0;
       currentEpicStreak = 0; currentLegendaryStreak = 0;
     }
 
@@ -3540,7 +3934,8 @@
         stardust, stardustEarnedTotal,
         equippedTitle,
         goldenRollsTotal,
-        goldenTickets, lastGoldenClaimDate
+        goldenTickets, lastGoldenClaimDate,
+        guildName, guildJoinRolls
       };
     }
 
@@ -3563,12 +3958,15 @@
     // ===================== GACHA =====================
     // multiplier: 포션 등으로 인한 Epic+ 확률 배수 (>1이면 상승)
     // luckFactor: 전체 럭 배율 (1=정상, 0.8=10연차 페널티로 Epic+ 확률 20% 감소)
+    // 일반 가챠(ROLL 1/10)에서 사용할 풀 — 골든 가챠 전용 등급(45~47)은 제외
+    const normalPool = pool.filter(p => !GOLDEN_ONLY_TIERS.includes(p.tier));
+
     function pick(multiplier, luckFactor) {
       const factor = (multiplier && multiplier > 1) ? multiplier : 1;
       const luck = (luckFactor && luckFactor > 0) ? luckFactor : 1;
       const effectiveFactor = factor * luck;
       if (effectiveFactor !== 1) {
-        const bp = pool.map(p => ({ ...p }));
+        const bp = normalPool.map(p => ({ ...p }));
         let bonus = 0;
         for (let p of bp) { if (p.tier >= 5) { bonus += p.chance * (effectiveFactor - 1); p.chance *= effectiveFactor; } }
         const lowSum = bp[0].chance + bp[1].chance + bp[2].chance + bp[3].chance + bp[4].chance;
@@ -3579,7 +3977,7 @@
         return pool[5];
       }
       let r = Math.random() * 100, sum = 0;
-      for (let p of pool) { sum += p.chance; if (r < sum) return p; }
+      for (let p of normalPool) { sum += p.chance; if (r < sum) return p; }
       return pool[0];
     }
 
@@ -3599,8 +3997,9 @@
     }
 
     // minTier 이상의 등급들만 가중치 비례로 뽑기 (Ultra Potion: Nightshade(13) 이상 확정)
+    // 골든 가챠 전용 등급(45~47)은 일반 가챠에서 절대 나오지 않도록 제외
     function pickFromTier(minTier) {
-      const candidates = pool.filter(p => p.tier >= minTier);
+      const candidates = normalPool.filter(p => p.tier >= minTier);
       const total = candidates.reduce((s, p) => s + p.chance, 0);
       let r = Math.random() * total, sum = 0;
       for (const p of candidates) { sum += p.chance; if (r < sum) return p; }
@@ -4663,7 +5062,7 @@
     }
 
     function switchTab(tab) {
-      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'cutscenes', 'shop', 'ranking'];
+      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'cutscenes', 'shop', 'guild', 'ranking'];
       document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', tabs[i] === tab));
       tabs.forEach(id => document.getElementById(id + '-page').classList.toggle('active', id === tab));
       if (tab === 'dojang') renderDojang();
@@ -4671,6 +5070,7 @@
       if (tab === 'ach') renderAchievements();
       if (tab === 'cutscenes') renderCutscenes();
       if (tab === 'shop') renderShop();
+      if (tab === 'guild') renderGuild();
       if (tab === 'ranking') renderRanking();
     }
 
@@ -4701,7 +5101,6 @@
 
     function renderOdds() {
       const wrap = document.getElementById('odds-table-wrap');
-      const normalPool = pool.filter(p => !GOLDEN_ONLY_TIERS.includes(p.tier));
       const maxChance = normalPool[0].chance; let cumul = 0;
       wrap.innerHTML = `
     <div class="odds-table-header">
@@ -4996,6 +5395,187 @@
       return documents;
     }
 
+    // ===================== GUILD =====================
+    // guilds/{길드명} 문서: { members: [닉네임, ...], createdAt }
+    async function fetchGuildDoc(name) {
+      try {
+        const url = `${FIRESTORE_BASE}/guilds/${encodeURIComponent(name)}?key=${FIREBASE_API_KEY}`;
+        const res = await fetch(url);
+        if (res.status === 404) return null;
+        if (!res.ok) return null;
+        const doc = await res.json();
+        return fromFirestoreDoc(doc);
+      } catch (e) {
+        console.error('fetchGuildDoc error', e);
+        return null;
+      }
+    }
+
+    async function saveGuildDoc(name, data) {
+      try {
+        const fields = {};
+        for (const k in data) fields[k] = toFirestoreValue(data[k]);
+        const url = `${FIRESTORE_BASE}/guilds/${encodeURIComponent(name)}?key=${FIREBASE_API_KEY}`;
+        const res = await fetch(url, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fields })
+        });
+        if (!res.ok) {
+          const errText = await res.text();
+          window.__lastGuildError = `PATCH ${res.status}: ${errText}`;
+          console.error('saveGuildDoc failed', res.status, errText);
+          return false;
+        }
+        return true;
+      } catch (e) {
+        console.error('saveGuildDoc error', e);
+        window.__lastGuildError = (e && e.message) ? e.message : String(e);
+        return false;
+      }
+    }
+
+    async function fetchAccountByNick(nick) {
+      try {
+        const url = `${FIRESTORE_BASE}/accounts/${encodeURIComponent(nick)}?key=${FIREBASE_API_KEY}`;
+        const res = await fetch(url);
+        if (!res.ok) return null;
+        const doc = await res.json();
+        return fromFirestoreDoc(doc);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // 길드 검색/생성
+    async function searchGuild() {
+      const input = document.getElementById('guild-search-input');
+      const name = input.value.trim();
+      const resultEl = document.getElementById('guild-search-result');
+      if (!name) { resultEl.innerHTML = ''; return; }
+      resultEl.innerHTML = '<div class="guild-loading">검색 중...</div>';
+      const guild = await fetchGuildDoc(name);
+      if (guild && Array.isArray(guild.members)) {
+        resultEl.innerHTML = `<div class="guild-result-card">
+        <div class="guild-result-info">
+          <div class="guild-result-name">${name}</div>
+          <div class="guild-result-meta">멤버 ${guild.members.length}명</div>
+        </div>
+        <button class="guild-join-btn" onclick="joinGuild('${name.replace(/'/g, "\\'")}', false, this)">가입</button>
+      </div>`;
+      } else {
+        resultEl.innerHTML = `<div class="guild-result-card">
+        <div class="guild-result-info">
+          <div class="guild-result-name">${name}</div>
+          <div class="guild-result-meta">존재하지 않는 길드 — 새로 생성할 수 있습니다</div>
+        </div>
+        <button class="guild-join-btn" onclick="joinGuild('${name.replace(/'/g, "\\'")}', true, this)">생성 + 가입</button>
+      </div>`;
+      }
+    }
+
+    async function joinGuild(name, isNew, btn) {
+      if (!currentUser) return;
+      if (btn) { btn.disabled = true; btn.innerText = '처리 중...'; }
+      let guild = await fetchGuildDoc(name);
+      let members = (guild && Array.isArray(guild.members)) ? guild.members.slice() : [];
+      if (!members.includes(currentUser)) members.push(currentUser);
+      const ok = await saveGuildDoc(name, { members, createdAt: guild?.createdAt || Date.now() });
+      if (!ok) {
+        if (btn) { btn.disabled = false; btn.innerText = isNew ? '생성 + 가입' : '가입'; }
+        showPotionToast('길드 가입 실패: ' + (window.__lastGuildError || '알 수 없는 오류'));
+        return;
+      }
+      guildName = name;
+      guildJoinRolls = totalRolls;
+      saveProgress();
+      checkGenericAchievements();
+      renderGuild();
+    }
+
+    async function leaveGuild() {
+      if (!currentUser || !guildName) return;
+      const name = guildName;
+      let guild = await fetchGuildDoc(name);
+      let members = (guild && Array.isArray(guild.members)) ? guild.members.slice() : [];
+      members = members.filter(m => m !== currentUser);
+      await saveGuildDoc(name, { members, createdAt: guild?.createdAt || Date.now() });
+      guildName = '';
+      guildJoinRolls = 0;
+      saveProgress();
+      renderGuild();
+    }
+
+    // 길드 점수 = 멤버들의 bestTier 합산 (0 미만은 0으로 처리)
+    // 길드 레벨 = 가입 이후 멤버들이 누적으로 진행한 롤 수 합산 / 100 + 1
+    async function renderGuild() {
+      const noGuildEl = document.getElementById('guild-noguild');
+      const joinedEl = document.getElementById('guild-joined');
+
+      if (!guildName) {
+        noGuildEl.classList.add('show');
+        joinedEl.classList.remove('show');
+        return;
+      }
+
+      noGuildEl.classList.remove('show');
+      joinedEl.classList.add('show');
+      document.getElementById('guild-info-name').innerText = guildName;
+      document.getElementById('guild-member-list').innerHTML = '<div class="guild-loading">멤버 정보 불러오는 중...</div>';
+
+      const guild = await fetchGuildDoc(guildName);
+      if (!guild || !Array.isArray(guild.members) || guild.members.length === 0) {
+        // 길드가 삭제되었거나 멤버 목록이 비어있으면 자동 탈퇴 처리
+        guildName = ''; guildJoinRolls = 0; saveProgress();
+        noGuildEl.classList.add('show');
+        joinedEl.classList.remove('show');
+        return;
+      }
+
+      const members = guild.members;
+      let totalScore = 0, totalRollsSinceJoin = 0;
+      const memberRows = [];
+
+      for (const nick of members) {
+        let acc;
+        if (nick === currentUser) {
+          acc = { state: { bestTier, totalRolls } };
+        } else {
+          acc = await fetchAccountByNick(nick);
+        }
+        const state = acc?.state || {};
+        const memberBestTier = Math.max(0, state.bestTier ?? -1);
+        totalScore += memberBestTier;
+        if (nick === currentUser) {
+          totalRollsSinceJoin += Math.max(0, totalRolls - guildJoinRolls);
+        } else {
+          // 다른 멤버는 가입 시점 기록이 없으므로 전체 totalRolls로 근사
+          totalRollsSinceJoin += Math.max(0, state.totalRolls ?? 0);
+        }
+        const item = pool[state.bestTier] || null;
+        memberRows.push({ nick, bestTier: state.bestTier ?? -1, item });
+      }
+
+      const guildLevel = Math.floor(totalRollsSinceJoin / 100) + 1;
+      const levelProgress = totalRollsSinceJoin % 100;
+
+      document.getElementById('guild-info-score').innerText = totalScore;
+      document.getElementById('guild-info-level').innerText = guildLevel;
+      document.getElementById('guild-info-members').innerText = members.length;
+      document.getElementById('guild-level-bar').style.width = levelProgress + '%';
+      document.getElementById('guild-level-sub').innerText = `다음 레벨까지 ${levelProgress} / 100 롤`;
+
+      memberRows.sort((a, b) => b.bestTier - a.bestTier);
+      document.getElementById('guild-member-list').innerHTML = memberRows.map(m => {
+        const isMe = m.nick === currentUser;
+        const tierText = m.item ? `<span style="color:${m.item.color}">${m.item.name}</span>` : '<span style="color:#444">기록 없음</span>';
+        return `<div class="guild-member-card">
+        <div class="guild-member-name">${m.nick}${isMe ? ' (나)' : ''}</div>
+        <div class="guild-member-tier">${tierText}</div>
+      </div>`;
+      }).join('');
+    }
+
     let rankingMode = 'tier'; // 'tier' | 'rolls'
     function setRankingMode(mode, btn) {
       rankingMode = mode;
@@ -5087,37 +5667,38 @@
 
     // ===================== ACHIEVEMENTS =====================
     const ACHIEVEMENTS = [
-      { id: 'first_roll', name: '첫 발걸음', icon: '🎲', desc: '롤을 1회 진행하세요', check: () => totalRolls >= 1, progress: () => `${Math.min(totalRolls, 1)} / 1` },
-      { id: 'roll_100', name: '백 번의 도전', icon: '🎯', desc: '누적 100회 롤 달성', check: () => totalRolls >= 100, progress: () => `${Math.min(totalRolls, 100)} / 100` },
-      { id: 'roll_1000', name: '천 번의 인내', icon: '🏆', desc: '누적 1000회 롤 달성', check: () => totalRolls >= 1000, progress: () => `${Math.min(totalRolls, 1000)} / 1000` },
-      { id: 'roll_10000', name: '만 번의 집념', icon: '👑', desc: '누적 10000회 롤 달성', check: () => totalRolls >= 10000, progress: () => `${Math.min(totalRolls, 10000)} / 10000` },
-      { id: 'first_legendary', name: '전설의 시작', icon: '⭐', desc: 'Legendary 등급 첫 획득', check: () => tiersObtained.has(9), progress: () => tiersObtained.has(9) ? '완료' : '미달성' },
-      { id: 'first_sentinel', name: '수호자의 가호', icon: '🛡️', desc: 'Sentinel 등급 첫 획득', check: () => tiersObtained.has(10), progress: () => tiersObtained.has(10) ? '완료' : '미달성' },
-      { id: 'first_beast', name: '야수의 포효', icon: '🔥', desc: 'Beast 등급 첫 획득', check: () => tiersObtained.has(12), progress: () => tiersObtained.has(12) ? '완료' : '미달성' },
-      { id: 'first_celestial', name: '천체의 빛', icon: '💎', desc: 'Celestial 등급 첫 획득', check: () => tiersObtained.has(15), progress: () => tiersObtained.has(15) ? '완료' : '미달성' },
-      { id: 'first_eclipse', name: '그림자 식', icon: '🌑', desc: 'Eclipse 등급 첫 획득', check: () => tiersObtained.has(22), progress: () => tiersObtained.has(22) ? '완료' : '미달성' },
-      { id: 'first_infinity', name: '무한의 경계', icon: '♾️', desc: 'Infinity 등급 첫 획득', check: () => tiersObtained.has(27), progress: () => tiersObtained.has(27) ? '완료' : '미달성' },
-      { id: 'first_prime', name: '설계자의 인장', icon: '⚙️', desc: 'PRIME ARCHITECT 첫 획득', check: () => tiersObtained.has(31), progress: () => tiersObtained.has(31) ? '완료' : '미달성' },
-      { id: 'first_void', name: '공허의 군주', icon: '🌌', desc: 'VOID SOVEREIGN 첫 획득', check: () => tiersObtained.has(32), progress: () => tiersObtained.has(32) ? '완료' : '미달성' },
-      { id: 'first_absolute_zero', name: '절대영도', icon: '❄️', desc: 'ABSOLUTE ZERO 첫 획득', check: () => tiersObtained.has(34), progress: () => tiersObtained.has(34) ? '완료' : '미달성' },
-      { id: 'first_god_emperor', name: '신의 자리', icon: '👑', desc: 'GOD EMPEROR 첫 획득', check: () => tiersObtained.has(44), progress: () => tiersObtained.has(44) ? '완료' : '미달성' },
-      { id: 'lucky_10', name: '행운의 별', icon: '🍀', desc: '10회 안에 Legendary 이상 획득', check: () => lucky10Done, progress: () => lucky10Done ? '완료' : '미달성' },
-      { id: 'epic_streak_3', name: '에픽 연타', icon: '⚡', desc: 'Epic 이상 등급 3연속 획득', check: () => maxEpicStreak >= 3, progress: () => `최고 ${maxEpicStreak} / 3 연속` },
-      { id: 'legendary_streak_2', name: '겹경사', icon: '💥', desc: 'Legendary 이상 2연속 획득', check: () => maxLegendaryStreak >= 2, progress: () => `최고 ${maxLegendaryStreak} / 2 연속` },
-      { id: 'potion_collect_10', name: '포션 수집가', icon: '🧪', desc: '누적 포션 10개 획득', check: () => potionsEarnedTotal >= 10, progress: () => `${Math.min(potionsEarnedTotal, 10)} / 10` },
-      { id: 'potion_collect_50', name: '포션 연금술사', icon: '🧴', desc: '누적 포션 50개 획득', check: () => potionsEarnedTotal >= 50, progress: () => `${Math.min(potionsEarnedTotal, 50)} / 50` },
-      { id: 'potion_use_10', name: '행운의 가호', icon: '✨', desc: '포션 10개 사용', check: () => potionsUsedTotal >= 10, progress: () => `${Math.min(potionsUsedTotal, 10)} / 10` },
-      { id: 'ultra_potion_first', name: '붉은 정수', icon: '🔴', desc: 'Lucky Potion 50개를 합성해 Ultra Potion 첫 획득', check: () => ultraPotionsEarnedTotal >= 1, progress: () => ultraPotionsEarnedTotal >= 1 ? '완료' : '미달성' },
-      { id: 'ultra_potion_use_5', name: '극한의 도박', icon: '💢', desc: 'Ultra Potion 5개 사용', check: () => ultraPotionsUsedTotal >= 5, progress: () => `${Math.min(ultraPotionsUsedTotal, 5)} / 5` },
-      { id: 'celestial_potion_first', name: '천상의 빛', icon: '🌟', desc: 'Ultra Potion 5개를 합성해 Celestial Potion 첫 획득', check: () => celestialPotionsEarnedTotal >= 1, progress: () => celestialPotionsEarnedTotal >= 1 ? '완료' : '미달성' },
-      { id: 'celestial_potion_use_3', name: '천상의 가호', icon: '✨', desc: 'Celestial Potion 3개 사용', check: () => celestialPotionsUsedTotal >= 3, progress: () => `${Math.min(celestialPotionsUsedTotal, 3)} / 3` },
-      { id: 'shop_deliver_first', name: '상인과의 거래', icon: '🤝', desc: '상점에 첫 납품 완료', check: () => shopDeliveredTotal >= 1, progress: () => shopDeliveredTotal >= 1 ? '완료' : '미달성' },
-      { id: 'shop_deliver_10', name: '단골 손님', icon: '📦', desc: '상점에 10회 납품', check: () => shopDeliveredTotal >= 10, progress: () => `${Math.min(shopDeliveredTotal, 10)} / 10` },
-      { id: 'first_real_gold', name: '리얼골드', icon: '🥇', desc: '골든 가챠에서 리얼골드 첫 획득', check: () => tiersObtained.has(45), progress: () => tiersObtained.has(45) ? '완료' : '미달성' },
-      { id: 'first_legend_gold', name: '레전드골드', icon: '🏅', desc: '골든 가챠에서 레전드골드 첫 획득', check: () => tiersObtained.has(46), progress: () => tiersObtained.has(46) ? '완료' : '미달성' },
-      { id: 'first_question_mark', name: '???', icon: '✨', desc: '골든 가챠 최상위 등급 첫 획득', check: () => tiersObtained.has(47), progress: () => tiersObtained.has(47) ? '완료' : '미달성' },
-      { id: 'stardust_first', name: '별의 먼지', icon: '⭐', desc: 'Stardust 첫 획득', check: () => stardustEarnedTotal >= 1, progress: () => stardustEarnedTotal >= 1 ? '완료' : '미달성' },
-      { id: 'golden_roll_10', name: '황금시간 단골', icon: '🌇', desc: '골든 가챠 10회 진행', check: () => goldenRollsTotal >= 10, progress: () => `${Math.min(goldenRollsTotal, 10)} / 10` },
+      { id: 'first_roll', name: '첫 발걸음', icon: '🎲', title: '초보 소환사', desc: '롤을 1회 진행하세요', check: () => totalRolls >= 1, progress: () => `${Math.min(totalRolls, 1)} / 1` },
+      { id: 'roll_100', name: '백 번의 도전', icon: '🎯', title: '도전자', desc: '누적 100회 롤 달성', check: () => totalRolls >= 100, progress: () => `${Math.min(totalRolls, 100)} / 100` },
+      { id: 'roll_1000', name: '천 번의 인내', icon: '🏆', title: '인내의 화신', desc: '누적 1000회 롤 달성', check: () => totalRolls >= 1000, progress: () => `${Math.min(totalRolls, 1000)} / 1000` },
+      { id: 'roll_10000', name: '만 번의 집념', icon: '👑', title: '소환의 왕', desc: '누적 10000회 롤 달성', check: () => totalRolls >= 10000, progress: () => `${Math.min(totalRolls, 10000)} / 10000` },
+      { id: 'first_legendary', name: '전설의 시작', icon: '⭐', title: '전설의 시작', desc: 'Legendary 등급 첫 획득', check: () => tiersObtained.has(9), progress: () => tiersObtained.has(9) ? '완료' : '미달성' },
+      { id: 'first_sentinel', name: '수호자의 가호', icon: '🛡️', title: '수호자', desc: 'Sentinel 등급 첫 획득', check: () => tiersObtained.has(10), progress: () => tiersObtained.has(10) ? '완료' : '미달성' },
+      { id: 'first_beast', name: '야수의 포효', icon: '🔥', title: '야수의 사역자', desc: 'Beast 등급 첫 획득', check: () => tiersObtained.has(12), progress: () => tiersObtained.has(12) ? '완료' : '미달성' },
+      { id: 'first_celestial', name: '천체의 빛', icon: '💎', title: '천체의 인도자', desc: 'Celestial 등급 첫 획득', check: () => tiersObtained.has(15), progress: () => tiersObtained.has(15) ? '완료' : '미달성' },
+      { id: 'first_eclipse', name: '그림자 식', icon: '🌑', title: '그림자 사도', desc: 'Eclipse 등급 첫 획득', check: () => tiersObtained.has(22), progress: () => tiersObtained.has(22) ? '완료' : '미달성' },
+      { id: 'first_infinity', name: '무한의 경계', icon: '♾️', title: '무한의 방랑자', desc: 'Infinity 등급 첫 획득', check: () => tiersObtained.has(27), progress: () => tiersObtained.has(27) ? '완료' : '미달성' },
+      { id: 'first_prime', name: '설계자의 인장', icon: '⚙️', title: '설계자', desc: 'PRIME ARCHITECT 첫 획득', check: () => tiersObtained.has(31), progress: () => tiersObtained.has(31) ? '완료' : '미달성' },
+      { id: 'first_void', name: '공허의 군주', icon: '🌌', title: '공허의 군주', desc: 'VOID SOVEREIGN 첫 획득', check: () => tiersObtained.has(32), progress: () => tiersObtained.has(32) ? '완료' : '미달성' },
+      { id: 'first_absolute_zero', name: '절대영도', icon: '❄️', title: '절대영도의 지배자', desc: 'ABSOLUTE ZERO 첫 획득', check: () => tiersObtained.has(34), progress: () => tiersObtained.has(34) ? '완료' : '미달성' },
+      { id: 'first_god_emperor', name: '신의 자리', icon: '👑', title: '신의 자리에 오른 자', desc: 'GOD EMPEROR 첫 획득', check: () => tiersObtained.has(44), progress: () => tiersObtained.has(44) ? '완료' : '미달성' },
+      { id: 'lucky_10', name: '행운의 별', icon: '🍀', title: '행운의 별', desc: '10회 안에 Legendary 이상 획득', check: () => lucky10Done, progress: () => lucky10Done ? '완료' : '미달성' },
+      { id: 'epic_streak_3', name: '에픽 연타', icon: '⚡', title: '연타의 달인', desc: 'Epic 이상 등급 3연속 획득', check: () => maxEpicStreak >= 3, progress: () => `최고 ${maxEpicStreak} / 3 연속` },
+      { id: 'legendary_streak_2', name: '겹경사', icon: '💥', title: '겹경사의 주인공', desc: 'Legendary 이상 2연속 획득', check: () => maxLegendaryStreak >= 2, progress: () => `최고 ${maxLegendaryStreak} / 2 연속` },
+      { id: 'potion_collect_10', name: '포션 수집가', icon: '🧪', title: '포션 수집가', desc: '누적 포션 10개 획득', check: () => potionsEarnedTotal >= 10, progress: () => `${Math.min(potionsEarnedTotal, 10)} / 10` },
+      { id: 'potion_collect_50', name: '포션 연금술사', icon: '🧴', title: '포션 연금술사', desc: '누적 포션 50개 획득', check: () => potionsEarnedTotal >= 50, progress: () => `${Math.min(potionsEarnedTotal, 50)} / 50` },
+      { id: 'potion_use_10', name: '행운의 가호', icon: '✨', title: '가호받은 자', desc: '포션 10개 사용', check: () => potionsUsedTotal >= 10, progress: () => `${Math.min(potionsUsedTotal, 10)} / 10` },
+      { id: 'ultra_potion_first', name: '붉은 정수', icon: '🔴', title: '붉은 정수의 계승자', desc: 'Lucky Potion 50개를 합성해 Ultra Potion 첫 획득', check: () => ultraPotionsEarnedTotal >= 1, progress: () => ultraPotionsEarnedTotal >= 1 ? '완료' : '미달성' },
+      { id: 'ultra_potion_use_5', name: '극한의 도박', icon: '💢', title: '도박사', desc: 'Ultra Potion 5개 사용', check: () => ultraPotionsUsedTotal >= 5, progress: () => `${Math.min(ultraPotionsUsedTotal, 5)} / 5` },
+      { id: 'celestial_potion_first', name: '천상의 빛', icon: '🌟', title: '천상의 사도', desc: 'Ultra Potion 5개를 합성해 Celestial Potion 첫 획득', check: () => celestialPotionsEarnedTotal >= 1, progress: () => celestialPotionsEarnedTotal >= 1 ? '완료' : '미달성' },
+      { id: 'celestial_potion_use_3', name: '천상의 가호', icon: '✨', title: '천상의 축복을 받은 자', desc: 'Celestial Potion 3개 사용', check: () => celestialPotionsUsedTotal >= 3, progress: () => `${Math.min(celestialPotionsUsedTotal, 3)} / 3` },
+      { id: 'shop_deliver_first', name: '상인과의 거래', icon: '🤝', title: '거래인', desc: '상점에 첫 납품 완료', check: () => shopDeliveredTotal >= 1, progress: () => shopDeliveredTotal >= 1 ? '완료' : '미달성' },
+      { id: 'shop_deliver_10', name: '단골 손님', icon: '📦', title: '단골 손님', desc: '상점에 10회 납품', check: () => shopDeliveredTotal >= 10, progress: () => `${Math.min(shopDeliveredTotal, 10)} / 10` },
+      { id: 'first_real_gold', name: '리얼골드', icon: '🥇', title: '리얼골드 수집가', desc: '골든 가챠에서 리얼골드 첫 획득', check: () => tiersObtained.has(45), progress: () => tiersObtained.has(45) ? '완료' : '미달성' },
+      { id: 'first_legend_gold', name: '레전드골드', icon: '🏅', title: '레전드골드의 주인', desc: '골든 가챠에서 레전드골드 첫 획득', check: () => tiersObtained.has(46), progress: () => tiersObtained.has(46) ? '완료' : '미달성' },
+      { id: 'first_question_mark', name: '???', icon: '✨', title: '???', desc: '골든 가챠 최상위 등급 첫 획득', check: () => tiersObtained.has(47), progress: () => tiersObtained.has(47) ? '완료' : '미달성' },
+      { id: 'stardust_first', name: '별의 먼지', icon: '⭐', title: '별의 수호자', desc: 'Stardust 첫 획득', check: () => stardustEarnedTotal >= 1, progress: () => stardustEarnedTotal >= 1 ? '완료' : '미달성' },
+      { id: 'golden_roll_10', name: '황금시간 단골', icon: '🌇', title: '황금시간의 단골', desc: '골든 가챠 10회 진행', check: () => goldenRollsTotal >= 10, progress: () => `${Math.min(goldenRollsTotal, 10)} / 10` },
+      { id: 'guild_join_first', name: '동료의 시작', icon: '🛡️', title: '길드원', desc: '길드에 가입하세요', check: () => !!guildName, progress: () => guildName ? '완료' : '미달성' },
     ];
 
     function checkAchievements(item) {
@@ -5149,6 +5730,7 @@
     }
 
     function renderAchievements() {
+      renderTitles();
       const grid = document.getElementById('ach-grid');
       document.getElementById('ach-count-num').innerText = unlockedAchievements.size;
       document.getElementById('ach-count-total').innerText = ACHIEVEMENTS.length;
@@ -5165,12 +5747,46 @@
       }).join('');
     }
 
+    // ===================== TITLES =====================
+    // 업적 달성으로 해금된 타이틀 중 하나를 장착할 수 있다 (광장에서 닉네임 옆에 표시될 예정)
+    function renderTitles() {
+      const list = document.getElementById('title-list');
+      const unlockedTitles = ACHIEVEMENTS.filter(a => unlockedAchievements.has(a.id) && a.title);
+      document.getElementById('title-equipped-name').innerText = equippedTitle || '없음';
+
+      if (unlockedTitles.length === 0) {
+        list.innerHTML = '<div id="title-empty">업적을 달성하면 칭호가 해금됩니다</div>';
+        return;
+      }
+
+      let html = `<div class="title-chip none ${!equippedTitle ? 'equipped' : ''}" onclick="equipTitle('')">칭호 없음</div>`;
+      html += unlockedTitles.map(a => {
+        const isEquipped = equippedTitle === a.title;
+        return `<div class="title-chip ${isEquipped ? 'equipped' : ''}" onclick="equipTitle('${a.title.replace(/'/g, "\\'")}')">${a.icon} ${a.title}</div>`;
+      }).join('');
+      list.innerHTML = html;
+    }
+
+    function equipTitle(title) {
+      equippedTitle = title;
+      renderTitles();
+      updateNavTitle();
+      saveProgress();
+    }
+
+    function updateNavTitle() {
+      const el = document.getElementById('nav-user-title');
+      el.innerText = equippedTitle ? '[' + equippedTitle + ']' : '';
+    }
+
+
     // ===================== KEY LISTENERS =====================
     document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
     document.getElementById('login-nick').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('login-pass').focus(); });
     document.getElementById('signup-pass2').addEventListener('keydown', e => { if (e.key === 'Enter') handleSignup(); });
     document.getElementById('signup-pass').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('signup-pass2').focus(); });
     document.getElementById('logout-modal').addEventListener('click', e => { if (e.target === document.getElementById('logout-modal')) closeLogoutModal(); });
+    document.getElementById('guild-search-input').addEventListener('keydown', e => { if (e.key === 'Enter') searchGuild(); });
   </script>
 </body>
 
