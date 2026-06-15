@@ -3009,6 +3009,175 @@
       text-transform: uppercase;
     }
 
+    /* PLAZA */
+    #plaza-page {
+      display: none;
+      padding: 40px 32px;
+      min-height: calc(100vh - 55px);
+    }
+
+    #plaza-page.active {
+      display: block;
+    }
+
+    #plaza-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    #plaza-title {
+      font-size: 11px;
+      letter-spacing: 6px;
+      color: #444;
+      text-transform: uppercase;
+    }
+
+    #plaza-sub {
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: #444;
+    }
+
+    #plaza-body {
+      display: flex;
+      gap: 20px;
+    }
+
+    #plaza-room {
+      position: relative;
+      flex: 1;
+      height: 480px;
+      border: 0.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(124, 77, 255, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(255, 215, 0, 0.04) 0%, transparent 50%),
+        #0a0a12;
+      overflow: hidden;
+      cursor: crosshair;
+    }
+
+    #plaza-avatars {
+      position: absolute;
+      inset: 0;
+    }
+
+    .plaza-avatar {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transform: translate(-50%, -100%);
+      transition: left 1.2s ease, top 1.2s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .plaza-avatar-title {
+      font-size: 9px;
+      letter-spacing: 1px;
+      color: #ffd700;
+      text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+    }
+
+    .plaza-avatar-name {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #ddd;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .plaza-avatar.me .plaza-avatar-name {
+      color: #c084fc;
+    }
+
+    .plaza-avatar-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fff 0%, #7c4dff 70%);
+      box-shadow: 0 0 12px rgba(124, 77, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .plaza-avatar.me .plaza-avatar-dot {
+      background: radial-gradient(circle at 35% 35%, #fff 0%, #ffd700 70%);
+      box-shadow: 0 0 14px rgba(255, 215, 0, 0.6);
+    }
+
+    #plaza-sidebar {
+      width: 220px;
+      flex-shrink: 0;
+    }
+
+    #plaza-online-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #444;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    #plaza-online-count {
+      color: #69f0ae;
+      font-weight: 700;
+    }
+
+    #plaza-online-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .plaza-online-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 0.5px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .plaza-online-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #69f0ae;
+      box-shadow: 0 0 6px rgba(105, 240, 174, 0.6);
+      flex-shrink: 0;
+    }
+
+    .plaza-online-info {
+      min-width: 0;
+    }
+
+    .plaza-online-title {
+      font-size: 9px;
+      letter-spacing: 1px;
+      color: #ffd700;
+    }
+
+    .plaza-online-name {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #ddd;
+    }
+
+    .plaza-online-empty {
+      font-size: 10px;
+      color: #444;
+      letter-spacing: 1px;
+      padding: 10px 0;
+    }
+
     #logout-modal {
       position: fixed;
       inset: 0;
@@ -3141,6 +3310,7 @@
         <button class="nav-tab" onclick="switchTab('cutscenes')">컷씬</button>
         <button class="nav-tab" onclick="switchTab('shop')">상점</button>
         <button class="nav-tab" onclick="switchTab('guild')">길드</button>
+        <button class="nav-tab" onclick="switchTab('plaza')">광장</button>
         <button class="nav-tab" onclick="switchTab('ranking')">랭킹</button>
       </div>
       <div id="nav-user">
@@ -3425,6 +3595,22 @@
           <button id="guild-leave-btn" onclick="leaveGuild()">길드 탈퇴</button>
         </div>
         <div id="guild-member-list"></div>
+      </div>
+    </div>
+
+    <div id="plaza-page">
+      <div id="plaza-header">
+        <div id="plaza-title">광장 — Plaza</div>
+        <div id="plaza-sub">바닥을 클릭해서 이동하세요</div>
+      </div>
+      <div id="plaza-body">
+        <div id="plaza-room">
+          <div id="plaza-avatars"></div>
+        </div>
+        <div id="plaza-sidebar">
+          <div id="plaza-online-label">접속 중 <span id="plaza-online-count">0</span>명</div>
+          <div id="plaza-online-list"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -5045,7 +5231,7 @@
     }
 
     function switchTab(tab) {
-      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'cutscenes', 'shop', 'guild', 'ranking'];
+      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'cutscenes', 'shop', 'guild', 'plaza', 'ranking'];
       document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', tabs[i] === tab));
       tabs.forEach(id => document.getElementById(id + '-page').classList.toggle('active', id === tab));
       if (tab === 'dojang') renderDojang();
@@ -5054,6 +5240,8 @@
       if (tab === 'cutscenes') renderCutscenes();
       if (tab === 'shop') renderShop();
       if (tab === 'guild') renderGuild();
+      if (tab === 'plaza') enterPlaza();
+      else leavePlaza();
       if (tab === 'ranking') renderRanking();
     }
 
@@ -5555,6 +5743,153 @@
         return `<div class="guild-member-card">
         <div class="guild-member-name">${m.nick}${isMe ? ' (나)' : ''}</div>
         <div class="guild-member-tier">${tierText}</div>
+      </div>`;
+      }).join('');
+    }
+
+    // ===================== PLAZA (광장) =====================
+    // presence/{nickname} 문서: { x, y, title, lastSeen } — 폴링 기반 "거의 실시간" 위치 공유
+    const PLAZA_POLL_MS = 2500;
+    const PLAZA_ONLINE_MS = 15000; // 최근 15초 이내 갱신된 유저만 "온라인"으로 표시
+    let plazaInterval = null;
+    let plazaMyPos = { x: 50, y: 50 };
+
+    async function fetchPresenceDoc(nick) {
+      try {
+        const url = `${FIRESTORE_BASE}/presence/${encodeURIComponent(nick)}?key=${FIREBASE_API_KEY}`;
+        const res = await fetch(url);
+        if (res.status === 404) return null;
+        if (!res.ok) return null;
+        const doc = await res.json();
+        return fromFirestoreDoc(doc);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function savePresenceDoc(nick, data) {
+      try {
+        const fields = {};
+        for (const k in data) fields[k] = toFirestoreValue(data[k]);
+        const url = `${FIRESTORE_BASE}/presence/${encodeURIComponent(nick)}?key=${FIREBASE_API_KEY}`;
+        const res = await fetch(url, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fields })
+        });
+        return res.ok;
+      } catch (e) {
+        console.error('savePresenceDoc error', e);
+        return false;
+      }
+    }
+
+    async function fetchAllPresence() {
+      let documents = [], pageToken = null;
+      do {
+        let url = `${FIRESTORE_BASE}/presence?pageSize=300&key=${FIREBASE_API_KEY}`;
+        if (pageToken) url += `&pageToken=${pageToken}`;
+        try {
+          const res = await fetch(url);
+          if (!res.ok) break;
+          const data = await res.json();
+          if (data.documents) documents = documents.concat(data.documents);
+          pageToken = data.nextPageToken || null;
+        } catch (e) {
+          console.error('fetchAllPresence error', e);
+          break;
+        }
+      } while (pageToken);
+      return documents;
+    }
+
+    function enterPlaza() {
+      if (!currentUser) return;
+      // 처음 입장 시 기존 위치 불러오기 (없으면 중앙)
+      fetchPresenceDoc(currentUser).then(p => {
+        if (p && typeof p.x === 'number' && typeof p.y === 'number') {
+          plazaMyPos = { x: p.x, y: p.y };
+        }
+        plazaTick();
+      });
+
+      const room = document.getElementById('plaza-room');
+      room.onclick = (e) => {
+        const rect = room.getBoundingClientRect();
+        const x = Math.max(2, Math.min(98, ((e.clientX - rect.left) / rect.width) * 100));
+        const y = Math.max(2, Math.min(98, ((e.clientY - rect.top) / rect.height) * 100));
+        plazaMyPos = { x, y };
+        renderPlazaAvatarsLocal(); // 즉시 내 아바타 이동 (다른 유저는 다음 폴링에 갱신)
+        savePresenceDoc(currentUser, { x, y, title: equippedTitle, lastSeen: Date.now() });
+      };
+
+      if (plazaInterval) clearInterval(plazaInterval);
+      plazaInterval = setInterval(plazaTick, PLAZA_POLL_MS);
+    }
+
+    function leavePlaza() {
+      if (plazaInterval) { clearInterval(plazaInterval); plazaInterval = null; }
+    }
+
+    let plazaLastPresences = [];
+
+    async function plazaTick() {
+      if (!currentUser) return;
+      await savePresenceDoc(currentUser, { x: plazaMyPos.x, y: plazaMyPos.y, title: equippedTitle, lastSeen: Date.now() });
+      const docs = await fetchAllPresence();
+      const now = Date.now();
+      plazaLastPresences = docs.map(doc => {
+        const obj = fromFirestoreDoc(doc);
+        const nick = decodeURIComponent(doc.name.split('/').pop());
+        return { nick, x: obj.x ?? 50, y: obj.y ?? 50, title: obj.title || '', lastSeen: obj.lastSeen || 0, online: (now - (obj.lastSeen || 0)) < PLAZA_ONLINE_MS };
+      });
+      renderPlazaAvatars();
+      renderPlazaOnlineList();
+    }
+
+    // 내 아바타만 즉시 갱신 (클릭 직후 딜레이 없이 보이도록)
+    function renderPlazaAvatarsLocal() {
+      const mine = plazaLastPresences.find(p => p.nick === currentUser);
+      if (mine) { mine.x = plazaMyPos.x; mine.y = plazaMyPos.y; }
+      else plazaLastPresences.push({ nick: currentUser, x: plazaMyPos.x, y: plazaMyPos.y, title: equippedTitle, lastSeen: Date.now(), online: true });
+      renderPlazaAvatars();
+    }
+
+    function renderPlazaAvatars() {
+      const wrap = document.getElementById('plaza-avatars');
+      if (!wrap) return;
+      wrap.innerHTML = plazaLastPresences.map(p => {
+        const isMe = p.nick === currentUser;
+        const x = isMe ? plazaMyPos.x : p.x;
+        const y = isMe ? plazaMyPos.y : p.y;
+        const titleHtml = p.title ? `<div class="plaza-avatar-title">[${p.title}]</div>` : '';
+        return `<div class="plaza-avatar ${isMe ? 'me' : ''}" style="left:${x}%;top:${y}%">
+        ${titleHtml}
+        <div class="plaza-avatar-name">${p.nick}${isMe ? ' (나)' : ''}</div>
+        <div class="plaza-avatar-dot"></div>
+      </div>`;
+      }).join('');
+    }
+
+    function renderPlazaOnlineList() {
+      const listEl = document.getElementById('plaza-online-list');
+      const countEl = document.getElementById('plaza-online-count');
+      const online = plazaLastPresences.filter(p => p.online);
+      countEl.innerText = online.length;
+      if (online.length === 0) {
+        listEl.innerHTML = '<div class="plaza-online-empty">접속 중인 유저가 없습니다</div>';
+        return;
+      }
+      online.sort((a, b) => (a.nick === currentUser ? -1 : b.nick === currentUser ? 1 : a.nick.localeCompare(b.nick)));
+      listEl.innerHTML = online.map(p => {
+        const isMe = p.nick === currentUser;
+        const titleHtml = p.title ? `<div class="plaza-online-title">[${p.title}]</div>` : '';
+        return `<div class="plaza-online-card">
+        <div class="plaza-online-dot"></div>
+        <div class="plaza-online-info">
+          ${titleHtml}
+          <div class="plaza-online-name">${p.nick}${isMe ? ' (나)' : ''}</div>
+        </div>
       </div>`;
       }).join('');
     }
