@@ -463,6 +463,85 @@
       letter-spacing: 1px;
     }
 
+    /* ULTRA POTION */
+    #ultra-potion-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 0.5px solid rgba(255, 81, 81, 0.18);
+      border-radius: 10px;
+      padding: 10px 18px;
+    }
+
+    #ultra-potion-icon {
+      font-size: 22px;
+    }
+
+    #ultra-potion-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    #ultra-potion-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #555;
+      text-transform: uppercase;
+    }
+
+    #ultra-potion-count-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #ultra-potion-count {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ff5252;
+    }
+
+    #ultra-potion-use-btn {
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border: 0.5px solid rgba(255, 82, 82, 0.3);
+      border-radius: 4px;
+      background: rgba(255, 82, 82, 0.08);
+      color: #ff8a80;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #ultra-potion-use-btn:hover {
+      background: rgba(255, 82, 82, 0.18);
+      color: #ff5252;
+    }
+
+    #ultra-potion-use-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    #ultra-potion-active-badge {
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: #ff8a80;
+      background: rgba(255, 82, 82, 0.12);
+      border-radius: 4px;
+      padding: 2px 8px;
+      display: none;
+      animation: pulse-badge 1s ease infinite;
+    }
+
+    #ultra-potion-effect-desc {
+      font-size: 10px;
+      color: #444;
+      letter-spacing: 1px;
+    }
+
     #roll-btns {
       display: flex;
       gap: 10px;
@@ -619,6 +698,87 @@
       pointer-events: none;
       z-index: 25;
       opacity: 0;
+    }
+
+    #skip-btn {
+      display: none;
+      position: absolute;
+      bottom: 28px;
+      right: 28px;
+      z-index: 60;
+      padding: 9px 22px;
+      font-size: 11px;
+      letter-spacing: 3px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border: 0.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.35);
+      color: #ddd;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #skip-btn.show {
+      display: block;
+    }
+
+    #skip-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.5);
+      color: #fff;
+    }
+
+    /* QUICK RESULT (skip view) */
+    #quick-result {
+      display: none;
+      position: absolute;
+      inset: 0;
+      z-index: 70;
+      background: #020208;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+    }
+
+    #quick-result.active {
+      display: flex;
+    }
+
+    #quick-result-tier-label {
+      font-size: 11px;
+      letter-spacing: 6px;
+      color: #444;
+      text-transform: uppercase;
+    }
+
+    #quick-result-name {
+      font-size: 42px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    #quick-result-mutation-wrap {
+      text-align: center;
+    }
+
+    #quick-result-mutation-label {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      letter-spacing: 6px;
+      color: rgba(255, 255, 255, .4);
+      margin-bottom: 8px;
+    }
+
+    #quick-result-mutation {
+      display: inline-block;
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: 6px;
     }
 
     #flash-div {
@@ -1738,6 +1898,18 @@
             <div id="potion-effect-desc">Epic+ 확률 2배 · Legendary+ 획득 시 포션 지급</div>
           </div>
         </div>
+        <div id="ultra-potion-bar">
+          <div id="ultra-potion-icon">🔴</div>
+          <div id="ultra-potion-info">
+            <div id="ultra-potion-label">Ultra Potion</div>
+            <div id="ultra-potion-count-row">
+              <div id="ultra-potion-count">0</div>
+              <button id="ultra-potion-use-btn" onclick="useUltraPotion()" disabled>USE</button>
+              <div id="ultra-potion-active-badge">ACTIVE ✦</div>
+            </div>
+            <div id="ultra-potion-effect-desc">Epic+ 확률 10배 · 50회 롤마다 1개 지급</div>
+          </div>
+        </div>
         <div id="pity-section">
           <div id="pity-label">PITY &nbsp;0 / 100</div>
           <div id="pity-bar-wrap">
@@ -1791,6 +1963,17 @@
         </div>
         <div id="cutscene-flash"></div>
       </div>
+
+      <button id="skip-btn" onclick="skipAnimation()">SKIP ▶▶</button>
+
+      <div id="quick-result">
+        <div id="quick-result-tier-label">RESULT</div>
+        <div id="quick-result-name"></div>
+        <div id="quick-result-mutation-wrap">
+          <div id="quick-result-mutation-label">MUTATION</div>
+          <div id="quick-result-mutation"></div>
+        </div>
+      </div>
     </div>
 
     <div id="dojang-page">
@@ -1819,7 +2002,7 @@
     <div id="odds-page">
       <div id="odds-title">확률표 — Drop Rates</div>
       <div id="odds-subtitle">100회 보장 시스템 · Legendary 이상 달성 시 보장 초기화 · Legendary 이상은 화이트 크랙 인트로 후 고유 컷씬 · 포션 사용 시 Epic+
-        확률 2배</div>
+        확률 2배 · Ultra Potion 사용 시 Epic+ 확률 10배 · 50회 롤마다 Ultra Potion 1개 지급</div>
       <div id="odds-table-wrap"></div>
     </div>
 
@@ -1828,7 +2011,9 @@
         <div id="ranking-title">랭킹 — Top Summoners</div>
         <button id="ranking-refresh" onclick="renderRanking()">새로고침</button>
       </div>
-      <div id="ranking-list"><div class="ranking-loading">로딩 중...</div></div>
+      <div id="ranking-list">
+        <div class="ranking-loading">로딩 중...</div>
+      </div>
     </div>
   </div>
 
@@ -1997,8 +2182,28 @@
 
     let rolling = false, pity = 0, totalRolls = 0, legendaryCount = 0;
     let potions = 0, potionActive = false;
+    let ultraPotions = 0, ultraPotionActive = false;
     let bestTier = -1;
     const history = [];
+
+    // ════════════════════════════════════════════════════════
+    //  SKIP SYSTEM
+    // ════════════════════════════════════════════════════════
+    let pendingTimeouts = [];
+    let skipRequested = false;
+    function setT(fn, ms) {
+      const id = setTimeout(() => {
+        pendingTimeouts = pendingTimeouts.filter(x => x !== id);
+        if (skipRequested) return;
+        fn();
+      }, ms);
+      pendingTimeouts.push(id);
+      return id;
+    }
+    function clearPendingTimeouts() {
+      pendingTimeouts.forEach(id => clearTimeout(id));
+      pendingTimeouts = [];
+    }
 
     // ════════════════════════════════════════════════════════
     //  MUTATION SYSTEM (장식용 — 파워/확률에 영향 없음)
@@ -2034,6 +2239,7 @@
       let i = 0, tick = 0;
       const totalTicks = 18;
       function step() {
+        if (skipRequested) return;
         reel.textContent = MUTATION_NAMES[i % MUTATION_NAMES.length].toUpperCase();
         reel.className = 'spinning mreel-' + MUTATION_NAMES[i % MUTATION_NAMES.length].toLowerCase();
         i++; tick++;
@@ -2051,6 +2257,7 @@
     let dojangFilter = 'all';
     let unlockedAchievements = new Set(), tiersObtained = new Set();
     let potionsEarnedTotal = 0, potionsUsedTotal = 0;
+    let ultraPotionsEarnedTotal = 0, ultraPotionsUsedTotal = 0;
     let currentEpicStreak = 0, maxEpicStreak = 0;
     let currentLegendaryStreak = 0, maxLegendaryStreak = 0;
     let lastPityUsed = 0, lucky10Done = false;
@@ -2164,6 +2371,7 @@
       document.getElementById('login-btn').disabled = false;
       document.getElementById('login-btn').innerText = '접속';
       updatePotionBtn();
+      updateUltraPotionBtn();
       updateUI();
       switchTab('gacha');
     }
@@ -2185,10 +2393,12 @@
       return {
         pity: 0, totalRolls: 0, legendaryCount: 0,
         potions: 0, potionActive: false,
+        ultraPotions: 0, ultraPotionActive: false,
         bestTier: -1,
         history: [],
         unlocked: [], tiers: [],
         potionsEarnedTotal: 0, potionsUsedTotal: 0,
+        ultraPotionsEarnedTotal: 0, ultraPotionsUsedTotal: 0,
         maxEpicStreak: 0, maxLegendaryStreak: 0,
         lucky10Done: false
       };
@@ -2201,6 +2411,8 @@
       legendaryCount = state.legendaryCount ?? d.legendaryCount;
       potions = state.potions ?? d.potions;
       potionActive = state.potionActive ?? d.potionActive;
+      ultraPotions = state.ultraPotions ?? d.ultraPotions;
+      ultraPotionActive = state.ultraPotionActive ?? d.ultraPotionActive;
       bestTier = state.bestTier ?? d.bestTier;
       history.length = 0;
       (state.history || []).forEach(h => history.push(h));
@@ -2208,6 +2420,8 @@
       tiersObtained = new Set(state.tiers || []);
       potionsEarnedTotal = state.potionsEarnedTotal ?? 0;
       potionsUsedTotal = state.potionsUsedTotal ?? 0;
+      ultraPotionsEarnedTotal = state.ultraPotionsEarnedTotal ?? 0;
+      ultraPotionsUsedTotal = state.ultraPotionsUsedTotal ?? 0;
       maxEpicStreak = state.maxEpicStreak ?? 0;
       maxLegendaryStreak = state.maxLegendaryStreak ?? 0;
       lucky10Done = state.lucky10Done ?? false;
@@ -2218,11 +2432,13 @@
       return {
         pity, totalRolls, legendaryCount,
         potions, potionActive,
+        ultraPotions, ultraPotionActive,
         bestTier,
         history: history.slice(0, 300),
         unlocked: Array.from(unlockedAchievements),
         tiers: Array.from(tiersObtained),
         potionsEarnedTotal, potionsUsedTotal,
+        ultraPotionsEarnedTotal, ultraPotionsUsedTotal,
         maxEpicStreak, maxLegendaryStreak,
         lucky10Done
       };
@@ -2245,11 +2461,11 @@
     const DELAYS = [700, 700, 700, 805, 910, 1015, 1120, 1225, 1330, 1435, 1540, 1645, 1750, 1855, 1960, 2065, 2170, 2275, 2380, 2485, 2590, 2695, 2800, 2905, 3010, 3115, 3220, 3325, 3430, 3535, 3640, 3745, 3850, 3955, 4060];
 
     // ===================== GACHA =====================
-    function pick(boosted) {
-      if (boosted) {
+    function pick(multiplier) {
+      if (multiplier && multiplier > 1) {
         const bp = pool.map(p => ({ ...p }));
         let bonus = 0;
-        for (let p of bp) { if (p.tier >= 5) { bonus += p.chance; p.chance *= 2; } }
+        for (let p of bp) { if (p.tier >= 5) { bonus += p.chance * (multiplier - 1); p.chance *= multiplier; } }
         const lowSum = bp[0].chance + bp[1].chance + bp[2].chance + bp[3].chance + bp[4].chance;
         const scale = Math.max(0, lowSum - bonus) / lowSum;
         for (let i = 0; i < 5; i++) bp[i].chance *= scale;
@@ -2264,16 +2480,26 @@
 
     function rollOne() {
       pity++; totalRolls++;
-      const item = pity >= 100 ? pool[pool.length - 1] : pick(potionActive);
+      const multiplier = ultraPotionActive ? 10 : (potionActive ? 2 : 1);
+      const item = pity >= 100 ? pool[pool.length - 1] : pick(multiplier);
       lastPityUsed = pity;
       if (item.tier > bestTier) bestTier = item.tier;
       if (item.tier >= 9) { legendaryCount++; pity = 0; }
-      earnPotions(item.tier);
-      if (potionActive) { potionActive = false; updatePotionBtn(); }
+      const potionMsg = computePotionEarn(item.tier);
+      if (totalRolls % 50 === 0) {
+        ultraPotions++;
+        ultraPotionsEarnedTotal++;
+        if (potionMsg) {
+          potionMsg.lines.push('🔴 Ultra Potion ×1 획득! (50회 달성)');
+        }
+      }
+      if (potionActive) { potionActive = false; }
+      if (ultraPotionActive) { ultraPotionActive = false; }
+      updatePotionBtn(); updateUltraPotionBtn();
       const now = new Date();
       const t = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0') + ':' + now.getSeconds().toString().padStart(2, '0');
       history.unshift({ item, time: t, roll: totalRolls, mutation: rollMutation() });
-      return item;
+      return { item, potionMsg };
     }
 
     function usePotion() {
@@ -2284,17 +2510,38 @@
       updatePotionBtn(); saveProgress();
     }
 
-    function earnPotions(tier) {
-      const reward = potionRewards[tier]; if (!reward) return;
+    function useUltraPotion() {
+      if (ultraPotions <= 0 || ultraPotionActive) return;
+      ultraPotions--; ultraPotionsUsedTotal++; ultraPotionActive = true;
+      document.getElementById('ultra-potion-use-btn').style.display = 'none';
+      document.getElementById('ultra-potion-active-badge').style.display = 'block';
+      updateUltraPotionBtn(); saveProgress();
+    }
+
+    // 이번 롤로 얻을 포션 정보를 계산만 하고, 토스트는 결과 공개 시점에 표시한다 (스포일러 방지)
+    function computePotionEarn(tier) {
+      const reward = potionRewards[tier];
+      if (!reward) return totalRolls % 50 === 0 ? { lines: [] } : null;
       potions += reward; potionsEarnedTotal += reward;
-      updatePotionBtn();
-      showPotionToast('🧪 Lucky Potion ×' + reward + ' 획득! (' + pool[tier].name + ')');
+      return { lines: ['🧪 Lucky Potion ×' + reward + ' 획득! (' + pool[tier].name + ')'] };
     }
 
     function showPotionToast(msg) {
       const t = document.getElementById('potion-toast');
       t.innerText = msg; t.style.opacity = '1';
       setTimeout(() => { t.style.opacity = '0'; }, 2800);
+    }
+
+    function showPotionToastLines(lines) {
+      if (!lines || lines.length === 0) return;
+      let i = 0;
+      function next() {
+        if (i >= lines.length) return;
+        showPotionToast(lines[i]);
+        i++;
+        if (i < lines.length) setTimeout(next, 3000);
+      }
+      next();
     }
 
     function updatePotionBtn() {
@@ -2305,10 +2552,26 @@
       else { btn.style.display = 'block'; badge.style.display = 'none'; btn.disabled = potions <= 0; }
     }
 
+    function updateUltraPotionBtn() {
+      const btn = document.getElementById('ultra-potion-use-btn');
+      const badge = document.getElementById('ultra-potion-active-badge');
+      document.getElementById('ultra-potion-count').innerText = ultraPotions;
+      if (ultraPotionActive) { btn.style.display = 'none'; badge.style.display = 'block'; }
+      else { btn.style.display = 'block'; badge.style.display = 'none'; btn.disabled = ultraPotions <= 0; }
+    }
+
+    // 진행 중인 롤의 정보 (스킵 시 사용)
+    let currentRollItem = null;
+    let currentPotionMsg = null;
+
     function doRoll(count) {
       if (rolling) return; rolling = true;
-      const item = rollOne(); updateUI(); checkAchievements(item); saveProgress();
+      skipRequested = false;
+      clearPendingTimeouts();
+      const { item, potionMsg } = rollOne(); updateUI(); checkAchievements(item); saveProgress();
       item.mutation = history[0].mutation;
+      currentRollItem = item;
+      currentPotionMsg = potionMsg;
       document.getElementById('mutation-reel-wrap').classList.remove('show');
       document.getElementById('gacha-idle').style.display = 'none';
       const animDiv = document.getElementById('gacha-anim');
@@ -2323,9 +2586,10 @@
       starSvg.style.filter = 'drop-shadow(0 0 24px ' + item.color + ')';
       res.style.opacity = '0';
       starSvg.style.animationDuration = SPEEDS[item.tier] + 's';
-      setTimeout(() => {
+      document.getElementById('skip-btn').classList.add('show');
+      setT(() => {
         starSvg.style.transition = 'opacity 0.2s'; starSvg.style.opacity = '0';
-        setTimeout(() => {
+        setT(() => {
           starSvg.style.display = 'none';
           if (item.tier >= 9) showWhiteCrack(item);
           else showResult(item);
@@ -2333,21 +2597,68 @@
       }, DELAYS[item.tier]);
     }
 
+    // 모든 애니메이션을 즉시 멈추고 결과(등급+뮤테이션)만 보여준다
+    function skipAnimation() {
+      if (!rolling || !currentRollItem) return;
+      skipRequested = true;
+      clearPendingTimeouts();
+
+      // 모든 오버레이 숨기기
+      document.getElementById('gacha-anim').style.display = 'none';
+      document.getElementById('white-crack').classList.remove('active');
+      document.getElementById('precutscene').classList.remove('active');
+      document.getElementById('cutscene').classList.remove('active');
+      document.getElementById('cutscene').classList.remove('shake');
+      document.getElementById('flash-div').style.opacity = '0';
+      const crackCanvas = document.getElementById('crack-canvas');
+      crackCanvas.style.opacity = '0';
+      try { crackCanvas.getContext('2d').clearRect(0, 0, crackCanvas.width, crackCanvas.height); } catch (e) { }
+      document.getElementById('skip-btn').classList.remove('show');
+
+      const item = currentRollItem;
+      const qr = document.getElementById('quick-result');
+      const qrName = document.getElementById('quick-result-name');
+      qrName.innerText = item.name;
+      qrName.style.color = item.color;
+      qrName.style.textShadow = '0 0 30px ' + item.color;
+      const mutWrap = document.getElementById('quick-result-mutation-wrap');
+      const mutLabel = document.getElementById('quick-result-mutation');
+      const final = item.mutation || 'None';
+      mutLabel.textContent = final.toUpperCase();
+      mutLabel.className = 'mreel-' + final.toLowerCase();
+      mutWrap.style.display = 'block';
+      qr.classList.add('active');
+
+      setTimeout(() => {
+        qr.classList.remove('active');
+        finishRoll(item);
+      }, 1400);
+    }
+
+    // 롤 1회를 마무리: idle 화면 복귀 + 지연된 포션 토스트 표시
+    function finishRoll(item) {
+      document.getElementById('gacha-anim').style.display = 'none';
+      document.getElementById('gacha-idle').style.display = 'flex';
+      document.getElementById('mutation-reel-wrap').classList.remove('show');
+      document.getElementById('skip-btn').classList.remove('show');
+      const ll = document.getElementById('last-result-label');
+      ll.innerText = 'LAST · ' + item.name; ll.style.color = item.color;
+      const canvas = document.getElementById('crack-canvas');
+      canvas.style.opacity = '0';
+      try { canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); } catch (e) { }
+      if (currentPotionMsg && currentPotionMsg.lines) showPotionToastLines(currentPotionMsg.lines);
+      currentRollItem = null; currentPotionMsg = null;
+      rolling = false;
+    }
+
     function showResult(item) {
       const res = document.getElementById('result-text');
       res.innerText = item.name; res.style.color = item.color; res.style.textShadow = '0 0 40px ' + item.color; res.style.opacity = '1';
-      setTimeout(() => {
+      setT(() => {
         showMutationReel(item.mutation);
       }, 400);
-      setTimeout(() => {
-        document.getElementById('gacha-anim').style.display = 'none';
-        document.getElementById('gacha-idle').style.display = 'flex';
-        document.getElementById('mutation-reel-wrap').classList.remove('show');
-        const ll = document.getElementById('last-result-label');
-        ll.innerText = 'LAST · ' + item.name; ll.style.color = item.color;
-        const canvas = document.getElementById('crack-canvas');
-        canvas.style.opacity = '0'; canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-        rolling = false;
+      setT(() => {
+        finishRoll(item);
       }, 2800);
     }
 
@@ -2401,6 +2712,7 @@
           ctx.strokeStyle = '#000'; ctx.lineWidth = 2.5; ctx.stroke();
         }
         frame++;
+        if (skipRequested) return;
         if (frame <= totalFrames) requestAnimationFrame(drawFrame);
         else finishWhiteCrack(item);
       }
@@ -2412,7 +2724,7 @@
       const flash = document.getElementById('white-crack-flash');
       flash.style.transition = 'opacity 0.08s';
       flash.style.opacity = '1';
-      setTimeout(() => {
+      setT(() => {
         overlay.classList.remove('active');
         flash.style.opacity = '0';
         showPreCutscene(item);
@@ -2511,12 +2823,13 @@
             ctx.globalAlpha = 1;
           }
           frame++;
+          if (skipRequested) return;
           if (frame <= total) requestAnimationFrame(drawSlash);
         }
         requestAnimationFrame(drawSlash);
-        setTimeout(() => {
+        setT(() => {
           flash.style.transition = 'opacity 0.08s'; flash.style.opacity = '1';
-          setTimeout(() => { flash.style.transition = 'opacity 0.6s ease'; flash.style.opacity = '0'; }, 90);
+          setT(() => { flash.style.transition = 'opacity 0.6s ease'; flash.style.opacity = '0'; }, 90);
         }, 700);
         duration = 1700;
 
@@ -2545,6 +2858,7 @@
             ctx.globalAlpha = 1;
           }
           frame++;
+          if (skipRequested) return;
           if (frame <= 70) requestAnimationFrame(drawDrop);
         }
         requestAnimationFrame(drawDrop);
@@ -2582,9 +2896,9 @@
         requestAnimationFrame(() => {
           shock.querySelectorAll('.precs-ring').forEach(r => r.classList.add('go'));
         });
-        setTimeout(() => {
+        setT(() => {
           flash.style.transition = 'opacity 0.07s'; flash.style.opacity = '0.85';
-          setTimeout(() => { flash.style.transition = 'opacity 0.5s ease'; flash.style.opacity = '0'; }, 80);
+          setT(() => { flash.style.transition = 'opacity 0.5s ease'; flash.style.opacity = '0'; }, 80);
         }, 500);
         duration = 1900;
 
@@ -2598,7 +2912,7 @@
         duration = 2400;
       }
 
-      setTimeout(() => {
+      setT(() => {
         overlay.classList.remove('active');
         invert.classList.remove('go');
         lotus.classList.remove('go');
@@ -2728,9 +3042,9 @@
 
       overlay.classList.add('active');
       requestAnimationFrame(() => { bg.style.opacity = '1'; rays.style.opacity = '1'; });
-      setTimeout(() => bg.classList.add('breathe'), 900);
-      setTimeout(() => spawnParticles(particles, theme.particleColor, theme.particleCount), 250);
-      setTimeout(() => art.classList.add('show'), 600);
+      setT(() => bg.classList.add('breathe'), 900);
+      setT(() => spawnParticles(particles, theme.particleColor, theme.particleCount), 250);
+      setT(() => art.classList.add('show'), 600);
 
       function doShake() {
         overlay.classList.remove('shake');
@@ -2738,22 +3052,22 @@
       }
 
       const flashTime = item.tier >= 29 ? 2400 : item.tier >= 19 ? 2000 : 1700;
-      setTimeout(() => {
+      setT(() => {
         flash.style.transition = 'opacity 0.08s'; flash.style.opacity = '1';
         doShake();
-        setTimeout(() => { flash.style.transition = 'opacity 0.5s ease'; flash.style.opacity = '0'; art.classList.add('pulse'); }, 90);
+        setT(() => { flash.style.transition = 'opacity 0.5s ease'; flash.style.opacity = '0'; art.classList.add('pulse'); }, 90);
       }, flashTime);
-      setTimeout(() => nameBox.classList.add('show'), flashTime + 500);
-      if (item.tier >= 21) { setTimeout(() => { flash.style.transition = 'opacity 0.06s'; flash.style.opacity = '0.6'; doShake(); setTimeout(() => { flash.style.transition = 'opacity 0.4s ease'; flash.style.opacity = '0'; }, 70); }, flashTime + 1200); }
-      if (item.tier >= 32) { setTimeout(() => { spawnParticles(particles, theme.particleColor, theme.particleCount); doShake(); }, flashTime + 1300); }
+      setT(() => nameBox.classList.add('show'), flashTime + 500);
+      if (item.tier >= 21) { setT(() => { flash.style.transition = 'opacity 0.06s'; flash.style.opacity = '0.6'; doShake(); setT(() => { flash.style.transition = 'opacity 0.4s ease'; flash.style.opacity = '0'; }, 70); }, flashTime + 1200); }
+      if (item.tier >= 32) { setT(() => { spawnParticles(particles, theme.particleColor, theme.particleCount); doShake(); }, flashTime + 1300); }
 
-      setTimeout(() => {
+      setT(() => {
         nameBox.style.transition = 'opacity 0.6s ease';
         art.style.transition = 'opacity 0.6s ease,transform 0.6s ease';
         bg.style.transition = 'opacity 0.6s ease'; rays.style.transition = 'opacity 0.6s ease';
         nameBox.style.opacity = '0'; art.style.opacity = '0'; art.style.transform = 'scale(1.15)';
         bg.style.opacity = '0'; rays.style.opacity = '0';
-        setTimeout(() => {
+        setT(() => {
           overlay.classList.remove('active');
           overlay.classList.remove('shake');
           bg.classList.remove('breathe');
@@ -2762,13 +3076,8 @@
           // 컷씬 종료 → 검은 화면(gacha-anim)에서 뮤테이션 뽑기
           document.getElementById('gacha-anim').style.display = 'flex';
           showMutationReel(item.mutation, () => {
-            setTimeout(() => {
-              document.getElementById('gacha-anim').style.display = 'none';
-              document.getElementById('gacha-idle').style.display = 'flex';
-              document.getElementById('mutation-reel-wrap').classList.remove('show');
-              const ll = document.getElementById('last-result-label');
-              ll.innerText = 'LAST · ' + item.name; ll.style.color = item.color;
-              rolling = false;
+            setT(() => {
+              finishRoll(item);
             }, 900);
           });
         }, 650);
@@ -2933,6 +3242,8 @@
       { id: 'potion_collect_10', name: '포션 수집가', icon: '🧪', desc: '누적 포션 10개 획득', check: () => potionsEarnedTotal >= 10, progress: () => `${Math.min(potionsEarnedTotal, 10)} / 10` },
       { id: 'potion_collect_50', name: '포션 연금술사', icon: '🧴', desc: '누적 포션 50개 획득', check: () => potionsEarnedTotal >= 50, progress: () => `${Math.min(potionsEarnedTotal, 50)} / 50` },
       { id: 'potion_use_10', name: '행운의 가호', icon: '✨', desc: '포션 10개 사용', check: () => potionsUsedTotal >= 10, progress: () => `${Math.min(potionsUsedTotal, 10)} / 10` },
+      { id: 'ultra_potion_first', name: '붉은 정수', icon: '🔴', desc: 'Ultra Potion 첫 획득 (50회 롤 달성)', check: () => ultraPotionsEarnedTotal >= 1, progress: () => ultraPotionsEarnedTotal >= 1 ? '완료' : '미달성' },
+      { id: 'ultra_potion_use_5', name: '극한의 도박', icon: '💢', desc: 'Ultra Potion 5개 사용', check: () => ultraPotionsUsedTotal >= 5, progress: () => `${Math.min(ultraPotionsUsedTotal, 5)} / 5` },
     ];
 
     function checkAchievements(item) {
