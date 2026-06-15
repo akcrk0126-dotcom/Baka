@@ -1445,6 +1445,128 @@
       margin-top: 4px;
     }
 
+    /* RANKING */
+    #ranking-page {
+      display: none;
+      padding: 40px 32px;
+      min-height: calc(100vh - 55px);
+    }
+
+    #ranking-page.active {
+      display: block;
+    }
+
+    #ranking-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+
+    #ranking-title {
+      font-size: 11px;
+      letter-spacing: 6px;
+      color: #444;
+      text-transform: uppercase;
+    }
+
+    #ranking-refresh {
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 5px 12px;
+      border-radius: 4px;
+      border: 0.5px solid rgba(255, 255, 255, 0.08);
+      background: transparent;
+      color: #555;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #ranking-refresh:hover {
+      color: #aaa;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    #ranking-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .rank-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 0.5px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.02);
+      animation: fadeInUp 0.3s ease;
+    }
+
+    .rank-card.me {
+      border-color: rgba(255, 215, 0, 0.3);
+      background: rgba(255, 215, 0, 0.04);
+    }
+
+    .rank-num {
+      width: 36px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 900;
+      color: #666;
+      flex-shrink: 0;
+    }
+
+    .rank-num.top1 {
+      color: #ffd700;
+    }
+
+    .rank-num.top2 {
+      color: #c0c0c0;
+    }
+
+    .rank-num.top3 {
+      color: #cd7f32;
+    }
+
+    .rank-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .rank-nick {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #ddd;
+    }
+
+    .rank-tier {
+      font-size: 11px;
+      letter-spacing: 1px;
+      margin-top: 3px;
+      font-weight: 700;
+    }
+
+    .rank-meta {
+      font-size: 10px;
+      color: #444;
+      letter-spacing: 1px;
+      text-align: right;
+      min-width: 90px;
+    }
+
+    .ranking-empty,
+    .ranking-loading {
+      text-align: center;
+      padding: 80px 0;
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: #333;
+      text-transform: uppercase;
+    }
+
     /* LOGOUT CONFIRM MODAL */
     #logout-modal {
       position: fixed;
@@ -1575,6 +1697,7 @@
         <button class="nav-tab" onclick="switchTab('dojang')">도감</button>
         <button class="nav-tab" onclick="switchTab('ach')">업적</button>
         <button class="nav-tab" onclick="switchTab('odds')">확률표</button>
+        <button class="nav-tab" onclick="switchTab('ranking')">랭킹</button>
       </div>
       <div id="nav-user">
         <span id="nav-user-name"></span>
@@ -1698,6 +1821,16 @@
       <div id="odds-subtitle">100회 보장 시스템 · Legendary 이상 달성 시 보장 초기화 · Legendary 이상은 화이트 크랙 인트로 후 고유 컷씬 · 포션 사용 시 Epic+
         확률 2배</div>
       <div id="odds-table-wrap"></div>
+    </div>
+
+    <div id="ranking-page">
+      <div id="ranking-header">
+        <div id="ranking-title">랭킹 — Top Summoners</div>
+        <button id="ranking-refresh" onclick="renderRanking()">새로고침</button>
+      </div>
+      <div id="ranking-list">
+        <div class="ranking-loading">로딩 중...</div>
+      </div>
     </div>
   </div>
 
@@ -1866,6 +1999,7 @@
 
     let rolling = false, pity = 0, totalRolls = 0, legendaryCount = 0;
     let potions = 0, potionActive = false;
+    let bestTier = -1;
     const history = [];
 
     // ════════════════════════════════════════════════════════
@@ -2053,6 +2187,7 @@
       return {
         pity: 0, totalRolls: 0, legendaryCount: 0,
         potions: 0, potionActive: false,
+        bestTier: -1,
         history: [],
         unlocked: [], tiers: [],
         potionsEarnedTotal: 0, potionsUsedTotal: 0,
@@ -2068,6 +2203,7 @@
       legendaryCount = state.legendaryCount ?? d.legendaryCount;
       potions = state.potions ?? d.potions;
       potionActive = state.potionActive ?? d.potionActive;
+      bestTier = state.bestTier ?? d.bestTier;
       history.length = 0;
       (state.history || []).forEach(h => history.push(h));
       unlockedAchievements = new Set(state.unlocked || []);
@@ -2084,6 +2220,7 @@
       return {
         pity, totalRolls, legendaryCount,
         potions, potionActive,
+        bestTier,
         history: history.slice(0, 300),
         unlocked: Array.from(unlockedAchievements),
         tiers: Array.from(tiersObtained),
@@ -2131,6 +2268,7 @@
       pity++; totalRolls++;
       const item = pity >= 100 ? pool[pool.length - 1] : pick(potionActive);
       lastPityUsed = pity;
+      if (item.tier > bestTier) bestTier = item.tier;
       if (item.tier >= 9) { legendaryCount++; pity = 0; }
       earnPotions(item.tier);
       if (potionActive) { potionActive = false; updatePotionBtn(); }
@@ -2651,11 +2789,13 @@
     }
 
     function switchTab(tab) {
-      document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', ['gacha', 'dojang', 'ach', 'odds'][i] === tab));
-      ['gacha', 'dojang', 'ach', 'odds'].forEach(id => document.getElementById(id + '-page').classList.toggle('active', id === tab));
+      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'ranking'];
+      document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', tabs[i] === tab));
+      tabs.forEach(id => document.getElementById(id + '-page').classList.toggle('active', id === tab));
       if (tab === 'dojang') renderDojang();
       if (tab === 'odds') renderOdds();
       if (tab === 'ach') renderAchievements();
+      if (tab === 'ranking') renderRanking();
     }
 
     function setFilter(f, btn) {
@@ -2706,6 +2846,72 @@
         <div class="odds-potion">${potionRewards[p.tier] ? '🧪 ×' + potionRewards[p.tier] : '—'}</div>
       </div>`;
       }).join('')}`;
+    }
+
+    // ===================== RANKING =====================
+    async function fetchAllAccounts() {
+      let documents = [], pageToken = null;
+      do {
+        let url = `${FIRESTORE_BASE}/accounts?pageSize=300&key=${FIREBASE_API_KEY}`;
+        if (pageToken) url += `&pageToken=${pageToken}`;
+        try {
+          const res = await fetch(url);
+          if (!res.ok) break;
+          const data = await res.json();
+          if (data.documents) documents = documents.concat(data.documents);
+          pageToken = data.nextPageToken || null;
+        } catch (e) {
+          console.error('fetchAllAccounts error', e);
+          break;
+        }
+      } while (pageToken);
+      return documents;
+    }
+
+    async function renderRanking() {
+      const list = document.getElementById('ranking-list');
+      list.innerHTML = '<div class="ranking-loading">로딩 중...</div>';
+      try {
+        const docs = await fetchAllAccounts();
+        const players = docs.map(doc => {
+          const obj = fromFirestoreDoc(doc);
+          const nick = decodeURIComponent(doc.name.split('/').pop());
+          const state = obj.state || {};
+          return {
+            nick,
+            bestTier: state.bestTier ?? -1,
+            totalRolls: state.totalRolls || 0
+          };
+        }).filter(p => p.bestTier >= 0);
+
+        players.sort((a, b) => {
+          if (b.bestTier !== a.bestTier) return b.bestTier - a.bestTier;
+          return a.totalRolls - b.totalRolls;
+        });
+
+        if (players.length === 0) {
+          list.innerHTML = '<div class="ranking-empty">아직 기록이 없습니다</div>';
+          return;
+        }
+
+        list.innerHTML = players.map((p, i) => {
+          const item = pool[p.bestTier] || pool[0];
+          const rank = i + 1;
+          const rankClass = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
+          const meClass = p.nick === currentUser ? 'me' : '';
+          return `<div class="rank-card ${meClass}">
+          <div class="rank-num ${rankClass}">${rank}</div>
+          <div class="rank-info">
+            <div class="rank-nick">${p.nick}${p.nick === currentUser ? ' (나)' : ''}</div>
+            <div class="rank-tier" style="color:${item.color}">${item.name}</div>
+          </div>
+          <div class="rank-meta">${p.totalRolls.toLocaleString()} 롤</div>
+        </div>`;
+        }).join('');
+      } catch (e) {
+        console.error('ranking error', e);
+        list.innerHTML = '<div class="ranking-empty">불러오기 실패</div>';
+      }
     }
 
     // ===================== ACHIEVEMENTS =====================
