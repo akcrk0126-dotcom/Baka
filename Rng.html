@@ -1927,10 +1927,10 @@
             <div id="ultra-potion-count-row">
               <div id="ultra-potion-count">0</div>
               <button id="ultra-potion-use-btn" onclick="useUltraPotion()" disabled>USE</button>
-              <button id="ultra-potion-craft-btn" onclick="craftUltraPotion()" disabled>합성 (30)</button>
+              <button id="ultra-potion-craft-btn" onclick="craftUltraPotion()" disabled>합성 (50)</button>
               <div id="ultra-potion-active-badge">ACTIVE ✦</div>
             </div>
-            <div id="ultra-potion-effect-desc">Lucky Potion 30개 합성 · 사용 시 Nightshade 이상 확정 획득</div>
+            <div id="ultra-potion-effect-desc">Lucky Potion 50개 합성 · 사용 시 Nightshade 이상 확정 획득</div>
           </div>
         </div>
         <div id="pity-section">
@@ -2025,7 +2025,7 @@
     <div id="odds-page">
       <div id="odds-title">확률표 — Drop Rates</div>
       <div id="odds-subtitle">100회 보장 시스템 · Legendary 이상 달성 시 보장 초기화 · Legendary 이상은 화이트 크랙 인트로 후 고유 컷씬 · 포션 사용 시 Epic+
-        확률 2배 · Lucky Potion 30개 합성 시 Ultra Potion 획득 · Ultra Potion 사용 시 Nightshade 이상 확정 획득</div>
+        확률 2배 · Lucky Potion 50개 합성 시 Ultra Potion 획득 · Ultra Potion 사용 시 Nightshade 이상 확정 획득</div>
       <div id="odds-table-wrap"></div>
     </div>
 
@@ -2034,7 +2034,9 @@
         <div id="ranking-title">랭킹 — Top Summoners</div>
         <button id="ranking-refresh" onclick="renderRanking()">새로고침</button>
       </div>
-      <div id="ranking-list"><div class="ranking-loading">로딩 중...</div></div>
+      <div id="ranking-list">
+        <div class="ranking-loading">로딩 중...</div>
+      </div>
     </div>
   </div>
 
@@ -2546,7 +2548,7 @@
       updateUltraPotionBtn(); saveProgress();
     }
 
-    const ULTRA_CRAFT_COST = 30;
+    const ULTRA_CRAFT_COST = 50;
     function craftUltraPotion() {
       if (potions < ULTRA_CRAFT_COST || ultraPotionActive) return;
       potions -= ULTRA_CRAFT_COST;
@@ -3285,7 +3287,7 @@
       { id: 'potion_collect_10', name: '포션 수집가', icon: '🧪', desc: '누적 포션 10개 획득', check: () => potionsEarnedTotal >= 10, progress: () => `${Math.min(potionsEarnedTotal, 10)} / 10` },
       { id: 'potion_collect_50', name: '포션 연금술사', icon: '🧴', desc: '누적 포션 50개 획득', check: () => potionsEarnedTotal >= 50, progress: () => `${Math.min(potionsEarnedTotal, 50)} / 50` },
       { id: 'potion_use_10', name: '행운의 가호', icon: '✨', desc: '포션 10개 사용', check: () => potionsUsedTotal >= 10, progress: () => `${Math.min(potionsUsedTotal, 10)} / 10` },
-      { id: 'ultra_potion_first', name: '붉은 정수', icon: '🔴', desc: 'Lucky Potion 30개를 합성해 Ultra Potion 첫 획득', check: () => ultraPotionsEarnedTotal >= 1, progress: () => ultraPotionsEarnedTotal >= 1 ? '완료' : '미달성' },
+      { id: 'ultra_potion_first', name: '붉은 정수', icon: '🔴', desc: 'Lucky Potion 50개를 합성해 Ultra Potion 첫 획득', check: () => ultraPotionsEarnedTotal >= 1, progress: () => ultraPotionsEarnedTotal >= 1 ? '완료' : '미달성' },
       { id: 'ultra_potion_use_5', name: '극한의 도박', icon: '💢', desc: 'Ultra Potion 5개 사용', check: () => ultraPotionsUsedTotal >= 5, progress: () => `${Math.min(ultraPotionsUsedTotal, 5)} / 5` },
     ];
 
