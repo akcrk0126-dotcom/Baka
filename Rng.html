@@ -2034,9 +2034,7 @@
         <div id="ranking-title">랭킹 — Top Summoners</div>
         <button id="ranking-refresh" onclick="renderRanking()">새로고침</button>
       </div>
-      <div id="ranking-list">
-        <div class="ranking-loading">로딩 중...</div>
-      </div>
+      <div id="ranking-list"><div class="ranking-loading">로딩 중...</div></div>
     </div>
   </div>
 
@@ -2434,8 +2432,9 @@
       legendaryCount = state.legendaryCount ?? d.legendaryCount;
       potions = state.potions ?? d.potions;
       potionActive = state.potionActive ?? d.potionActive;
-      ultraPotions = state.ultraPotions ?? d.ultraPotions;
-      ultraPotionActive = state.ultraPotionActive ?? d.ultraPotionActive;
+      // ⚠️ 긴급 리셋: 모든 유저의 보유 Ultra Potion을 0으로 초기화 (1회성)
+      ultraPotions = 0;
+      ultraPotionActive = false;
       bestTier = state.bestTier ?? d.bestTier;
       history.length = 0;
       (state.history || []).forEach(h => history.push(h));
