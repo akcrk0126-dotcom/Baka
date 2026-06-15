@@ -1218,17 +1218,6 @@
       text-align: center;
     }
 
-    #golden-page-stardust {
-      font-size: 11px;
-      letter-spacing: 2px;
-      color: #b3e5fc;
-    }
-
-    #golden-page-stardust b {
-      color: #80d8ff;
-      font-size: 16px;
-    }
-
     /* ===== MEGA EFFECT (Tier 47 ??? 전용, 20초 초화려 연출) ===== */
     #mega-effect {
       display: none;
@@ -3166,8 +3155,7 @@
       <div id="golden-gacha-btn" class="locked" onclick="openGoldenGacha()">
         <div id="golden-gacha-icon">⭐</div>
         <div id="golden-gacha-label">GOLDEN</div>
-        <div id="golden-gacha-sub-text" class="golden-gacha-sub-cls">다음 황금시간까지<br><span
-            id="golden-gacha-countdown">--:--:--</span></div>
+        <div id="golden-gacha-sub-text" class="golden-gacha-sub-cls">다음 황금시간까지<br><span id="golden-gacha-countdown">--:--:--</span></div>
       </div>
       <div id="gacha-idle">
         <div style="text-align:center">
@@ -3305,7 +3293,6 @@
           <div id="golden-page-title-big">Gacha</div>
         </div>
         <div id="golden-page-tickets">보유 골든롤 티켓 <b id="golden-page-ticket-count">0</b>개</div>
-        <div id="golden-page-stardust">⭐ Stardust <b id="golden-page-stardust-count">0</b>개</div>
         <button id="golden-roll-btn" onclick="doGoldenRoll()">▶ GOLDEN ROLL</button>
         <div id="golden-page-lastresult"></div>
       </div>
@@ -3358,10 +3345,8 @@
 
     <div id="odds-page">
       <div id="odds-title">확률표 — Drop Rates</div>
-      <div id="odds-subtitle">100회 보장 시스템(ABSOLUTE ZERO 확정) · Legendary 이상 달성 시 보장 초기화 · Legendary 이상은 화이트 크랙 인트로 후 고유
-        컷씬 · 포션 사용 시 Epic+
-        확률 2배 · Lucky Potion 50개 합성 시 Ultra Potion 획득 · Ultra Potion 사용 시 Nightshade 이상 확정 획득 · Ultra Potion 5개 합성 시
-        Celestial Potion 획득 · Celestial Potion 사용 시 Solflare 이상 확정 획득 · ABSOLUTE ZERO 이상의 초월 등급 10종 추가</div>
+      <div id="odds-subtitle">100회 보장 시스템(ABSOLUTE ZERO 확정) · Legendary 이상 달성 시 보장 초기화 · Legendary 이상은 화이트 크랙 인트로 후 고유 컷씬 · 포션 사용 시 Epic+
+        확률 2배 · Lucky Potion 50개 합성 시 Ultra Potion 획득 · Ultra Potion 사용 시 Nightshade 이상 확정 획득 · Ultra Potion 5개 합성 시 Celestial Potion 획득 · Celestial Potion 사용 시 Solflare 이상 확정 획득 · ABSOLUTE ZERO 이상의 초월 등급 10종 추가</div>
       <div id="odds-table-wrap"></div>
     </div>
 
@@ -3374,16 +3359,13 @@
         <button class="ranking-subtab active" onclick="setRankingMode('tier', this)">최고 등급</button>
         <button class="ranking-subtab" onclick="setRankingMode('rolls', this)">롤 횟수</button>
       </div>
-      <div id="ranking-list">
-        <div class="ranking-loading">로딩 중...</div>
-      </div>
+      <div id="ranking-list"><div class="ranking-loading">로딩 중...</div></div>
     </div>
 
     <div id="cutscenes-page">
       <div id="cutscenes-header">
         <div id="cutscenes-title">컷씬 — Replay</div>
-        <div id="cutscenes-count"><span id="cutscenes-count-num">0</span> / <span id="cutscenes-count-total">0</span> 해금
-        </div>
+        <div id="cutscenes-count"><span id="cutscenes-count-num">0</span> / <span id="cutscenes-count-total">0</span> 해금</div>
       </div>
       <div id="cutscenes-subtitle">뽑아본 적 있는 등급만 다시 볼 수 있습니다 · 보유한 뮤테이션 중 최고 등급으로 재생됩니다</div>
       <div id="cutscenes-list"></div>
@@ -3401,8 +3383,7 @@
           <div id="shop-merchant-line"></div>
         </div>
       </div>
-      <div id="shop-subtitle">도감에서 요청한 등급 + 뮤테이션 조합을 가져오면 포션으로 교환해줍니다 · 납품한 아이템은 도감에서 사라지고, 해당 요청은 즉시 더 어려운 새 요청으로 바뀝니다
-      </div>
+      <div id="shop-subtitle">도감에서 요청한 등급 + 뮤테이션 조합을 가져오면 포션으로 교환해줍니다 · 납품한 아이템은 도감에서 사라지고, 해당 요청은 즉시 더 어려운 새 요청으로 바뀝니다</div>
       <div id="shop-list"></div>
     </div>
 
@@ -3725,7 +3706,6 @@
     let currentLegendaryStreak = 0, maxLegendaryStreak = 0;
     let lastPityUsed = 0, lucky10Done = false;
     let shopDate = '', shopRerollCount = [0, 0, 0], shopDeliveredTotal = 0; // 상점 갱신 날짜, 슬롯별 리롤(=납품) 횟수, 누적 납품 수
-    let stardust = 0, stardustEarnedTotal = 0; // 골든 가챠 ???(tier 47) 등급에서만 획득되는 최상위 재화
     let equippedTitle = ''; // 장착 중인 타이틀
     let goldenRollsTotal = 0; // 누적 골든 가챠 횟수
     let goldenTickets = 0, lastGoldenClaimDate = ''; // 보유 골든롤 티켓 수, 마지막 티켓 수령 날짜
@@ -3880,7 +3860,6 @@
         maxEpicStreak: 0, maxLegendaryStreak: 0,
         lucky10Done: false,
         shopDate: '', shopRerollCount: [0, 0, 0], shopDeliveredTotal: 0,
-        stardust: 0, stardustEarnedTotal: 0,
         equippedTitle: '',
         goldenRollsTotal: 0,
         goldenTickets: 0, lastGoldenClaimDate: '',
@@ -3918,8 +3897,6 @@
       shopDate = state.shopDate ?? '';
       shopRerollCount = Array.isArray(state.shopRerollCount) ? state.shopRerollCount : [0, 0, 0];
       shopDeliveredTotal = state.shopDeliveredTotal ?? 0;
-      stardust = state.stardust ?? 0;
-      stardustEarnedTotal = state.stardustEarnedTotal ?? 0;
       equippedTitle = state.equippedTitle ?? '';
       goldenRollsTotal = state.goldenRollsTotal ?? 0;
       goldenTickets = state.goldenTickets ?? 0;
@@ -3946,7 +3923,6 @@
         maxEpicStreak, maxLegendaryStreak,
         lucky10Done,
         shopDate, shopRerollCount, shopDeliveredTotal,
-        stardust, stardustEarnedTotal,
         equippedTitle,
         goldenRollsTotal,
         goldenTickets, lastGoldenClaimDate,
@@ -4057,8 +4033,6 @@
       goldenRollsTotal++;
       if (tierPowerRank(item.tier) > tierPowerRank(bestTier)) bestTier = item.tier;
       const potionMsg = computePotionEarn(item.tier);
-      let stardustGain = 0;
-      if (item.tier === 47) { stardustGain = 1; stardust += stardustGain; stardustEarnedTotal += stardustGain; }
       updatePotionBtn(); updateUltraPotionBtn(); updateCelestialPotionBtn();
       const now = new Date();
       const t = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0') + ':' + now.getSeconds().toString().padStart(2, '0');
@@ -4068,7 +4042,7 @@
       history.unshift({ item, time: t, roll: 'G' + goldenRollsTotal, mutation, golden: true });
       tiersObtained.add(item.tier);
       checkGenericAchievements();
-      return { item, potionMsg, stardustGain };
+      return { item, potionMsg };
     }
 
     function usePotion() {
@@ -4394,7 +4368,6 @@
       }
       document.getElementById('golden-page').classList.add('active');
       document.getElementById('golden-page-ticket-count').innerText = goldenTickets;
-      document.getElementById('golden-page-stardust-count').innerText = stardust;
       document.getElementById('golden-page-lastresult').innerText = '';
       document.getElementById('golden-roll-btn').disabled = goldenTickets <= 0;
     }
@@ -4411,7 +4384,7 @@
       if (goldenTickets <= 0) return;
       const result = rollGolden();
       if (!result) return;
-      const { item, potionMsg, stardustGain } = result;
+      const { item, potionMsg } = result;
       item.mutation = history[0].mutation;
       updateUI(); saveProgress();
 
@@ -4421,10 +4394,6 @@
       clearPendingTimeouts();
       currentRollItem = item;
       currentPotionMsg = potionMsg;
-      if (stardustGain > 0) {
-        currentPotionMsg = currentPotionMsg || { lines: [] };
-        currentPotionMsg.lines = (currentPotionMsg.lines || []).concat(['⭐ Stardust ×' + stardustGain + ' 획득!']);
-      }
 
       document.getElementById('golden-page').classList.remove('active');
       document.getElementById('mutation-reel-wrap').classList.remove('show');
@@ -4567,7 +4536,6 @@
         lr.innerText = 'LAST · ' + item.name; lr.style.color = item.color;
         document.getElementById('golden-page').classList.add('active');
         document.getElementById('golden-page-ticket-count').innerText = goldenTickets;
-        document.getElementById('golden-page-stardust-count').innerText = stardust;
         document.getElementById('golden-roll-btn').disabled = goldenTickets <= 0;
         if (currentPotionMsg && currentPotionMsg.lines) showPotionToastLines(currentPotionMsg.lines);
         currentRollItem = null; currentPotionMsg = null;
@@ -5146,7 +5114,7 @@
       <div class="odds-th" style="min-width:80px;text-align:right">포션 보상</div>
     </div>
     ${pool.filter(p => GOLDEN_ONLY_TIERS.includes(p.tier)).map(p => {
-        const note = p.tier === 45 ? 'Genesis보다 약간 위' : p.tier === 46 ? 'CHRONO OVERLORD급' : '최상위 · Stardust 획득';
+        const note = p.tier === 45 ? 'Genesis보다 약간 위' : p.tier === 46 ? 'CHRONO OVERLORD급' : '최상위 · 20초 이펙트';
         return `
       <div class="odds-row">
         <div class="odds-dot" style="background:${p.color}"></div>
@@ -5712,7 +5680,6 @@
       { id: 'first_real_gold', name: '리얼골드', icon: '🥇', title: '리얼골드 수집가', desc: '골든 가챠에서 리얼골드 첫 획득', check: () => tiersObtained.has(45), progress: () => tiersObtained.has(45) ? '완료' : '미달성' },
       { id: 'first_legend_gold', name: '레전드골드', icon: '🏅', title: '레전드골드의 주인', desc: '골든 가챠에서 레전드골드 첫 획득', check: () => tiersObtained.has(46), progress: () => tiersObtained.has(46) ? '완료' : '미달성' },
       { id: 'first_question_mark', name: '???', icon: '✨', title: '???', desc: '골든 가챠 최상위 등급 첫 획득', check: () => tiersObtained.has(47), progress: () => tiersObtained.has(47) ? '완료' : '미달성' },
-      { id: 'stardust_first', name: '별의 먼지', icon: '⭐', title: '별의 수호자', desc: 'Stardust 첫 획득', check: () => stardustEarnedTotal >= 1, progress: () => stardustEarnedTotal >= 1 ? '완료' : '미달성' },
       { id: 'golden_roll_10', name: '황금시간 단골', icon: '🌇', title: '황금시간의 단골', desc: '골든 가챠 10회 진행', check: () => goldenRollsTotal >= 10, progress: () => `${Math.min(goldenRollsTotal, 10)} / 10` },
       { id: 'guild_join_first', name: '동료의 시작', icon: '🛡️', title: '길드원', desc: '길드에 가입하세요', check: () => !!guildName, progress: () => guildName ? '완료' : '미달성' },
     ];
