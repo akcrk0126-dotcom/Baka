@@ -5571,53 +5571,301 @@
       try {
         const ctx = getAudioCtx();
         const now = ctx.currentTime;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        const filter = ctx.createBiquadFilter();
-        osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
-        filter.type = 'lowpass';
         if (phase === 'spin') {
-          // 처음 별 돌기 시작: 낮은 드론
-          const baseFreq = 60 + tier * 4;
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(baseFreq, now);
-          osc.frequency.linearRampToValueAtTime(baseFreq * 2.5, now + STAR_DURATION[tier] / 1000);
-          gain.gain.setValueAtTime(0, now);
-          gain.gain.linearRampToValueAtTime(0.12, now + 0.3);
-          gain.gain.linearRampToValueAtTime(0.18, now + STAR_DURATION[tier] / 1000 * 0.7);
-          gain.gain.linearRampToValueAtTime(0, now + STAR_DURATION[tier] / 1000);
-          filter.frequency.setValueAtTime(300 + tier * 30, now);
-          filter.frequency.linearRampToValueAtTime(4000, now + STAR_DURATION[tier] / 1000);
-          osc.start(now); osc.stop(now + STAR_DURATION[tier] / 1000);
-        } else if (phase === 'burst') {
-          // 폭발
-          const freq = tier >= 30 ? 80 : tier >= 20 ? 120 : 200;
+          // 처음 별 돌기 시작: 어두운 저음 드론 + 약한 노이즈 텍스처 (깨끗한 사인파 단독 사용 지양)
+          const dur = STAR_DURATION[tier] / 1000;
+          const baseFreq = 48 + tier * 2.2;
+          const osc = ctx.createOscillator();
+          const shaper = ctx.createWaveShaper(); shaper.curve = makeDistortionCurve(4);
+          const filter = ctx.createBiquadFilter(); filter.type = 'lowpass';
+          const gain = ctx.createGain();
           osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(freq * 3, now);
-          osc.frequency.exponentialRampToValueAtTime(freq, now + 0.4);
-          gain.gain.setValueAtTime(tier >= 20 ? 0.4 : 0.25, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-          filter.frequency.setValueAtTime(2000, now);
-          filter.frequency.exponentialRampToValueAtTime(200, now + 0.4);
-          osc.start(now); osc.stop(now + 0.6);
-          // 고음 shimmer
+          osc.frequency.setValueAtTime(baseFreq, now);
+          osc.frequency.linearRampToValueAtTime(baseFreq * 1.8, now + dur);
+          filter.frequency.setValueAtTime(220 + tier * 14, now);
+          filter.frequency.linearRampToValueAtTime(1400, now + dur);
+          gain.gain.setValueAtTime(0, now);
+          gain.gain.linearRampToValueAtTime(0.1, now + 0.35);
+          gain.gain.linearRampToValueAtTime(0.14, now + dur * 0.7);
+          gain.gain.linearRampToValueAtTime(0, now + dur);
+          osc.connect(shaper); shaper.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+          osc.start(now); osc.stop(now + dur);
+
+          // 낮게 깔리는 노이즈 텍스처 (기계적인 단조로움 제거)
+          const tex = ctx.createBufferSource();
+          tex.buffer = getNoiseBuffer(ctx);
+          const texFilter = ctx.createBiquadFilter();
+          texFilter.type = 'bandpass'; texFilter.frequency.value = 300 + tier * 10; texFilter.Q.value = 0.6;
+          const texGain = ctx.createGain();
+          texGain.gain.setValueAtTime(0, now);
+          texGain.gain.linearRampToValueAtTime(0.035, now + 0.4);
+          texGain.gain.linearRampToValueAtTime(0, now + dur);
+          tex.connect(texFilter); texFilter.connect(texGain); texGain.connect(ctx.destination);
+          tex.start(now); tex.stop(now + dur);
+
+        } else if (phase === 'burst') {
+          // 폭발: 어두운 화음 클러스터(디스토션) + 노이즈 크래시 — 단일 톱니파 단독 사용 지양
+          const scale = Math.min(1, 0.5 + tier / 50);
+          const baseFreq = tier >= 30 ? 45 : tier >= 20 ? 60 : 85;
+          [1, 1.5].forEach((ratio, i) => {
+            const o = ctx.createOscillator();
+            const shaper = ctx.createWaveShaper(); shaper.curve = makeDistortionCurve(10 + i * 5);
+            const g = ctx.createGain();
+            o.type = i === 0 ? 'sawtooth' : 'triangle';
+            o.frequency.setValueAtTime(baseFreq * ratio * 2.5, now);
+            o.frequency.exponentialRampToValueAtTime(baseFreq * ratio * 0.6, now + 0.45);
+            g.gain.setValueAtTime((0.32 - i * 0.08) * scale, now);
+            g.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+            o.connect(shaper); shaper.connect(g); g.connect(ctx.destination);
+            o.start(now); o.stop(now + 0.55);
+          });
+
+          const crash = ctx.createBufferSource();
+          crash.buffer = getNoiseBuffer(ctx);
+          const crashFilter = ctx.createBiquadFilter();
+          crashFilter.type = 'bandpass'; crashFilter.frequency.setValueAtTime(1400, now); crashFilter.frequency.exponentialRampToValueAtTime(220, now + 0.4);
+          crashFilter.Q.value = 0.6;
+          const crashGain = ctx.createGain();
+          crashGain.gain.setValueAtTime((tier >= 20 ? 0.32 : 0.2), now);
+          crashGain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+          crash.connect(crashFilter); crashFilter.connect(crashGain); crashGain.connect(ctx.destination);
+          crash.start(now); crash.stop(now + 0.45);
+
+          // 절제된 금속 shimmer (밴드패스로 다듬어 날카로운 삑 소리 방지)
           if (tier >= 9) {
             const osc2 = ctx.createOscillator();
+            const filt2 = ctx.createBiquadFilter(); filt2.type = 'bandpass'; filt2.Q.value = 2;
             const gain2 = ctx.createGain();
-            osc2.connect(gain2); gain2.connect(ctx.destination);
-            osc2.type = 'sine';
-            osc2.frequency.setValueAtTime(1800 + tier * 50, now);
-            osc2.frequency.exponentialRampToValueAtTime(800, now + 0.5);
-            gain2.gain.setValueAtTime(0.15, now);
-            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
-            osc2.start(now); osc2.stop(now + 0.5);
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime(900 + tier * 18, now);
+            osc2.frequency.exponentialRampToValueAtTime(400, now + 0.4);
+            filt2.frequency.setValueAtTime(1200, now);
+            gain2.gain.setValueAtTime(0.08, now);
+            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+            osc2.connect(filt2); filt2.connect(gain2); gain2.connect(ctx.destination);
+            osc2.start(now); osc2.stop(now + 0.4);
           }
         }
       } catch (e) { }
     }
 
-    // ===== 새로운 별 애니메이션: rAF 기반, 처음 빠르게→커질수록 느려짐→폭발 =====
-    let starAnimId = null;
+    // ===== 웅장한 컷씬 임팩트 사운드 (화이트크랙/프리컷씬/메인컷씬 전용) =====
+    // 화이트노이즈 버퍼를 한 번 생성해 재사용 (충격음/스웰에 사용)
+    let noiseBuffer = null;
+    function getNoiseBuffer(ctx) {
+      if (noiseBuffer && noiseBuffer.sampleRate === ctx.sampleRate) return noiseBuffer;
+      const len = ctx.sampleRate * 2;
+      const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
+      noiseBuffer = buf;
+      return buf;
+    }
+
+    // 디스토션 커브 생성 (저음을 거칠게 일그러뜨려 장난감같은 깨끗한 사인파 느낌을 없앤다)
+    function makeDistortionCurve(amount) {
+      const n = 4096; const curve = new Float32Array(n);
+      const k = amount;
+      for (let i = 0; i < n; i++) {
+        const x = (i * 2) / n - 1;
+        curve[i] = ((3 + k) * x * 20 * Math.PI / 180) / (Math.PI + k * Math.abs(x));
+      }
+      return curve;
+    }
+
+    // 간단한 공간감(딜레이 피드백 기반 의사-리버브)을 마스터 체인에 붙여서 소리를 더 묵직하고 깊게 만든다
+    function connectWithSpace(node, ctx, destGain) {
+      const delay = ctx.createDelay(1);
+      delay.delayTime.value = 0.045;
+      const fb = ctx.createGain(); fb.gain.value = 0.32;
+      const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1800;
+      node.connect(delay); delay.connect(lp); lp.connect(fb); fb.connect(delay);
+      delay.connect(destGain);
+      node.connect(destGain);
+    }
+
+    // ===== 실제 mp3 샘플 사운드 (외부 합성음의 한계를 넘기 위해 무료 라이선스 mp3를 사용) =====
+    // sfx/ 폴더에 함께 배포되어야 함 (index.html과 같은 위치)
+    const SFX_FILES = {
+      boom1: 'sfx-boom1.mp3',
+      boom2: 'sfx-boom2.mp3',
+      boom3: 'sfx-boom3.mp3',
+      sonicboom: 'sfx-sonicboom.mp3',
+      riser: 'sfx-riser.mp3',
+      thudDeep: 'sfx-thud-deep.mp3',
+      thudReverb: 'sfx-thud-reverb.mp3',
+      impactHeavy: 'sfx-impact-heavy.mp3',
+      distortionBassy: 'sfx-distortion-bassy.mp3',
+      distortionTrans: 'sfx-distortion-trans.mp3'
+    };
+    const sfxAudioCache = {};
+    const sfxLoadFailed = {}; // 한 번 404/에러 나면 이후 재시도하지 않음 (콘솔 스팸 방지)
+    function playSfx(key, volume) {
+      if (sfxLoadFailed[key]) return false;
+      try {
+        let base = sfxAudioCache[key];
+        if (!base) {
+          base = new Audio(SFX_FILES[key]);
+          base.preload = 'auto';
+          base.addEventListener('error', () => { sfxLoadFailed[key] = true; }, { once: true });
+          sfxAudioCache[key] = base;
+        }
+        // 같은 사운드가 짧은 간격으로 겹쳐 재생될 수 있으므로 매번 새 인스턴스로 재생
+        const inst = base.cloneNode();
+        inst.volume = volume != null ? volume : 1;
+        const p = inst.play();
+        if (p && p.catch) p.catch(() => { sfxLoadFailed[key] = true; });
+        return true;
+      } catch (e) {
+        sfxLoadFailed[key] = true;
+        return false;
+      }
+    }
+
+
+    function playImpactSound(tier, kind) {
+      // 실제 mp3 샘플을 우선 재생 (합성음보다 훨씬 묵직하고 자연스러움)
+      const scaleVol = Math.min(1, 0.6 + tier / 55);
+      if (kind === 'crack') {
+        playSfx('distortionTrans', 0.55 * scaleVol);
+      } else if (kind === 'precs') {
+        playSfx('riser', 0.7 * scaleVol);
+        setTimeout(() => playSfx(tier >= 25 ? 'thudReverb' : 'thudDeep', 0.6 * scaleVol), 80);
+      } else if (kind === 'cutscene') {
+        const boomKey = tier >= 40 ? 'sonicboom' : tier >= 28 ? 'boom3' : tier >= 16 ? 'boom2' : 'boom1';
+        playSfx(boomKey, 0.85 * scaleVol);
+        if (tier >= 22) setTimeout(() => playSfx('impactHeavy', 0.5 * scaleVol), 60);
+      }
+
+      try {
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
+        const scale = Math.min(1, 0.55 + tier / 50); // 등급 높을수록 더 크고 웅장하게
+        const master = ctx.createGain(); master.gain.value = 1;
+        master.connect(ctx.destination);
+
+        if (kind === 'crack') {
+          // 화이트크랙: 유리 깨짐(고역 노이즈) + 거칠게 일그러진 저음 타격
+          const noise = ctx.createBufferSource();
+          noise.buffer = getNoiseBuffer(ctx);
+          const noiseFilter = ctx.createBiquadFilter();
+          noiseFilter.type = 'highpass'; noiseFilter.frequency.value = 2200;
+          const noiseGain = ctx.createGain();
+          noiseGain.gain.setValueAtTime(0.180 * scale, now);
+          noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+          noise.connect(noiseFilter); noiseFilter.connect(noiseGain); noiseGain.connect(master);
+          noise.start(now); noise.stop(now + 0.2);
+
+          const thump = ctx.createOscillator();
+          const shaper = ctx.createWaveShaper(); shaper.curve = makeDistortionCurve(18);
+          const thumpGain = ctx.createGain();
+          thump.type = 'sine';
+          thump.frequency.setValueAtTime(95, now);
+          thump.frequency.exponentialRampToValueAtTime(32, now + 0.32);
+          thumpGain.gain.setValueAtTime(0.225 * scale, now);
+          thumpGain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+          thump.connect(shaper); shaper.connect(thumpGain); thumpGain.connect(master);
+          thump.start(now); thump.stop(now + 0.4);
+
+        } else if (kind === 'precs') {
+          // 프리컷씬: 어두운 단3도 클러스터 드론(쿵, 화음으로 묵직함) + 거친 노이즈 스웰 + 낮게 깔리는 라이저
+          const baseFreq = 42 + (tier % 5) * 1.5;
+          const chordRatios = [1, 1.19, 1.5]; // 단3도+5도 클러스터로 어둡고 긴장된 화성
+          chordRatios.forEach((ratio, i) => {
+            const o = ctx.createOscillator();
+            const shaper = ctx.createWaveShaper(); shaper.curve = makeDistortionCurve(6 + i * 2);
+            const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 500 - i * 80;
+            const g = ctx.createGain();
+            o.type = i === 0 ? 'sawtooth' : 'sine';
+            o.frequency.setValueAtTime(baseFreq * ratio, now);
+            o.frequency.exponentialRampToValueAtTime(baseFreq * ratio * 0.55, now + 1.1);
+            g.gain.setValueAtTime(0, now);
+            g.gain.linearRampToValueAtTime((0.19 - i * 0.04) * scale, now + 0.05);
+            g.gain.exponentialRampToValueAtTime(0.001, now + 1.3);
+            o.connect(shaper); shaper.connect(lp); lp.connect(g);
+            connectWithSpace(g, ctx, master);
+            o.start(now); o.stop(now + 1.3);
+          });
+
+          // 거친 노이즈 스웰 (밴드패스로 깔린 굉음처럼)
+          const crash = ctx.createBufferSource();
+          crash.buffer = getNoiseBuffer(ctx);
+          const crashFilter = ctx.createBiquadFilter();
+          crashFilter.type = 'bandpass'; crashFilter.frequency.setValueAtTime(700, now); crashFilter.frequency.exponentialRampToValueAtTime(150, now + 0.9);
+          crashFilter.Q.value = 0.9;
+          const crashGain = ctx.createGain();
+          crashGain.gain.setValueAtTime(0.001, now);
+          crashGain.gain.linearRampToValueAtTime(0.171 * scale, now + 0.08);
+          crashGain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+          crash.connect(crashFilter); crashFilter.connect(crashGain); crashGain.connect(master);
+          crash.start(now); crash.stop(now + 0.9);
+
+          // 낮게 깔리는 라이저 (날카로운 톱니 대신 어두운 필터스윕 노이즈)
+          const riserNoise = ctx.createBufferSource();
+          riserNoise.buffer = getNoiseBuffer(ctx);
+          const riserFilter = ctx.createBiquadFilter();
+          riserFilter.type = 'bandpass'; riserFilter.Q.value = 1.4;
+          riserFilter.frequency.setValueAtTime(200, now + 0.15);
+          riserFilter.frequency.exponentialRampToValueAtTime(1400 + tier * 6, now + 1.35);
+          const riserGain = ctx.createGain();
+          riserGain.gain.setValueAtTime(0, now + 0.15);
+          riserGain.gain.linearRampToValueAtTime(0.072 * scale, now + 1.25);
+          riserGain.gain.linearRampToValueAtTime(0, now + 1.45);
+          riserNoise.connect(riserFilter); riserFilter.connect(riserGain); riserGain.connect(master);
+          riserNoise.start(now + 0.15); riserNoise.stop(now + 1.45);
+
+        } else if (kind === 'cutscene') {
+          // 메인 컷씬: 어두운 화음 클러스터 폭발(3개 음 디스토션) + 강한 노이즈 크래시 + 절제된 금속 shimmer
+          const baseFreq = 38;
+          const chordRatios = [1, 1.5, 1.78]; // 5도+단7도 느낌의 어둡고 묵직한 클러스터
+          chordRatios.forEach((ratio, i) => {
+            const o = ctx.createOscillator();
+            const shaper = ctx.createWaveShaper(); shaper.curve = makeDistortionCurve(10 + i * 4);
+            const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.setValueAtTime(900, now); lp.frequency.exponentialRampToValueAtTime(220, now + 1.0);
+            const g = ctx.createGain();
+            o.type = i === 0 ? 'sawtooth' : 'triangle';
+            o.frequency.setValueAtTime(baseFreq * ratio * 2.4, now);
+            o.frequency.exponentialRampToValueAtTime(baseFreq * ratio * 0.6, now + 1.1);
+            g.gain.setValueAtTime((0.25 - i * 0.045) * scale, now);
+            g.gain.exponentialRampToValueAtTime(0.001, now + 1.25);
+            o.connect(shaper); shaper.connect(lp); lp.connect(g);
+            connectWithSpace(g, ctx, master);
+            o.start(now); o.stop(now + 1.25);
+          });
+
+          // 강한 노이즈 크래시 (거칠게 디스토션까지 살짝 더함)
+          const crash = ctx.createBufferSource();
+          crash.buffer = getNoiseBuffer(ctx);
+          const crashShaper = ctx.createWaveShaper(); crashShaper.curve = makeDistortionCurve(4);
+          const crashFilter = ctx.createBiquadFilter();
+          crashFilter.type = 'bandpass'; crashFilter.frequency.setValueAtTime(1600, now); crashFilter.frequency.exponentialRampToValueAtTime(180, now + 1.0);
+          crashFilter.Q.value = 0.6;
+          const crashGain = ctx.createGain();
+          crashGain.gain.setValueAtTime(0.225 * scale, now);
+          crashGain.gain.exponentialRampToValueAtTime(0.001, now + 1.05);
+          crash.connect(crashShaper); crashShaper.connect(crashFilter); crashFilter.connect(crashGain); crashGain.connect(master);
+          crash.start(now); crash.stop(now + 1.05);
+
+          // 절제된 금속 shimmer (수를 줄이고 톤을 낮춰 장난감 느낌 제거, 등급 높을수록만 살짝 늘림)
+          const shimmerCount = tier >= 35 ? 3 : tier >= 22 ? 2 : 1;
+          for (let i = 0; i < shimmerCount; i++) {
+            const delay = 0.04 + i * 0.1;
+            const sOsc = ctx.createOscillator(); const sGain = ctx.createGain();
+            const sFilter = ctx.createBiquadFilter(); sFilter.type = 'bandpass'; sFilter.Q.value = 2.2;
+            sOsc.type = 'triangle';
+            sOsc.frequency.setValueAtTime(1100 + i * 220 + tier * 4, now + delay);
+            sOsc.frequency.exponentialRampToValueAtTime(400, now + delay + 0.55);
+            sFilter.frequency.setValueAtTime(1400, now + delay);
+            sGain.gain.setValueAtTime(0.045 * scale, now + delay);
+            sGain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.55);
+            sOsc.connect(sFilter); sFilter.connect(sGain); sGain.connect(master);
+            sOsc.start(now + delay); sOsc.stop(now + delay + 0.55);
+          }
+        }
+      } catch (e) { }
+    }
+
+
     function animateStar(item, onDone) {
       const starSvg = document.getElementById('star-svg');
       const glowRing = document.getElementById('star-glow-ring');
@@ -6289,6 +6537,7 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       flash.style.transition = ''; flash.style.opacity = '0';
       overlay.classList.add('active');
+      playImpactSound(item.tier, 'crack');
 
       const cx = canvas.width / 2, cy = canvas.height / 2;
       // more cracks + longer reach for higher tiers
@@ -6517,90 +6766,107 @@
       const ctx = canvas.getContext('2d');
       const w = canvas.width, h = canvas.height;
       const cx = w / 2, cy = h / 2;
-      const intensity = Math.min(1, 0.5 + tier / 50);
+      const intensity = Math.min(1.4, 0.75 + tier / 36); // 등급 높을수록 훨씬 더 크고 웅장하게 (상한 상향)
       const startTime = performance.now();
 
-      // 미세하게 일렁이는 배경 노이즈 그라데이션 (정적인 검은 배경 탈피)
+      // 미세하게 일렁이는 배경 노이즈 그라데이션 (더 강하게 — 단색 검정 탈피)
       function drawBg(t) {
         ctx.globalCompositeOperation = 'source-over';
         ctx.fillStyle = 'rgba(0,0,0,1)';
         ctx.fillRect(0, 0, w, h);
-        const bgGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.7);
-        const pulse = 0.06 + Math.sin(t * 0.0008) * 0.02;
-        bgGrad.addColorStop(0, `rgba(${rgb.r},${rgb.g},${rgb.b},${pulse})`);
+        const bgGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.85);
+        const pulse = 0.14 + Math.sin(t * 0.0009) * 0.05;
+        bgGrad.addColorStop(0, `rgba(${rgb.r},${rgb.g},${rgb.b},${pulse * intensity})`);
         bgGrad.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.fillStyle = bgGrad;
         ctx.fillRect(0, 0, w, h);
       }
 
-      // 모드별 파티클/요소 초기화
+      // 모드 공통: 화면 전체에 떠다니는 잔잔한 스파크 입자 (과격함을 더해주는 배경 레이어)
+      const sparkCount = Math.min(50, 18 + Math.floor(tier * 0.8));
+      const sparks = [];
+      for (let i = 0; i < sparkCount; i++) {
+        sparks.push({ x: Math.random() * w, y: Math.random() * h, r: 1 + Math.random() * 2.4, phase: Math.random() * 6.28, speed: 0.4 + Math.random() * 0.8, drift: (Math.random() - 0.5) * 0.3 });
+      }
+      function drawSparks(t) {
+        for (const s of sparks) {
+          const tw = 0.3 + 0.7 * Math.abs(Math.sin(t * 0.002 * s.speed + s.phase));
+          const sy = (s.y - t * 0.02 * s.speed) % h; const yy = sy < 0 ? sy + h : sy;
+          drawGlowDot(ctx, s.x + Math.sin(t * 0.001 + s.phase) * 18, yy, s.r * (0.8 + tw), rgb, tw * 0.5 * intensity);
+        }
+      }
+
+      // 모드별 파티클/요소 초기화 (개수/크기 대폭 증가)
       let particles = [];
       if (mode === 'burst') {
-        const rayCount = 10 + Math.floor(tier / 3);
+        const rayCount = 16 + Math.floor(tier / 2);
         for (let i = 0; i < rayCount; i++) particles.push({ a: (Math.PI * 2 * i) / rayCount, phase: Math.random() * 6.28, speed: 1.4 + Math.random() * 0.6 });
       } else if (mode === 'pillars') {
-        const count = 7;
-        for (let i = 0; i < count; i++) particles.push({ x: w * (0.12 + (0.76 / (count - 1)) * i), phase: Math.random() * 6.28, speed: 0.7 + Math.random() * 0.4 });
+        const count = 9;
+        for (let i = 0; i < count; i++) particles.push({ x: w * (0.08 + (0.84 / (count - 1)) * i), phase: Math.random() * 6.28, speed: 0.7 + Math.random() * 0.4 });
       } else if (mode === 'spiralGlow') {
-        for (let i = 0; i < 3; i++) particles.push({ offset: i, dir: i % 2 === 0 ? 1 : -1 });
+        for (let i = 0; i < 5; i++) particles.push({ offset: i, dir: i % 2 === 0 ? 1 : -1 });
       } else if (mode === 'flare') {
-        for (let i = 0; i < 6; i++) particles.push({ a: Math.random() * 6.28, dist: 60 + Math.random() * 220, size: 6 + Math.random() * 14, speed: 0.3 + Math.random() * 0.4 });
+        for (let i = 0; i < 12; i++) particles.push({ a: Math.random() * 6.28, dist: 60 + Math.random() * 260, size: 7 + Math.random() * 18, speed: 0.3 + Math.random() * 0.4 });
       } else if (mode === 'vortexOrb') {
-        const n = 60;
-        for (let i = 0; i < n; i++) particles.push({ a: Math.random() * 6.28, r: 30 + Math.random() * 200, speed: 0.01 + Math.random() * 0.03 });
+        const n = 70;
+        for (let i = 0; i < n; i++) particles.push({ a: Math.random() * 6.28, r: 30 + Math.random() * 240, speed: 0.012 + Math.random() * 0.04 });
       } else if (mode === 'boltGrid') {
-        for (let i = 0; i < 6; i++) particles.push({ x0: w * (0.08 + i * 0.16), seed: Math.random() * 1000, nextStrike: Math.random() * 1200 });
+        for (let i = 0; i < 9; i++) particles.push({ x0: w * (0.05 + i * 0.11), seed: Math.random() * 1000, nextStrike: Math.random() * 700 });
       } else if (mode === 'prism') {
-        for (let i = 0; i < 8; i++) particles.push({ a: (Math.PI * 2 * i) / 8, phase: Math.random() * 6.28 });
+        for (let i = 0; i < 12; i++) particles.push({ a: (Math.PI * 2 * i) / 12, phase: Math.random() * 6.28 });
       }
 
       function frame(now) {
         const elapsed = now - startTime;
         const t = elapsed;
         drawBg(t);
+        drawSparks(t);
 
         if (mode === 'burst') {
-          drawGlowDot(ctx, cx, cy, 26 + Math.sin(t * 0.006) * 6, rgb, 1);
+          drawGlowDot(ctx, cx, cy, 34 + Math.sin(t * 0.006) * 9, rgb, 1);
           for (const p of particles) {
             const pulse = 0.5 + 0.5 * Math.sin(t * 0.003 * p.speed + p.phase);
-            const len = (140 + pulse * 180) * intensity;
+            const len = (190 + pulse * 240) * intensity;
             const x2 = cx + Math.cos(p.a) * len, y2 = cy + Math.sin(p.a) * len;
-            drawGlowLine(ctx, cx, cy, x2, y2, 3 + pulse * 4, rgb, 0.25 + pulse * 0.55);
+            drawGlowLine(ctx, cx, cy, x2, y2, 4 + pulse * 6, rgb, 0.35 + pulse * 0.65);
           }
           ctx.globalCompositeOperation = 'lighter';
-          ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.25 + 0.2 * Math.sin(t * 0.004)})`;
-          ctx.lineWidth = 2;
-          const ringR = 60 + ((t * 0.09) % 160);
-          ctx.beginPath(); ctx.arc(cx, cy, ringR, 0, 7); ctx.stroke();
+          for (let ring = 0; ring < 2; ring++) {
+            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${(0.3 + 0.25 * Math.sin(t * 0.004 + ring)) * intensity})`;
+            ctx.lineWidth = 3;
+            const ringR = 60 + (((t * 0.1) + ring * 90) % 220);
+            ctx.beginPath(); ctx.arc(cx, cy, ringR, 0, 7); ctx.stroke();
+          }
 
         } else if (mode === 'pillars') {
           for (const p of particles) {
             const pulse = 0.55 + 0.45 * Math.sin(t * 0.0025 * p.speed + p.phase);
-            const ph = (180 + pulse * 140) * intensity;
-            const pw = 16 + pulse * 14;
+            const ph = (260 + pulse * 190) * intensity;
+            const pw = 22 + pulse * 20;
             const grad = ctx.createLinearGradient(p.x, h, p.x, h - ph);
-            grad.addColorStop(0, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.05})`);
-            grad.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.35 + pulse * 0.3})`);
-            grad.addColorStop(1, `rgba(255,255,255,${0.5 + pulse * 0.4})`);
+            grad.addColorStop(0, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.08})`);
+            grad.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.5 + pulse * 0.35})`);
+            grad.addColorStop(1, `rgba(255,255,255,${0.6 + pulse * 0.4})`);
             ctx.globalCompositeOperation = 'lighter';
             ctx.fillStyle = grad;
             ctx.fillRect(p.x - pw, h - ph, pw * 2, ph);
-            drawGlowDot(ctx, p.x, h - ph, 16 + pulse * 10, rgb, 0.8);
+            drawGlowDot(ctx, p.x, h - ph, 24 + pulse * 16, rgb, 1);
           }
-          drawGlowDot(ctx, cx, h - 20, 50, rgb, 0.4);
+          drawGlowDot(ctx, cx, h - 20, 80, rgb, 0.6);
 
         } else if (mode === 'spiralGlow') {
-          drawGlowDot(ctx, cx, cy, 22 + Math.sin(t * 0.005) * 5, rgb, 1);
+          drawGlowDot(ctx, cx, cy, 30 + Math.sin(t * 0.005) * 7, rgb, 1);
           for (const p of particles) {
-            const baseAngle = t * 0.0012 * p.dir + p.offset * 2.1;
+            const baseAngle = t * 0.0014 * p.dir + p.offset * 1.6;
             let prevX = cx, prevY = cy;
-            const steps = 26;
+            const steps = 32;
             for (let s = 1; s <= steps; s++) {
               const sa = baseAngle + s * 0.32;
-              const sr = s * (9 + p.offset * 2) * intensity;
+              const sr = s * (11 + p.offset * 2.2) * intensity;
               const x = cx + Math.cos(sa) * sr, y = cy + Math.sin(sa) * sr * 0.7;
-              const alpha = (1 - s / steps) * 0.5;
-              if (s % 2 === 0) drawGlowLine(ctx, prevX, prevY, x, y, 3.5 - p.offset * 0.6, rgb, alpha);
+              const alpha = (1 - s / steps) * 0.7;
+              if (s % 2 === 0) drawGlowLine(ctx, prevX, prevY, x, y, 4.5 - p.offset * 0.5, rgb, alpha);
               prevX = x; prevY = y;
             }
           }
@@ -6609,63 +6875,71 @@
           const flicker = 0.7 + 0.3 * Math.sin(t * 0.005);
           ctx.globalCompositeOperation = 'lighter';
           const beamH = ctx.createLinearGradient(0, cy, w, cy);
-          beamH.addColorStop(0, 'rgba(0,0,0,0)'); beamH.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.5 * flicker * intensity})`); beamH.addColorStop(1, 'rgba(0,0,0,0)');
-          ctx.fillStyle = beamH; ctx.fillRect(0, cy - 14, w, 28);
+          beamH.addColorStop(0, 'rgba(0,0,0,0)'); beamH.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.75 * flicker * intensity})`); beamH.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = beamH; ctx.fillRect(0, cy - 22, w, 44);
           const beamV = ctx.createLinearGradient(cx, 0, cx, h);
-          beamV.addColorStop(0, 'rgba(0,0,0,0)'); beamV.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.5 * flicker * intensity})`); beamV.addColorStop(1, 'rgba(0,0,0,0)');
-          ctx.fillStyle = beamV; ctx.fillRect(cx - 14, 0, 28, h);
-          drawGlowDot(ctx, cx, cy, 40 + flicker * 14, rgb, 1);
+          beamV.addColorStop(0, 'rgba(0,0,0,0)'); beamV.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.75 * flicker * intensity})`); beamV.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = beamV; ctx.fillRect(cx - 22, 0, 44, h);
+          // 대각선 보조 빔 (X자 형태로 더 화려하게)
+          ctx.save(); ctx.translate(cx, cy); ctx.rotate(Math.PI / 4);
+          const beamD = ctx.createLinearGradient(-w, 0, w, 0);
+          beamD.addColorStop(0, 'rgba(0,0,0,0)'); beamD.addColorStop(0.5, `rgba(255,255,255,${0.3 * flicker * intensity})`); beamD.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = beamD; ctx.fillRect(-w, -10, w * 2, 20);
+          ctx.restore();
+          drawGlowDot(ctx, cx, cy, 56 + flicker * 20, rgb, 1);
           for (const p of particles) {
             const a2 = p.a + t * 0.0003 * p.speed;
             const gx = cx + Math.cos(a2) * p.dist, gy = cy + Math.sin(a2) * p.dist * 0.6;
-            drawGlowDot(ctx, gx, gy, p.size, rgb, 0.35);
+            drawGlowDot(ctx, gx, gy, p.size, rgb, 0.5);
           }
 
         } else if (mode === 'vortexOrb') {
           for (const p of particles) {
-            p.a += p.speed; p.r -= 0.5;
-            if (p.r < 6) p.r = 30 + Math.random() * 200;
+            p.a += p.speed; p.r -= 0.7;
+            if (p.r < 6) p.r = 30 + Math.random() * 240;
             const x = cx + Math.cos(p.a) * p.r, y = cy + Math.sin(p.a) * p.r * 0.6;
-            drawGlowDot(ctx, x, y, 3 + (1 - p.r / 230) * 5, rgb, 0.5);
+            drawGlowDot(ctx, x, y, 4 + (1 - p.r / 270) * 7, rgb, 0.7);
           }
-          drawGlowDot(ctx, cx, cy, 26 + Math.sin(t * 0.006) * 7, rgb, 1);
+          drawGlowDot(ctx, cx, cy, 36 + Math.sin(t * 0.006) * 9, rgb, 1);
 
         } else if (mode === 'boltGrid') {
           for (const p of particles) {
             p.nextStrike -= 16;
             if (p.nextStrike <= 0) {
-              p.nextStrike = 600 + Math.random() * 900;
+              p.nextStrike = 350 + Math.random() * 550;
               p.lastBolt = [];
               let x = p.x0, y = 0;
               for (let s = 0; s < 10; s++) {
-                const nx = x + (Math.random() - 0.5) * 50, ny = (h / 10) * (s + 1);
+                const nx = x + (Math.random() - 0.5) * 60, ny = (h / 10) * (s + 1);
                 p.lastBolt.push({ x1: x, y1: y, x2: nx, y2: ny });
                 x = nx; y = ny;
               }
-              p.boltLife = 220;
+              p.boltLife = 260;
             }
             if (p.boltLife > 0 && p.lastBolt) {
-              const alpha = Math.min(1, p.boltLife / 220) * intensity;
-              for (const seg of p.lastBolt) drawGlowLine(ctx, seg.x1, seg.y1, seg.x2, seg.y2, 2.5, rgb, alpha);
+              const alpha = Math.min(1, p.boltLife / 260) * intensity;
+              for (const seg of p.lastBolt) drawGlowLine(ctx, seg.x1, seg.y1, seg.x2, seg.y2, 3.5, rgb, alpha);
               p.boltLife -= 16;
             }
           }
-          drawGlowDot(ctx, cx, cy, 14 + Math.random() * 4, rgb, 0.6);
+          drawGlowDot(ctx, cx, cy, 20 + Math.random() * 6, rgb, 0.8);
 
         } else if (mode === 'prism') {
-          drawGlowDot(ctx, cx, cy, 24 + Math.sin(t * 0.006) * 6, rgb, 1);
+          drawGlowDot(ctx, cx, cy, 32 + Math.sin(t * 0.006) * 8, rgb, 1);
           ctx.globalCompositeOperation = 'lighter';
-          const rot = t * 0.0006;
-          ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot);
-          ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},0.7)`; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for (let i = 0; i < 4; i++) {
-            const a = (Math.PI * 2 * i) / 4; const r = 70;
-            const x = Math.cos(a) * r, y = Math.sin(a) * r;
-            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          const rot = t * 0.0007;
+          for (let layer = 0; layer < 2; layer++) {
+            ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot * (layer === 0 ? 1 : -1.4) + layer * 0.7);
+            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.8 - layer * 0.25})`; ctx.lineWidth = 3 - layer;
+            ctx.beginPath();
+            for (let i = 0; i < 4; i++) {
+              const a = (Math.PI * 2 * i) / 4; const r = 70 + layer * 35;
+              const x = Math.cos(a) * r, y = Math.sin(a) * r;
+              if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.closePath(); ctx.stroke();
+            ctx.restore();
           }
-          ctx.closePath(); ctx.stroke();
-          ctx.restore();
           for (const p of particles) {
             const pulse = 0.5 + 0.5 * Math.sin(t * 0.003 + p.phase);
             const a2 = p.a + rot;
@@ -7059,6 +7333,7 @@
 
       overlay.classList.add('active');
       overlay.style.background = '#000';
+      playImpactSound(item.tier, 'precs');
 
       let duration = 1800;
       const color = item.color;
@@ -7270,25 +7545,28 @@
         duration = 2400;
 
       } else if (conf.mode === 'finale') {
-        // 44: GOD EMPEROR 전용 최종 콤보 — 빛기둥 + 마법진 + 사슬 끊김 + 반전 + 캔버스 폭풍
-        overlay.style.background = `radial-gradient(circle at 50% 50%, ${color}33 0%, #000 80%)`;
+        // 44: GOD EMPEROR 전용 최종 콤보 — 빛기둥 + 마법진 + 캔버스 광폭풍 + 반전, 가장 과격하게
+        overlay.style.background = `radial-gradient(circle at 50% 50%, ${color}44 0%, #000 80%)`;
         invert.classList.add('go');
         magicCircle.innerHTML = buildMagicCircle(color);
         magicCircle.style.left = '50%'; magicCircle.style.top = '50%'; magicCircle.style.transform = 'translate(-50%,-50%)';
         requestAnimationFrame(() => magicCircle.classList.add('go'));
         let pillarHTML = '';
-        for (let i = 0; i < 12; i++) {
-          pillarHTML += `<div class="precs-pillar" style="background:linear-gradient(to top, ${color}, #fff 90%);box-shadow:0 0 50px ${color};animation-delay:${i * 0.04}s"></div>`;
+        for (let i = 0; i < 14; i++) {
+          pillarHTML += `<div class="precs-pillar" style="background:linear-gradient(to top, ${color}, #fff 90%);box-shadow:0 0 70px ${color};animation-delay:${i * 0.03}s"></div>`;
         }
         pillars.innerHTML = pillarHTML;
         requestAnimationFrame(() => {
-          pillars.querySelectorAll('.precs-pillar').forEach((p, i) => setTimeout(() => p.classList.add('go'), i * 50));
+          pillars.querySelectorAll('.precs-pillar').forEach((p, i) => setTimeout(() => p.classList.add('go'), i * 40));
         });
         canvas.style.opacity = '1';
-        runCanvasEffect(canvas, color, { mode: 'starfield', count: 220 }, 90);
-        doFlashPulse(0.9, 900, 400);
-        doFlashPulse(1.0, 2200, 500);
-        duration = 2800;
+        runLightCanvas(canvas, 44, color, 3200);
+        doFlashPulse(0.85, 250, 350);
+        doFlashPulse(1.0, 900, 450);
+        doFlashPulse(0.9, 1700, 400);
+        doFlashPulse(1.0, 2500, 500);
+        setT(() => playImpactSound(44, 'cutscene'), 1700);
+        duration = 3200;
 
       } else if (conf.mode === 'scene') {
         // 7~43 사이 나머지 28개 등급: 캔버스 기반 빛 이펙트 (가산합성+다층글로우+트레일로 화려하게)
@@ -7296,9 +7574,12 @@
         canvas.style.opacity = '1';
         duration = 1900 + Math.min(900, Math.floor(item.tier * 12));
         runLightCanvas(canvas, item.tier, color, duration);
-        doFlashPulse(item.tier >= 30 ? 0.7 : 0.45, 350, 400);
-        if (item.tier >= 25) doFlashPulse(0.5, 1300, 450);
-        if (item.tier >= 36) doFlashPulse(0.6, 2100, 400);
+        doFlashPulse(0.85, 200, 350);
+        doFlashPulse(item.tier >= 30 ? 0.9 : 0.6, 500, 600);
+        if (item.tier >= 20) doFlashPulse(0.6, 1100, 400);
+        if (item.tier >= 30) doFlashPulse(0.7, 1700, 400);
+        if (item.tier >= 36) doFlashPulse(0.85, 2300, 400);
+        if (item.tier >= 42) doFlashPulse(1.0, 2900, 400);
 
       } else {
         // 안전망: 알 수 없는 등급은 캔버스 기본값으로
@@ -7484,8 +7765,8 @@
       // 아트 등장
       setT(() => { art.classList.add('show'); }, 500);
 
-      // 사운드
-      playStarSound(item.tier, 'burst');
+      // 사운드 — 메인 컷씬 진입, 가장 웅장한 임팩트
+      playImpactSound(item.tier, 'cutscene');
 
       function doShake() {
         overlay.classList.remove('shake');
@@ -7510,19 +7791,19 @@
       // 2차 플래시 (높은 등급만)
       if (item.tier >= 21) {
         doFlash(0.65, 400, baseTime + 1100);
-        setT(doShake, baseTime + 1150);
+        setT(() => { doShake(); playStarSound(item.tier, 'burst'); }, baseTime + 1150);
       }
 
       // 3차 플래시 + 파티클 추가 (초고 등급)
       if (item.tier >= 32) {
         doFlash(0.8, 350, baseTime + 2000);
-        setT(() => { spawnParticles(particles, theme.particleColor, theme.particleCount); doShake(); }, baseTime + 2050);
+        setT(() => { spawnParticles(particles, theme.particleColor, theme.particleCount); doShake(); playStarSound(item.tier, 'burst'); }, baseTime + 2050);
       }
 
       // 4차 (신의 경지)
       if (item.tier >= 40) {
         doFlash(1.0, 300, baseTime + 2800);
-        setT(() => { spawnParticles(particles, theme.particleColor, theme.particleCount * 2); doShake(); }, baseTime + 2850);
+        setT(() => { spawnParticles(particles, theme.particleColor, theme.particleCount * 2); doShake(); playImpactSound(item.tier, 'cutscene'); }, baseTime + 2850);
       }
 
       // 긴 컷씬(15~20초) 동안 지루하지 않게 가끔 파티클을 보충한다 (렉 방지를 위해 빈도/개수 최소화)
