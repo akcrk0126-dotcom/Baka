@@ -892,14 +892,14 @@
       color: rgba(255, 255, 255, 0.85);
     }
 
-
-    font-weight: 900;
-    letter-spacing: 4px;
-    opacity: 0;
-    transition: opacity 0.3s;
-    text-align: center;
-    margin-top: 28px;
-    text-transform: uppercase;
+    #result-text {
+      font-weight: 900;
+      letter-spacing: 4px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      text-align: center;
+      margin-top: 28px;
+      text-transform: uppercase;
     }
 
     /* MUTATION ROLL REEL */
@@ -1849,6 +1849,20 @@
       transform-origin: center;
     }
 
+    #cutscene-premium-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      pointer-events: none;
+    }
+
+    #cutscene-premium-canvas.show {
+      opacity: 1;
+    }
+
     #cutscene-rays.fast {
       animation: ray-spin 4.5s linear infinite;
     }
@@ -1969,6 +1983,28 @@
       font-size: 40px;
       font-weight: 900;
       letter-spacing: 8px;
+      display: inline-block;
+    }
+
+    #cutscene-name.show .cs-title {
+      animation: cs-title-punch 0.6s cubic-bezier(.18, 1.4, .3, 1);
+    }
+
+    @keyframes cs-title-punch {
+      0% {
+        transform: scale(0.5);
+        filter: brightness(2.5);
+      }
+
+      55% {
+        transform: scale(1.18);
+        filter: brightness(1.5);
+      }
+
+      100% {
+        transform: scale(1);
+        filter: brightness(1);
+      }
     }
 
     #cutscene-name.show {
@@ -4640,6 +4676,7 @@
       <div id="cutscene">
         <div id="cutscene-bg"></div>
         <svg id="cutscene-rays" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"></svg>
+        <canvas id="cutscene-premium-canvas"></canvas>
         <div id="cutscene-particles"></div>
         <div id="cutscene-art"></div>
         <div id="cutscene-vignette"></div>
@@ -5726,7 +5763,10 @@
     function playImpactSound(tier, kind) {
       // 실제 mp3 샘플을 우선 재생 (합성음보다 훨씬 묵직하고 자연스러움)
       const scaleVol = Math.min(1, 0.6 + tier / 55);
-      if (kind === 'crack') {
+      if (kind === 'crackSmall') {
+        // 첫 작은 균열 — 조용하고 짧은 "쩍" 느낌만
+        playSfx('distortionTrans', 0.22 * scaleVol);
+      } else if (kind === 'crack') {
         playSfx('distortionTrans', 0.55 * scaleVol);
       } else if (kind === 'precs') {
         playSfx('riser', 0.7 * scaleVol);
@@ -5736,6 +5776,9 @@
         playSfx(boomKey, 0.85 * scaleVol);
         if (tier >= 22) setTimeout(() => playSfx('impactHeavy', 0.5 * scaleVol), 60);
       }
+
+      // crackSmall은 합성음 단계(아래 try블록)를 건너뛴다 — 작은 균열엔 묵직한 합성 사운드가 과함
+      if (kind === 'crackSmall') return;
 
       try {
         const ctx = getAudioCtx();
@@ -6430,6 +6473,7 @@
       // rAF 별 애니메이션 취소
       if (starAnimId) { cancelAnimationFrame(starAnimId); starAnimId = null; }
       if (lightAnimId) { cancelAnimationFrame(lightAnimId); lightAnimId = null; }
+      if (premiumAnimId) { cancelAnimationFrame(premiumAnimId); premiumAnimId = null; }
       document.getElementById('star-svg').style.display = 'none';
       document.getElementById('star-glow-ring').style.opacity = '0';
       document.getElementById('summon-quote').classList.remove('show');
@@ -6527,7 +6571,9 @@
     }
 
     // ===================== WHITE CRACK INTRO (Legendary+) =====================
+    let whiteCrackSeq = 0; // 중복 호출 방지: 매 호출마다 증가, 콜백에서 자기 seq가 최신인지 확인
     function showWhiteCrack(item) {
+      const mySeq = ++whiteCrackSeq;
       const overlay = document.getElementById('white-crack');
       const canvas = document.getElementById('white-crack-canvas');
       const flash = document.getElementById('white-crack-flash');
@@ -6537,63 +6583,122 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       flash.style.transition = ''; flash.style.opacity = '0';
       overlay.classList.add('active');
-      playImpactSound(item.tier, 'crack');
 
       const cx = canvas.width / 2, cy = canvas.height / 2;
-      // more cracks + longer reach for higher tiers
-      const crackCount = 6 + Math.floor((item.tier - 9) / 2);
+      // 메인 크랙: 더 많이, 더 날카로운 끝점으로 갈라지도록 (레퍼런스의 방사형 거미줄 균열)
+      const crackCount = 9 + Math.floor((item.tier - 9) / 1.5);
       const crackLines = [];
+      const subCrackLines = []; // 메인 크랙에서 갈라지는 가느다란 보조 균열 (별도 레이어, 더 얇게)
       for (let i = 0; i < crackCount; i++) {
-        const angle = (Math.PI * 2 * i / crackCount) + (Math.random() - 0.5) * 0.4;
-        const len = canvas.width * 0.5 + Math.random() * canvas.width * 0.4;
-        const pts = [{ x: cx, y: cy }]; let curX = cx, curY = cy;
-        const segCount = 4 + Math.floor(Math.random() * 4);
+        const angle = (Math.PI * 2 * i / crackCount) + (Math.random() - 0.5) * 0.35;
+        const len = canvas.width * 0.42 + Math.random() * canvas.width * 0.38;
+        const pts = [{ x: cx, y: cy }]; let curX = cx, curY = cy, curAngle = angle;
+        const segCount = 5 + Math.floor(Math.random() * 4);
         for (let s = 0; s < segCount; s++) {
-          const ti = (s + 1) / segCount, jitter = (1 - ti) * 30;
-          curX = cx + Math.cos(angle) * len * ti + (Math.random() - 0.5) * jitter;
-          curY = cy + Math.sin(angle) * len * ti + (Math.random() - 0.5) * jitter;
+          const ti = (s + 1) / segCount;
+          curAngle += (Math.random() - 0.5) * 0.5; // 갈수록 살짝 휘어지며 뻗어나감
+          const segLen = (len / segCount) * (0.8 + Math.random() * 0.5);
+          curX += Math.cos(curAngle) * segLen;
+          curY += Math.sin(curAngle) * segLen;
           pts.push({ x: curX, y: curY });
-          if (Math.random() < 0.4 && s > 0) {
-            const ba = angle + (Math.random() - 0.5) * 1.3, bl = len * 0.22 * Math.random();
-            pts.push({ x: curX + Math.cos(ba) * bl, y: curY + Math.sin(ba) * bl });
-            pts.push({ x: curX, y: curY });
+          // 메인 라인에서 갈라지는 짧은 가지들 (레퍼런스처럼 자잘하게 여러 방향으로)
+          if (Math.random() < 0.55 && s > 0) {
+            const branchCount = 1 + Math.floor(Math.random() * 2);
+            for (let bc = 0; bc < branchCount; bc++) {
+              const ba = curAngle + (Math.random() - 0.5) * 1.8;
+              const bl = segLen * (1.2 + Math.random() * 1.8) * (1 - ti * 0.4);
+              const bx = curX + Math.cos(ba) * bl, by = curY + Math.sin(ba) * bl;
+              subCrackLines.push([{ x: curX, y: curY }, { x: bx, y: by }]);
+            }
           }
         }
         crackLines.push(pts);
       }
+      // 중심부를 둘러싸는 자잘한 보조 균열 그물망 (거미줄처럼 빽빽하게)
+      const webCount = 10 + Math.floor(item.tier / 2);
+      for (let i = 0; i < webCount; i++) {
+        const a1 = Math.random() * Math.PI * 2;
+        const r1 = 20 + Math.random() * canvas.width * 0.18;
+        const a2 = a1 + (Math.random() - 0.5) * 1.2;
+        const r2 = r1 + 15 + Math.random() * 60;
+        subCrackLines.push([
+          { x: cx + Math.cos(a1) * r1, y: cy + Math.sin(a1) * r1 },
+          { x: cx + Math.cos(a2) * r2, y: cy + Math.sin(a2) * r2 }
+        ]);
+      }
 
-      const totalFrames = 16;
-      let frame = 0;
-      function drawFrame() {
+      function drawCracks(progress, subProgress, intensity) {
+        intensity = intensity == null ? 1 : intensity;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const progress = frame / totalFrames;
+        // 중심부 다크 글로우 (레퍼런스처럼 균열 주변이 뿌옇게 어두워짐)
+        const glowR = canvas.width * 0.16 * Math.min(1, progress * 1.6) * intensity;
+        const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, glowR);
+        glow.addColorStop(0, `rgba(0,0,0,${0.35 * intensity})`);
+        glow.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = glow;
+        ctx.beginPath(); ctx.arc(cx, cy, glowR, 0, 7); ctx.fill();
+
+        // 보조 균열(가지+그물망) — 더 얇고 흐릿하게, 메인보다 먼저 살짝 보임
+        if (intensity > 0.5) {
+          for (const pts of subCrackLines) {
+            if (subProgress < 0.15) continue;
+            const visCount = Math.min(pts.length, Math.floor(Math.min(1, (subProgress - 0.15) / 0.7) * pts.length) + 1);
+            if (visCount < 2) continue;
+            ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y); for (let i = 1; i < visCount; i++) ctx.lineTo(pts[i].x, pts[i].y);
+            ctx.strokeStyle = `rgba(0,0,0,${0.55 * intensity})`; ctx.lineWidth = 1.2; ctx.stroke();
+          }
+        }
+
+        // 메인 크랙: 부드러운 그림자 + 날카로운 코어 라인 (첫 단계는 얇고 옅게)
         for (const pts of crackLines) {
           const visCount = Math.floor(progress * pts.length); if (visCount < 2) continue;
-          // thick soft shadow line
           ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y); for (let i = 1; i < visCount; i++)ctx.lineTo(pts[i].x, pts[i].y);
-          ctx.strokeStyle = 'rgba(0,0,0,0.15)'; ctx.lineWidth = 6; ctx.stroke();
-          // sharp black crack line
+          ctx.strokeStyle = `rgba(0,0,0,${0.18 * intensity})`; ctx.lineWidth = 7 * intensity; ctx.stroke();
           ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y); for (let i = 1; i < visCount; i++)ctx.lineTo(pts[i].x, pts[i].y);
-          ctx.strokeStyle = '#000'; ctx.lineWidth = 2.5; ctx.stroke();
+          ctx.strokeStyle = `rgba(0,0,0,${Math.min(1, 0.5 + intensity * 0.5)})`; ctx.lineWidth = Math.max(0.8, 2.2 * intensity); ctx.stroke();
         }
-        frame++;
-        if (skipRequested) return;
-        if (frame <= totalFrames) requestAnimationFrame(drawFrame);
-        else finishWhiteCrack(item);
       }
-      requestAnimationFrame(drawFrame);
+
+      // ===== 단계 1: 새하얀 배경만 약 2초간 정적으로 유지 (긴장감 조성) =====
+      setT(() => {
+        if (mySeq !== whiteCrackSeq) return; // 그 사이 새로운 호출이 있었다면 무시 (중복 실행 방지)
+        // ===== 단계 2: "쩍" — 첫 작은 균열 (전체의 12%만, 가늘고 옅게 — 살짝 갈라진 느낌만) =====
+        playImpactSound(item.tier, 'crackSmall');
+        drawCracks(0.12, 0, 0.4);
+
+        setT(() => {
+          if (mySeq !== whiteCrackSeq) return;
+          // ===== 단계 3: "쩍!" — 완전 파열 (rAF로 빠르게 전체 균열까지 퍼짐) =====
+          playImpactSound(item.tier, 'crack');
+          const totalFrames = 9; // 약 0.15초 내로 빠르게 완전히 깨짐
+          let frame = 0;
+          function drawFrame() {
+            if (mySeq !== whiteCrackSeq) return;
+            const progress = 0.12 + (frame / totalFrames) * 0.88;
+            const subProgress = frame / totalFrames;
+            const stageIntensity = 0.4 + (frame / totalFrames) * 0.6;
+            drawCracks(progress, subProgress, stageIntensity);
+            frame++;
+            if (skipRequested) return;
+            if (frame <= totalFrames) requestAnimationFrame(drawFrame);
+            else finishWhiteCrack(item);
+          }
+          requestAnimationFrame(drawFrame);
+        }, 280); // 첫 균열과 완전 파열 사이 짧은 정지
+      }, 2000);
     }
 
     function finishWhiteCrack(item) {
       const overlay = document.getElementById('white-crack');
       const flash = document.getElementById('white-crack-flash');
-      flash.style.transition = 'opacity 0.08s';
+      // 화이트→블랙 짧은 암전으로만 자연스럽게 넘어간다 (별도 플래시 깜빡임 없이, 크랙처럼 보이는 혼동 방지)
+      flash.style.transition = 'opacity 0.15s ease';
       flash.style.opacity = '1';
       setT(() => {
         overlay.classList.remove('active');
         flash.style.opacity = '0';
         showPreCutscene(item);
-      }, 130);
+      }, 170);
     }
 
     // ===================== PRE-CUTSCENE TRANSITIONS (by tier band) =====================
@@ -6758,6 +6863,72 @@
       ctx.globalAlpha = 1;
     }
 
+    // 4-point 별 모양 플레어 (레퍼런스의 핵심 요소: 동그란 글로우가 아니라 십자로 길게 찌르는 별빛)
+    // sizeMul: 가로/세로 축 길이, diagMul: 대각선 축 길이(보통 더 짧게), rot: 회전각(라디안)
+    function drawStarFlare(ctx, x, y, sizeMul, diagMul, rgb, alpha, rot) {
+      ctx.globalCompositeOperation = 'lighter';
+      rot = rot || 0;
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rot);
+      // 메인 십자축 (수직/수평) - 더 길고 굵게
+      function axis(len, width, a) {
+        const grad = ctx.createLinearGradient(-len, 0, len, 0);
+        grad.addColorStop(0, `rgba(${rgb.r},${rgb.g},${rgb.b},0)`);
+        grad.addColorStop(0.46, `rgba(${rgb.r},${rgb.g},${rgb.b},${a * 0.7})`);
+        grad.addColorStop(0.5, `rgba(255,255,255,${a})`);
+        grad.addColorStop(0.54, `rgba(${rgb.r},${rgb.g},${rgb.b},${a * 0.7})`);
+        grad.addColorStop(1, `rgba(${rgb.r},${rgb.g},${rgb.b},0)`);
+        ctx.fillStyle = grad;
+        ctx.fillRect(-len, -width / 2, len * 2, width);
+      }
+      axis(sizeMul, sizeMul * 0.045, 0);
+      ctx.save(); ctx.rotate(Math.PI / 2); axis(sizeMul, sizeMul * 0.045, 0); ctx.restore();
+      // 대각선 보조축 (더 짧고 얇게)
+      ctx.save(); ctx.rotate(Math.PI / 4); axis(diagMul, diagMul * 0.03, 0); ctx.restore();
+      ctx.save(); ctx.rotate(-Math.PI / 4); axis(diagMul, diagMul * 0.03, 0); ctx.restore();
+      ctx.restore();
+      // 중심 코어 (작고 강한 흰 핫스팟)
+      const coreGrad = ctx.createRadialGradient(x, y, 0, x, y, sizeMul * 0.18);
+      coreGrad.addColorStop(0, `rgba(255,255,255,${alpha})`);
+      coreGrad.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${alpha * 0.5})`);
+      coreGrad.addColorStop(1, `rgba(${rgb.r},${rgb.g},${rgb.b},0)`);
+      ctx.fillStyle = coreGrad;
+      ctx.beginPath(); ctx.arc(x, y, sizeMul * 0.18, 0, 7); ctx.fill();
+    }
+
+    // 회전하는 와이어프레임 큐브/다이아몬드 (레퍼런스의 떠다니는 기하 도형)
+    function drawWireCube(ctx, x, y, size, rgb, alpha, rotX, rotY) {
+      ctx.globalCompositeOperation = 'lighter';
+      const s = size / 2;
+      const verts = [
+        [-s, -s, -s], [s, -s, -s], [s, s, -s], [-s, s, -s],
+        [-s, -s, s], [s, -s, s], [s, s, s], [-s, s, s]
+      ];
+      const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+      const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+      const proj = verts.map(([vx, vy, vz]) => {
+        // Y축 회전
+        let x1 = vx * cosY - vz * sinY, z1 = vx * sinY + vz * cosY;
+        // X축 회전
+        let y1 = vy * cosX - z1 * sinX, z2 = vy * sinX + z1 * cosX;
+        const persp = 1 / (1 + z2 / (size * 2.4));
+        return { x: x + x1 * persp, y: y + y1 * persp };
+      });
+      const edges = [[0, 1], [1, 2], [2, 3], [3, 0], [4, 5], [5, 6], [6, 7], [7, 4], [0, 4], [1, 5], [2, 6], [3, 7]];
+      ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${alpha})`;
+      ctx.lineWidth = Math.max(1, size * 0.012);
+      ctx.shadowColor = `rgba(${rgb.r},${rgb.g},${rgb.b},${alpha})`;
+      ctx.shadowBlur = size * 0.15;
+      ctx.beginPath();
+      for (const [a, b] of edges) {
+        ctx.moveTo(proj[a].x, proj[a].y);
+        ctx.lineTo(proj[b].x, proj[b].y);
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+
     let lightAnimId = null;
     function runLightCanvas(canvas, tier, color, durationMs) {
       if (lightAnimId) { cancelAnimationFrame(lightAnimId); lightAnimId = null; }
@@ -6817,14 +6988,36 @@
         for (let i = 0; i < 12; i++) particles.push({ a: (Math.PI * 2 * i) / 12, phase: Math.random() * 6.28 });
       }
 
+      // 모드 공통: 회전하며 떠다니는 와이어프레임 큐브/다이아몬드 (레퍼런스의 핵심 디테일)
+      const cubeCount = Math.min(7, 3 + Math.floor(tier / 8));
+      const cubes = [];
+      for (let i = 0; i < cubeCount; i++) {
+        const ang = (Math.PI * 2 * i) / cubeCount + Math.random() * 0.6;
+        const dist = w * (0.22 + Math.random() * 0.2);
+        cubes.push({
+          x: cx + Math.cos(ang) * dist, y: cy + Math.sin(ang) * dist * 0.65,
+          size: 18 + Math.random() * 26, rotX: Math.random() * 6.28, rotY: Math.random() * 6.28,
+          spinX: 0.006 + Math.random() * 0.01, spinY: 0.005 + Math.random() * 0.012,
+          bobPhase: Math.random() * 6.28, bobSpeed: 0.0008 + Math.random() * 0.0006
+        });
+      }
+      function drawCubes(t) {
+        for (const c of cubes) {
+          const by = c.y + Math.sin(t * c.bobSpeed + c.bobPhase) * 12;
+          drawWireCube(ctx, c.x, by, c.size, rgb, 0.55 * intensity, c.rotX + t * c.spinX, c.rotY + t * c.spinY);
+        }
+      }
+
       function frame(now) {
         const elapsed = now - startTime;
         const t = elapsed;
         drawBg(t);
         drawSparks(t);
+        drawCubes(t);
 
         if (mode === 'burst') {
-          drawGlowDot(ctx, cx, cy, 34 + Math.sin(t * 0.006) * 9, rgb, 1);
+          drawGlowDot(ctx, cx, cy, 30 + Math.sin(t * 0.006) * 7, rgb, 0.6);
+          drawStarFlare(ctx, cx, cy, 130 + Math.sin(t * 0.005) * 30, 70 + Math.sin(t * 0.005) * 16, rgb, 1, t * 0.0006);
           for (const p of particles) {
             const pulse = 0.5 + 0.5 * Math.sin(t * 0.003 * p.speed + p.phase);
             const len = (190 + pulse * 240) * intensity;
@@ -6851,12 +7044,15 @@
             ctx.globalCompositeOperation = 'lighter';
             ctx.fillStyle = grad;
             ctx.fillRect(p.x - pw, h - ph, pw * 2, ph);
-            drawGlowDot(ctx, p.x, h - ph, 24 + pulse * 16, rgb, 1);
+            drawGlowDot(ctx, p.x, h - ph, 16 + pulse * 10, rgb, 0.6);
+            drawStarFlare(ctx, p.x, h - ph, 38 + pulse * 22, 20, rgb, 0.85, 0);
           }
-          drawGlowDot(ctx, cx, h - 20, 80, rgb, 0.6);
+          drawGlowDot(ctx, cx, h - 20, 60, rgb, 0.5);
+          drawStarFlare(ctx, cx, h - 30, 90, 48, rgb, 0.9, Math.PI / 4);
 
         } else if (mode === 'spiralGlow') {
-          drawGlowDot(ctx, cx, cy, 30 + Math.sin(t * 0.005) * 7, rgb, 1);
+          drawGlowDot(ctx, cx, cy, 24 + Math.sin(t * 0.005) * 6, rgb, 0.6);
+          drawStarFlare(ctx, cx, cy, 100 + Math.sin(t * 0.006) * 22, 56, rgb, 1, t * -0.0005);
           for (const p of particles) {
             const baseAngle = t * 0.0014 * p.dir + p.offset * 1.6;
             let prevX = cx, prevY = cy;
@@ -6886,7 +7082,8 @@
           beamD.addColorStop(0, 'rgba(0,0,0,0)'); beamD.addColorStop(0.5, `rgba(255,255,255,${0.3 * flicker * intensity})`); beamD.addColorStop(1, 'rgba(0,0,0,0)');
           ctx.fillStyle = beamD; ctx.fillRect(-w, -10, w * 2, 20);
           ctx.restore();
-          drawGlowDot(ctx, cx, cy, 56 + flicker * 20, rgb, 1);
+          drawGlowDot(ctx, cx, cy, 38 + flicker * 12, rgb, 0.55);
+          drawStarFlare(ctx, cx, cy, 220 + flicker * 60, 130 + flicker * 30, rgb, 1, 0);
           for (const p of particles) {
             const a2 = p.a + t * 0.0003 * p.speed;
             const gx = cx + Math.cos(a2) * p.dist, gy = cy + Math.sin(a2) * p.dist * 0.6;
@@ -6900,7 +7097,8 @@
             const x = cx + Math.cos(p.a) * p.r, y = cy + Math.sin(p.a) * p.r * 0.6;
             drawGlowDot(ctx, x, y, 4 + (1 - p.r / 270) * 7, rgb, 0.7);
           }
-          drawGlowDot(ctx, cx, cy, 36 + Math.sin(t * 0.006) * 9, rgb, 1);
+          drawGlowDot(ctx, cx, cy, 28 + Math.sin(t * 0.006) * 7, rgb, 0.6);
+          drawStarFlare(ctx, cx, cy, 95 + Math.sin(t * 0.007) * 20, 50, rgb, 1, t * 0.0009);
 
         } else if (mode === 'boltGrid') {
           for (const p of particles) {
@@ -6922,10 +7120,12 @@
               p.boltLife -= 16;
             }
           }
-          drawGlowDot(ctx, cx, cy, 20 + Math.random() * 6, rgb, 0.8);
+          drawGlowDot(ctx, cx, cy, 16 + Math.random() * 5, rgb, 0.5);
+          drawStarFlare(ctx, cx, cy, 70 + Math.random() * 22, 38, rgb, 0.9 + Math.random() * 0.1, 0);
 
         } else if (mode === 'prism') {
-          drawGlowDot(ctx, cx, cy, 32 + Math.sin(t * 0.006) * 8, rgb, 1);
+          drawGlowDot(ctx, cx, cy, 26 + Math.sin(t * 0.006) * 7, rgb, 0.55);
+          drawStarFlare(ctx, cx, cy, 110 + Math.sin(t * 0.006) * 24, 60, rgb, 1, t * 0.0008);
           ctx.globalCompositeOperation = 'lighter';
           const rot = t * 0.0007;
           for (let layer = 0; layer < 2; layer++) {
@@ -6955,6 +7155,302 @@
       }
       lightAnimId = requestAnimationFrame(frame);
     }
+
+    // ===== 30등급 이상 전용 프리미엄 컷씬 이펙트 (등급마다 완전히 다른 고유 비주얼) =====
+    const PREMIUM_TIER_MODE = {
+      30: 'explosion', 31: 'blueprint', 32: 'voidCollapse', 33: 'clockwork',
+      34: 'frostShatter', 35: 'quantumGlitch', 36: 'devour', 37: 'singularity',
+      38: 'eyeField', 39: 'paradoxLoop', 40: 'creation', 41: 'dataStream',
+      42: 'ascension', 43: 'primordialFire', 44: 'godRays'
+    };
+
+    let premiumAnimId = null;
+    function runPremiumCutsceneCanvas(canvas, tier, color, durationMs) {
+      if (premiumAnimId) { cancelAnimationFrame(premiumAnimId); premiumAnimId = null; }
+      const mode = PREMIUM_TIER_MODE[tier];
+      if (!mode) return;
+      const rgb = hexToRgb(color);
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      const cx = w / 2, cy = h / 2;
+      const startTime = performance.now();
+      const intensity = Math.min(1.6, 0.9 + (tier - 30) / 20);
+
+      // 공통 와이어프레임 큐브 (배경에 은은하게, 모든 프리미엄 모드 공통)
+      const cubeCount = 4 + Math.floor((tier - 30) / 3);
+      const cubes = [];
+      for (let i = 0; i < cubeCount; i++) {
+        const ang = (Math.PI * 2 * i) / cubeCount + Math.random() * 0.5;
+        const dist = w * (0.28 + Math.random() * 0.18);
+        cubes.push({
+          x: cx + Math.cos(ang) * dist, y: cy + Math.sin(ang) * dist * 0.6,
+          size: 16 + Math.random() * 22, rotX: Math.random() * 6.28, rotY: Math.random() * 6.28,
+          spinX: 0.005 + Math.random() * 0.008, spinY: 0.004 + Math.random() * 0.009
+        });
+      }
+
+      let particles = [];
+      if (mode === 'explosion') {
+        for (let i = 0; i < 26; i++) particles.push({ a: Math.random() * 6.28, speed: 0.15 + Math.random() * 0.35, dist: 0, size: 2 + Math.random() * 4 });
+      } else if (mode === 'blueprint') {
+        // 격자선 + 큰 와이어 다면체
+      } else if (mode === 'voidCollapse' || mode === 'devour' || mode === 'singularity') {
+        for (let i = 0; i < 50; i++) particles.push({ a: Math.random() * 6.28, r: 40 + Math.random() * w * 0.45, speed: 0.004 + Math.random() * 0.01 });
+      } else if (mode === 'clockwork') {
+        // 톱니바퀴는 그릴 때 직접 계산
+      } else if (mode === 'frostShatter') {
+        for (let i = 0; i < 22; i++) particles.push({ a: (Math.PI * 2 * i) / 22 + Math.random() * 0.2, len: 60 + Math.random() * w * 0.3, phase: Math.random() * 6.28 });
+      } else if (mode === 'quantumGlitch') {
+        for (let i = 0; i < 16; i++) particles.push({ x: Math.random() * w, y: Math.random() * h, w: 20 + Math.random() * 80, h: 2 + Math.random() * 6, life: Math.random() * 500 });
+      } else if (mode === 'eyeField') {
+        for (let i = 0; i < 13; i++) particles.push({ x: cx + (Math.random() - 0.5) * w * 0.7, y: cy + (Math.random() - 0.5) * h * 0.55, phase: Math.random() * 6.28, size: 10 + Math.random() * 14 });
+      } else if (mode === 'paradoxLoop') {
+        for (let i = 0; i < 8; i++) particles.push({ offset: i });
+      } else if (mode === 'creation' || mode === 'ascension') {
+        for (let i = 0; i < 30; i++) particles.push({ x: cx + (Math.random() - 0.5) * w * 0.5, y: h * (0.3 + Math.random() * 0.7), speed: 0.5 + Math.random() * 1.2, size: 2 + Math.random() * 4 });
+      } else if (mode === 'dataStream') {
+        for (let i = 0; i < 18; i++) particles.push({ x: Math.random() * w, y: Math.random() * -h, speed: 1.5 + Math.random() * 2.5, len: 30 + Math.random() * 80 });
+      } else if (mode === 'primordialFire') {
+        for (let i = 0; i < 24; i++) particles.push({ x: cx + (Math.random() - 0.5) * w * 0.6, y: h * 0.6 + Math.random() * h * 0.4, speed: 0.6 + Math.random() * 1.4, size: 3 + Math.random() * 6, phase: Math.random() * 6.28 });
+      } else if (mode === 'godRays') {
+        for (let i = 0; i < 24; i++) particles.push({ a: (Math.PI * 2 * i) / 24, phase: Math.random() * 6.28 });
+      }
+
+      function drawBgPulse(t, strength) {
+        ctx.globalCompositeOperation = 'lighter';
+        const bgGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.75);
+        const pulse = (0.1 + Math.sin(t * 0.001) * 0.04) * strength * intensity;
+        bgGrad.addColorStop(0, `rgba(${rgb.r},${rgb.g},${rgb.b},${pulse})`);
+        bgGrad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, w, h);
+      }
+
+      function frame(now) {
+        const elapsed = now - startTime;
+        const t = elapsed;
+        ctx.clearRect(0, 0, w, h);
+        drawBgPulse(t, 1);
+
+        if (mode === 'explosion') {
+          // ETERNAL DESTROYER: 충격파 링 + 방사형 파편이 계속 바깥으로 터져나감
+          for (let ring = 0; ring < 3; ring++) {
+            const rr = ((t * 0.25) + ring * 220) % 650;
+            ctx.globalCompositeOperation = 'lighter';
+            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${Math.max(0, 0.5 - rr / 650) * intensity})`;
+            ctx.lineWidth = 4;
+            ctx.beginPath(); ctx.arc(cx, cy, rr, 0, 7); ctx.stroke();
+          }
+          for (const p of particles) {
+            p.dist += p.speed * 3;
+            if (p.dist > w * 0.55) p.dist = 0;
+            const x = cx + Math.cos(p.a) * p.dist, y = cy + Math.sin(p.a) * p.dist * 0.7;
+            drawGlowDot(ctx, x, y, p.size * (1 - p.dist / (w * 0.55) * 0.5), rgb, Math.max(0, 1 - p.dist / (w * 0.55)));
+          }
+          drawStarFlare(ctx, cx, cy, 150 + Math.sin(t * 0.005) * 40, 80, rgb, 1, t * 0.0005);
+
+        } else if (mode === 'blueprint') {
+          // PRIME ARCHITECT: 회전하는 큰 와이어 격자 + 설계도풍 그리드 라인
+          ctx.globalCompositeOperation = 'lighter';
+          ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},0.12)`;
+          ctx.lineWidth = 1;
+          const gridSize = 36;
+          for (let gx = (t * 0.02) % gridSize; gx < w; gx += gridSize) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke(); }
+          for (let gy = 0; gy < h; gy += gridSize) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke(); }
+          drawWireCube(ctx, cx, cy, 130 + Math.sin(t * 0.0008) * 20, rgb, 0.85, t * 0.0006, t * 0.0009);
+          drawWireCube(ctx, cx, cy, 80, rgb, 0.6, -t * 0.0009, t * 0.0005);
+          drawStarFlare(ctx, cx, cy, 70, 38, rgb, 0.9, 0);
+
+        } else if (mode === 'voidCollapse') {
+          // VOID SOVEREIGN: 모든 게 블랙홀 중심으로 빨려들어감
+          for (const p of particles) {
+            p.a += p.speed * 1.5; p.r -= 1.2;
+            if (p.r < 8) p.r = 40 + Math.random() * w * 0.45;
+            const x = cx + Math.cos(p.a) * p.r, y = cy + Math.sin(p.a) * p.r * 0.65;
+            drawGlowDot(ctx, x, y, 2 + (1 - p.r / (w * 0.45)) * 5, rgb, 0.6);
+          }
+          ctx.globalCompositeOperation = 'lighter';
+          for (let i = 0; i < 3; i++) {
+            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.5 - i * 0.13})`;
+            ctx.lineWidth = 2.5 - i * 0.5;
+            ctx.beginPath(); ctx.ellipse(cx, cy, 130 - i * 30, 32 - i * 7, t * 0.0007 * (i % 2 === 0 ? 1 : -1), 0, 7); ctx.stroke();
+          }
+          ctx.fillStyle = '#000';
+          ctx.beginPath(); ctx.arc(cx, cy, 44, 0, 7); ctx.fill();
+          ctx.globalCompositeOperation = 'lighter';
+          ctx.strokeStyle = `rgba(255,255,255,0.4)`; ctx.lineWidth = 1.5;
+          ctx.beginPath(); ctx.arc(cx, cy, 46, 0, 7); ctx.stroke();
+
+        } else if (mode === 'clockwork') {
+          // CHRONO OVERLORD: 여러 톱니바퀴가 서로 다른 속도로 회전
+          ctx.globalCompositeOperation = 'lighter';
+          function gear(gx, gy, r, teeth, speed, dir) {
+            ctx.save(); ctx.translate(gx, gy); ctx.rotate(t * speed * dir);
+            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},0.75)`; ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            for (let i = 0; i <= teeth * 2; i++) {
+              const a = (Math.PI * 2 * i) / (teeth * 2);
+              const rr = i % 2 === 0 ? r : r * 0.84;
+              const x = Math.cos(a) * rr, y = Math.sin(a) * rr;
+              if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.closePath(); ctx.stroke();
+            ctx.beginPath(); ctx.arc(0, 0, r * 0.25, 0, 7); ctx.stroke();
+            ctx.restore();
+          }
+          gear(cx, cy, 95, 10, 0.0006, 1);
+          gear(cx - 130, cy - 40, 55, 7, 0.0009, -1);
+          gear(cx + 130, cy + 50, 65, 8, 0.0008, -1);
+          drawGlowDot(ctx, cx, cy, 18, rgb, 0.8);
+
+        } else if (mode === 'frostShatter') {
+          // ABSOLUTE ZERO: 결정처럼 뻗어나가는 얼음 파편 라인 + 흰 코어
+          for (const p of particles) {
+            const grow = Math.min(1, (t % 2400) / 1400);
+            const len = p.len * grow;
+            const x2 = cx + Math.cos(p.a) * len, y2 = cy + Math.sin(p.a) * len;
+            drawGlowLine(ctx, cx, cy, x2, y2, 2.5, rgb, 0.6 * (1 - grow * 0.3));
+            if (grow > 0.5) {
+              const bx = cx + Math.cos(p.a) * len * 0.6, by = cy + Math.sin(p.a) * len * 0.6;
+              const ba = p.a + 0.7;
+              drawGlowLine(ctx, bx, by, bx + Math.cos(ba) * 30, by + Math.sin(ba) * 30, 1.5, rgb, 0.4);
+            }
+          }
+          drawStarFlare(ctx, cx, cy, 100 + Math.sin(t * 0.004) * 20, 55, { r: 255, g: 255, b: 255 }, 0.9, t * 0.0003);
+
+        } else if (mode === 'quantumGlitch') {
+          // Quantum Reaper: 화면이 글리치처럼 끊기는 사각 노이즈 블록 + 더블비전 스타플레어
+          for (const p of particles) {
+            p.life -= 16;
+            if (p.life <= 0) { p.x = Math.random() * w; p.y = Math.random() * h; p.life = 200 + Math.random() * 500; }
+            ctx.globalCompositeOperation = 'lighter';
+            ctx.fillStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.3 * Math.min(1, p.life / 200)})`;
+            ctx.fillRect(p.x, p.y, p.w, p.h);
+          }
+          const glitchOff = Math.sin(t * 0.01) > 0.85 ? (Math.random() - 0.5) * 14 : 0;
+          drawStarFlare(ctx, cx + glitchOff, cy, 90, 48, rgb, 0.85, 0);
+          drawStarFlare(ctx, cx - glitchOff, cy, 90, 48, { r: 255, g: 255, b: 255 }, 0.3, 0);
+
+        } else if (mode === 'devour') {
+          // World Eater: 거대한 입처럼 모든 빛이 중심으로 빨려들고 주기적으로 삼킴
+          for (const p of particles) {
+            p.a += p.speed * 2; p.r -= 1.8;
+            if (p.r < 6) p.r = 40 + Math.random() * w * 0.45;
+            const x = cx + Math.cos(p.a) * p.r, y = cy + Math.sin(p.a) * p.r * 0.7;
+            drawGlowDot(ctx, x, y, 3 + (1 - p.r / (w * 0.45)) * 6, rgb, 0.55);
+          }
+          const chomp = 0.5 + 0.5 * Math.sin(t * 0.003);
+          drawGlowDot(ctx, cx, cy, 50 + chomp * 25, rgb, 0.5);
+          ctx.fillStyle = '#000';
+          ctx.beginPath(); ctx.arc(cx, cy, 30 + chomp * 14, 0, 7); ctx.fill();
+
+        } else if (mode === 'singularity') {
+          // Singularity: 여러 링이 동시에 압축되어 사라지고 다시 생성됨 (반복)
+          const cyc = t % 2400;
+          for (let i = 0; i < 7; i++) {
+            const localT = (cyc - i * 100) % 2400;
+            if (localT < 0) continue;
+            const rr = Math.max(2, 110 - (localT / 2400) * 108);
+            ctx.globalCompositeOperation = 'lighter';
+            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.55 - i * 0.05})`;
+            ctx.lineWidth = 1.8;
+            ctx.beginPath(); ctx.arc(cx, cy, rr, 0, 7); ctx.stroke();
+          }
+          drawGlowDot(ctx, cx, cy, 10 + Math.sin(t * 0.01) * 4, rgb, 1);
+
+        } else if (mode === 'eyeField') {
+          // Omniscient: 여러 개의 눈이 깜빡이며 응시함
+          for (const p of particles) {
+            const blink = 0.4 + 0.6 * Math.abs(Math.sin(t * 0.0015 + p.phase));
+            ctx.globalCompositeOperation = 'lighter';
+            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.7 * blink})`;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.ellipse(p.x, p.y, p.size, p.size * 0.55, 0, 0, 7); ctx.stroke();
+            drawGlowDot(ctx, p.x, p.y, p.size * 0.32 * blink, rgb, blink);
+          }
+          drawStarFlare(ctx, cx, cy, 60, 32, rgb, 0.7, 0);
+
+        } else if (mode === 'paradoxLoop') {
+          // Paradox: 뒤틀린 도형이 서로 다른 속도로 겹쳐 회전하며 잔상처럼 보임
+          for (const p of particles) {
+            const r = 40 + p.offset * 14;
+            const sp = 0.0005 * (p.offset % 2 === 0 ? 1 : -1.4);
+            ctx.globalCompositeOperation = 'lighter';
+            ctx.save(); ctx.translate(cx, cy); ctx.rotate(t * sp + p.offset);
+            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.4 - p.offset * 0.03})`;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            for (let i = 0; i < 3; i++) {
+              const a = (Math.PI * 2 * i) / 3; const x = Math.cos(a) * r, y = Math.sin(a) * r;
+              if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.closePath(); ctx.stroke(); ctx.restore();
+          }
+          drawStarFlare(ctx, cx, cy, 85, 46, rgb, 0.85, t * -0.0006);
+
+        } else if (mode === 'creation') {
+          // Demiurge: 바닥에서 빛 입자가 솟아올라 위에서 모여 별이 됨
+          for (const p of particles) {
+            p.y -= p.speed * 2;
+            if (p.y < h * 0.15) p.y = h * (0.3 + Math.random() * 0.7);
+            drawGlowDot(ctx, p.x, p.y, p.size, rgb, Math.max(0, 1 - p.y / h));
+          }
+          drawStarFlare(ctx, cx, h * 0.22, 140 + Math.sin(t * 0.004) * 30, 75, { r: 255, g: 253, b: 231 }, 1, t * 0.0004);
+
+        } else if (mode === 'dataStream') {
+          // Akashic Lord: 위에서 아래로 흐르는 데이터/지식 스트림 라인
+          for (const p of particles) {
+            p.y += p.speed * 4;
+            if (p.y > h + p.len) p.y = -Math.random() * h;
+            drawGlowLine(ctx, p.x, p.y, p.x, p.y + p.len, 2, rgb, 0.5);
+          }
+          drawStarFlare(ctx, cx, cy, 80, 44, rgb, 0.85, 0);
+
+        } else if (mode === 'ascension') {
+          // Transcendent: 인간형 빛이 천천히 상승하며 주변 입자도 같이 떠오름
+          for (const p of particles) {
+            p.y -= p.speed * 1.5;
+            if (p.y < h * 0.1) p.y = h * (0.5 + Math.random() * 0.5);
+            drawGlowDot(ctx, p.x, p.y, p.size, rgb, Math.max(0, 1 - p.y / h) * 0.8);
+          }
+          const riseY = cy - Math.sin(t * 0.0008) * 20;
+          drawStarFlare(ctx, cx, riseY, 150 + Math.sin(t * 0.005) * 30, 80, { r: 255, g: 255, b: 255 }, 1, 0);
+
+        } else if (mode === 'primordialFire') {
+          // Primordial: 바닥에서 솟아오르는 원시 불길 입자
+          for (const p of particles) {
+            p.y -= p.speed * 2.5;
+            const flick = 0.6 + 0.4 * Math.sin(t * 0.006 + p.phase);
+            if (p.y < h * 0.25) { p.y = h * 0.6 + Math.random() * h * 0.4; p.x = cx + (Math.random() - 0.5) * w * 0.6; }
+            drawGlowDot(ctx, p.x, p.y, p.size * flick, rgb, Math.max(0, 1 - (h * 0.6 - p.y) / (h * 0.4)) * 0.8);
+          }
+          drawGlowDot(ctx, cx, h * 0.62, 70 + Math.sin(t * 0.005) * 16, rgb, 0.7);
+
+        } else if (mode === 'godRays') {
+          // GOD EMPEROR: 압도적인 다중 황금 갓레이 + 거대 스타플레어
+          for (const p of particles) {
+            const a2 = p.a + t * 0.0002;
+            const len = w * 0.6;
+            const x2 = cx + Math.cos(a2) * len, y2 = cy + Math.sin(a2) * len;
+            drawGlowLine(ctx, cx, cy, x2, y2, 5 + Math.sin(t * 0.003 + p.phase) * 3, rgb, 0.3 + 0.25 * Math.sin(t * 0.004 + p.phase));
+          }
+          drawStarFlare(ctx, cx, cy, 220 + Math.sin(t * 0.005) * 50, 120, rgb, 1, t * 0.0007);
+          drawStarFlare(ctx, cx, cy, 110, 60, { r: 255, g: 255, b: 255 }, 0.8, -t * 0.0009);
+        }
+
+        // 공통 와이어프레임 큐브 레이어 (가장 마지막, 은은하게 위에 겹침)
+        for (const c of cubes) {
+          drawWireCube(ctx, c.x, c.y, c.size, rgb, 0.35, c.rotX + t * c.spinX, c.rotY + t * c.spinY);
+        }
+
+        ctx.globalCompositeOperation = 'source-over';
+        if (elapsed < durationMs) {
+          premiumAnimId = requestAnimationFrame(frame);
+        }
+      }
+      premiumAnimId = requestAnimationFrame(frame);
+    }
+
 
 
 
@@ -7574,7 +8070,7 @@
         canvas.style.opacity = '1';
         duration = 1900 + Math.min(900, Math.floor(item.tier * 12));
         runLightCanvas(canvas, item.tier, color, duration);
-        doFlashPulse(0.85, 200, 350);
+        // 화이트크랙 직후라 첫 플래시는 생략 — 밝은 플래시가 "또 크랙났다"처럼 혼동을 줌
         doFlashPulse(item.tier >= 30 ? 0.9 : 0.6, 500, 600);
         if (item.tier >= 20) doFlashPulse(0.6, 1100, 400);
         if (item.tier >= 30) doFlashPulse(0.7, 1700, 400);
@@ -7722,8 +8218,10 @@
     function showCutscene(item) {
       const theme = cutsceneTheme[item.tier] || cutsceneTheme[9];
       const overlay = document.getElementById('cutscene');
+      const root = document.getElementById('gacha-page');
       const bg = document.getElementById('cutscene-bg');
       const rays = document.getElementById('cutscene-rays');
+      const premiumCanvas = document.getElementById('cutscene-premium-canvas');
       const art = document.getElementById('cutscene-art');
       const nameBox = document.getElementById('cutscene-name');
       const tierLabel = document.getElementById('cs-tier-label');
@@ -7738,11 +8236,20 @@
       nameBox.className = ''; nameBox.style.opacity = '';
       flash.style.opacity = '0'; flash.style.transition = '';
       particles.innerHTML = '';
+      premiumCanvas.classList.remove('show');
+      if (premiumAnimId) { cancelAnimationFrame(premiumAnimId); premiumAnimId = null; }
 
       bg.style.background = theme.bg;
       rays.innerHTML = buildRays(theme.ray);
       if (item.tier >= 20) rays.classList.add('fast');
       art.innerHTML = cutsceneArt[item.tier] || cutsceneArt[9];
+
+      // 30등급 이상: 등급마다 완전히 다른 전용 프리미엄 캔버스 이펙트를 배경에 추가
+      if (PREMIUM_TIER_MODE[item.tier]) {
+        premiumCanvas.width = root.offsetWidth || 800; premiumCanvas.height = root.offsetHeight || 600;
+        runPremiumCutsceneCanvas(premiumCanvas, item.tier, item.color, theme.duration);
+        requestAnimationFrame(() => premiumCanvas.classList.add('show'));
+      }
 
       // 별 개수: 등급 비례
       const stars = '★'.repeat(Math.min(7, Math.max(1, Math.floor((item.tier - 7) / 3))));
@@ -7830,12 +8337,14 @@
         art.style.transform = 'scale(1.18)';
         bg.style.opacity = '0';
         rays.style.opacity = '0';
+        premiumCanvas.classList.remove('show');
         setT(() => {
           overlay.classList.remove('active');
           overlay.classList.remove('shake');
           bg.classList.remove('breathe');
           rays.classList.remove('fast');
           nameBox.style.transition = ''; art.style.transition = ''; bg.style.transition = ''; rays.style.transition = '';
+          if (premiumAnimId) { cancelAnimationFrame(premiumAnimId); premiumAnimId = null; }
           document.getElementById('gacha-anim').style.display = 'flex';
           showMutationReel(item.mutation, () => {
             setT(() => { finishRoll(item); }, 900);
