@@ -7786,7 +7786,10 @@
       // 1차 플래시 + 아트 펄스
       doFlash(item.tier >= 29 ? 1.0 : 0.85, 500, baseTime);
       setT(() => { doShake(); art.classList.add('pulse'); }, baseTime + 50);
-      setT(() => nameBox.classList.add('show'), baseTime + 400);
+      setT(() => {
+        nameBox.classList.add('show');
+        playSfx('distortionBassy', Math.min(1, 0.7 + item.tier / 60));
+      }, baseTime + 400);
 
       // 2차 플래시 (높은 등급만)
       if (item.tier >= 21) {
