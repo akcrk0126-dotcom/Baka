@@ -3253,6 +3253,456 @@
       text-transform: uppercase;
     }
 
+    /* ===== 길드 둘러보기(자동표시) ===== */
+    #guild-browse-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #555;
+      text-transform: uppercase;
+      margin: 4px 0 10px;
+    }
+
+    #guild-browse-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 26px;
+    }
+
+    /* ===== 길드 탭 (정보/공지+채팅/주간랭킹) ===== */
+    #guild-subtabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .guild-subtab {
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding: 8px 16px;
+      border-radius: 7px;
+      border: 0.5px solid rgba(255, 255, 255, 0.08);
+      background: transparent;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .guild-subtab.active {
+      border-color: rgba(124, 77, 255, 0.4);
+      background: rgba(124, 77, 255, 0.1);
+      color: #c084fc;
+    }
+
+    .guild-subpanel {
+      display: none;
+    }
+
+    .guild-subpanel.show {
+      display: block;
+    }
+
+    /* 공지 */
+    #guild-announce-box {
+      border: 0.5px solid rgba(255, 215, 0, 0.18);
+      border-radius: 10px;
+      padding: 14px 18px;
+      background: rgba(255, 215, 0, 0.04);
+      margin-bottom: 18px;
+    }
+
+    #guild-announce-label {
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: #998;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    #guild-announce-text {
+      font-size: 13px;
+      color: #ddd;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    #guild-announce-edit-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    #guild-announce-input {
+      flex: 1;
+      height: 36px;
+      padding: 0 10px;
+      border-radius: 6px;
+      border: 0.5px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.02);
+      color: #ddd;
+      font-size: 12px;
+    }
+
+    #guild-announce-save {
+      font-size: 10px;
+      padding: 0 14px;
+      border-radius: 6px;
+      border: 0.5px solid rgba(255, 215, 0, 0.3);
+      background: rgba(255, 215, 0, 0.08);
+      color: #ffd700;
+      cursor: pointer;
+    }
+
+    /* 채팅 */
+    #guild-chat-box {
+      border: 0.5px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.015);
+      height: 280px;
+      overflow-y: auto;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .guild-chat-msg {
+      font-size: 12px;
+      line-height: 1.5;
+      color: #ccc;
+    }
+
+    .guild-chat-msg .gc-nick {
+      color: #c084fc;
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    .guild-chat-msg .gc-time {
+      color: #444;
+      font-size: 9px;
+      margin-left: 6px;
+    }
+
+    #guild-chat-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    #guild-chat-input {
+      flex: 1;
+      height: 38px;
+      padding: 0 12px;
+      border-radius: 6px;
+      border: 0.5px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.02);
+      color: #ddd;
+      font-size: 12px;
+    }
+
+    #guild-chat-send {
+      font-size: 10px;
+      padding: 0 16px;
+      border-radius: 6px;
+      border: 0.5px solid rgba(124, 77, 255, 0.3);
+      background: rgba(124, 77, 255, 0.08);
+      color: #c084fc;
+      cursor: pointer;
+    }
+
+    /* 길드 퀘스트(공동 보상) */
+    #guild-quest-box {
+      border: 0.5px solid rgba(105, 240, 174, 0.18);
+      border-radius: 10px;
+      padding: 16px 18px;
+      background: rgba(105, 240, 174, 0.04);
+      margin-bottom: 18px;
+    }
+
+    #guild-quest-label {
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: #6b9;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    #guild-quest-desc {
+      font-size: 12px;
+      color: #ccc;
+      margin-bottom: 10px;
+    }
+
+    #guild-quest-bar-wrap {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    #guild-quest-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #00c853, #69f0ae);
+      border-radius: 4px;
+      transition: width 0.4s;
+    }
+
+    #guild-quest-sub {
+      font-size: 10px;
+      color: #6b9;
+      letter-spacing: 0.5px;
+    }
+
+    #guild-quest-claim-btn {
+      margin-top: 10px;
+      width: 100%;
+      height: 38px;
+      border-radius: 7px;
+      border: 0.5px solid rgba(105, 240, 174, 0.3);
+      background: rgba(105, 240, 174, 0.1);
+      color: #69f0ae;
+      font-size: 11px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    #guild-quest-claim-btn:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    /* 주간 길드 랭킹 */
+    #guild-weekly-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .guild-weekly-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border: 0.5px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .guild-weekly-card.mine {
+      border-color: rgba(124, 77, 255, 0.35);
+      background: rgba(124, 77, 255, 0.06);
+    }
+
+    .guild-weekly-rank {
+      font-size: 14px;
+      font-weight: 900;
+      color: #888;
+      width: 28px;
+      text-align: center;
+    }
+
+    .guild-weekly-name {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 700;
+      color: #ddd;
+    }
+
+    .guild-weekly-score {
+      font-size: 12px;
+      color: #c084fc;
+      font-weight: 700;
+    }
+
+    /* ===== 친구 페이지 ===== */
+    #friends-page {
+      display: none;
+      padding: 40px 32px;
+      min-height: calc(100vh - 55px);
+    }
+
+    #friends-page.active {
+      display: block;
+    }
+
+    #friends-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    #friends-title {
+      font-size: 11px;
+      letter-spacing: 6px;
+      color: #444;
+      text-transform: uppercase;
+    }
+
+    #friends-refresh {
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 5px 12px;
+      border-radius: 4px;
+      border: 0.5px solid rgba(255, 255, 255, 0.08);
+      background: transparent;
+      color: #555;
+      cursor: pointer;
+    }
+
+    #friends-add-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    #friends-add-input {
+      flex: 1;
+      height: 42px;
+      padding: 0 14px;
+      border-radius: 8px;
+      border: 0.5px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.02);
+      color: #ddd;
+      font-size: 13px;
+    }
+
+    #friends-add-btn {
+      height: 42px;
+      padding: 0 22px;
+      border-radius: 8px;
+      border: 0.5px solid rgba(255, 110, 199, 0.3);
+      background: rgba(255, 110, 199, 0.08);
+      color: #ff9fd6;
+      font-size: 12px;
+      letter-spacing: 2px;
+      cursor: pointer;
+    }
+
+    #friends-add-msg {
+      font-size: 11px;
+      color: #888;
+      letter-spacing: 0.5px;
+      min-height: 16px;
+      margin-bottom: 18px;
+    }
+
+    #friends-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .friends-tab {
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding: 8px 16px;
+      border-radius: 7px;
+      border: 0.5px solid rgba(255, 255, 255, 0.08);
+      background: transparent;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .friends-tab.active {
+      border-color: rgba(255, 110, 199, 0.4);
+      background: rgba(255, 110, 199, 0.1);
+      color: #ff9fd6;
+    }
+
+    .friends-panel {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .friends-panel.show {
+      display: flex;
+    }
+
+    .friend-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border: 0.5px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 13px 16px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .friend-online-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #444;
+      flex-shrink: 0;
+    }
+
+    .friend-online-dot.online {
+      background: #69f0ae;
+      box-shadow: 0 0 6px #69f0ae;
+    }
+
+    .friend-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .friend-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ddd;
+      letter-spacing: 0.5px;
+    }
+
+    .friend-meta {
+      font-size: 10px;
+      color: #555;
+      margin-top: 2px;
+    }
+
+    .friend-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .friend-btn {
+      font-size: 9px;
+      letter-spacing: 1px;
+      padding: 7px 12px;
+      border-radius: 6px;
+      border: 0.5px solid rgba(255, 255, 255, 0.1);
+      background: transparent;
+      color: #888;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .friend-btn.danger {
+      border-color: rgba(255, 82, 82, 0.25);
+      color: #ff8a80;
+    }
+
+    .friend-btn.danger:hover {
+      background: rgba(255, 82, 82, 0.12);
+    }
+
+    .friend-btn.success {
+      border-color: rgba(105, 240, 174, 0.3);
+      color: #69f0ae;
+    }
+
+    .friend-btn.success:hover {
+      background: rgba(105, 240, 174, 0.12);
+    }
+
     /* PLAZA */
     #plaza-page {
       display: none;
@@ -4059,6 +4509,7 @@
         <button class="nav-tab" onclick="switchTab('shop')">상점</button>
         <button class="nav-tab" onclick="switchTab('guild')">길드</button>
         <button class="nav-tab" onclick="switchTab('plaza')">광장</button>
+        <button class="nav-tab" onclick="switchTab('friends')">친구</button>
         <button class="nav-tab" onclick="switchTab('ranking')">랭킹</button>
       </div>
       <div id="nav-user">
@@ -4335,6 +4786,8 @@
           <button id="guild-search-btn" onclick="searchGuild()">검색</button>
         </div>
         <div id="guild-search-result"></div>
+        <div id="guild-browse-label">둘러보기 — 인기 길드</div>
+        <div id="guild-browse-list"></div>
       </div>
 
       <div id="guild-joined">
@@ -4360,7 +4813,50 @@
           <div id="guild-level-sub"></div>
           <button id="guild-leave-btn" onclick="leaveGuild()">길드 탈퇴</button>
         </div>
-        <div id="guild-member-list"></div>
+
+        <div id="guild-subtabs">
+          <button class="guild-subtab active" onclick="setGuildSubtab('info', this)">멤버</button>
+          <button class="guild-subtab" onclick="setGuildSubtab('chat', this)">공지/채팅</button>
+          <button class="guild-subtab" onclick="setGuildSubtab('quest', this)">길드 퀘스트</button>
+          <button class="guild-subtab" onclick="setGuildSubtab('weekly', this)">주간 랭킹</button>
+        </div>
+
+        <div id="guild-subpanel-info" class="guild-subpanel show">
+          <div id="guild-member-list"></div>
+        </div>
+
+        <div id="guild-subpanel-chat" class="guild-subpanel">
+          <div id="guild-announce-box">
+            <div id="guild-announce-label">길드 공지</div>
+            <div id="guild-announce-text">공지가 없습니다</div>
+            <div id="guild-announce-edit-row">
+              <input id="guild-announce-input" type="text" placeholder="새 공지 입력 (멤버 누구나 수정 가능)" maxlength="120" />
+              <button id="guild-announce-save" onclick="saveGuildAnnouncement()">등록</button>
+            </div>
+          </div>
+          <div id="guild-chat-box"></div>
+          <div id="guild-chat-input-row">
+            <input id="guild-chat-input" type="text" placeholder="메시지 입력..." maxlength="200"
+              onkeydown="if(event.key==='Enter')sendGuildChat()" />
+            <button id="guild-chat-send" onclick="sendGuildChat()">전송</button>
+          </div>
+        </div>
+
+        <div id="guild-subpanel-quest" class="guild-subpanel">
+          <div id="guild-quest-box">
+            <div id="guild-quest-label">이번 주 길드 퀘스트</div>
+            <div id="guild-quest-desc"></div>
+            <div id="guild-quest-bar-wrap">
+              <div id="guild-quest-bar" style="width:0%"></div>
+            </div>
+            <div id="guild-quest-sub"></div>
+            <button id="guild-quest-claim-btn" onclick="claimGuildQuest()" disabled>보상 받기</button>
+          </div>
+        </div>
+
+        <div id="guild-subpanel-weekly" class="guild-subpanel">
+          <div id="guild-weekly-list"></div>
+        </div>
       </div>
     </div>
 
@@ -4378,6 +4874,26 @@
           <div id="plaza-online-list"></div>
         </div>
       </div>
+    </div>
+
+    <div id="friends-page">
+      <div id="friends-header">
+        <div id="friends-title">친구 — Friends</div>
+        <button id="friends-refresh" onclick="renderFriends()">새로고침</button>
+      </div>
+      <div id="friends-add-row">
+        <input id="friends-add-input" type="text" placeholder="닉네임으로 친구 추가" maxlength="20" />
+        <button id="friends-add-btn" onclick="addFriendByName()">추가</button>
+      </div>
+      <div id="friends-add-msg"></div>
+
+      <div id="friends-tabs">
+        <button class="friends-tab active" onclick="setFriendsTab('list', this)">친구 목록</button>
+        <button class="friends-tab" onclick="setFriendsTab('blocked', this)">차단 목록</button>
+      </div>
+
+      <div id="friends-list-panel" class="friends-panel show"></div>
+      <div id="friends-blocked-panel" class="friends-panel"></div>
     </div>
   </div>
 
@@ -4403,6 +4919,7 @@
       <button id="attendance-close-btn" onclick="closeAttendanceModal()">닫기</button>
     </div>
   </div>
+
 
   <div id="potion-toast">🧪 Lucky Potion 획득!</div>
   <div id="achievement-toast">
@@ -4677,6 +5194,9 @@
     let goldenTickets = 0, lastGoldenClaimDate = ''; // 보유 골든롤 티켓 수, 마지막 티켓 수령 날짜
     let guildName = '', guildJoinRolls = 0; // 가입한 길드 이름, 가입 시점의 totalRolls (레벨 계산용)
     let lastAttendanceDate = '', attendanceStreak = 0, attendanceTotalDays = 0; // 출석체크: 마지막 출석일, 연속 출석일, 누적 출석일
+    let myFriends = [], myBlocked = []; // 친구 닉네임 배열, 차단 닉네임 배열 (계정 문서 최상위에 저장, state와 독립)
+    let guildSubtab = 'info';
+    let friendsSubtab = 'list';
 
     // ===================== AUTH =====================
     let currentUser = null;
@@ -4723,6 +5243,8 @@
         }
 
         applyState(account.state || defaultState());
+        myFriends = Array.isArray(account.friends) ? account.friends : [];
+        myBlocked = Array.isArray(account.blocked) ? account.blocked : [];
         loginSuccess(nick);
 
       } catch (e) {
@@ -5388,6 +5910,7 @@
       isMultiRoll = false;
       clearPendingTimeouts();
       const { item, potionMsg } = rollOne(); updateUI(); checkAchievements(item); saveProgress();
+      contributeGuildQuest();
       item.mutation = history[0].mutation;
       currentRollItem = item;
       currentPotionMsg = potionMsg;
@@ -5429,6 +5952,7 @@
       }
       updateUI();
       saveProgress();
+      contributeGuildQuest(10);
       multiRollResults = results;
       multiRollBestItem = best;
       currentRollItem = best;
@@ -5583,6 +6107,7 @@
       const { item, potionMsg } = result;
       item.mutation = history[0].mutation;
       updateUI(); saveProgress();
+      contributeGuildQuest();
 
       rolling = true;
       skipRequested = false;
@@ -5656,6 +6181,7 @@
       clearPendingTimeouts();
       // rAF 별 애니메이션 취소
       if (starAnimId) { cancelAnimationFrame(starAnimId); starAnimId = null; }
+      if (lightAnimId) { cancelAnimationFrame(lightAnimId); lightAnimId = null; }
       document.getElementById('star-svg').style.display = 'none';
       document.getElementById('star-glow-ring').style.opacity = '0';
       document.getElementById('summon-quote').classList.remove('show');
@@ -5923,43 +6449,240 @@
       </svg>`;
     }
 
-    // 등급별(7~44) 고유 SVG 그림 실루엣 — 호수+연꽃과 같은 buildSceneSVG 템플릿 사용
-    const SCENE_SILHOUETTES = {
-      7: `<g transform="translate(400,250)" opacity="0.92"><path d="M-70 0 Q-70 -18 0 -10 Q70 -18 70 0 L70 18 Q0 10 -70 18 Z" fill="#2b1d0f" stroke="{color}" stroke-width="2"/><line x1="0" y1="-10" x2="0" y2="10" stroke="{color}" stroke-width="1.5" opacity="0.6"/><circle cx="0" cy="4" r="10" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.7"><animate attributeName="r" values="7;13;7" dur="2s" repeatCount="indefinite"/></circle></g>`, // Arcane-floating spellbook
-      8: `<g transform="translate(400,270)" opacity="0.92"><polygon points="-90,30 90,30 60,0 -60,0" fill="#1a1410" stroke="{color}" stroke-width="2"/><rect x="-40" y="-55" width="80" height="55" fill="#221a12" stroke="{color}" stroke-width="2"/><circle cx="0" cy="-70" r="14" fill="{color}" opacity="0.85"><animate attributeName="r" values="10;18;10" dur="1.6s" repeatCount="indefinite"/></circle></g>`, // Mythic-altar
-      10: `<g transform="translate(400,260)" opacity="0.92"><path d="M0 -90 L65 -60 L65 30 Q65 80 0 100 Q-65 80 -65 30 L-65 -60 Z" fill="#23262b" stroke="{color}" stroke-width="3"/><path d="M0 -60 L40 -42 L40 20 Q40 55 0 68 Q-40 55 -40 20 L-40 -42 Z" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.6"/><circle cx="0" cy="0" r="9" fill="{color}"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite"/></circle></g>`, // Sentinel-giant shield
-      11: `<g transform="translate(400,250)" opacity="0.92"><line x1="0" y1="-110" x2="0" y2="90" stroke="#3a3a3a" stroke-width="5"/><path d="M0 -110 L70 -90 L0 -70 Z" fill="{color}" opacity="0.85"/><polygon points="0,-130 -10,-110 10,-110" fill="#cfd8dc"/></g>`, // Vanguard-flag and spear
-      12: `<g transform="translate(400,275)" opacity="0.93" fill="#0c0c0e"><path d="M-90 20 Q-70 -30 -30 -35 L-10 -55 L0 -35 L25 -50 L20 -25 Q60 -15 80 20 Q40 10 0 18 Q-50 8 -90 20 Z"/><circle cx="-8" cy="-32" r="3" fill="{color}"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.3s" repeatCount="indefinite"/></circle></g>`, // Beast-wolf silhouette
-      14: `<g transform="translate(400,260)" opacity="0.9"><path d="M-160 60 L-160 -40 Q-150 -70 -130 -40 L-130 60 Z" fill="#15101f"/><path d="M-40 70 L-40 -70 Q-25 -110 -10 -70 L-10 70 Z" fill="#1a1428"/><path d="M90 65 L90 -50 Q102 -85 114 -50 L114 65 Z" fill="#15101f"/><ellipse cx="-10" cy="-20" rx="22" ry="30" fill="{color}" opacity="0.35"><animate attributeName="opacity" values="0.2;0.5;0.2" dur="2.4s" repeatCount="indefinite"/></ellipse></g>`, // Phantom-ghost forest
-      15: `<g transform="translate(400,220)" opacity="0.9" stroke="{color}" stroke-width="1.5" fill="{color}"><line x1="-80" y1="20" x2="-20" y2="-30"/><line x1="-20" y1="-30" x2="40" y2="-10"/><line x1="40" y1="-10" x2="80" y2="-50"/><circle cx="-80" cy="20" r="4"/><circle cx="-20" cy="-30" r="5"><animate attributeName="r" values="3;7;3" dur="1.8s" repeatCount="indefinite"/></circle><circle cx="40" cy="-10" r="4"/><circle cx="80" cy="-50" r="5"/></g>`, // Celestial-rising constellation
-      16: `<g transform="translate(400,280)" opacity="0.95"><polygon points="-180,60 -100,-60 -20,60" fill="#bce6f5" opacity="0.85"/><polygon points="-20,60 60,-90 140,60" fill="#e8f8ff" opacity="0.9"/><polygon points="60,60 130,-30 190,60" fill="#bce6f5" opacity="0.8"/><polygon points="-20,60 60,-90 80,-50 10,60" fill="#ffffff" opacity="0.5"/></g>`, // Frostbound-glacier mountains
-      18: `<g transform="translate(400,160)" opacity="0.85"><ellipse cx="0" cy="0" rx="140" ry="46" fill="{color}" opacity="0.35"><animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="10s" repeatCount="indefinite"/></ellipse><ellipse cx="0" cy="0" rx="90" ry="26" fill="#fff" opacity="0.25"><animateTransform attributeName="transform" type="rotate" from="40 0 0" to="-320 0 0" dur="8s" repeatCount="indefinite"/></ellipse><circle cx="0" cy="0" r="20" fill="#fff"/></g>`, // Cosmic-galaxy nebula
-      19: `<g transform="translate(400,290)" opacity="0.95"><path d="M-200 40 L-120 -20 L-60 30 L0 -50 L60 30 L120 -10 L200 40 Z" fill="#1a0d00"/><circle cx="0" cy="-30" r="46" fill="{color}" opacity="0.9"><animate attributeName="r" values="40;52;40" dur="2.6s" repeatCount="indefinite"/></circle></g>`, // Solflare-sunrise landscape
-      20: `<g transform="translate(400,210)" opacity="0.9"><ellipse cx="-60" cy="0" rx="90" ry="34" fill="#1c1f26"/><ellipse cx="60" cy="-10" rx="110" ry="40" fill="#23262e"/><ellipse cx="0" cy="20" rx="130" ry="30" fill="#15171c"/><path d="M-10 30 L10 30 L-5 70 L15 70 L-15 110" fill="none" stroke="{color}" stroke-width="3"><animate attributeName="opacity" values="0;1;0" dur="1.4s" repeatCount="indefinite"/></path></g>`, // Stormcaller-storm clouds
-      22: `<g transform="translate(400,180)" opacity="0.95"><circle cx="0" cy="0" r="70" fill="#fdf6e3"/><circle cx="-22" cy="0" r="70" fill="#000"/><circle cx="0" cy="0" r="78" fill="none" stroke="{color}" stroke-width="3" opacity="0.5"><animate attributeName="r" values="70;90;70" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0;0.6" dur="2.4s" repeatCount="indefinite"/></circle></g>`, // Eclipse-eclipse landscape
-      23: `<g transform="translate(400,250)" opacity="0.92"><path d="M0 -110 Q80 -110 80 -10 Q80 90 0 100 Q-80 90 -80 -10 Q-80 -110 0 -110 Z" fill="none" stroke="{color}" stroke-width="4"/><path d="M-30 -60 L10 -10 L-15 40" fill="none" stroke="#fff" stroke-width="2" opacity="0.6"/><ellipse cx="0" cy="-5" rx="38" ry="55" fill="#000"/></g>`, // Voidwalker-broken dimensional gate
-      24: `<g transform="translate(400,290)" opacity="0.95" fill="#0a0a12"><rect x="-180" y="-40" width="36" height="100"/><rect x="-130" y="-90" width="44" height="150"/><rect x="-70" y="-50" width="36" height="110"/><rect x="-10" y="-120" width="50" height="180"/><rect x="60" y="-70" width="40" height="130"/><rect x="120" y="-40" width="36" height="100"/><line x1="-10" y1="-120" x2="-10" y2="-150" stroke="{color}" stroke-width="2"><animate attributeName="opacity" values="0.3;1;0.3" dur="1s" repeatCount="indefinite"/></line></g>`, // Hyper-digital city silhouette
-      26: `<g transform="translate(400,260)" opacity="0.92"><path d="M-55 90 L-55 -40 Q-55 -90 0 -100 Q55 -90 55 -40 L55 90 Z" fill="#1a1310" stroke="{color}" stroke-width="2"/><path d="M-30 90 L-30 0 L30 0 L30 90 Z" fill="#241a14"/><circle cx="0" cy="-95" r="10" fill="{color}"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.4s" repeatCount="indefinite"/></circle></g>`, // Astral Monarch-throne
-      27: `<g transform="translate(400,250)" opacity="0.9" fill="none" stroke="{color}"><rect x="-180" y="-110" width="360" height="220" stroke-width="1.5" opacity="0.5"/><rect x="-164" y="-94" width="328" height="188" stroke-width="1.5" opacity="0.45"/><rect x="-148" y="-78" width="296" height="156" stroke-width="1.5" opacity="0.4"/><rect x="-132" y="-62" width="264" height="124" stroke-width="1.5" opacity="0.35"/><rect x="-116" y="-46" width="232" height="92" stroke-width="1.5" opacity="0.3"/><rect x="-100" y="-30" width="200" height="60" stroke-width="1.5" opacity="0.25"/><rect x="-84" y="-14" width="168" height="28" stroke-width="1.5" opacity="0.19999999999999996"/><rect x="-68" y="2" width="136" height="-4" stroke-width="1.5" opacity="0.14999999999999997"/><rect x="-52" y="18" width="104" height="-36" stroke-width="1.5" opacity="0.09999999999999998"/></g>`, // Infinity-infinite corridor
-      28: `<g transform="translate(400,275)" opacity="0.95" fill="#100a0a"><rect x="-150" y="-30" width="40" height="80"/><rect x="-150" y="-60" width="40" height="20"/><rect x="-70" y="-90" width="50" height="140"/><rect x="-70" y="-115" width="50" height="20"/><rect x="40" y="-50" width="40" height="100"/><rect x="100" y="-20" width="35" height="70"/><circle cx="-45" cy="-90" r="10" fill="{color}" opacity="0.6"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/></circle></g>`, // Dreadlord-ruined castle
-      30: `<g transform="translate(400,220)" opacity="0.95"><circle cx="0" cy="0" r="60" fill="#1a1a1a" stroke="{color}" stroke-width="2"/><path d="M-60 -10 L-10 -50 L20 -15 L60 10" fill="none" stroke="{color}" stroke-width="3"/><circle cx="0" cy="0" r="80" fill="none" stroke="{color}" stroke-width="2" opacity="0.5"><animate attributeName="r" values="60;110;60" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="1.8s" repeatCount="indefinite"/></circle></g>`, // ETERNAL DESTROYER-exploding planet
-      31: `<g transform="translate(400,240)" opacity="0.92" fill="none" stroke="{color}" stroke-width="3"><circle cx="-40" cy="0" r="55"/><line x1="15.0" y1="0.0" x2="32.0" y2="0.0"/><line x1="4.495934690622107" y1="32.328188876086024" x2="18.249223594996216" y2="42.32053816505807"/><line x1="-23.00406530937789" y1="52.30810839623344" x2="-17.750776405003784" y2="68.47606917325105"/><line x1="-56.99593469062211" y1="52.30810839623345" x2="-62.24922359499621" y2="68.47606917325106"/><line x1="-84.49593469062211" y1="32.32818887608603" x2="-98.24922359499621" y2="42.320538165058075"/><line x1="-95.0" y1="6.735557395310443e-15" x2="-112.0" y2="8.817456953860943e-15"/><line x1="-84.49593469062211" y1="-32.32818887608602" x2="-98.24922359499622" y2="-42.32053816505806"/><line x1="-56.995934690622114" y1="-52.30810839623344" x2="-62.249223594996224" y2="-68.47606917325105"/><line x1="-23.004065309377904" y1="-52.30810839623345" x2="-17.750776405003798" y2="-68.47606917325106"/><line x1="4.495934690622107" y1="-32.32818887608603" x2="18.24922359499621" y2="-42.32053816505808"/><circle cx="70" cy="40" r="32" stroke-width="2" opacity="0.7"/></g>`, // PRIME ARCHITECT-giant gear structure
-      32: `<g transform="translate(400,210)" opacity="0.95"><ellipse cx="0" cy="0" rx="120" ry="22" fill="none" stroke="{color}" stroke-width="3" opacity="0.7"><animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="5s" repeatCount="indefinite"/></ellipse><ellipse cx="0" cy="0" rx="80" ry="14" fill="none" stroke="#fff" stroke-width="2" opacity="0.5"><animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="3.5s" repeatCount="indefinite"/></ellipse><circle cx="0" cy="0" r="38" fill="#000"/></g>`, // VOID SOVEREIGN-black hole
-      33: `<g transform="translate(400,250)" opacity="0.93"><rect x="-30" y="-20" width="60" height="120" fill="#19130c" stroke="{color}" stroke-width="2"/><circle cx="0" cy="-50" r="38" fill="#1f1810" stroke="{color}" stroke-width="2.5"/><line x1="0" y1="-50" x2="0" y2="-72" stroke="#fff" stroke-width="2"><animateTransform attributeName="transform" type="rotate" from="0 0 -50" to="360 0 -50" dur="6s" repeatCount="indefinite"/></line><line x1="0" y1="-50" x2="18" y2="-50" stroke="#fff" stroke-width="2"><animateTransform attributeName="transform" type="rotate" from="0 0 -50" to="360 0 -50" dur="14s" repeatCount="indefinite"/></line></g>`, // CHRONO OVERLORD-clock tower
-      34: `<g transform="translate(400,260)" opacity="0.95"><circle cx="0" cy="20" r="85" fill="#dff6ff" opacity="0.9"/><polygon points="0,-65 8,-15 60,-5 8,5 0,65 -8,5 -60,-5 -8,-15" fill="#fff" opacity="0.85"><animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="9s" repeatCount="indefinite"/></polygon><circle cx="0" cy="20" r="95" fill="none" stroke="{color}" stroke-width="2" opacity="0.5"><animate attributeName="r" values="85;105;85" dur="2s" repeatCount="indefinite"/></circle></g>`, // ABSOLUTE ZERO-frozen world
-      36: `<g transform="translate(400,270)" opacity="0.95" fill="#0a0a0a"><path d="M-170 70 Q-150 -60 -60 -90 Q0 -130 60 -90 Q150 -60 170 70 Q80 40 0 50 Q-80 40 -170 70 Z"/><circle cx="-35" cy="-50" r="6" fill="{color}"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.1s" repeatCount="indefinite"/></circle><circle cx="35" cy="-50" r="6" fill="{color}"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.1s" repeatCount="indefinite"/></circle></g>`, // World Eater-giant monster shadow
-      37: `<g transform="translate(400,210)" opacity="0.92"><circle cx="0" cy="0" r="100" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.6"><animate attributeName="r" values="100;6;100" dur="2.4s" repeatCount="indefinite" begin="0.0s"/></circle><circle cx="0" cy="0" r="88" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.53"><animate attributeName="r" values="88;6;88" dur="2.4s" repeatCount="indefinite" begin="0.15s"/></circle><circle cx="0" cy="0" r="76" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.45999999999999996"><animate attributeName="r" values="76;6;76" dur="2.4s" repeatCount="indefinite" begin="0.3s"/></circle><circle cx="0" cy="0" r="64" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.38999999999999996"><animate attributeName="r" values="64;6;64" dur="2.4s" repeatCount="indefinite" begin="0.44999999999999996s"/></circle><circle cx="0" cy="0" r="52" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.31999999999999995"><animate attributeName="r" values="52;6;52" dur="2.4s" repeatCount="indefinite" begin="0.6s"/></circle><circle cx="0" cy="0" r="40" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.24999999999999994"><animate attributeName="r" values="40;6;40" dur="2.4s" repeatCount="indefinite" begin="0.75s"/></circle><circle cx="0" cy="0" r="28" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.17999999999999994"><animate attributeName="r" values="28;6;28" dur="2.4s" repeatCount="indefinite" begin="0.8999999999999999s"/></circle></g>`, // Singularity-collapsing universe
-      38: `<g transform="translate(400,230)" opacity="0.9"><ellipse cx="-160" cy="-60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="-160" cy="-60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" repeatCount="indefinite"/></circle><ellipse cx="-80" cy="-60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="-80" cy="-60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite"/></circle><ellipse cx="0" cy="-60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="0" cy="-60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.7999999999999998s" repeatCount="indefinite"/></circle><ellipse cx="80" cy="-60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="80" cy="-60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="2.0999999999999996s" repeatCount="indefinite"/></circle><ellipse cx="160" cy="-60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="160" cy="-60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" repeatCount="indefinite"/></circle><ellipse cx="-160" cy="0" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="-160" cy="0" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite"/></circle><ellipse cx="-80" cy="0" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="-80" cy="0" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.7999999999999998s" repeatCount="indefinite"/></circle><ellipse cx="0" cy="0" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="0" cy="0" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="2.0999999999999996s" repeatCount="indefinite"/></circle><ellipse cx="80" cy="0" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="80" cy="0" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" repeatCount="indefinite"/></circle><ellipse cx="160" cy="0" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="160" cy="0" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite"/></circle><ellipse cx="-160" cy="60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="-160" cy="60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.7999999999999998s" repeatCount="indefinite"/></circle><ellipse cx="-80" cy="60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="-80" cy="60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="2.0999999999999996s" repeatCount="indefinite"/></circle><ellipse cx="0" cy="60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="0" cy="60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" repeatCount="indefinite"/></circle><ellipse cx="80" cy="60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="80" cy="60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite"/></circle><ellipse cx="160" cy="60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="160" cy="60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.7999999999999998s" repeatCount="indefinite"/></circle></g>`, // Omniscient-thousand eyes
-      39: `<g transform="translate(400,240)" opacity="0.9" fill="none" stroke="{color}" stroke-width="2"><path d="M-150 100 Q0 -150 150 100" opacity="0.5"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-142 90 Q0 -130 142 90" opacity="0.46"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="-15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-134 80 Q0 -110 134 80" opacity="0.42"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-126 70 Q0 -90 126 70" opacity="0.38"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="-15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-118 60 Q0 -70 118 60" opacity="0.33999999999999997"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-110 50 Q0 -50 110 50" opacity="0.3"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="-15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-102 40 Q0 -30 102 40" opacity="0.26"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-94 30 Q0 -10 94 30" opacity="0.21999999999999997"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="-15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-86 20 Q0 10 86 20" opacity="0.18"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-78 10 Q0 30 78 10" opacity="0.14"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="-15 400 240" dur="3s" repeatCount="indefinite"/></path></g>`, // Paradox-twisted corridor
-      41: `<g transform="translate(400,260)" opacity="0.93" fill="#15100a"><rect x="-180" y="-100" width="360" height="180" fill="none" stroke="{color}" stroke-width="2"/><line x1="-180" y1="-40" x2="180" y2="-40" stroke="{color}" stroke-width="1.5" opacity="0.6"/><line x1="-180" y1="20" x2="180" y2="20" stroke="{color}" stroke-width="1.5" opacity="0.6"/><rect x="-170" y="-95" width="9" height="50" fill="#221a10"/><rect x="-156" y="-95" width="9" height="50" fill="#221a10"/><rect x="-142" y="-95" width="9" height="50" fill="#221a10"/><rect x="-128" y="-95" width="9" height="50" fill="#221a10"/><rect x="-114" y="-95" width="9" height="50" fill="#221a10"/><rect x="-100" y="-95" width="9" height="50" fill="#221a10"/><rect x="-86" y="-95" width="9" height="50" fill="#221a10"/><rect x="-72" y="-95" width="9" height="50" fill="#221a10"/><rect x="-58" y="-95" width="9" height="50" fill="#221a10"/><rect x="-44" y="-95" width="9" height="50" fill="#221a10"/><rect x="-30" y="-95" width="9" height="50" fill="#221a10"/><rect x="-16" y="-95" width="9" height="50" fill="#221a10"/><rect x="-2" y="-95" width="9" height="50" fill="#221a10"/><rect x="12" y="-95" width="9" height="50" fill="#221a10"/><rect x="26" y="-95" width="9" height="50" fill="#221a10"/><rect x="40" y="-95" width="9" height="50" fill="#221a10"/><rect x="54" y="-95" width="9" height="50" fill="#221a10"/><rect x="68" y="-95" width="9" height="50" fill="#221a10"/><rect x="82" y="-95" width="9" height="50" fill="#221a10"/><rect x="96" y="-95" width="9" height="50" fill="#221a10"/><rect x="110" y="-95" width="9" height="50" fill="#221a10"/><rect x="124" y="-95" width="9" height="50" fill="#221a10"/><rect x="138" y="-95" width="9" height="50" fill="#221a10"/><rect x="152" y="-95" width="9" height="50" fill="#221a10"/></g>`, // Akashic Lord-library shelves
-      42: `<g transform="translate(400,230)" opacity="0.95"><ellipse cx="0" cy="-70" rx="22" ry="26" fill="#fff" opacity="0.9"/><path d="M0 -44 L0 60 M-40 -10 L40 -10 M0 60 L-30 120 M0 60 L30 120" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity="0.85"/><circle cx="0" cy="-70" r="46" fill="none" stroke="{color}" stroke-width="2" opacity="0.5"><animate attributeName="r" values="30;55;30" dur="2s" repeatCount="indefinite"/></circle></g>`, // Transcendent-humanoid of light
-      43: `<g transform="translate(400,290)" opacity="0.93" fill="#0c170c"><path d="M-180 60 Q-160 -60 -120 -100 Q-140 -40 -110 20 Z"/><path d="M-60 70 Q-40 -90 10 -130 Q-20 -50 20 30 Z"/><path d="M60 65 Q90 -50 140 -85 Q110 -20 150 30 Z"/><circle cx="-20" cy="-10" r="8" fill="{color}" opacity="0.6"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="1.8s" repeatCount="indefinite"/></circle></g>`, // Primordial-primordial jungle
+    // ===== 빛 기반 캔버스 렌더러 (가산합성 + 트레일잔상 + 다층 글로우로 실제 게임 수준 퀄리티) =====
+    const LIGHT_TIER_MODE = {
+      7: 'burst', 8: 'pillars', 10: 'spiralGlow', 11: 'flare',
+      12: 'vortexOrb', 14: 'boltGrid', 15: 'prism', 16: 'burst',
+      18: 'pillars', 19: 'spiralGlow', 20: 'flare', 22: 'vortexOrb',
+      23: 'boltGrid', 24: 'prism', 26: 'burst', 27: 'pillars',
+      28: 'spiralGlow', 30: 'flare', 31: 'vortexOrb', 32: 'boltGrid',
+      33: 'prism', 34: 'burst', 36: 'pillars', 37: 'spiralGlow',
+      38: 'flare', 39: 'vortexOrb', 41: 'boltGrid', 42: 'prism', 43: 'burst'
     };
 
-    function buildTierScene(tier, color) {
-      const sil = (SCENE_SILHOUETTES[tier] || '').replace(/\{color\}/g, color);
-      return buildSceneSVG(color, { silhouette: sil, starCount: 5 + (tier % 4) });
+    function hexToRgb(hex) {
+      const h = hex.replace('#', '');
+      const v = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+      const num = parseInt(v, 16);
+      return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
     }
+
+    // 코어에서 바깥으로 4단 레이어드 글로우(가산합성)를 그려 빛이 실제로 번지는 느낌을 낸다.
+    function drawGlowDot(ctx, x, y, r, rgb, alpha) {
+      ctx.globalCompositeOperation = 'lighter';
+      const layers = [
+        { mul: 3.2, a: 0.10 }, { mul: 2.2, a: 0.16 }, { mul: 1.4, a: 0.30 }, { mul: 1.0, a: 0.65 }
+      ];
+      for (const L of layers) {
+        const rr = r * L.mul;
+        const grad = ctx.createRadialGradient(x, y, 0, x, y, rr);
+        grad.addColorStop(0, `rgba(${rgb.r},${rgb.g},${rgb.b},${alpha * L.a})`);
+        grad.addColorStop(1, `rgba(${rgb.r},${rgb.g},${rgb.b},0)`);
+        ctx.fillStyle = grad;
+        ctx.beginPath(); ctx.arc(x, y, rr, 0, 7); ctx.fill();
+      }
+      // 흰색 핫스팟 코어
+      const coreGrad = ctx.createRadialGradient(x, y, 0, x, y, r * 0.45);
+      coreGrad.addColorStop(0, `rgba(255,255,255,${alpha * 0.95})`);
+      coreGrad.addColorStop(1, `rgba(255,255,255,0)`);
+      ctx.fillStyle = coreGrad;
+      ctx.beginPath(); ctx.arc(x, y, r * 0.45, 0, 7); ctx.fill();
+    }
+
+    // 광선을 가산합성 + 그라데이션 + glow로 그려서 두껍고 화사하게 만든다.
+    function drawGlowLine(ctx, x1, y1, x2, y2, width, rgb, alpha) {
+      ctx.globalCompositeOperation = 'lighter';
+      const grad = ctx.createLinearGradient(x1, y1, x2, y2);
+      grad.addColorStop(0, `rgba(255,255,255,${alpha})`);
+      grad.addColorStop(0.25, `rgba(${rgb.r},${rgb.g},${rgb.b},${alpha * 0.9})`);
+      grad.addColorStop(1, `rgba(${rgb.r},${rgb.g},${rgb.b},0)`);
+      // 바깥 글로우
+      ctx.strokeStyle = grad; ctx.lineWidth = width * 3; ctx.globalAlpha = 0.35;
+      ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+      // 중간
+      ctx.lineWidth = width * 1.6; ctx.globalAlpha = 0.6;
+      ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+      // 코어 라인
+      ctx.lineWidth = width * 0.55; ctx.globalAlpha = 1;
+      ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+      ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+
+    let lightAnimId = null;
+    function runLightCanvas(canvas, tier, color, durationMs) {
+      if (lightAnimId) { cancelAnimationFrame(lightAnimId); lightAnimId = null; }
+      const mode = LIGHT_TIER_MODE[tier] || 'burst';
+      const rgb = hexToRgb(color);
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      const cx = w / 2, cy = h / 2;
+      const intensity = Math.min(1, 0.5 + tier / 50);
+      const startTime = performance.now();
+
+      // 미세하게 일렁이는 배경 노이즈 그라데이션 (정적인 검은 배경 탈피)
+      function drawBg(t) {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = 'rgba(0,0,0,1)';
+        ctx.fillRect(0, 0, w, h);
+        const bgGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.7);
+        const pulse = 0.06 + Math.sin(t * 0.0008) * 0.02;
+        bgGrad.addColorStop(0, `rgba(${rgb.r},${rgb.g},${rgb.b},${pulse})`);
+        bgGrad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, w, h);
+      }
+
+      // 모드별 파티클/요소 초기화
+      let particles = [];
+      if (mode === 'burst') {
+        const rayCount = 10 + Math.floor(tier / 3);
+        for (let i = 0; i < rayCount; i++) particles.push({ a: (Math.PI * 2 * i) / rayCount, phase: Math.random() * 6.28, speed: 1.4 + Math.random() * 0.6 });
+      } else if (mode === 'pillars') {
+        const count = 7;
+        for (let i = 0; i < count; i++) particles.push({ x: w * (0.12 + (0.76 / (count - 1)) * i), phase: Math.random() * 6.28, speed: 0.7 + Math.random() * 0.4 });
+      } else if (mode === 'spiralGlow') {
+        for (let i = 0; i < 3; i++) particles.push({ offset: i, dir: i % 2 === 0 ? 1 : -1 });
+      } else if (mode === 'flare') {
+        for (let i = 0; i < 6; i++) particles.push({ a: Math.random() * 6.28, dist: 60 + Math.random() * 220, size: 6 + Math.random() * 14, speed: 0.3 + Math.random() * 0.4 });
+      } else if (mode === 'vortexOrb') {
+        const n = 60;
+        for (let i = 0; i < n; i++) particles.push({ a: Math.random() * 6.28, r: 30 + Math.random() * 200, speed: 0.01 + Math.random() * 0.03 });
+      } else if (mode === 'boltGrid') {
+        for (let i = 0; i < 6; i++) particles.push({ x0: w * (0.08 + i * 0.16), seed: Math.random() * 1000, nextStrike: Math.random() * 1200 });
+      } else if (mode === 'prism') {
+        for (let i = 0; i < 8; i++) particles.push({ a: (Math.PI * 2 * i) / 8, phase: Math.random() * 6.28 });
+      }
+
+      function frame(now) {
+        const elapsed = now - startTime;
+        const t = elapsed;
+        drawBg(t);
+
+        if (mode === 'burst') {
+          drawGlowDot(ctx, cx, cy, 26 + Math.sin(t * 0.006) * 6, rgb, 1);
+          for (const p of particles) {
+            const pulse = 0.5 + 0.5 * Math.sin(t * 0.003 * p.speed + p.phase);
+            const len = (140 + pulse * 180) * intensity;
+            const x2 = cx + Math.cos(p.a) * len, y2 = cy + Math.sin(p.a) * len;
+            drawGlowLine(ctx, cx, cy, x2, y2, 3 + pulse * 4, rgb, 0.25 + pulse * 0.55);
+          }
+          ctx.globalCompositeOperation = 'lighter';
+          ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.25 + 0.2 * Math.sin(t * 0.004)})`;
+          ctx.lineWidth = 2;
+          const ringR = 60 + ((t * 0.09) % 160);
+          ctx.beginPath(); ctx.arc(cx, cy, ringR, 0, 7); ctx.stroke();
+
+        } else if (mode === 'pillars') {
+          for (const p of particles) {
+            const pulse = 0.55 + 0.45 * Math.sin(t * 0.0025 * p.speed + p.phase);
+            const ph = (180 + pulse * 140) * intensity;
+            const pw = 16 + pulse * 14;
+            const grad = ctx.createLinearGradient(p.x, h, p.x, h - ph);
+            grad.addColorStop(0, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.05})`);
+            grad.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.35 + pulse * 0.3})`);
+            grad.addColorStop(1, `rgba(255,255,255,${0.5 + pulse * 0.4})`);
+            ctx.globalCompositeOperation = 'lighter';
+            ctx.fillStyle = grad;
+            ctx.fillRect(p.x - pw, h - ph, pw * 2, ph);
+            drawGlowDot(ctx, p.x, h - ph, 16 + pulse * 10, rgb, 0.8);
+          }
+          drawGlowDot(ctx, cx, h - 20, 50, rgb, 0.4);
+
+        } else if (mode === 'spiralGlow') {
+          drawGlowDot(ctx, cx, cy, 22 + Math.sin(t * 0.005) * 5, rgb, 1);
+          for (const p of particles) {
+            const baseAngle = t * 0.0012 * p.dir + p.offset * 2.1;
+            let prevX = cx, prevY = cy;
+            const steps = 26;
+            for (let s = 1; s <= steps; s++) {
+              const sa = baseAngle + s * 0.32;
+              const sr = s * (9 + p.offset * 2) * intensity;
+              const x = cx + Math.cos(sa) * sr, y = cy + Math.sin(sa) * sr * 0.7;
+              const alpha = (1 - s / steps) * 0.5;
+              if (s % 2 === 0) drawGlowLine(ctx, prevX, prevY, x, y, 3.5 - p.offset * 0.6, rgb, alpha);
+              prevX = x; prevY = y;
+            }
+          }
+
+        } else if (mode === 'flare') {
+          const flicker = 0.7 + 0.3 * Math.sin(t * 0.005);
+          ctx.globalCompositeOperation = 'lighter';
+          const beamH = ctx.createLinearGradient(0, cy, w, cy);
+          beamH.addColorStop(0, 'rgba(0,0,0,0)'); beamH.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.5 * flicker * intensity})`); beamH.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = beamH; ctx.fillRect(0, cy - 14, w, 28);
+          const beamV = ctx.createLinearGradient(cx, 0, cx, h);
+          beamV.addColorStop(0, 'rgba(0,0,0,0)'); beamV.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.5 * flicker * intensity})`); beamV.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = beamV; ctx.fillRect(cx - 14, 0, 28, h);
+          drawGlowDot(ctx, cx, cy, 40 + flicker * 14, rgb, 1);
+          for (const p of particles) {
+            const a2 = p.a + t * 0.0003 * p.speed;
+            const gx = cx + Math.cos(a2) * p.dist, gy = cy + Math.sin(a2) * p.dist * 0.6;
+            drawGlowDot(ctx, gx, gy, p.size, rgb, 0.35);
+          }
+
+        } else if (mode === 'vortexOrb') {
+          for (const p of particles) {
+            p.a += p.speed; p.r -= 0.5;
+            if (p.r < 6) p.r = 30 + Math.random() * 200;
+            const x = cx + Math.cos(p.a) * p.r, y = cy + Math.sin(p.a) * p.r * 0.6;
+            drawGlowDot(ctx, x, y, 3 + (1 - p.r / 230) * 5, rgb, 0.5);
+          }
+          drawGlowDot(ctx, cx, cy, 26 + Math.sin(t * 0.006) * 7, rgb, 1);
+
+        } else if (mode === 'boltGrid') {
+          for (const p of particles) {
+            p.nextStrike -= 16;
+            if (p.nextStrike <= 0) {
+              p.nextStrike = 600 + Math.random() * 900;
+              p.lastBolt = [];
+              let x = p.x0, y = 0;
+              for (let s = 0; s < 10; s++) {
+                const nx = x + (Math.random() - 0.5) * 50, ny = (h / 10) * (s + 1);
+                p.lastBolt.push({ x1: x, y1: y, x2: nx, y2: ny });
+                x = nx; y = ny;
+              }
+              p.boltLife = 220;
+            }
+            if (p.boltLife > 0 && p.lastBolt) {
+              const alpha = Math.min(1, p.boltLife / 220) * intensity;
+              for (const seg of p.lastBolt) drawGlowLine(ctx, seg.x1, seg.y1, seg.x2, seg.y2, 2.5, rgb, alpha);
+              p.boltLife -= 16;
+            }
+          }
+          drawGlowDot(ctx, cx, cy, 14 + Math.random() * 4, rgb, 0.6);
+
+        } else if (mode === 'prism') {
+          drawGlowDot(ctx, cx, cy, 24 + Math.sin(t * 0.006) * 6, rgb, 1);
+          ctx.globalCompositeOperation = 'lighter';
+          const rot = t * 0.0006;
+          ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot);
+          ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},0.7)`; ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          for (let i = 0; i < 4; i++) {
+            const a = (Math.PI * 2 * i) / 4; const r = 70;
+            const x = Math.cos(a) * r, y = Math.sin(a) * r;
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.closePath(); ctx.stroke();
+          ctx.restore();
+          for (const p of particles) {
+            const pulse = 0.5 + 0.5 * Math.sin(t * 0.003 + p.phase);
+            const a2 = p.a + rot;
+            const x = cx + Math.cos(a2) * 90, y = cy + Math.sin(a2) * 90;
+            drawGlowDot(ctx, x, y, 8 + pulse * 10, rgb, 0.4 + pulse * 0.3);
+          }
+        }
+
+        ctx.globalCompositeOperation = 'source-over';
+        if (elapsed < durationMs) {
+          lightAnimId = requestAnimationFrame(frame);
+        }
+      }
+      lightAnimId = requestAnimationFrame(frame);
+    }
+
+
 
     // 업그레이드된 난파선 (더 디테일, 깨진 돛대, 안개, 빛줄기, 부유물)
     const PRECS_WRECK_SVG = `<svg viewBox="0 0 500 420" xmlns="http://www.w3.org/2000/svg">
@@ -6568,12 +7291,14 @@
         duration = 2800;
 
       } else if (conf.mode === 'scene') {
-        // 7~43 사이 나머지 28개 등급: 호수+연꽃과 같은 SVG 그림 실루엣 템플릿 (점 파티클 대신 또렷한 풍경/심볼)
+        // 7~43 사이 나머지 28개 등급: 캔버스 기반 빛 이펙트 (가산합성+다층글로우+트레일로 화려하게)
         overlay.style.background = '#000';
-        lake.innerHTML = buildTierScene(item.tier, color);
-        requestAnimationFrame(() => lake.classList.add('go'));
-        if (item.tier >= 30) doFlashPulse(0.5, 1300, 450);
+        canvas.style.opacity = '1';
         duration = 1900 + Math.min(900, Math.floor(item.tier * 12));
+        runLightCanvas(canvas, item.tier, color, duration);
+        doFlashPulse(item.tier >= 30 ? 0.7 : 0.45, 350, 400);
+        if (item.tier >= 25) doFlashPulse(0.5, 1300, 450);
+        if (item.tier >= 36) doFlashPulse(0.6, 2100, 400);
 
       } else {
         // 안전망: 알 수 없는 등급은 캔버스 기본값으로
@@ -6847,7 +7572,7 @@
     }
 
     function switchTab(tab) {
-      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'cutscenes', 'shop', 'guild', 'plaza', 'ranking'];
+      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'cutscenes', 'shop', 'guild', 'plaza', 'friends', 'ranking'];
       document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', tabs[i] === tab));
       tabs.forEach(id => document.getElementById(id + '-page').classList.toggle('active', id === tab));
       if (tab === 'dojang') renderDojang();
@@ -6858,6 +7583,7 @@
       if (tab === 'guild') renderGuild();
       if (tab === 'plaza') enterPlaza();
       else leavePlaza();
+      if (tab === 'friends') renderFriends();
       if (tab === 'ranking') renderRanking();
     }
 
@@ -7202,10 +7928,17 @@
       }
     }
 
-    async function saveGuildDoc(name, data) {
+    // Firestore REST의 PATCH는 updateMask 없이 호출하면 문서 전체를 덮어쓰므로,
+    // 항상 최신 문서를 먼저 받아와 병합한 뒤 저장한다 (다른 필드 손실 방지).
+    async function saveGuildDoc(name, data, _skipMerge) {
       try {
+        let merged = data;
+        if (!_skipMerge) {
+          const latest = await fetchGuildDoc(name);
+          merged = Object.assign({}, latest || {}, data);
+        }
         const fields = {};
-        for (const k in data) fields[k] = toFirestoreValue(data[k]);
+        for (const k in merged) fields[k] = toFirestoreValue(merged[k]);
         const url = `${FIRESTORE_BASE}/guilds/${encodeURIComponent(name)}?key=${FIREBASE_API_KEY}`;
         const res = await fetch(url, {
           method: 'PATCH',
@@ -7306,6 +8039,7 @@
       if (!guildName) {
         noGuildEl.classList.add('show');
         joinedEl.classList.remove('show');
+        renderGuildBrowseList();
         return;
       }
 
@@ -7320,6 +8054,7 @@
         guildName = ''; guildJoinRolls = 0; saveProgress();
         noGuildEl.classList.add('show');
         joinedEl.classList.remove('show');
+        renderGuildBrowseList();
         return;
       }
 
@@ -7365,9 +8100,312 @@
         <div class="guild-member-tier">${tierText}</div>
       </div>`;
       }).join('');
+
+      renderGuildAnnouncement(guild);
+      renderGuildChat(guild);
+      renderGuildQuest(guild);
+      renderGuildWeekly(memberRows, guild);
     }
 
-    // ===================== PLAZA (광장) =====================
+    // ----- 길드 둘러보기 (검색 없이 자동으로 목록 표시) -----
+    async function renderGuildBrowseList() {
+      const el = document.getElementById('guild-browse-list');
+      el.innerHTML = '<div class="guild-loading">길드 목록 불러오는 중...</div>';
+      try {
+        let url = `${FIRESTORE_BASE}/guilds?pageSize=50&key=${FIREBASE_API_KEY}`;
+        const res = await fetch(url);
+        if (!res.ok) { el.innerHTML = '<div class="guild-empty">목록을 불러올 수 없습니다</div>'; return; }
+        const data = await res.json();
+        const docs = data.documents || [];
+        if (docs.length === 0) { el.innerHTML = '<div class="guild-empty">아직 생성된 길드가 없습니다 — 위에서 새 길드를 만들어보세요!</div>'; return; }
+        const guilds = docs.map(d => {
+          const name = decodeURIComponent(d.name.split('/').pop());
+          const obj = fromFirestoreDoc(d);
+          const members = Array.isArray(obj.members) ? obj.members : [];
+          return { name, count: members.length };
+        }).filter(g => g.count > 0).sort((a, b) => b.count - a.count).slice(0, 12);
+        if (guilds.length === 0) { el.innerHTML = '<div class="guild-empty">아직 생성된 길드가 없습니다 — 위에서 새 길드를 만들어보세요!</div>'; return; }
+        el.innerHTML = guilds.map(g => `<div class="guild-result-card">
+          <div class="guild-result-info">
+            <div class="guild-result-name">${g.name}</div>
+            <div class="guild-result-meta">멤버 ${g.count}명</div>
+          </div>
+          <button class="guild-join-btn" onclick="joinGuild('${g.name.replace(/'/g, "\\'")}', false, this)">가입</button>
+        </div>`).join('');
+      } catch (e) {
+        el.innerHTML = '<div class="guild-empty">목록을 불러올 수 없습니다</div>';
+      }
+    }
+
+    function setGuildSubtab(tab, btn) {
+      guildSubtab = tab;
+      document.querySelectorAll('.guild-subtab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.guild-subpanel').forEach(p => p.classList.remove('show'));
+      document.getElementById('guild-subpanel-' + tab).classList.add('show');
+    }
+
+    // ----- 공지 -----
+    function renderGuildAnnouncement(guild) {
+      const text = guild.announcement || '';
+      document.getElementById('guild-announce-text').innerText = text || '공지가 없습니다';
+    }
+
+    async function saveGuildAnnouncement() {
+      if (!guildName) return;
+      const input = document.getElementById('guild-announce-input');
+      const text = input.value.trim();
+      if (!text) return;
+      const guild = await fetchGuildDoc(guildName) || { members: [guildName] };
+      const ok = await saveGuildDoc(guildName, Object.assign({}, guild, { announcement: text }));
+      if (ok) {
+        input.value = '';
+        document.getElementById('guild-announce-text').innerText = text;
+        showPotionToast('공지가 등록되었습니다');
+      } else {
+        showPotionToast('공지 등록 실패');
+      }
+    }
+
+    // ----- 채팅 (길드 문서의 chat 배열에 최근 50개만 보관) -----
+    function renderGuildChat(guild) {
+      const box = document.getElementById('guild-chat-box');
+      const chat = Array.isArray(guild.chat) ? guild.chat : [];
+      if (chat.length === 0) {
+        box.innerHTML = '<div class="guild-loading">아직 대화가 없습니다. 첫 메시지를 남겨보세요!</div>';
+      } else {
+        box.innerHTML = chat.map(m => {
+          const t = m.time ? new Date(m.time).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) : '';
+          return `<div class="guild-chat-msg"><span class="gc-nick">${m.nick}</span>${escapeHtml(m.text || '')}<span class="gc-time">${t}</span></div>`;
+        }).join('');
+      }
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    async function sendGuildChat() {
+      if (!guildName || !currentUser) return;
+      const input = document.getElementById('guild-chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      const guild = await fetchGuildDoc(guildName);
+      if (!guild) return;
+      let chat = Array.isArray(guild.chat) ? guild.chat.slice() : [];
+      chat.push({ nick: currentUser, text: text.slice(0, 200), time: Date.now() });
+      if (chat.length > 50) chat = chat.slice(chat.length - 50);
+      await saveGuildDoc(guildName, Object.assign({}, guild, { chat }));
+      renderGuildChat({ chat });
+    }
+
+    // ----- 길드 퀘스트 (이번 주 길드원 전체 누적 롤 수 목표 달성 시 전원 보상) -----
+    function getWeekStartTs() {
+      // 이번 주 월요일 00:00 (KST 근사, 로컬 시간 기준)
+      const now = new Date();
+      const day = now.getDay(); // 0=일
+      const diffToMon = (day === 0 ? 6 : day - 1);
+      const mon = new Date(now.getFullYear(), now.getMonth(), now.getDate() - diffToMon);
+      return mon.getTime();
+    }
+
+    function guildQuestGoalForSize(memberCount) {
+      return Math.max(200, memberCount * 60);
+    }
+
+    async function renderGuildQuest(guild) {
+      const weekStart = getWeekStartTs();
+      let questWeekStart = guild.questWeekStart || 0;
+      let questContrib = (guild.questContrib && typeof guild.questContrib === 'object') ? guild.questContrib : {};
+      let questClaimedBy = Array.isArray(guild.questClaimedBy) ? guild.questClaimedBy : [];
+
+      // 주가 바뀌었으면 서버에 리셋 기록 (다음 새로고침에 반영되도록 저장만 해두고, 화면은 즉시 0으로 표시)
+      if (questWeekStart < weekStart) {
+        questWeekStart = weekStart; questContrib = {}; questClaimedBy = [];
+        await saveGuildDoc(guildName, Object.assign({}, guild, { questWeekStart, questContrib, questClaimedBy }));
+      }
+
+      const members = Array.isArray(guild.members) ? guild.members : [];
+      const goal = guildQuestGoalForSize(members.length);
+      const totalContrib = Object.values(questContrib).reduce((a, b) => a + (Number(b) || 0), 0);
+      const pct = Math.min(100, Math.floor((totalContrib / goal) * 100));
+      const completed = totalContrib >= goal;
+      const myClaimed = questClaimedBy.includes(currentUser);
+
+      document.getElementById('guild-quest-desc').innerText = `길드원 전체가 이번 주 동안 합산 ${goal}회 뽑기를 달성하면 전원에게 골든 티켓 20개 + Ultra Potion 1개를 드립니다.`;
+      document.getElementById('guild-quest-bar').style.width = pct + '%';
+      document.getElementById('guild-quest-sub').innerText = `${totalContrib} / ${goal} 회 달성 (${pct}%)`;
+      const claimBtn = document.getElementById('guild-quest-claim-btn');
+      claimBtn.disabled = !completed || myClaimed;
+      claimBtn.innerText = myClaimed ? '이미 받음' : (completed ? '보상 받기' : '진행 중...');
+    }
+
+    // 매 롤마다 호출: 내가 가입한 길드의 이번 주 퀘스트 기여도에 +count 기록
+    async function contributeGuildQuest(count) {
+      count = count || 1;
+      if (!guildName) return;
+      try {
+        const guild = await fetchGuildDoc(guildName);
+        if (!guild) return;
+        const weekStart = getWeekStartTs();
+        let questWeekStart = guild.questWeekStart || 0;
+        let questContrib = (guild.questContrib && typeof guild.questContrib === 'object') ? guild.questContrib : {};
+        let questClaimedBy = Array.isArray(guild.questClaimedBy) ? guild.questClaimedBy : [];
+        if (questWeekStart < weekStart) { questWeekStart = weekStart; questContrib = {}; questClaimedBy = []; }
+        questContrib[currentUser] = (Number(questContrib[currentUser]) || 0) + count;
+        await saveGuildDoc(guildName, Object.assign({}, guild, { questWeekStart, questContrib, questClaimedBy }));
+      } catch (e) { console.error('contributeGuildQuest error', e); }
+    }
+
+    async function claimGuildQuest() {
+      if (!guildName || !currentUser) return;
+      const guild = await fetchGuildDoc(guildName);
+      if (!guild) return;
+      const members = Array.isArray(guild.members) ? guild.members : [];
+      const goal = guildQuestGoalForSize(members.length);
+      const questContrib = (guild.questContrib && typeof guild.questContrib === 'object') ? guild.questContrib : {};
+      const totalContrib = Object.values(questContrib).reduce((a, b) => a + (Number(b) || 0), 0);
+      let questClaimedBy = Array.isArray(guild.questClaimedBy) ? guild.questClaimedBy.slice() : [];
+      if (totalContrib < goal || questClaimedBy.includes(currentUser)) return;
+      questClaimedBy.push(currentUser);
+      const ok = await saveGuildDoc(guildName, Object.assign({}, guild, { questClaimedBy }));
+      if (ok) {
+        goldenTickets += 20; ultraPotions += 1; ultraPotionsEarnedTotal += 1;
+        updateUI(); updateUltraPotionBtn(); saveProgress();
+        showPotionToast('🎁 길드 퀘스트 보상 획득! 골든티켓 +20, Ultra Potion +1');
+        renderGuildQuest(Object.assign({}, guild, { questClaimedBy }));
+      } else {
+        showPotionToast('보상 수령 실패, 다시 시도해주세요');
+      }
+    }
+
+    // ----- 주간 길드 랭킹 (이번 주 길드원들이 합산으로 모은 롤 수 기준 — 멤버 순위 표시) -----
+    function renderGuildWeekly(memberRows, guild) {
+      const questContrib = (guild.questContrib && typeof guild.questContrib === 'object') ? guild.questContrib : {};
+      const rows = memberRows.map(m => ({ nick: m.nick, score: Number(questContrib[m.nick]) || 0 }));
+      rows.sort((a, b) => b.score - a.score);
+      const el = document.getElementById('guild-weekly-list');
+      if (rows.length === 0) { el.innerHTML = '<div class="guild-empty">이번 주 활동 기록이 없습니다</div>'; return; }
+      el.innerHTML = rows.map((r, i) => {
+        const isMe = r.nick === currentUser;
+        return `<div class="guild-weekly-card ${isMe ? 'mine' : ''}">
+          <div class="guild-weekly-rank">${i + 1}</div>
+          <div class="guild-weekly-name">${r.nick}${isMe ? ' (나)' : ''}</div>
+          <div class="guild-weekly-score">${r.score}회</div>
+        </div>`;
+      }).join('');
+    }
+
+    // ===================== FRIENDS & BLOCK =====================
+    // 계정 문서 최상위 friends/blocked 배열에 저장 (state와 독립적으로 즉시 저장)
+    async function saveFriendsBlocked() {
+      if (!currentUser) return false;
+      try {
+        const existing = await storageGet('account:' + currentUser);
+        const account = existing ? JSON.parse(existing.value) : { password: '' };
+        account.friends = myFriends;
+        account.blocked = myBlocked;
+        return await storageSet('account:' + currentUser, JSON.stringify(account));
+      } catch (e) {
+        console.error('saveFriendsBlocked error', e);
+        return false;
+      }
+    }
+
+    async function addFriendByName() {
+      const input = document.getElementById('friends-add-input');
+      const msg = document.getElementById('friends-add-msg');
+      const name = input.value.trim();
+      if (!name) return;
+      if (name === currentUser) { msg.innerText = '자기 자신은 추가할 수 없습니다'; return; }
+      if (myFriends.includes(name)) { msg.innerText = '이미 친구입니다'; return; }
+      if (myBlocked.includes(name)) { msg.innerText = '차단한 유저는 친구로 추가할 수 없습니다. 먼저 차단을 해제해주세요'; return; }
+      msg.innerText = '확인 중...';
+      const acc = await fetchAccountByNick(name);
+      if (!acc) { msg.innerText = '존재하지 않는 닉네임입니다'; return; }
+      myFriends.push(name);
+      const ok = await saveFriendsBlocked();
+      if (!ok) { myFriends = myFriends.filter(f => f !== name); msg.innerText = '추가 실패, 다시 시도해주세요'; return; }
+      input.value = '';
+      msg.innerText = `✓ ${name}님을 친구로 추가했습니다`;
+      checkGenericAchievements();
+      renderFriends();
+    }
+
+    async function removeFriend(name) {
+      myFriends = myFriends.filter(f => f !== name);
+      await saveFriendsBlocked();
+      renderFriends();
+    }
+
+    async function blockUser(name) {
+      if (!myBlocked.includes(name)) myBlocked.push(name);
+      myFriends = myFriends.filter(f => f !== name);
+      await saveFriendsBlocked();
+      renderFriends();
+    }
+
+    async function unblockUser(name) {
+      myBlocked = myBlocked.filter(b => b !== name);
+      await saveFriendsBlocked();
+      renderFriends();
+    }
+
+    function setFriendsTab(tab, btn) {
+      friendsSubtab = tab;
+      document.querySelectorAll('.friends-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.friends-panel').forEach(p => p.classList.remove('show'));
+      document.getElementById('friends-' + tab + '-panel').classList.add('show');
+    }
+
+    async function renderFriends() {
+      const listPanel = document.getElementById('friends-list-panel');
+      const blockedPanel = document.getElementById('friends-blocked-panel');
+
+      if (myFriends.length === 0) {
+        listPanel.innerHTML = '<div class="guild-empty">아직 친구가 없습니다. 위에서 닉네임으로 추가해보세요!</div>';
+      } else {
+        listPanel.innerHTML = '<div class="guild-loading">친구 정보 불러오는 중...</div>';
+        const rows = await Promise.all(myFriends.map(async nick => {
+          const [acc, presence] = await Promise.all([fetchAccountByNick(nick), fetchPresenceDoc(nick)]);
+          const state = acc?.state || {};
+          const item = pool[state.bestTier] ?? null;
+          const online = presence && presence.lastSeen && (Date.now() - presence.lastSeen < PLAZA_ONLINE_MS);
+          return { nick, item, online };
+        }));
+        rows.sort((a, b) => (b.online ? 1 : 0) - (a.online ? 1 : 0));
+        listPanel.innerHTML = rows.map(r => {
+          const tierText = r.item ? `<span style="color:${r.item.color}">${r.item.name}</span>` : '기록 없음';
+          return `<div class="friend-card">
+            <div class="friend-online-dot ${r.online ? 'online' : ''}"></div>
+            <div class="friend-info">
+              <div class="friend-name">${r.nick}</div>
+              <div class="friend-meta">${r.online ? '온라인' : '오프라인'} · 최고 등급 ${tierText}</div>
+            </div>
+            <div class="friend-actions">
+              <button class="friend-btn danger" onclick="blockUser('${r.nick.replace(/'/g, "\\'")}')">차단</button>
+              <button class="friend-btn danger" onclick="removeFriend('${r.nick.replace(/'/g, "\\'")}')">삭제</button>
+            </div>
+          </div>`;
+        }).join('');
+      }
+
+      if (myBlocked.length === 0) {
+        blockedPanel.innerHTML = '<div class="guild-empty">차단한 유저가 없습니다</div>';
+      } else {
+        blockedPanel.innerHTML = myBlocked.map(nick => `<div class="friend-card">
+          <div class="friend-info"><div class="friend-name">${nick}</div></div>
+          <div class="friend-actions">
+            <button class="friend-btn success" onclick="unblockUser('${nick.replace(/'/g, "\\'")}')">차단 해제</button>
+          </div>
+        </div>`).join('');
+      }
+    }
+
+
     // presence/{nickname} 문서: { x, y, title, lastSeen } — 폴링 기반 "거의 실시간" 위치 공유
     const PLAZA_POLL_MS = 2500;
     const PLAZA_ONLINE_MS = 15000; // 최근 15초 이내 갱신된 유저만 "온라인"으로 표시
@@ -7637,6 +8675,8 @@
       { id: 'first_question_mark', name: '???', icon: '✨', title: '???', desc: '골든 가챠 최상위 등급 첫 획득', check: () => tiersObtained.has(47), progress: () => tiersObtained.has(47) ? '완료' : '미달성' },
       { id: 'golden_roll_10', name: '황금시간 단골', icon: '🌇', title: '황금시간의 단골', desc: '골든 가챠 10회 진행', check: () => goldenRollsTotal >= 10, progress: () => `${Math.min(goldenRollsTotal, 10)} / 10` },
       { id: 'guild_join_first', name: '동료의 시작', icon: '🛡️', title: '길드원', desc: '길드에 가입하세요', check: () => !!guildName, progress: () => guildName ? '완료' : '미달성' },
+      { id: 'friend_first', name: '첫 인연', icon: '🤝', title: '소셜라이트', desc: '친구를 1명 이상 추가하세요', check: () => myFriends.length >= 1, progress: () => `${Math.min(myFriends.length, 1)} / 1` },
+      { id: 'friend_5', name: '인싸의 길', icon: '👥', title: '인기인', desc: '친구를 5명 이상 추가하세요', check: () => myFriends.length >= 5, progress: () => `${Math.min(myFriends.length, 5)} / 5` },
       { id: 'attendance_7', name: '꾸준함의 가치', icon: '📅', title: '꾸준한 소환사', desc: '7일 연속 출석체크', check: () => attendanceStreak >= 7, progress: () => `${Math.min(attendanceStreak, 7)} / 7` },
       { id: 'attendance_30', name: '한 달의 약속', icon: '🗓️', title: '약속을 지키는 자', desc: '누적 30일 출석체크', check: () => attendanceTotalDays >= 30, progress: () => `${Math.min(attendanceTotalDays, 30)} / 30` },
     ];
