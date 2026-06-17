@@ -855,13 +855,8 @@
     }
 
     @keyframes spin {
-      from {
-        transform: rotate(0deg)
-      }
-
-      to {
-        transform: rotate(360deg)
-      }
+      from { transform: rotate(0deg) }
+      to { transform: rotate(360deg) }
     }
 
     #star-burst-overlay {
@@ -878,7 +873,7 @@
       transform: translateX(-50%);
       font-size: 15px;
       letter-spacing: 3px;
-      color: rgba(255, 255, 255, 0);
+      color: rgba(255,255,255,0);
       text-align: center;
       pointer-events: none;
       z-index: 4;
@@ -889,7 +884,7 @@
     }
 
     #summon-quote.show {
-      color: rgba(255, 255, 255, 0.85);
+      color: rgba(255,255,255,0.85);
     }
 
     #result-text {
@@ -1601,48 +1596,17 @@
       pointer-events: none;
       transition: opacity 0.8s ease;
     }
-
-    #precs-magiccircle.go {
-      opacity: 1;
-    }
-
+    #precs-magiccircle.go { opacity: 1; }
     .precs-mc-ring {
       position: absolute;
       inset: 0;
       transform-origin: center;
     }
-
-    .precs-mc-ring.spin1 {
-      animation: precs-mc-spin 6s linear infinite;
-    }
-
-    .precs-mc-ring.spin2 {
-      animation: precs-mc-spin-rev 4.2s linear infinite;
-    }
-
-    .precs-mc-ring.spin3 {
-      animation: precs-mc-spin 9s linear infinite;
-    }
-
-    @keyframes precs-mc-spin {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    @keyframes precs-mc-spin-rev {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(-360deg);
-      }
-    }
+    .precs-mc-ring.spin1 { animation: precs-mc-spin 6s linear infinite; }
+    .precs-mc-ring.spin2 { animation: precs-mc-spin-rev 4.2s linear infinite; }
+    .precs-mc-ring.spin3 { animation: precs-mc-spin 9s linear infinite; }
+    @keyframes precs-mc-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes precs-mc-spin-rev { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
 
     /* ===== 사슬 ===== */
     #precs-chains {
@@ -1651,18 +1615,14 @@
       pointer-events: none;
       overflow: hidden;
     }
-
     .precs-chain {
       position: absolute;
       width: 38px;
       opacity: 0;
-      filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.8));
-      transition: opacity 0.4s ease, transform 1.4s cubic-bezier(.2, .8, .2, 1);
+      filter: drop-shadow(0 0 10px rgba(0,0,0,0.8));
+      transition: opacity 0.4s ease, transform 1.4s cubic-bezier(.2,.8,.2,1);
     }
-
-    .precs-chain.go {
-      opacity: 1;
-    }
+    .precs-chain.go { opacity: 1; }
 
     /* ===== 빛 기둥 ===== */
     #precs-pillars {
@@ -1673,16 +1633,14 @@
       justify-content: space-around;
       align-items: flex-end;
     }
-
     .precs-pillar {
       width: 26px;
       height: 0%;
       border-radius: 50% 50% 0 0 / 10% 10% 0 0;
       opacity: 0;
-      transition: height 1.1s cubic-bezier(.16, .9, .2, 1), opacity 0.5s ease;
+      transition: height 1.1s cubic-bezier(.16,.9,.2,1), opacity 0.5s ease;
       transform-origin: bottom center;
     }
-
     .precs-pillar.go {
       height: 130%;
       opacity: 0.85;
@@ -1700,15 +1658,11 @@
       color: #69f0ae;
       opacity: 0;
       transition: opacity 0.4s ease;
-      text-shadow: 0 0 8px rgba(105, 240, 174, 0.5);
+      text-shadow: 0 0 8px rgba(105,240,174,0.5);
       pointer-events: none;
       white-space: pre-wrap;
     }
-
-    #precs-devtext.go {
-      opacity: 1;
-    }
-
+    #precs-devtext.go { opacity: 1; }
     #precs-devtext .precs-cursor {
       display: inline-block;
       width: 7px;
@@ -1718,12 +1672,7 @@
       vertical-align: middle;
       margin-left: 2px;
     }
-
-    @keyframes precs-cursor-blink {
-      50% {
-        opacity: 0;
-      }
-    }
+    @keyframes precs-cursor-blink { 50% { opacity: 0; } }
 
     /* ===== 스타일리시 화염 ===== */
     #precs-fire {
@@ -1733,11 +1682,7 @@
       opacity: 0;
       transition: opacity 0.6s ease;
     }
-
-    #precs-fire.go {
-      opacity: 1;
-    }
-
+    #precs-fire.go { opacity: 1; }
     .precs-flame {
       position: absolute;
       bottom: -10%;
@@ -1748,21 +1693,11 @@
       animation: precs-flame-flicker 1.6s ease-in-out infinite alternate;
       transform-origin: bottom center;
     }
-
     @keyframes precs-flame-flicker {
-      0% {
-        transform: scaleY(1) scaleX(1) rotate(-2deg);
-      }
-
-      50% {
-        transform: scaleY(1.12) scaleX(0.94) rotate(2deg);
-      }
-
-      100% {
-        transform: scaleY(0.96) scaleX(1.06) rotate(-1deg);
-      }
+      0% { transform: scaleY(1) scaleX(1) rotate(-2deg); }
+      50% { transform: scaleY(1.12) scaleX(0.94) rotate(2deg); }
+      100% { transform: scaleY(0.96) scaleX(1.06) rotate(-1deg); }
     }
-
     .precs-ember {
       position: absolute;
       bottom: 10%;
@@ -1773,17 +1708,9 @@
       box-shadow: 0 0 8px #ff6d00;
       animation: precs-ember-rise linear infinite;
     }
-
     @keyframes precs-ember-rise {
-      0% {
-        transform: translateY(0) translateX(0);
-        opacity: 1;
-      }
-
-      100% {
-        transform: translateY(-420px) translateX(var(--drift, 20px));
-        opacity: 0;
-      }
+      0% { transform: translateY(0) translateX(0); opacity: 1; }
+      100% { transform: translateY(-420px) translateX(var(--drift, 20px)); opacity: 0; }
     }
 
     /* ===== 호수 + 연꽃 실루엣 (업그레이드) ===== */
@@ -1794,10 +1721,7 @@
       opacity: 0;
       transition: opacity 1s ease;
     }
-
-    #precs-lake.go {
-      opacity: 1;
-    }
+    #precs-lake.go { opacity: 1; }
 
     /* CUTSCENE */
     #cutscene {
@@ -1858,10 +1782,7 @@
       transition: opacity 0.8s ease;
       pointer-events: none;
     }
-
-    #cutscene-premium-canvas.show {
-      opacity: 1;
-    }
+    #cutscene-premium-canvas.show { opacity: 1; }
 
     #cutscene-rays.fast {
       animation: ray-spin 4.5s linear infinite;
@@ -1991,20 +1912,9 @@
     }
 
     @keyframes cs-title-punch {
-      0% {
-        transform: scale(0.5);
-        filter: brightness(2.5);
-      }
-
-      55% {
-        transform: scale(1.18);
-        filter: brightness(1.5);
-      }
-
-      100% {
-        transform: scale(1);
-        filter: brightness(1);
-      }
+      0% { transform: scale(0.5); filter: brightness(2.5); }
+      55% { transform: scale(1.18); filter: brightness(1.5); }
+      100% { transform: scale(1); filter: brightness(1); }
     }
 
     #cutscene-name.show {
@@ -3018,6 +2928,209 @@
       flex-shrink: 0;
     }
 
+    /* BOARD EVENT */
+    #board-page {
+      display: none;
+      padding: 40px 32px;
+      min-height: calc(100vh - 55px);
+    }
+
+    #board-page.active {
+      display: block;
+    }
+
+    #board-header {
+      margin-bottom: 24px;
+    }
+
+    #board-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    #board-sub-label {
+      font-size: 12px;
+      color: #777;
+      letter-spacing: 0.3px;
+    }
+
+    #board-main {
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+    }
+
+    #board-grid-wrap {
+      flex: 0 0 auto;
+    }
+
+    #board-dice-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    #board-dice-count {
+      font-size: 15px;
+      font-weight: 700;
+      color: #eee;
+      background: rgba(255, 255, 255, 0.04);
+      border: 0.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 8px 16px;
+    }
+
+    #board-dice-num {
+      color: #ffd54f;
+      font-size: 18px;
+      margin-right: 4px;
+    }
+
+    #board-roll-btn {
+      background: linear-gradient(135deg, #ffd54f, #ff8f00);
+      color: #1a1a1a;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 22px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    #board-roll-btn:hover:not(:disabled) {
+      transform: scale(1.04);
+    }
+
+    #board-roll-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      background: rgba(255, 255, 255, 0.08);
+      color: #888;
+    }
+
+    #board-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 78px);
+      grid-template-rows: repeat(5, 78px);
+      gap: 6px;
+      position: relative;
+    }
+
+    .board-tile {
+      position: relative;
+      border-radius: 10px;
+      border: 0.5px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      text-align: center;
+      overflow: hidden;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .board-tile-num {
+      position: absolute;
+      top: 3px;
+      left: 5px;
+      font-size: 9px;
+      color: #555;
+      font-weight: 700;
+    }
+
+    .board-tile-icon {
+      font-size: 20px;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .board-tile-label {
+      font-size: 8.5px;
+      color: #999;
+      letter-spacing: 0.2px;
+      padding: 0 3px;
+      line-height: 1.2;
+    }
+
+    .board-tile.jackpot {
+      border-color: rgba(0, 229, 255, 0.45);
+      background: radial-gradient(circle, rgba(0, 229, 255, 0.12), rgba(0, 229, 255, 0.02));
+      animation: board-jackpot-pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes board-jackpot-pulse {
+      0%, 100% { box-shadow: 0 0 6px rgba(0, 229, 255, 0.25); }
+      50% { box-shadow: 0 0 16px rgba(0, 229, 255, 0.55); }
+    }
+
+    .board-tile.current {
+      border-color: #ffd54f;
+      box-shadow: 0 0 0 2px rgba(255, 213, 79, 0.5), 0 0 18px rgba(255, 213, 79, 0.4);
+    }
+
+    .board-tile.visited-flash {
+      animation: board-visited-flash 0.6s ease;
+    }
+
+    @keyframes board-visited-flash {
+      0% { background: rgba(255, 213, 79, 0.55); }
+      100% { background: rgba(255, 255, 255, 0.03); }
+    }
+
+    #board-next-dice-label {
+      margin-top: 14px;
+      font-size: 11.5px;
+      color: #777;
+    }
+
+    #board-log-wrap {
+      flex: 1;
+      min-width: 220px;
+      max-width: 320px;
+    }
+
+    #board-log-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #aaa;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    #board-log {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 560px;
+      overflow-y: auto;
+    }
+
+    .board-log-entry {
+      font-size: 12px;
+      color: #999;
+      border: 0.5px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.02);
+      animation: fadeInUp 0.3s ease;
+    }
+
+    .board-log-entry b {
+      color: #ddd;
+    }
+
+    @media (max-width: 720px) {
+      #board-main { flex-direction: column; }
+      #board-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: repeat(5, 56px); width: 100%; }
+      .board-tile-icon { font-size: 16px; }
+    }
+
 
     /* GUILD */
     #guild-page {
@@ -3330,13 +3443,8 @@
       color: #c084fc;
     }
 
-    .guild-subpanel {
-      display: none;
-    }
-
-    .guild-subpanel.show {
-      display: block;
-    }
+    .guild-subpanel { display: none; }
+    .guild-subpanel.show { display: block; }
 
     /* 공지 */
     #guild-announce-box {
@@ -3561,9 +3669,7 @@
       min-height: calc(100vh - 55px);
     }
 
-    #friends-page.active {
-      display: block;
-    }
+    #friends-page.active { display: block; }
 
     #friends-header {
       display: flex;
@@ -3651,15 +3757,8 @@
       color: #ff9fd6;
     }
 
-    .friends-panel {
-      display: none;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .friends-panel.show {
-      display: flex;
-    }
+    .friends-panel { display: none; flex-direction: column; gap: 10px; }
+    .friends-panel.show { display: flex; }
 
     .friend-card {
       display: flex;
@@ -3684,10 +3783,7 @@
       box-shadow: 0 0 6px #69f0ae;
     }
 
-    .friend-info {
-      flex: 1;
-      min-width: 0;
-    }
+    .friend-info { flex: 1; min-width: 0; }
 
     .friend-name {
       font-size: 13px;
@@ -3725,19 +3821,13 @@
       border-color: rgba(255, 82, 82, 0.25);
       color: #ff8a80;
     }
-
-    .friend-btn.danger:hover {
-      background: rgba(255, 82, 82, 0.12);
-    }
+    .friend-btn.danger:hover { background: rgba(255, 82, 82, 0.12); }
 
     .friend-btn.success {
       border-color: rgba(105, 240, 174, 0.3);
       color: #69f0ae;
     }
-
-    .friend-btn.success:hover {
-      background: rgba(105, 240, 174, 0.12);
-    }
+    .friend-btn.success:hover { background: rgba(105, 240, 174, 0.12); }
 
     /* PLAZA */
     #plaza-page {
@@ -4008,12 +4098,10 @@
       pointer-events: none;
       transition: opacity 0.25s;
     }
-
     #attendance-modal.show {
       opacity: 1;
       pointer-events: all;
     }
-
     #attendance-box {
       width: 380px;
       max-width: 92vw;
@@ -4027,14 +4115,12 @@
       align-items: center;
       gap: 18px;
     }
-
     #attendance-title {
       font-size: 11px;
       letter-spacing: 6px;
       color: #888;
       text-transform: uppercase;
     }
-
     #attendance-streak-big {
       font-size: 34px;
       font-weight: 900;
@@ -4043,21 +4129,18 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
     #attendance-streak-sub {
       font-size: 11px;
       letter-spacing: 1px;
       color: #777;
       margin-top: -10px;
     }
-
     #attendance-days {
       display: flex;
       gap: 6px;
       width: 100%;
       justify-content: space-between;
     }
-
     .att-day {
       flex: 1;
       display: flex;
@@ -4069,33 +4152,27 @@
       border: 0.5px solid rgba(255, 255, 255, 0.08);
       background: rgba(255, 255, 255, 0.02);
     }
-
     .att-day.done {
       border-color: rgba(255, 215, 0, 0.35);
       background: rgba(255, 215, 0, 0.07);
     }
-
     .att-day.today {
       border-color: rgba(255, 215, 0, 0.7);
       box-shadow: 0 0 14px rgba(255, 215, 0, 0.25);
       animation: pulse-badge 1.2s ease infinite;
     }
-
     .att-day-num {
       font-size: 9px;
       letter-spacing: 1px;
       color: #555;
     }
-
     .att-day.done .att-day-num,
     .att-day.today .att-day-num {
       color: #ffd700;
     }
-
     .att-day-icon {
       font-size: 16px;
     }
-
     .att-day-reward {
       font-size: 8px;
       color: #555;
@@ -4103,12 +4180,10 @@
       text-align: center;
       line-height: 1.3;
     }
-
     .att-day.done .att-day-reward,
     .att-day.today .att-day-reward {
       color: #ccc;
     }
-
     #attendance-claim-msg {
       font-size: 13px;
       letter-spacing: 1px;
@@ -4116,7 +4191,6 @@
       text-align: center;
       min-height: 18px;
     }
-
     #attendance-claim-btn {
       width: 100%;
       height: 48px;
@@ -4131,17 +4205,14 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-
     #attendance-claim-btn:hover {
       box-shadow: 0 0 26px rgba(255, 215, 0, 0.3);
     }
-
     #attendance-claim-btn:disabled {
       opacity: 0.35;
       cursor: default;
       box-shadow: none;
     }
-
     #attendance-close-btn {
       font-size: 10px;
       letter-spacing: 2px;
@@ -4151,10 +4222,7 @@
       cursor: pointer;
       transition: color 0.2s;
     }
-
-    #attendance-close-btn:hover {
-      color: #aaa;
-    }
+    #attendance-close-btn:hover { color: #aaa; }
 
     /* 네브바 출석체크 아이콘 버튼 */
     #attendance-nav-btn {
@@ -4168,18 +4236,14 @@
       line-height: 1;
       position: relative;
     }
-
     #attendance-nav-btn:hover {
       background: rgba(255, 215, 0, 0.08);
     }
-
     #attendance-nav-btn.unclaimed::after {
       content: '';
       position: absolute;
-      top: -2px;
-      right: -2px;
-      width: 8px;
-      height: 8px;
+      top: -2px; right: -2px;
+      width: 8px; height: 8px;
       border-radius: 50%;
       background: #ff5252;
       box-shadow: 0 0 6px #ff5252;
@@ -4189,17 +4253,16 @@
     #mode-toggle-btn {
       font-size: 16px;
       background: transparent;
-      border: 0.5px solid rgba(255, 255, 255, 0.1);
+      border: 0.5px solid rgba(255,255,255,0.1);
       border-radius: 6px;
       padding: 4px 8px;
       cursor: pointer;
       transition: all 0.2s;
       line-height: 1;
     }
-
     #mode-toggle-btn:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(255, 255, 255, 0.25);
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.25);
     }
 
     /* ===== MOBILE MODE ===== */
@@ -4208,12 +4271,10 @@
       gap: 8px;
       padding: 10px 14px;
     }
-
     body.mobile-mode #nav-logo {
       font-size: 13px;
       letter-spacing: 3px;
     }
-
     body.mobile-mode #nav-tabs {
       order: 3;
       width: 100%;
@@ -4224,11 +4285,7 @@
       gap: 3px;
       padding-bottom: 2px;
     }
-
-    body.mobile-mode #nav-tabs::-webkit-scrollbar {
-      display: none;
-    }
-
+    body.mobile-mode #nav-tabs::-webkit-scrollbar { display: none; }
     body.mobile-mode .nav-tab {
       font-size: 10px;
       letter-spacing: 1px;
@@ -4236,54 +4293,21 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
-
     body.mobile-mode #nav-user {
       gap: 6px;
       font-size: 10px;
     }
-
-    body.mobile-mode #nav-user-name {
-      font-size: 10px;
-      letter-spacing: 1px;
-    }
-
-    body.mobile-mode #nav-user-title {
-      font-size: 9px;
-    }
-
-    body.mobile-mode #nav-logout-btn {
-      font-size: 9px;
-      padding: 3px 7px;
-    }
+    body.mobile-mode #nav-user-name { font-size: 10px; letter-spacing: 1px; }
+    body.mobile-mode #nav-user-title { font-size: 9px; }
+    body.mobile-mode #nav-logout-btn { font-size: 9px; padding: 3px 7px; }
 
     /* gacha idle */
-    body.mobile-mode #gacha-idle {
-      gap: 12px;
-      padding: 12px;
-    }
-
-    body.mobile-mode #gacha-title-big {
-      font-size: 28px;
-      letter-spacing: 6px;
-    }
-
-    body.mobile-mode #gacha-title-main {
-      font-size: 9px;
-      letter-spacing: 4px;
-    }
-
-    body.mobile-mode #stats-row {
-      gap: 20px;
-    }
-
-    body.mobile-mode .stat-num {
-      font-size: 16px;
-    }
-
-    body.mobile-mode .stat-lbl {
-      font-size: 9px;
-    }
-
+    body.mobile-mode #gacha-idle { gap: 12px; padding: 12px; }
+    body.mobile-mode #gacha-title-big { font-size: 28px; letter-spacing: 6px; }
+    body.mobile-mode #gacha-title-main { font-size: 9px; letter-spacing: 4px; }
+    body.mobile-mode #stats-row { gap: 20px; }
+    body.mobile-mode .stat-num { font-size: 16px; }
+    body.mobile-mode .stat-lbl { font-size: 9px; }
     body.mobile-mode #potion-bar,
     body.mobile-mode #ultra-potion-bar,
     body.mobile-mode #celestial-potion-bar {
@@ -4292,40 +4316,16 @@
       width: 90vw;
       max-width: 380px;
     }
-
     body.mobile-mode #potion-icon,
     body.mobile-mode #ultra-potion-icon,
-    body.mobile-mode #celestial-potion-icon {
-      font-size: 18px;
-    }
-
+    body.mobile-mode #celestial-potion-icon { font-size: 18px; }
     body.mobile-mode #potion-count,
     body.mobile-mode #ultra-potion-count,
-    body.mobile-mode #celestial-potion-count {
-      font-size: 15px;
-    }
-
-    body.mobile-mode #pity-bar-wrap {
-      width: 170px;
-    }
-
-    body.mobile-mode #pity-label {
-      font-size: 10px;
-      letter-spacing: 2px;
-    }
-
-    body.mobile-mode .roll-btn {
-      height: 42px;
-      font-size: 11px;
-      letter-spacing: 2px;
-      padding: 0 16px;
-    }
-
-    body.mobile-mode #roll-btns {
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+    body.mobile-mode #celestial-potion-count { font-size: 15px; }
+    body.mobile-mode #pity-bar-wrap { width: 170px; }
+    body.mobile-mode #pity-label { font-size: 10px; letter-spacing: 2px; }
+    body.mobile-mode .roll-btn { height: 42px; font-size: 11px; letter-spacing: 2px; padding: 0 16px; }
+    body.mobile-mode #roll-btns { gap: 8px; flex-wrap: wrap; justify-content: center; }
 
     /* 골든 가챠 버튼: 모바일에서 왼쪽 플로팅 유지하되 작게 */
     body.mobile-mode #golden-gacha-btn {
@@ -4334,23 +4334,10 @@
       padding: 10px 6px;
       gap: 3px;
     }
-
-    body.mobile-mode #golden-gacha-icon {
-      font-size: 20px;
-    }
-
-    body.mobile-mode #golden-gacha-label {
-      font-size: 8px;
-      letter-spacing: 2px;
-    }
-
-    body.mobile-mode .golden-gacha-sub-cls {
-      font-size: 7px;
-    }
-
-    body.mobile-mode #golden-gacha-ticket-count {
-      font-size: 13px;
-    }
+    body.mobile-mode #golden-gacha-icon { font-size: 20px; }
+    body.mobile-mode #golden-gacha-label { font-size: 8px; letter-spacing: 2px; }
+    body.mobile-mode .golden-gacha-sub-cls { font-size: 7px; }
+    body.mobile-mode #golden-gacha-ticket-count { font-size: 13px; }
 
     /* pages */
     body.mobile-mode #dojang-page,
@@ -4358,146 +4345,62 @@
     body.mobile-mode #odds-page,
     body.mobile-mode #cutscenes-page,
     body.mobile-mode #shop-page,
+    body.mobile-mode #board-page,
     body.mobile-mode #guild-page,
     body.mobile-mode #plaza-page,
-    body.mobile-mode #ranking-page {
-      padding: 20px 14px;
-    }
+    body.mobile-mode #ranking-page { padding: 20px 14px; }
 
     body.mobile-mode #dojang-grid {
       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 8px;
     }
-
-    body.mobile-mode .dojang-card {
-      padding: 10px 12px;
-    }
-
-    body.mobile-mode .dojang-name {
-      font-size: 11px;
-    }
+    body.mobile-mode .dojang-card { padding: 10px 12px; }
+    body.mobile-mode .dojang-name { font-size: 11px; }
 
     body.mobile-mode #ach-grid {
       grid-template-columns: 1fr;
       gap: 8px;
     }
+    body.mobile-mode .ach-card { padding: 12px 14px; }
+    body.mobile-mode .title-chip { font-size: 10px; padding: 6px 10px; }
 
-    body.mobile-mode .ach-card {
-      padding: 12px 14px;
-    }
+    body.mobile-mode .rank-card { padding: 10px 12px; gap: 10px; }
+    body.mobile-mode .rank-nick { font-size: 11px; }
+    body.mobile-mode .rank-meta { font-size: 9px; min-width: 60px; }
 
-    body.mobile-mode .title-chip {
-      font-size: 10px;
-      padding: 6px 10px;
-    }
-
-    body.mobile-mode .rank-card {
-      padding: 10px 12px;
-      gap: 10px;
-    }
-
-    body.mobile-mode .rank-nick {
-      font-size: 11px;
-    }
-
-    body.mobile-mode .rank-meta {
-      font-size: 9px;
-      min-width: 60px;
-    }
-
-    body.mobile-mode .shop-card {
-      padding: 12px 12px;
-      gap: 10px;
-    }
-
-    body.mobile-mode .shop-card-icon {
-      width: 36px;
-      height: 36px;
-      font-size: 20px;
-    }
-
-    body.mobile-mode .shop-card-want {
-      font-size: 11px;
-    }
+    body.mobile-mode .shop-card { padding: 12px 12px; gap: 10px; }
+    body.mobile-mode .shop-card-icon { width: 36px; height: 36px; font-size: 20px; }
+    body.mobile-mode .shop-card-want { font-size: 11px; }
 
     body.mobile-mode .guild-result-card,
-    body.mobile-mode .guild-member-card {
-      padding: 10px 12px;
-      gap: 10px;
-    }
-
-    body.mobile-mode #guild-info-stats {
-      gap: 20px;
-    }
-
-    body.mobile-mode .guild-stat-num {
-      font-size: 18px;
-    }
-
-    body.mobile-mode #guild-search-input {
-      font-size: 12px;
-    }
+    body.mobile-mode .guild-member-card { padding: 10px 12px; gap: 10px; }
+    body.mobile-mode #guild-info-stats { gap: 20px; }
+    body.mobile-mode .guild-stat-num { font-size: 18px; }
+    body.mobile-mode #guild-search-input { font-size: 12px; }
 
     /* 광장 모바일: 세로 레이아웃 */
-    body.mobile-mode #plaza-body {
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    body.mobile-mode #plaza-room {
-      height: 300px;
-    }
-
-    body.mobile-mode #plaza-sidebar {
-      width: 100%;
-    }
-
-    body.mobile-mode #plaza-online-list {
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    body.mobile-mode .plaza-online-card {
-      padding: 7px 10px;
-    }
+    body.mobile-mode #plaza-body { flex-direction: column; gap: 14px; }
+    body.mobile-mode #plaza-room { height: 300px; }
+    body.mobile-mode #plaza-sidebar { width: 100%; }
+    body.mobile-mode #plaza-online-list { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+    body.mobile-mode .plaza-online-card { padding: 7px 10px; }
 
     /* cutscene 이름 크기 */
-    body.mobile-mode #cutscene-name .cs-title {
-      font-size: 26px;
-      letter-spacing: 4px;
-    }
-
-    body.mobile-mode #mega-title {
-      font-size: 32px;
-    }
+    body.mobile-mode #cutscene-name .cs-title { font-size: 26px; letter-spacing: 4px; }
+    body.mobile-mode #mega-title { font-size: 32px; }
 
     /* 골든 페이지 모바일 */
-    body.mobile-mode #golden-page-title-big {
-      font-size: 28px;
-      letter-spacing: 6px;
-    }
-
-    body.mobile-mode #golden-roll-btn {
-      height: 46px;
-      font-size: 12px;
-      letter-spacing: 3px;
-      padding: 0 24px;
-    }
+    body.mobile-mode #golden-page-title-big { font-size: 28px; letter-spacing: 6px; }
+    body.mobile-mode #golden-roll-btn { height: 46px; font-size: 12px; letter-spacing: 3px; padding: 0 24px; }
 
     /* multi-result 그리드 */
     body.mobile-mode #multi-result-grid {
       grid-template-columns: repeat(5, 1fr);
       gap: 5px;
     }
+    body.mobile-mode .multi-result-name { font-size: 9px; }
+    body.mobile-mode .multi-result-card { padding: 8px 4px; }
 
-    body.mobile-mode .multi-result-name {
-      font-size: 9px;
-    }
-
-    body.mobile-mode .multi-result-card {
-      padding: 8px 4px;
-    }
   </style>
 
   <div id="auth-overlay">
@@ -4543,6 +4446,7 @@
         <button class="nav-tab" onclick="switchTab('odds')">확률표</button>
         <button class="nav-tab" onclick="switchTab('cutscenes')">컷씬</button>
         <button class="nav-tab" onclick="switchTab('shop')">상점</button>
+        <button class="nav-tab" onclick="switchTab('board')">이벤트</button>
         <button class="nav-tab" onclick="switchTab('guild')">길드</button>
         <button class="nav-tab" onclick="switchTab('plaza')">광장</button>
         <button class="nav-tab" onclick="switchTab('friends')">친구</button>
@@ -4562,8 +4466,7 @@
       <div id="golden-gacha-btn" class="locked" onclick="openGoldenGacha()">
         <div id="golden-gacha-icon">⭐</div>
         <div id="golden-gacha-label">GOLDEN</div>
-        <div id="golden-gacha-sub-text" class="golden-gacha-sub-cls">다음 황금시간까지<br><span
-            id="golden-gacha-countdown">--:--:--</span></div>
+        <div id="golden-gacha-sub-text" class="golden-gacha-sub-cls">다음 황금시간까지<br><span id="golden-gacha-countdown">--:--:--</span></div>
       </div>
       <div id="gacha-idle">
         <div style="text-align:center">
@@ -4763,10 +4666,8 @@
 
     <div id="odds-page">
       <div id="odds-title">확률표 — Drop Rates</div>
-      <div id="odds-subtitle">100회 보장 시스템(ABSOLUTE ZERO 확정) · Legendary 이상 달성 시 보장 초기화 · Arcane 이상은 화이트 크랙 인트로 후 고유 컷씬 ·
-        포션 사용 시 Epic+
-        확률 2배 · Lucky Potion 50개 합성 시 Ultra Potion 획득 · Ultra Potion 사용 시 Nightshade 이상 확정 획득 · Ultra Potion 5개 합성 시
-        Celestial Potion 획득 · Celestial Potion 사용 시 Solflare 이상 확정 획득 · ABSOLUTE ZERO 이상의 초월 등급 10종 추가</div>
+      <div id="odds-subtitle">100회 보장 시스템(ABSOLUTE ZERO 확정) · Legendary 이상 달성 시 보장 초기화 · Arcane 이상은 화이트 크랙 인트로 후 고유 컷씬 · 포션 사용 시 Epic+
+        확률 2배 · Lucky Potion 50개 합성 시 Ultra Potion 획득 · Ultra Potion 사용 시 Nightshade 이상 확정 획득 · Ultra Potion 5개 합성 시 Celestial Potion 획득 · Celestial Potion 사용 시 Solflare 이상 확정 획득 · ABSOLUTE ZERO 이상의 초월 등급 10종 추가</div>
       <div id="odds-table-wrap"></div>
     </div>
 
@@ -4779,16 +4680,13 @@
         <button class="ranking-subtab active" onclick="setRankingMode('tier', this)">최고 등급</button>
         <button class="ranking-subtab" onclick="setRankingMode('rolls', this)">롤 횟수</button>
       </div>
-      <div id="ranking-list">
-        <div class="ranking-loading">로딩 중...</div>
-      </div>
+      <div id="ranking-list"><div class="ranking-loading">로딩 중...</div></div>
     </div>
 
     <div id="cutscenes-page">
       <div id="cutscenes-header">
         <div id="cutscenes-title">컷씬 — Replay</div>
-        <div id="cutscenes-count"><span id="cutscenes-count-num">0</span> / <span id="cutscenes-count-total">0</span> 해금
-        </div>
+        <div id="cutscenes-count"><span id="cutscenes-count-num">0</span> / <span id="cutscenes-count-total">0</span> 해금</div>
       </div>
       <div id="cutscenes-subtitle">뽑아본 적 있는 등급만 다시 볼 수 있습니다 · 보유한 뮤테이션 중 최고 등급으로 재생됩니다</div>
       <div id="cutscenes-list"></div>
@@ -4806,9 +4704,29 @@
           <div id="shop-merchant-line"></div>
         </div>
       </div>
-      <div id="shop-subtitle">도감에서 요청한 등급 + 뮤테이션 조합을 가져오면 포션으로 교환해줍니다 · 납품한 아이템은 도감에서 사라지고, 해당 요청은 즉시 더 어려운 새 요청으로 바뀝니다
-      </div>
+      <div id="shop-subtitle">도감에서 요청한 등급 + 뮤테이션 조합을 가져오면 포션으로 교환해줍니다 · 납품한 아이템은 도감에서 사라지고, 해당 요청은 즉시 더 어려운 새 요청으로 바뀝니다</div>
       <div id="shop-list"></div>
+    </div>
+
+    <div id="board-page">
+      <div id="board-header">
+        <div id="board-title">이벤트 — 운명의 보드</div>
+        <div id="board-sub-label">뽑기 100회마다 주사위 1개 획득 · 도착하는 모든 칸의 보상을 즉시 지급 · 30번 칸을 넘으면 1번 칸으로 순환</div>
+      </div>
+      <div id="board-main">
+        <div id="board-grid-wrap">
+          <div id="board-dice-row">
+            <div id="board-dice-count"><span id="board-dice-num">0</span>개 보유</div>
+            <button id="board-roll-btn" onclick="rollBoardDice()">🎲 주사위 굴리기</button>
+          </div>
+          <div id="board-grid"></div>
+          <div id="board-next-dice-label"></div>
+        </div>
+        <div id="board-log-wrap">
+          <div id="board-log-title">보상 기록</div>
+          <div id="board-log"></div>
+        </div>
+      </div>
     </div>
 
     <div id="guild-page">
@@ -4873,8 +4791,7 @@
           </div>
           <div id="guild-chat-box"></div>
           <div id="guild-chat-input-row">
-            <input id="guild-chat-input" type="text" placeholder="메시지 입력..." maxlength="200"
-              onkeydown="if(event.key==='Enter')sendGuildChat()" />
+            <input id="guild-chat-input" type="text" placeholder="메시지 입력..." maxlength="200" onkeydown="if(event.key==='Enter')sendGuildChat()" />
             <button id="guild-chat-send" onclick="sendGuildChat()">전송</button>
           </div>
         </div>
@@ -4883,9 +4800,7 @@
           <div id="guild-quest-box">
             <div id="guild-quest-label">이번 주 길드 퀘스트</div>
             <div id="guild-quest-desc"></div>
-            <div id="guild-quest-bar-wrap">
-              <div id="guild-quest-bar" style="width:0%"></div>
-            </div>
+            <div id="guild-quest-bar-wrap"><div id="guild-quest-bar" style="width:0%"></div></div>
             <div id="guild-quest-sub"></div>
             <button id="guild-quest-claim-btn" onclick="claimGuildQuest()" disabled>보상 받기</button>
           </div>
@@ -5138,6 +5053,14 @@
     const potionRewards = { 9: 1, 10: 2, 11: 3, 12: 4, 13: 5, 14: 6, 15: 7, 16: 8, 17: 9, 18: 10, 19: 11, 20: 12, 21: 13, 22: 14, 23: 15, 24: 16, 25: 17, 26: 18, 27: 19, 28: 20, 29: 20, 30: 20, 31: 20, 32: 20, 33: 20, 34: 20, 35: 20, 36: 20, 37: 20, 38: 20, 39: 20, 40: 20, 41: 20, 42: 20, 43: 20, 44: 20, 45: 30, 46: 40, 47: 50 };
 
     let rolling = false, pity = 0, totalRolls = 0, legendaryCount = 0;
+    // ===== 운명의 보드 이벤트 =====
+    const BOARD_SIZE = 30;
+    let boardPosition = 0;          // 현재 토큰 위치 (0-indexed, 0~29)
+    let boardDice = 0;               // 보유 주사위 개수
+    let boardDiceMilestone = 0;      // 마지막으로 주사위를 지급한 totalRolls 기준값 (100단위)
+    let boardLayout = null;          // 현재 보드의 30칸 보상 구성 (매 새로고침마다 재생성)
+    let boardLog = [];               // 최근 보상 획득 기록 (표시용)
+    let boardRolling = false;        // 주사위 굴리는 애니메이션 진행 중 여부
     let potions = 0, potionActive = false;
     let ultraPotions = 0, ultraPotionActive = false;
     let celestialPotions = 0, celestialPotionActive = false;
@@ -5486,7 +5409,8 @@
         goldenRollsTotal: 0,
         goldenTickets: 0, lastGoldenClaimDate: '',
         guildName: '', guildJoinRolls: 0,
-        lastAttendanceDate: '', attendanceStreak: 0, attendanceTotalDays: 0
+        lastAttendanceDate: '', attendanceStreak: 0, attendanceTotalDays: 0,
+        boardPosition: 0, boardDice: 0, boardDiceMilestone: 0, boardLayout: null, boardLog: []
       };
     }
 
@@ -5543,6 +5467,11 @@
       attendanceStreak = state.attendanceStreak ?? 0;
       attendanceTotalDays = state.attendanceTotalDays ?? 0;
       currentEpicStreak = 0; currentLegendaryStreak = 0;
+      boardPosition = state.boardPosition ?? 0;
+      boardDice = state.boardDice ?? 0;
+      boardDiceMilestone = state.boardDiceMilestone ?? Math.floor((state.totalRolls ?? 0) / 100) * 100;
+      boardLayout = Array.isArray(state.boardLayout) && state.boardLayout.length === BOARD_SIZE ? state.boardLayout : null;
+      boardLog = Array.isArray(state.boardLog) ? state.boardLog : [];
     }
 
     function buildState() {
@@ -5566,7 +5495,8 @@
         goldenRollsTotal,
         goldenTickets, lastGoldenClaimDate,
         guildName, guildJoinRolls,
-        lastAttendanceDate, attendanceStreak, attendanceTotalDays
+        lastAttendanceDate, attendanceStreak, attendanceTotalDays,
+        boardPosition, boardDice, boardDiceMilestone, boardLayout, boardLog: boardLog.slice(0, 30)
       };
     }
 
@@ -5584,14 +5514,14 @@
     }
 
     // 등급별 별 지속 시간(ms) — 높을수록 길고 웅장하게
-    const STAR_DURATION = [1260, 1260, 1260, 1330, 1400, 1470, 1540, 1610, 1680, 1820, 1960, 2100, 2240, 2450, 2660, 2940, 3220, 3500, 3780, 4060, 4340, 4620, 4900, 5180, 5460, 5740, 6020, 6300, 6580, 6860, 7140, 7420, 7700, 7980, 8400, 8820, 9240, 9800, 10360, 10920, 11480, 12040, 12600, 13160, 13720, 14280, 14840, 15400];
+    const STAR_DURATION = [1260,1260,1260,1330,1400,1470,1540,1610,1680,1820,1960,2100,2240,2450,2660,2940,3220,3500,3780,4060,4340,4620,4900,5180,5460,5740,6020,6300,6580,6860,7140,7420,7700,7980,8400,8820,9240,9800,10360,10920,11480,12040,12600,13160,13720,14280,14840,15400];
 
     // 등급별 소환 대사 (랜덤 선택)
     const SUMMON_QUOTES = {
-      low: ['...', '무언가 나타난다', '희미한 빛'],
-      mid: ['강한 기운이 느껴진다', '소환의 문이 열린다', '운명이 흔들린다'],
+      low:  ['...', '무언가 나타난다', '희미한 빛'],
+      mid:  ['강한 기운이 느껴진다', '소환의 문이 열린다', '운명이 흔들린다'],
       high: ['세상이 진동한다', '신의 이름으로', '빛이 폭발한다', '당신은 선택받았다'],
-      ultra: ['현실이 붕괴된다', '이것은... 불가능해', '전설이 강림한다', '우주가 경배한다']
+      ultra:['현실이 붕괴된다', '이것은... 불가능해', '전설이 강림한다', '우주가 경배한다']
     };
     function getQuote(tier) {
       const list = tier >= 30 ? SUMMON_QUOTES.ultra : tier >= 20 ? SUMMON_QUOTES.high : tier >= 13 ? SUMMON_QUOTES.mid : SUMMON_QUOTES.low;
@@ -5683,7 +5613,7 @@
             osc2.start(now); osc2.stop(now + 0.4);
           }
         }
-      } catch (e) { }
+      } catch(e) {}
     }
 
     // ===== 웅장한 컷씬 임팩트 사운드 (화이트크랙/프리컷씬/메인컷씬 전용) =====
@@ -5905,7 +5835,7 @@
             sOsc.start(now + delay); sOsc.stop(now + delay + 0.55);
           }
         }
-      } catch (e) { }
+      } catch (e) {}
     }
 
 
@@ -6032,6 +5962,7 @@
 
     function rollOne(luckFactor) {
       pity++; totalRolls++;
+      checkBoardDiceGrant();
       let item;
       if (celestialPotionActive) {
         item = pickFromTier(19); // Solflare(19) 이상 확정
@@ -6915,7 +6846,7 @@
         const persp = 1 / (1 + z2 / (size * 2.4));
         return { x: x + x1 * persp, y: y + y1 * persp };
       });
-      const edges = [[0, 1], [1, 2], [2, 3], [3, 0], [4, 5], [5, 6], [6, 7], [7, 4], [0, 4], [1, 5], [2, 6], [3, 7]];
+      const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
       ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${alpha})`;
       ctx.lineWidth = Math.max(1, size * 0.012);
       ctx.shadowColor = `rgba(${rgb.r},${rgb.g},${rgb.b},${alpha})`;
@@ -7017,7 +6948,7 @@
 
         if (mode === 'burst') {
           drawGlowDot(ctx, cx, cy, 30 + Math.sin(t * 0.006) * 7, rgb, 0.6);
-          drawStarFlare(ctx, cx, cy, 130 + Math.sin(t * 0.005) * 30, 70 + Math.sin(t * 0.005) * 16, rgb, 1, t * 0.0006);
+          drawStarFlare(ctx, cx, cy, 130 + Math.sin(t * 0.005) * 30, 70 + Math.sin(t*0.005)*16, rgb, 1, t * 0.0006);
           for (const p of particles) {
             const pulse = 0.5 + 0.5 * Math.sin(t * 0.003 * p.speed + p.phase);
             const len = (190 + pulse * 240) * intensity;
@@ -7026,7 +6957,7 @@
           }
           ctx.globalCompositeOperation = 'lighter';
           for (let ring = 0; ring < 2; ring++) {
-            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${(0.3 + 0.25 * Math.sin(t * 0.004 + ring)) * intensity})`;
+            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${(0.3 + 0.25*Math.sin(t*0.004 + ring))*intensity})`;
             ctx.lineWidth = 3;
             const ringR = 60 + (((t * 0.1) + ring * 90) % 220);
             ctx.beginPath(); ctx.arc(cx, cy, ringR, 0, 7); ctx.stroke();
@@ -7039,8 +6970,8 @@
             const pw = 22 + pulse * 20;
             const grad = ctx.createLinearGradient(p.x, h, p.x, h - ph);
             grad.addColorStop(0, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.08})`);
-            grad.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.5 + pulse * 0.35})`);
-            grad.addColorStop(1, `rgba(255,255,255,${0.6 + pulse * 0.4})`);
+            grad.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.5 + pulse*0.35})`);
+            grad.addColorStop(1, `rgba(255,255,255,${0.6 + pulse*0.4})`);
             ctx.globalCompositeOperation = 'lighter';
             ctx.fillStyle = grad;
             ctx.fillRect(p.x - pw, h - ph, pw * 2, ph);
@@ -7051,8 +6982,8 @@
           drawStarFlare(ctx, cx, h - 30, 90, 48, rgb, 0.9, Math.PI / 4);
 
         } else if (mode === 'spiralGlow') {
-          drawGlowDot(ctx, cx, cy, 24 + Math.sin(t * 0.005) * 6, rgb, 0.6);
-          drawStarFlare(ctx, cx, cy, 100 + Math.sin(t * 0.006) * 22, 56, rgb, 1, t * -0.0005);
+          drawGlowDot(ctx, cx, cy, 24 + Math.sin(t*0.005)*6, rgb, 0.6);
+          drawStarFlare(ctx, cx, cy, 100 + Math.sin(t*0.006)*22, 56, rgb, 1, t * -0.0005);
           for (const p of particles) {
             const baseAngle = t * 0.0014 * p.dir + p.offset * 1.6;
             let prevX = cx, prevY = cy;
@@ -7071,15 +7002,15 @@
           const flicker = 0.7 + 0.3 * Math.sin(t * 0.005);
           ctx.globalCompositeOperation = 'lighter';
           const beamH = ctx.createLinearGradient(0, cy, w, cy);
-          beamH.addColorStop(0, 'rgba(0,0,0,0)'); beamH.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.75 * flicker * intensity})`); beamH.addColorStop(1, 'rgba(0,0,0,0)');
+          beamH.addColorStop(0, 'rgba(0,0,0,0)'); beamH.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.75*flicker*intensity})`); beamH.addColorStop(1, 'rgba(0,0,0,0)');
           ctx.fillStyle = beamH; ctx.fillRect(0, cy - 22, w, 44);
           const beamV = ctx.createLinearGradient(cx, 0, cx, h);
-          beamV.addColorStop(0, 'rgba(0,0,0,0)'); beamV.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.75 * flicker * intensity})`); beamV.addColorStop(1, 'rgba(0,0,0,0)');
+          beamV.addColorStop(0, 'rgba(0,0,0,0)'); beamV.addColorStop(0.5, `rgba(${rgb.r},${rgb.g},${rgb.b},${0.75*flicker*intensity})`); beamV.addColorStop(1, 'rgba(0,0,0,0)');
           ctx.fillStyle = beamV; ctx.fillRect(cx - 22, 0, 44, h);
           // 대각선 보조 빔 (X자 형태로 더 화려하게)
           ctx.save(); ctx.translate(cx, cy); ctx.rotate(Math.PI / 4);
           const beamD = ctx.createLinearGradient(-w, 0, w, 0);
-          beamD.addColorStop(0, 'rgba(0,0,0,0)'); beamD.addColorStop(0.5, `rgba(255,255,255,${0.3 * flicker * intensity})`); beamD.addColorStop(1, 'rgba(0,0,0,0)');
+          beamD.addColorStop(0, 'rgba(0,0,0,0)'); beamD.addColorStop(0.5, `rgba(255,255,255,${0.3*flicker*intensity})`); beamD.addColorStop(1, 'rgba(0,0,0,0)');
           ctx.fillStyle = beamD; ctx.fillRect(-w, -10, w * 2, 20);
           ctx.restore();
           drawGlowDot(ctx, cx, cy, 38 + flicker * 12, rgb, 0.55);
@@ -7095,10 +7026,10 @@
             p.a += p.speed; p.r -= 0.7;
             if (p.r < 6) p.r = 30 + Math.random() * 240;
             const x = cx + Math.cos(p.a) * p.r, y = cy + Math.sin(p.a) * p.r * 0.6;
-            drawGlowDot(ctx, x, y, 4 + (1 - p.r / 270) * 7, rgb, 0.7);
+            drawGlowDot(ctx, x, y, 4 + (1 - p.r/270)*7, rgb, 0.7);
           }
-          drawGlowDot(ctx, cx, cy, 28 + Math.sin(t * 0.006) * 7, rgb, 0.6);
-          drawStarFlare(ctx, cx, cy, 95 + Math.sin(t * 0.007) * 20, 50, rgb, 1, t * 0.0009);
+          drawGlowDot(ctx, cx, cy, 28 + Math.sin(t*0.006)*7, rgb, 0.6);
+          drawStarFlare(ctx, cx, cy, 95 + Math.sin(t*0.007)*20, 50, rgb, 1, t * 0.0009);
 
         } else if (mode === 'boltGrid') {
           for (const p of particles) {
@@ -7124,13 +7055,13 @@
           drawStarFlare(ctx, cx, cy, 70 + Math.random() * 22, 38, rgb, 0.9 + Math.random() * 0.1, 0);
 
         } else if (mode === 'prism') {
-          drawGlowDot(ctx, cx, cy, 26 + Math.sin(t * 0.006) * 7, rgb, 0.55);
-          drawStarFlare(ctx, cx, cy, 110 + Math.sin(t * 0.006) * 24, 60, rgb, 1, t * 0.0008);
+          drawGlowDot(ctx, cx, cy, 26 + Math.sin(t*0.006)*7, rgb, 0.55);
+          drawStarFlare(ctx, cx, cy, 110 + Math.sin(t*0.006)*24, 60, rgb, 1, t * 0.0008);
           ctx.globalCompositeOperation = 'lighter';
           const rot = t * 0.0007;
           for (let layer = 0; layer < 2; layer++) {
             ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot * (layer === 0 ? 1 : -1.4) + layer * 0.7);
-            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.8 - layer * 0.25})`; ctx.lineWidth = 3 - layer;
+            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.8 - layer*0.25})`; ctx.lineWidth = 3 - layer;
             ctx.beginPath();
             for (let i = 0; i < 4; i++) {
               const a = (Math.PI * 2 * i) / 4; const r = 70 + layer * 35;
@@ -7237,7 +7168,7 @@
           for (let ring = 0; ring < 3; ring++) {
             const rr = ((t * 0.25) + ring * 220) % 650;
             ctx.globalCompositeOperation = 'lighter';
-            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${Math.max(0, 0.5 - rr / 650) * intensity})`;
+            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${Math.max(0, 0.5 - rr/650) * intensity})`;
             ctx.lineWidth = 4;
             ctx.beginPath(); ctx.arc(cx, cy, rr, 0, 7); ctx.stroke();
           }
@@ -7245,9 +7176,9 @@
             p.dist += p.speed * 3;
             if (p.dist > w * 0.55) p.dist = 0;
             const x = cx + Math.cos(p.a) * p.dist, y = cy + Math.sin(p.a) * p.dist * 0.7;
-            drawGlowDot(ctx, x, y, p.size * (1 - p.dist / (w * 0.55) * 0.5), rgb, Math.max(0, 1 - p.dist / (w * 0.55)));
+            drawGlowDot(ctx, x, y, p.size * (1 - p.dist / (w*0.55) * 0.5), rgb, Math.max(0, 1 - p.dist/(w*0.55)));
           }
-          drawStarFlare(ctx, cx, cy, 150 + Math.sin(t * 0.005) * 40, 80, rgb, 1, t * 0.0005);
+          drawStarFlare(ctx, cx, cy, 150 + Math.sin(t*0.005)*40, 80, rgb, 1, t*0.0005);
 
         } else if (mode === 'blueprint') {
           // PRIME ARCHITECT: 회전하는 큰 와이어 격자 + 설계도풍 그리드 라인
@@ -7257,8 +7188,8 @@
           const gridSize = 36;
           for (let gx = (t * 0.02) % gridSize; gx < w; gx += gridSize) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke(); }
           for (let gy = 0; gy < h; gy += gridSize) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke(); }
-          drawWireCube(ctx, cx, cy, 130 + Math.sin(t * 0.0008) * 20, rgb, 0.85, t * 0.0006, t * 0.0009);
-          drawWireCube(ctx, cx, cy, 80, rgb, 0.6, -t * 0.0009, t * 0.0005);
+          drawWireCube(ctx, cx, cy, 130 + Math.sin(t*0.0008)*20, rgb, 0.85, t*0.0006, t*0.0009);
+          drawWireCube(ctx, cx, cy, 80, rgb, 0.6, -t*0.0009, t*0.0005);
           drawStarFlare(ctx, cx, cy, 70, 38, rgb, 0.9, 0);
 
         } else if (mode === 'voidCollapse') {
@@ -7267,13 +7198,13 @@
             p.a += p.speed * 1.5; p.r -= 1.2;
             if (p.r < 8) p.r = 40 + Math.random() * w * 0.45;
             const x = cx + Math.cos(p.a) * p.r, y = cy + Math.sin(p.a) * p.r * 0.65;
-            drawGlowDot(ctx, x, y, 2 + (1 - p.r / (w * 0.45)) * 5, rgb, 0.6);
+            drawGlowDot(ctx, x, y, 2 + (1 - p.r/(w*0.45))*5, rgb, 0.6);
           }
           ctx.globalCompositeOperation = 'lighter';
           for (let i = 0; i < 3; i++) {
-            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.5 - i * 0.13})`;
+            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.5 - i*0.13})`;
             ctx.lineWidth = 2.5 - i * 0.5;
-            ctx.beginPath(); ctx.ellipse(cx, cy, 130 - i * 30, 32 - i * 7, t * 0.0007 * (i % 2 === 0 ? 1 : -1), 0, 7); ctx.stroke();
+            ctx.beginPath(); ctx.ellipse(cx, cy, 130 - i*30, 32 - i*7, t*0.0007*(i%2===0?1:-1), 0, 7); ctx.stroke();
           }
           ctx.fillStyle = '#000';
           ctx.beginPath(); ctx.arc(cx, cy, 44, 0, 7); ctx.fill();
@@ -7313,23 +7244,23 @@
             if (grow > 0.5) {
               const bx = cx + Math.cos(p.a) * len * 0.6, by = cy + Math.sin(p.a) * len * 0.6;
               const ba = p.a + 0.7;
-              drawGlowLine(ctx, bx, by, bx + Math.cos(ba) * 30, by + Math.sin(ba) * 30, 1.5, rgb, 0.4);
+              drawGlowLine(ctx, bx, by, bx + Math.cos(ba)*30, by + Math.sin(ba)*30, 1.5, rgb, 0.4);
             }
           }
-          drawStarFlare(ctx, cx, cy, 100 + Math.sin(t * 0.004) * 20, 55, { r: 255, g: 255, b: 255 }, 0.9, t * 0.0003);
+          drawStarFlare(ctx, cx, cy, 100 + Math.sin(t*0.004)*20, 55, {r:255,g:255,b:255}, 0.9, t*0.0003);
 
         } else if (mode === 'quantumGlitch') {
           // Quantum Reaper: 화면이 글리치처럼 끊기는 사각 노이즈 블록 + 더블비전 스타플레어
           for (const p of particles) {
             p.life -= 16;
-            if (p.life <= 0) { p.x = Math.random() * w; p.y = Math.random() * h; p.life = 200 + Math.random() * 500; }
+            if (p.life <= 0) { p.x = Math.random()*w; p.y = Math.random()*h; p.life = 200 + Math.random()*500; }
             ctx.globalCompositeOperation = 'lighter';
-            ctx.fillStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.3 * Math.min(1, p.life / 200)})`;
+            ctx.fillStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.3 * Math.min(1, p.life/200)})`;
             ctx.fillRect(p.x, p.y, p.w, p.h);
           }
-          const glitchOff = Math.sin(t * 0.01) > 0.85 ? (Math.random() - 0.5) * 14 : 0;
+          const glitchOff = Math.sin(t * 0.01) > 0.85 ? (Math.random()-0.5)*14 : 0;
           drawStarFlare(ctx, cx + glitchOff, cy, 90, 48, rgb, 0.85, 0);
-          drawStarFlare(ctx, cx - glitchOff, cy, 90, 48, { r: 255, g: 255, b: 255 }, 0.3, 0);
+          drawStarFlare(ctx, cx - glitchOff, cy, 90, 48, {r:255,g:255,b:255}, 0.3, 0);
 
         } else if (mode === 'devour') {
           // World Eater: 거대한 입처럼 모든 빛이 중심으로 빨려들고 주기적으로 삼킴
@@ -7337,7 +7268,7 @@
             p.a += p.speed * 2; p.r -= 1.8;
             if (p.r < 6) p.r = 40 + Math.random() * w * 0.45;
             const x = cx + Math.cos(p.a) * p.r, y = cy + Math.sin(p.a) * p.r * 0.7;
-            drawGlowDot(ctx, x, y, 3 + (1 - p.r / (w * 0.45)) * 6, rgb, 0.55);
+            drawGlowDot(ctx, x, y, 3 + (1-p.r/(w*0.45))*6, rgb, 0.55);
           }
           const chomp = 0.5 + 0.5 * Math.sin(t * 0.003);
           drawGlowDot(ctx, cx, cy, 50 + chomp * 25, rgb, 0.5);
@@ -7352,11 +7283,11 @@
             if (localT < 0) continue;
             const rr = Math.max(2, 110 - (localT / 2400) * 108);
             ctx.globalCompositeOperation = 'lighter';
-            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.55 - i * 0.05})`;
+            ctx.strokeStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${0.55 - i*0.05})`;
             ctx.lineWidth = 1.8;
             ctx.beginPath(); ctx.arc(cx, cy, rr, 0, 7); ctx.stroke();
           }
-          drawGlowDot(ctx, cx, cy, 10 + Math.sin(t * 0.01) * 4, rgb, 1);
+          drawGlowDot(ctx, cx, cy, 10 + Math.sin(t*0.01)*4, rgb, 1);
 
         } else if (mode === 'eyeField') {
           // Omniscient: 여러 개의 눈이 깜빡이며 응시함
@@ -7393,9 +7324,9 @@
           for (const p of particles) {
             p.y -= p.speed * 2;
             if (p.y < h * 0.15) p.y = h * (0.3 + Math.random() * 0.7);
-            drawGlowDot(ctx, p.x, p.y, p.size, rgb, Math.max(0, 1 - p.y / h));
+            drawGlowDot(ctx, p.x, p.y, p.size, rgb, Math.max(0, 1 - p.y/h));
           }
-          drawStarFlare(ctx, cx, h * 0.22, 140 + Math.sin(t * 0.004) * 30, 75, { r: 255, g: 253, b: 231 }, 1, t * 0.0004);
+          drawStarFlare(ctx, cx, h * 0.22, 140 + Math.sin(t*0.004)*30, 75, {r:255,g:253,b:231}, 1, t*0.0004);
 
         } else if (mode === 'dataStream') {
           // Akashic Lord: 위에서 아래로 흐르는 데이터/지식 스트림 라인
@@ -7411,20 +7342,20 @@
           for (const p of particles) {
             p.y -= p.speed * 1.5;
             if (p.y < h * 0.1) p.y = h * (0.5 + Math.random() * 0.5);
-            drawGlowDot(ctx, p.x, p.y, p.size, rgb, Math.max(0, 1 - p.y / h) * 0.8);
+            drawGlowDot(ctx, p.x, p.y, p.size, rgb, Math.max(0, 1 - p.y/h) * 0.8);
           }
           const riseY = cy - Math.sin(t * 0.0008) * 20;
-          drawStarFlare(ctx, cx, riseY, 150 + Math.sin(t * 0.005) * 30, 80, { r: 255, g: 255, b: 255 }, 1, 0);
+          drawStarFlare(ctx, cx, riseY, 150 + Math.sin(t*0.005)*30, 80, {r:255,g:255,b:255}, 1, 0);
 
         } else if (mode === 'primordialFire') {
           // Primordial: 바닥에서 솟아오르는 원시 불길 입자
           for (const p of particles) {
             p.y -= p.speed * 2.5;
             const flick = 0.6 + 0.4 * Math.sin(t * 0.006 + p.phase);
-            if (p.y < h * 0.25) { p.y = h * 0.6 + Math.random() * h * 0.4; p.x = cx + (Math.random() - 0.5) * w * 0.6; }
-            drawGlowDot(ctx, p.x, p.y, p.size * flick, rgb, Math.max(0, 1 - (h * 0.6 - p.y) / (h * 0.4)) * 0.8);
+            if (p.y < h * 0.25) { p.y = h * 0.6 + Math.random() * h * 0.4; p.x = cx + (Math.random()-0.5)*w*0.6; }
+            drawGlowDot(ctx, p.x, p.y, p.size * flick, rgb, Math.max(0, 1 - (h*0.6 - p.y)/(h*0.4)) * 0.8);
           }
-          drawGlowDot(ctx, cx, h * 0.62, 70 + Math.sin(t * 0.005) * 16, rgb, 0.7);
+          drawGlowDot(ctx, cx, h*0.62, 70 + Math.sin(t*0.005)*16, rgb, 0.7);
 
         } else if (mode === 'godRays') {
           // GOD EMPEROR: 압도적인 다중 황금 갓레이 + 거대 스타플레어
@@ -7432,10 +7363,10 @@
             const a2 = p.a + t * 0.0002;
             const len = w * 0.6;
             const x2 = cx + Math.cos(a2) * len, y2 = cy + Math.sin(a2) * len;
-            drawGlowLine(ctx, cx, cy, x2, y2, 5 + Math.sin(t * 0.003 + p.phase) * 3, rgb, 0.3 + 0.25 * Math.sin(t * 0.004 + p.phase));
+            drawGlowLine(ctx, cx, cy, x2, y2, 5 + Math.sin(t*0.003+p.phase)*3, rgb, 0.3 + 0.25*Math.sin(t*0.004+p.phase));
           }
-          drawStarFlare(ctx, cx, cy, 220 + Math.sin(t * 0.005) * 50, 120, rgb, 1, t * 0.0007);
-          drawStarFlare(ctx, cx, cy, 110, 60, { r: 255, g: 255, b: 255 }, 0.8, -t * 0.0009);
+          drawStarFlare(ctx, cx, cy, 220 + Math.sin(t*0.005)*50, 120, rgb, 1, t * 0.0007);
+          drawStarFlare(ctx, cx, cy, 110, 60, {r:255,g:255,b:255}, 0.8, -t * 0.0009);
         }
 
         // 공통 와이어프레임 큐브 레이어 (가장 마지막, 은은하게 위에 겹침)
@@ -7487,7 +7418,7 @@
       return `
       <svg class="precs-mc-ring spin1" viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="none" stroke="${color}" stroke-width="1.5" opacity="0.7"/><circle cx="100" cy="100" r="92" fill="none" stroke="${color}" stroke-width="1" stroke-dasharray="2 6" opacity="0.5"/></svg>
       <svg class="precs-mc-ring spin2" viewBox="0 0 200 200"><polygon points="100,14 168,146 32,146" fill="none" stroke="${color}" stroke-width="1.4" opacity="0.55"/><polygon points="100,186 32,54 168,54" fill="none" stroke="${color}" stroke-width="1.4" opacity="0.55"/></svg>
-      <svg class="precs-mc-ring spin3" viewBox="0 0 200 200"><circle cx="100" cy="100" r="64" fill="none" stroke="${color}" stroke-width="2" opacity="0.8"/>${Array.from({ length: 12 }, (_, i) => { const a = Math.PI * 2 * i / 12; const x1 = 100 + Math.cos(a) * 64, y1 = 100 + Math.sin(a) * 64, x2 = 100 + Math.cos(a) * 72, y2 = 100 + Math.sin(a) * 72; return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="2"/>`; }).join('')}</svg>
+      <svg class="precs-mc-ring spin3" viewBox="0 0 200 200"><circle cx="100" cy="100" r="64" fill="none" stroke="${color}" stroke-width="2" opacity="0.8"/>${Array.from({length:12},(_,i)=>{const a=Math.PI*2*i/12;const x1=100+Math.cos(a)*64,y1=100+Math.sin(a)*64,x2=100+Math.cos(a)*72,y2=100+Math.sin(a)*72;return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="2"/>`;}).join('')}</svg>
       <div style="position:absolute;inset:0;border-radius:50%;box-shadow:0 0 60px ${color}, inset 0 0 60px ${color}66;"></div>`;
     }
 
@@ -7495,7 +7426,7 @@
     function buildChainSVG(color) {
       return `<svg viewBox="0 0 38 400" xmlns="http://www.w3.org/2000/svg">
         <defs><linearGradient id="chainMetal" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#3a3a44"/><stop offset="50%" stop-color="#8a8a96"/><stop offset="100%" stop-color="#1a1a20"/></linearGradient></defs>
-        ${Array.from({ length: 9 }, (_, i) => `<ellipse cx="${i % 2 === 0 ? 19 : 19}" cy="${i * 44 + 22}" rx="${i % 2 === 0 ? 13 : 9}" ry="${i % 2 === 0 ? 20 : 14}" fill="none" stroke="url(#chainMetal)" stroke-width="6" transform="rotate(${i % 2 === 0 ? 0 : 90} 19 ${i * 44 + 22})"/>`).join('')}
+        ${Array.from({length:9},(_,i)=>`<ellipse cx="${i%2===0?19:19}" cy="${i*44+22}" rx="${i%2===0?13:9}" ry="${i%2===0?20:14}" fill="none" stroke="url(#chainMetal)" stroke-width="6" transform="rotate(${i%2===0?0:90} 19 ${i*44+22})"/>`).join('')}
         <circle cx="19" cy="396" r="10" fill="${color}" opacity="0.8"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.2s" repeatCount="indefinite"/></circle>
       </svg>`;
     }
@@ -7844,9 +7775,9 @@
       // ===== 등급별(7~44) 완전히 다른 프리컷씬 디스패치 테이블 =====
       // 8종 고유 네임드 이펙트는 대표 등급 하나씩 맡고, 나머지는 캔버스 엔진으로 등급마다 다른 모션을 그린다.
       const PRECS_CONFIG = {
-        7: { mode: 'scene' },
-        8: { mode: 'scene' },
-        9: { mode: 'slash' },
+        7:  { mode: 'scene' },
+        8:  { mode: 'scene' },
+        9:  { mode: 'slash' },
         10: { mode: 'scene' },
         11: { mode: 'scene' },
         12: { mode: 'scene' },
@@ -7959,7 +7890,7 @@
         const positions = [38, 50, 62];
         positions.forEach((pos, i) => {
           const grad = `flameGrad${i}`;
-          fireHTML += `<svg style="position:absolute;left:${pos}%;bottom:0;width:90px;height:240px;transform:translateX(-50%)" viewBox="0 0 90 240" class="precs-flame" style="left:${pos}%;animation-delay:${i * 0.2}s">
+          fireHTML += `<svg style="position:absolute;left:${pos}%;bottom:0;width:90px;height:240px;transform:translateX(-50%)" viewBox="0 0 90 240" class="precs-flame" style="left:${pos}%;animation-delay:${i*0.2}s">
             <defs><linearGradient id="${grad}" x1="0%" y1="100%" x2="0%" y2="0%">
               <stop offset="0%" stop-color="${color}"/><stop offset="45%" stop-color="#ff8f00"/><stop offset="80%" stop-color="#ffd54f"/><stop offset="100%" stop-color="#fff9c4" stop-opacity="0.3"/>
             </linearGradient></defs>
@@ -7968,7 +7899,7 @@
         });
         for (let i = 0; i < 14; i++) {
           const left = 30 + Math.random() * 40;
-          fireHTML += `<div class="precs-ember" style="left:${left}%;--drift:${(Math.random() * 40 - 20).toFixed(0)}px;animation-duration:${1.4 + Math.random() * 1.2}s;animation-delay:${Math.random() * 1.5}s"></div>`;
+          fireHTML += `<div class="precs-ember" style="left:${left}%;--drift:${(Math.random()*40-20).toFixed(0)}px;animation-duration:${1.4+Math.random()*1.2}s;animation-delay:${Math.random()*1.5}s"></div>`;
         }
         fire.innerHTML = fireHTML;
         duration = 2000;
@@ -8031,7 +7962,7 @@
         requestAnimationFrame(() => magicCircle.classList.add('go'));
         let pillarHTML = '';
         for (let i = 0; i < 9; i++) {
-          pillarHTML += `<div class="precs-pillar" style="background:linear-gradient(to top, ${color}, #fff 90%);box-shadow:0 0 40px ${color};animation-delay:${i * 0.05}s"></div>`;
+          pillarHTML += `<div class="precs-pillar" style="background:linear-gradient(to top, ${color}, #fff 90%);box-shadow:0 0 40px ${color};animation-delay:${i*0.05}s"></div>`;
         }
         pillars.innerHTML = pillarHTML;
         requestAnimationFrame(() => {
@@ -8049,7 +7980,7 @@
         requestAnimationFrame(() => magicCircle.classList.add('go'));
         let pillarHTML = '';
         for (let i = 0; i < 14; i++) {
-          pillarHTML += `<div class="precs-pillar" style="background:linear-gradient(to top, ${color}, #fff 90%);box-shadow:0 0 70px ${color};animation-delay:${i * 0.03}s"></div>`;
+          pillarHTML += `<div class="precs-pillar" style="background:linear-gradient(to top, ${color}, #fff 90%);box-shadow:0 0 70px ${color};animation-delay:${i*0.03}s"></div>`;
         }
         pillars.innerHTML = pillarHTML;
         requestAnimationFrame(() => {
@@ -8365,7 +8296,7 @@
     }
 
     function switchTab(tab) {
-      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'cutscenes', 'shop', 'guild', 'plaza', 'friends', 'ranking'];
+      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'cutscenes', 'shop', 'board', 'guild', 'plaza', 'friends', 'ranking'];
       document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', tabs[i] === tab));
       tabs.forEach(id => document.getElementById(id + '-page').classList.toggle('active', id === tab));
       if (tab === 'dojang') renderDojang();
@@ -8373,6 +8304,7 @@
       if (tab === 'ach') renderAchievements();
       if (tab === 'cutscenes') renderCutscenes();
       if (tab === 'shop') renderShop();
+      if (tab === 'board') renderBoard();
       if (tab === 'guild') renderGuild();
       if (tab === 'plaza') enterPlaza();
       else leavePlaza();
@@ -8605,9 +8537,9 @@
         const baseReward = potionRewards[clampedTier] || 5;
         const rewardPotions = Math.max(3, Math.round(baseReward * (1 + mutRank * 0.6)));
         const rewardUltra = (clampedTier >= 18 || mutRank >= 3) ? 1 + Math.floor(difficultyBoost) : 0;
-        // Celestial Potion은 "정말 좋은 등급" 미션 성공 시에만: Infinity(27)+ & Ultra 이상,
-        // 또는 ABSOLUTE ZERO(34) & Big 이상일 때 보상으로 지급
-        const rewardCelestial = ((clampedTier >= 27 && mutRank >= 3) || (clampedTier >= 34 && mutRank >= 1)) ? 1 : 0;
+        // Celestial Potion 수급처 확대: 기존(Infinity27+&Ultra이상 / AbsoluteZero34+&Big이상) 조건을 완화하여
+        // 고등급 미션 성공 시 좀 더 자주 지급되도록 함
+        const rewardCelestial = ((clampedTier >= 24 && mutRank >= 3) || (clampedTier >= 30 && mutRank >= 1)) ? 1 : 0;
 
         requests.push({
           tier: clampedTier, mutationRank: mutRank,
@@ -8684,6 +8616,163 @@
     }
 
 
+
+    // ===================== BOARD EVENT (운명의 보드) =====================
+    // 칸 타입별 보상 풀. 등급(tier) 보상은 7~44 범위, jackpot 칸은 Celestial Potion 전용으로 극희귀하게 배치.
+    function randomBoardTileLowValue() {
+      const r = Math.random();
+      if (r < 0.45) return { kind: 'potion', amount: 2 + Math.floor(Math.random() * 4), icon: '🧪', label: 'Lucky Potion' };
+      if (r < 0.7) return { kind: 'golden', amount: 5 + Math.floor(Math.random() * 11), icon: '⭐', label: '골든 티켓' };
+      if (r < 0.88) return { kind: 'potion', amount: 6 + Math.floor(Math.random() * 5), icon: '🧪', label: 'Lucky Potion' };
+      return { kind: 'ultra', amount: 1, icon: '🔴', label: 'Ultra Potion' };
+    }
+    function randomBoardTileMidValue() {
+      const r = Math.random();
+      if (r < 0.4) return { kind: 'ultra', amount: 1 + Math.floor(Math.random() * 2), icon: '🔴', label: 'Ultra Potion' };
+      if (r < 0.7) return { kind: 'golden', amount: 15 + Math.floor(Math.random() * 16), icon: '⭐', label: '골든 티켓' };
+      // 등급 아이템: 7~20 사이 랜덤 (초반 등급대)
+      const tier = 7 + Math.floor(Math.random() * 14);
+      return { kind: 'tier', tier, icon: '🎁', label: pool[tier].name };
+    }
+    function randomBoardTileHighValue() {
+      const r = Math.random();
+      if (r < 0.5) {
+        // 30+ 후반 등급 아이템 (자체가 매우 희귀)
+        const tier = 30 + Math.floor(Math.random() * 15);
+        return { kind: 'tier', tier, icon: '💠', label: pool[tier].name };
+      }
+      // 21~29 사이 중상위 등급
+      const tier = 21 + Math.floor(Math.random() * 9);
+      return { kind: 'tier', tier, icon: '🎁', label: pool[tier].name };
+    }
+
+    // 매 새로고침/리셋마다 30칸 보드를 새로 생성: 낮은 가치 칸 다수 + 중간 가치 일부 + 최후반 잭팟(Celestial) 3~4칸
+    function generateBoardLayout() {
+      const layout = new Array(BOARD_SIZE);
+      const jackpotCount = 3 + (Math.random() < 0.5 ? 1 : 0); // 3~4칸
+      const allIndices = Array.from({ length: BOARD_SIZE }, (_, i) => i);
+      // 셔플
+      for (let i = allIndices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [allIndices[i], allIndices[j]] = [allIndices[j], allIndices[i]];
+      }
+      const jackpotIdx = new Set(allIndices.slice(0, jackpotCount));
+      const highIdx = new Set(allIndices.slice(jackpotCount, jackpotCount + 5)); // 잭팟 제외 고가치 5칸
+      const midIdx = new Set(allIndices.slice(jackpotCount + 5, jackpotCount + 5 + 9)); // 중간가치 9칸
+      for (let i = 0; i < BOARD_SIZE; i++) {
+        if (jackpotIdx.has(i)) {
+          layout[i] = { kind: 'celestial', amount: 1, icon: '🌟', label: 'Celestial Potion', jackpot: true };
+        } else if (highIdx.has(i)) {
+          layout[i] = randomBoardTileHighValue();
+        } else if (midIdx.has(i)) {
+          layout[i] = randomBoardTileMidValue();
+        } else {
+          layout[i] = randomBoardTileLowValue();
+        }
+      }
+      return layout;
+    }
+
+    function ensureBoardLayout() {
+      if (!boardLayout || !Array.isArray(boardLayout) || boardLayout.length !== BOARD_SIZE) {
+        boardLayout = generateBoardLayout();
+      }
+    }
+
+    // 뽑기 직후마다 호출: 100롤 단위로 누적 카운트를 넘었으면 그 차이만큼 주사위 지급 (소급 누적 없이, 이 시점부터의 마일스톤만 인정)
+    function checkBoardDiceGrant() {
+      const milestonesPassed = Math.floor(totalRolls / 100) - Math.floor(boardDiceMilestone / 100);
+      if (milestonesPassed > 0) {
+        boardDice += milestonesPassed;
+        boardDiceMilestone = Math.floor(totalRolls / 100) * 100;
+        showPotionToast(`🎲 주사위 ${milestonesPassed}개 획득! (누적 ${totalRolls}회 뽑기)`);
+        if (document.getElementById('board-page').classList.contains('active')) renderBoard();
+      }
+    }
+
+    function boardTileRewardText(tile) {
+      if (tile.kind === 'potion') return `🧪 Lucky Potion ×${tile.amount}`;
+      if (tile.kind === 'golden') return `⭐ 골든 티켓 ×${tile.amount}`;
+      if (tile.kind === 'ultra') return `🔴 Ultra Potion ×${tile.amount}`;
+      if (tile.kind === 'celestial') return `🌟 Celestial Potion ×${tile.amount}`;
+      if (tile.kind === 'tier') return `${tile.icon} ${pool[tile.tier].name} 획득!`;
+      return '';
+    }
+
+    // 한 칸에 도착(통과 포함)했을 때 보상을 즉시 지급
+    function grantBoardTile(idx) {
+      const tile = boardLayout[idx];
+      if (tile.kind === 'potion') { potions += tile.amount; potionsEarnedTotal += tile.amount; }
+      else if (tile.kind === 'golden') { goldenTickets += tile.amount; }
+      else if (tile.kind === 'ultra') { ultraPotions += tile.amount; ultraPotionsEarnedTotal += tile.amount; }
+      else if (tile.kind === 'celestial') { celestialPotions += tile.amount; celestialPotionsEarnedTotal += tile.amount; }
+      else if (tile.kind === 'tier') {
+        const item = Object.assign({}, pool[tile.tier]);
+        const mutation = rollMutation();
+        const mRank = mutationRank(mutation);
+        if (mRank > (bestMutationByTier[item.tier] ?? 0)) bestMutationByTier[item.tier] = mRank;
+        if (tierPowerRank(item.tier) > tierPowerRank(bestTier)) bestTier = item.tier;
+        tiersObtained.add(item.tier);
+        const now = new Date();
+        const t = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0') + ':' + now.getSeconds().toString().padStart(2, '0');
+        history.unshift({ item, time: t, roll: totalRolls, mutation, fromBoard: true });
+      }
+      boardLog.unshift({ idx: idx + 1, text: boardTileRewardText(tile), jackpot: !!tile.jackpot });
+      boardLog = boardLog.slice(0, 30);
+      updatePotionBtn(); updateUltraPotionBtn(); updateCelestialPotionBtn(); checkGenericAchievements();
+    }
+
+    // 주사위를 굴려서 토큰을 1칸씩 애니메이션으로 이동시키며, 지나가는 모든 칸의 보상을 즉시 지급
+    function rollBoardDice() {
+      if (boardRolling || boardDice <= 0) return;
+      ensureBoardLayout();
+      boardRolling = true;
+      boardDice--;
+      const steps = 1 + Math.floor(Math.random() * 6); // 1~6
+      document.getElementById('board-roll-btn').disabled = true;
+      let movedSteps = 0;
+      function stepOnce() {
+        boardPosition = (boardPosition + 1) % BOARD_SIZE;
+        movedSteps++;
+        grantBoardTile(boardPosition);
+        renderBoard();
+        const tileEl = document.querySelector(`.board-tile[data-idx="${boardPosition}"]`);
+        if (tileEl) { tileEl.classList.add('visited-flash'); setTimeout(() => tileEl.classList.remove('visited-flash'), 600); }
+        if (movedSteps < steps) {
+          setTimeout(stepOnce, 260);
+        } else {
+          boardRolling = false;
+          saveProgress();
+          renderBoard();
+        }
+      }
+      setTimeout(stepOnce, 120);
+    }
+
+    function renderBoard() {
+      ensureBoardLayout();
+      document.getElementById('board-dice-num').innerText = boardDice;
+      document.getElementById('board-roll-btn').disabled = boardRolling || boardDice <= 0;
+      document.getElementById('board-next-dice-label').innerText = `다음 주사위까지 뽑기 ${100 - (totalRolls % 100)}회 남음 (100회마다 1개 지급)`;
+
+      const grid = document.getElementById('board-grid');
+      grid.innerHTML = boardLayout.map((tile, i) => {
+        const isCurrent = i === boardPosition;
+        const cls = 'board-tile' + (tile.jackpot ? ' jackpot' : '') + (isCurrent ? ' current' : '');
+        return `<div class="${cls}" data-idx="${i}">
+          <div class="board-tile-num">${i + 1}</div>
+          <div class="board-tile-icon">${tile.icon}</div>
+          <div class="board-tile-label">${tile.kind === 'tier' ? tile.label : (tile.amount + ' ' + (tile.kind === 'potion' ? 'Lucky' : tile.kind === 'golden' ? '티켓' : tile.kind === 'ultra' ? 'Ultra' : 'Celestial'))}</div>
+        </div>`;
+      }).join('');
+
+      const logEl = document.getElementById('board-log');
+      if (boardLog.length === 0) {
+        logEl.innerHTML = `<div class="board-log-entry">아직 기록이 없습니다. 주사위를 굴려보세요!</div>`;
+      } else {
+        logEl.innerHTML = boardLog.map(l => `<div class="board-log-entry">${l.jackpot ? '🌟' : '·'} <b>${l.idx}번 칸</b> — ${l.text}</div>`).join('');
+      }
+    }
 
     // ===================== RANKING =====================
     async function fetchAllAccounts() {
@@ -9027,7 +9116,7 @@
       const completed = totalContrib >= goal;
       const myClaimed = questClaimedBy.includes(currentUser);
 
-      document.getElementById('guild-quest-desc').innerText = `길드원 전체가 이번 주 동안 합산 ${goal}회 뽑기를 달성하면 전원에게 골든 티켓 20개 + Ultra Potion 1개를 드립니다.`;
+      document.getElementById('guild-quest-desc').innerText = `길드원 전체가 이번 주 동안 합산 ${goal}회 뽑기를 달성하면 전원에게 골든 티켓 20개 + Ultra Potion 1개 + Celestial Potion 1개를 드립니다.`;
       document.getElementById('guild-quest-bar').style.width = pct + '%';
       document.getElementById('guild-quest-sub').innerText = `${totalContrib} / ${goal} 회 달성 (${pct}%)`;
       const claimBtn = document.getElementById('guild-quest-claim-btn');
@@ -9066,8 +9155,9 @@
       const ok = await saveGuildDoc(guildName, Object.assign({}, guild, { questClaimedBy }));
       if (ok) {
         goldenTickets += 20; ultraPotions += 1; ultraPotionsEarnedTotal += 1;
-        updateUI(); updateUltraPotionBtn(); saveProgress();
-        showPotionToast('🎁 길드 퀘스트 보상 획득! 골든티켓 +20, Ultra Potion +1');
+        celestialPotions += 1; celestialPotionsEarnedTotal += 1;
+        updateUI(); updateUltraPotionBtn(); updateCelestialPotionBtn(); saveProgress();
+        showPotionToast('🎁 길드 퀘스트 보상 획득! 골든티켓 +20, Ultra Potion +1, 🌟 Celestial Potion +1');
         renderGuildQuest(Object.assign({}, guild, { questClaimedBy }));
       } else {
         showPotionToast('보상 수령 실패, 다시 시도해주세요');
