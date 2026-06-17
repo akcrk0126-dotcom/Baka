@@ -839,9 +839,19 @@
     #star-svg {
       width: 260px;
       height: 260px;
-      animation: spin 1s linear infinite;
       transform-origin: center;
       overflow: visible;
+      position: relative;
+      z-index: 2;
+    }
+
+    #star-glow-ring {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
     }
 
     @keyframes spin {
@@ -854,15 +864,42 @@
       }
     }
 
-    #result-text {
-      font-size: 38px;
-      font-weight: 900;
-      letter-spacing: 4px;
-      opacity: 0;
-      transition: opacity 0.3s;
+    #star-burst-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    #summon-quote {
+      position: absolute;
+      top: 18%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 15px;
+      letter-spacing: 3px;
+      color: rgba(255, 255, 255, 0);
       text-align: center;
-      margin-top: 28px;
-      text-transform: uppercase;
+      pointer-events: none;
+      z-index: 4;
+      text-shadow: 0 0 20px currentColor;
+      transition: color 0.6s ease, opacity 0.6s ease;
+      white-space: nowrap;
+      font-style: italic;
+    }
+
+    #summon-quote.show {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+
+    font-weight: 900;
+    letter-spacing: 4px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    text-align: center;
+    margin-top: 28px;
+    text-transform: uppercase;
     }
 
     /* MUTATION ROLL REEL */
@@ -1553,6 +1590,213 @@
     #precs-wreck.go {
       opacity: 1;
       transform: translateX(-50%) translateY(-38%);
+    }
+
+    /* ===== 마법진 ===== */
+    #precs-magiccircle {
+      position: absolute;
+      width: 460px;
+      height: 460px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease;
+    }
+
+    #precs-magiccircle.go {
+      opacity: 1;
+    }
+
+    .precs-mc-ring {
+      position: absolute;
+      inset: 0;
+      transform-origin: center;
+    }
+
+    .precs-mc-ring.spin1 {
+      animation: precs-mc-spin 6s linear infinite;
+    }
+
+    .precs-mc-ring.spin2 {
+      animation: precs-mc-spin-rev 4.2s linear infinite;
+    }
+
+    .precs-mc-ring.spin3 {
+      animation: precs-mc-spin 9s linear infinite;
+    }
+
+    @keyframes precs-mc-spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes precs-mc-spin-rev {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(-360deg);
+      }
+    }
+
+    /* ===== 사슬 ===== */
+    #precs-chains {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .precs-chain {
+      position: absolute;
+      width: 38px;
+      opacity: 0;
+      filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.8));
+      transition: opacity 0.4s ease, transform 1.4s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .precs-chain.go {
+      opacity: 1;
+    }
+
+    /* ===== 빛 기둥 ===== */
+    #precs-pillars {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+    }
+
+    .precs-pillar {
+      width: 26px;
+      height: 0%;
+      border-radius: 50% 50% 0 0 / 10% 10% 0 0;
+      opacity: 0;
+      transition: height 1.1s cubic-bezier(.16, .9, .2, 1), opacity 0.5s ease;
+      transform-origin: bottom center;
+    }
+
+    .precs-pillar.go {
+      height: 130%;
+      opacity: 0.85;
+    }
+
+    /* ===== 개발자 텍스트 (터미널 타이핑) ===== */
+    #precs-devtext {
+      position: absolute;
+      bottom: 10%;
+      left: 6%;
+      max-width: 88%;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #69f0ae;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      text-shadow: 0 0 8px rgba(105, 240, 174, 0.5);
+      pointer-events: none;
+      white-space: pre-wrap;
+    }
+
+    #precs-devtext.go {
+      opacity: 1;
+    }
+
+    #precs-devtext .precs-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 13px;
+      background: #69f0ae;
+      animation: precs-cursor-blink 0.8s steps(1) infinite;
+      vertical-align: middle;
+      margin-left: 2px;
+    }
+
+    @keyframes precs-cursor-blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* ===== 스타일리시 화염 ===== */
+    #precs-fire {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    #precs-fire.go {
+      opacity: 1;
+    }
+
+    .precs-flame {
+      position: absolute;
+      bottom: -10%;
+      width: 90px;
+      height: 220px;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      filter: blur(0.5px);
+      animation: precs-flame-flicker 1.6s ease-in-out infinite alternate;
+      transform-origin: bottom center;
+    }
+
+    @keyframes precs-flame-flicker {
+      0% {
+        transform: scaleY(1) scaleX(1) rotate(-2deg);
+      }
+
+      50% {
+        transform: scaleY(1.12) scaleX(0.94) rotate(2deg);
+      }
+
+      100% {
+        transform: scaleY(0.96) scaleX(1.06) rotate(-1deg);
+      }
+    }
+
+    .precs-ember {
+      position: absolute;
+      bottom: 10%;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #ffab40;
+      box-shadow: 0 0 8px #ff6d00;
+      animation: precs-ember-rise linear infinite;
+    }
+
+    @keyframes precs-ember-rise {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-420px) translateX(var(--drift, 20px));
+        opacity: 0;
+      }
+    }
+
+    /* ===== 호수 + 연꽃 실루엣 (업그레이드) ===== */
+    #precs-lake {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    #precs-lake.go {
+      opacity: 1;
     }
 
     /* CUTSCENE */
@@ -3264,6 +3508,510 @@
       background: rgba(255, 60, 60, 0.15);
       border-color: rgba(255, 80, 80, 0.5);
     }
+
+    /* ===== 출석체크 모달 ===== */
+    #attendance-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+
+    #attendance-modal.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #attendance-box {
+      width: 380px;
+      max-width: 92vw;
+      padding: 32px 26px;
+      border: 0.5px solid rgba(255, 215, 0, 0.25);
+      border-radius: 16px;
+      background: linear-gradient(160deg, #0c0c1a 0%, #14101a 100%);
+      box-shadow: 0 0 60px rgba(255, 215, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    #attendance-title {
+      font-size: 11px;
+      letter-spacing: 6px;
+      color: #888;
+      text-transform: uppercase;
+    }
+
+    #attendance-streak-big {
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #fff 20%, #ffd700 70%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    #attendance-streak-sub {
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: #777;
+      margin-top: -10px;
+    }
+
+    #attendance-days {
+      display: flex;
+      gap: 6px;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .att-day {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 2px;
+      border-radius: 8px;
+      border: 0.5px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .att-day.done {
+      border-color: rgba(255, 215, 0, 0.35);
+      background: rgba(255, 215, 0, 0.07);
+    }
+
+    .att-day.today {
+      border-color: rgba(255, 215, 0, 0.7);
+      box-shadow: 0 0 14px rgba(255, 215, 0, 0.25);
+      animation: pulse-badge 1.2s ease infinite;
+    }
+
+    .att-day-num {
+      font-size: 9px;
+      letter-spacing: 1px;
+      color: #555;
+    }
+
+    .att-day.done .att-day-num,
+    .att-day.today .att-day-num {
+      color: #ffd700;
+    }
+
+    .att-day-icon {
+      font-size: 16px;
+    }
+
+    .att-day-reward {
+      font-size: 8px;
+      color: #555;
+      letter-spacing: 0px;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .att-day.done .att-day-reward,
+    .att-day.today .att-day-reward {
+      color: #ccc;
+    }
+
+    #attendance-claim-msg {
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: #ffe082;
+      text-align: center;
+      min-height: 18px;
+    }
+
+    #attendance-claim-btn {
+      width: 100%;
+      height: 48px;
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(255, 143, 0, 0.06));
+      color: #ffd700;
+      font-size: 13px;
+      letter-spacing: 4px;
+      font-weight: 900;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #attendance-claim-btn:hover {
+      box-shadow: 0 0 26px rgba(255, 215, 0, 0.3);
+    }
+
+    #attendance-claim-btn:disabled {
+      opacity: 0.35;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    #attendance-close-btn {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #555;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    #attendance-close-btn:hover {
+      color: #aaa;
+    }
+
+    /* 네브바 출석체크 아이콘 버튼 */
+    #attendance-nav-btn {
+      font-size: 16px;
+      background: transparent;
+      border: 0.5px solid rgba(255, 215, 0, 0.2);
+      border-radius: 6px;
+      padding: 4px 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      line-height: 1;
+      position: relative;
+    }
+
+    #attendance-nav-btn:hover {
+      background: rgba(255, 215, 0, 0.08);
+    }
+
+    #attendance-nav-btn.unclaimed::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ff5252;
+      box-shadow: 0 0 6px #ff5252;
+    }
+
+    /* ===== 모드 토글 버튼 ===== */
+    #mode-toggle-btn {
+      font-size: 16px;
+      background: transparent;
+      border: 0.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 4px 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      line-height: 1;
+    }
+
+    #mode-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* ===== MOBILE MODE ===== */
+    body.mobile-mode #nav {
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 10px 14px;
+    }
+
+    body.mobile-mode #nav-logo {
+      font-size: 13px;
+      letter-spacing: 3px;
+    }
+
+    body.mobile-mode #nav-tabs {
+      order: 3;
+      width: 100%;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 3px;
+      padding-bottom: 2px;
+    }
+
+    body.mobile-mode #nav-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    body.mobile-mode .nav-tab {
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 6px 12px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    body.mobile-mode #nav-user {
+      gap: 6px;
+      font-size: 10px;
+    }
+
+    body.mobile-mode #nav-user-name {
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+
+    body.mobile-mode #nav-user-title {
+      font-size: 9px;
+    }
+
+    body.mobile-mode #nav-logout-btn {
+      font-size: 9px;
+      padding: 3px 7px;
+    }
+
+    /* gacha idle */
+    body.mobile-mode #gacha-idle {
+      gap: 12px;
+      padding: 12px;
+    }
+
+    body.mobile-mode #gacha-title-big {
+      font-size: 28px;
+      letter-spacing: 6px;
+    }
+
+    body.mobile-mode #gacha-title-main {
+      font-size: 9px;
+      letter-spacing: 4px;
+    }
+
+    body.mobile-mode #stats-row {
+      gap: 20px;
+    }
+
+    body.mobile-mode .stat-num {
+      font-size: 16px;
+    }
+
+    body.mobile-mode .stat-lbl {
+      font-size: 9px;
+    }
+
+    body.mobile-mode #potion-bar,
+    body.mobile-mode #ultra-potion-bar,
+    body.mobile-mode #celestial-potion-bar {
+      padding: 8px 12px;
+      gap: 8px;
+      width: 90vw;
+      max-width: 380px;
+    }
+
+    body.mobile-mode #potion-icon,
+    body.mobile-mode #ultra-potion-icon,
+    body.mobile-mode #celestial-potion-icon {
+      font-size: 18px;
+    }
+
+    body.mobile-mode #potion-count,
+    body.mobile-mode #ultra-potion-count,
+    body.mobile-mode #celestial-potion-count {
+      font-size: 15px;
+    }
+
+    body.mobile-mode #pity-bar-wrap {
+      width: 170px;
+    }
+
+    body.mobile-mode #pity-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+
+    body.mobile-mode .roll-btn {
+      height: 42px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      padding: 0 16px;
+    }
+
+    body.mobile-mode #roll-btns {
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* 골든 가챠 버튼: 모바일에서 왼쪽 플로팅 유지하되 작게 */
+    body.mobile-mode #golden-gacha-btn {
+      left: 6px;
+      width: 72px;
+      padding: 10px 6px;
+      gap: 3px;
+    }
+
+    body.mobile-mode #golden-gacha-icon {
+      font-size: 20px;
+    }
+
+    body.mobile-mode #golden-gacha-label {
+      font-size: 8px;
+      letter-spacing: 2px;
+    }
+
+    body.mobile-mode .golden-gacha-sub-cls {
+      font-size: 7px;
+    }
+
+    body.mobile-mode #golden-gacha-ticket-count {
+      font-size: 13px;
+    }
+
+    /* pages */
+    body.mobile-mode #dojang-page,
+    body.mobile-mode #ach-page,
+    body.mobile-mode #odds-page,
+    body.mobile-mode #cutscenes-page,
+    body.mobile-mode #shop-page,
+    body.mobile-mode #guild-page,
+    body.mobile-mode #plaza-page,
+    body.mobile-mode #ranking-page {
+      padding: 20px 14px;
+    }
+
+    body.mobile-mode #dojang-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 8px;
+    }
+
+    body.mobile-mode .dojang-card {
+      padding: 10px 12px;
+    }
+
+    body.mobile-mode .dojang-name {
+      font-size: 11px;
+    }
+
+    body.mobile-mode #ach-grid {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    body.mobile-mode .ach-card {
+      padding: 12px 14px;
+    }
+
+    body.mobile-mode .title-chip {
+      font-size: 10px;
+      padding: 6px 10px;
+    }
+
+    body.mobile-mode .rank-card {
+      padding: 10px 12px;
+      gap: 10px;
+    }
+
+    body.mobile-mode .rank-nick {
+      font-size: 11px;
+    }
+
+    body.mobile-mode .rank-meta {
+      font-size: 9px;
+      min-width: 60px;
+    }
+
+    body.mobile-mode .shop-card {
+      padding: 12px 12px;
+      gap: 10px;
+    }
+
+    body.mobile-mode .shop-card-icon {
+      width: 36px;
+      height: 36px;
+      font-size: 20px;
+    }
+
+    body.mobile-mode .shop-card-want {
+      font-size: 11px;
+    }
+
+    body.mobile-mode .guild-result-card,
+    body.mobile-mode .guild-member-card {
+      padding: 10px 12px;
+      gap: 10px;
+    }
+
+    body.mobile-mode #guild-info-stats {
+      gap: 20px;
+    }
+
+    body.mobile-mode .guild-stat-num {
+      font-size: 18px;
+    }
+
+    body.mobile-mode #guild-search-input {
+      font-size: 12px;
+    }
+
+    /* 광장 모바일: 세로 레이아웃 */
+    body.mobile-mode #plaza-body {
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    body.mobile-mode #plaza-room {
+      height: 300px;
+    }
+
+    body.mobile-mode #plaza-sidebar {
+      width: 100%;
+    }
+
+    body.mobile-mode #plaza-online-list {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    body.mobile-mode .plaza-online-card {
+      padding: 7px 10px;
+    }
+
+    /* cutscene 이름 크기 */
+    body.mobile-mode #cutscene-name .cs-title {
+      font-size: 26px;
+      letter-spacing: 4px;
+    }
+
+    body.mobile-mode #mega-title {
+      font-size: 32px;
+    }
+
+    /* 골든 페이지 모바일 */
+    body.mobile-mode #golden-page-title-big {
+      font-size: 28px;
+      letter-spacing: 6px;
+    }
+
+    body.mobile-mode #golden-roll-btn {
+      height: 46px;
+      font-size: 12px;
+      letter-spacing: 3px;
+      padding: 0 24px;
+    }
+
+    /* multi-result 그리드 */
+    body.mobile-mode #multi-result-grid {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+    }
+
+    body.mobile-mode .multi-result-name {
+      font-size: 9px;
+    }
+
+    body.mobile-mode .multi-result-card {
+      padding: 8px 4px;
+    }
   </style>
 
   <div id="auth-overlay">
@@ -3314,6 +4062,8 @@
         <button class="nav-tab" onclick="switchTab('ranking')">랭킹</button>
       </div>
       <div id="nav-user">
+        <button id="attendance-nav-btn" onclick="openAttendanceModal()" title="출석체크">📅</button>
+        <button id="mode-toggle-btn" onclick="toggleMobileMode()" title="폰/PC 모드 전환">📱</button>
         <span id="nav-user-title"></span>
         <span id="nav-user-name"></span>
         <button id="nav-logout-btn" onclick="openLogoutModal()">LOGOUT</button>
@@ -3399,11 +4149,14 @@
       </div>
 
       <div id="gacha-anim">
+        <div id="star-burst-overlay"></div>
+        <div id="star-glow-ring"></div>
         <svg id="star-svg" viewBox="-70 -70 140 140" xmlns="http://www.w3.org/2000/svg">
           <polygon id="star-poly-main" points="0,-65 8,-8 65,0 8,8 0,65 -8,8 -65,0 -8,-8" fill="white" />
           <polygon id="star-poly-sub" points="0,-38 5,-5 38,0 5,5 0,38 -5,5 -38,0 -5,-5" fill="white" opacity="0.55"
             transform="rotate(45)" />
         </svg>
+        <div id="summon-quote"></div>
         <div id="result-text"></div>
         <div id="mutation-reel-wrap">
           <div id="mutation-reel-label">MUTATION</div>
@@ -3422,8 +4175,14 @@
         <canvas id="precs-canvas"></canvas>
         <div id="precs-invert"></div>
         <div id="precs-lotus"></div>
+        <div id="precs-lake"></div>
         <div id="precs-shockwave"></div>
         <div id="precs-wreck"></div>
+        <div id="precs-magiccircle"></div>
+        <div id="precs-chains"></div>
+        <div id="precs-pillars"></div>
+        <div id="precs-devtext"></div>
+        <div id="precs-fire"></div>
         <div id="precs-flash"></div>
       </div>
 
@@ -3516,8 +4275,8 @@
 
     <div id="odds-page">
       <div id="odds-title">확률표 — Drop Rates</div>
-      <div id="odds-subtitle">100회 보장 시스템(ABSOLUTE ZERO 확정) · Legendary 이상 달성 시 보장 초기화 · Legendary 이상은 화이트 크랙 인트로 후 고유
-        컷씬 · 포션 사용 시 Epic+
+      <div id="odds-subtitle">100회 보장 시스템(ABSOLUTE ZERO 확정) · Legendary 이상 달성 시 보장 초기화 · Arcane 이상은 화이트 크랙 인트로 후 고유 컷씬 ·
+        포션 사용 시 Epic+
         확률 2배 · Lucky Potion 50개 합성 시 Ultra Potion 획득 · Ultra Potion 사용 시 Nightshade 이상 확정 획득 · Ultra Potion 5개 합성 시
         Celestial Potion 획득 · Celestial Potion 사용 시 Solflare 이상 확정 획득 · ABSOLUTE ZERO 이상의 초월 등급 10종 추가</div>
       <div id="odds-table-wrap"></div>
@@ -3630,6 +4389,18 @@
         <button class="logout-cancel" onclick="closeLogoutModal()">취소</button>
         <button class="logout-confirm" onclick="doLogout()">로그아웃</button>
       </div>
+    </div>
+  </div>
+
+  <div id="attendance-modal">
+    <div id="attendance-box">
+      <div id="attendance-title">매일 출석체크</div>
+      <div id="attendance-streak-big"><span id="attendance-streak-num">0</span>일 연속</div>
+      <div id="attendance-streak-sub">누적 <span id="attendance-total-num">0</span>일 출석</div>
+      <div id="attendance-days"></div>
+      <div id="attendance-claim-msg"></div>
+      <button id="attendance-claim-btn" onclick="claimAttendance()">출석체크</button>
+      <button id="attendance-close-btn" onclick="closeAttendanceModal()">닫기</button>
     </div>
   </div>
 
@@ -3799,6 +4570,8 @@
 
     // 골든 가챠 전용 등급 (45~47)
     const GOLDEN_ONLY_TIERS = [45, 46, 47];
+    // 컷씬(화이트크랙+프리컷씬+메인컷씬)이 시작되는 최소 등급. Arcane(7)부터 적용.
+    const CUTSCENE_MIN_TIER = 7;
 
     // 골든 가챠 전용 등급(45~47)은 tier 숫자가 일반 등급보다 크지만,
     // 실제 파워는 그 숫자에 대응하지 않으므로 랭킹/비교 시 이 값을 사용한다.
@@ -3903,6 +4676,7 @@
     let goldenRollsTotal = 0; // 누적 골든 가챠 횟수
     let goldenTickets = 0, lastGoldenClaimDate = ''; // 보유 골든롤 티켓 수, 마지막 티켓 수령 날짜
     let guildName = '', guildJoinRolls = 0; // 가입한 길드 이름, 가입 시점의 totalRolls (레벨 계산용)
+    let lastAttendanceDate = '', attendanceStreak = 0, attendanceTotalDays = 0; // 출석체크: 마지막 출석일, 연속 출석일, 누적 출석일
 
     // ===================== AUTH =====================
     let currentUser = null;
@@ -4022,6 +4796,102 @@
       updateGoldenButton();
       if (goldenButtonInterval) clearInterval(goldenButtonInterval);
       goldenButtonInterval = setInterval(updateGoldenButton, 1000);
+      updateAttendanceNavBadge();
+      const today = todayDateStrGolden();
+      if (lastAttendanceDate !== today) {
+        setTimeout(openAttendanceModal, 500);
+      }
+    }
+
+    // ===================== 출석체크 =====================
+    // 7일 주기, 6일째까지는 소소한 보상, 7일째에 큰 보상 후 다음날 1일차로 리셋
+    const ATTENDANCE_REWARDS = [
+      { icon: '🧪', label: 'Lucky x2', apply: () => { potions += 2; potionsEarnedTotal += 2; } },
+      { icon: '🧪', label: 'Lucky x3', apply: () => { potions += 3; potionsEarnedTotal += 3; } },
+      { icon: '🔴', label: 'Ultra x1', apply: () => { ultraPotions += 1; ultraPotionsEarnedTotal += 1; } },
+      { icon: '🧪', label: 'Lucky x5', apply: () => { potions += 5; potionsEarnedTotal += 5; } },
+      { icon: '⭐', label: '골든티켓 x10', apply: () => { goldenTickets += 10; } },
+      { icon: '🔴', label: 'Ultra x2', apply: () => { ultraPotions += 2; ultraPotionsEarnedTotal += 2; } },
+      { icon: '🌟', label: 'Celestial x1 + 골든×30', apply: () => { celestialPotions += 1; celestialPotionsEarnedTotal += 1; goldenTickets += 30; } },
+    ];
+
+    function attendanceCanClaimToday() {
+      return lastAttendanceDate !== todayDateStrGolden();
+    }
+
+    function openAttendanceModal() {
+      renderAttendanceModal();
+      document.getElementById('attendance-modal').classList.add('show');
+    }
+    function closeAttendanceModal() {
+      document.getElementById('attendance-modal').classList.remove('show');
+    }
+
+    function renderAttendanceModal() {
+      const canClaim = attendanceCanClaimToday();
+      // 다음 출석 시 도달할 일차 (1~7 순환)
+      const nextDay = canClaim ? (attendanceStreak % 7) + 1 : ((attendanceStreak - 1) % 7) + 1;
+
+      document.getElementById('attendance-streak-num').innerText = attendanceStreak;
+      document.getElementById('attendance-total-num').innerText = attendanceTotalDays;
+
+      const daysEl = document.getElementById('attendance-days');
+      daysEl.innerHTML = ATTENDANCE_REWARDS.map((r, i) => {
+        const dayNum = i + 1;
+        const isDone = !canClaim && dayNum <= nextDay;
+        const isToday = canClaim && dayNum === nextDay;
+        const cls = isToday ? 'today' : (isDone ? 'done' : '');
+        return `<div class="att-day ${cls}">
+          <div class="att-day-num">${dayNum}일</div>
+          <div class="att-day-icon">${r.icon}</div>
+          <div class="att-day-reward">${r.label}</div>
+        </div>`;
+      }).join('');
+
+      const btn = document.getElementById('attendance-claim-btn');
+      const msg = document.getElementById('attendance-claim-msg');
+      if (canClaim) {
+        btn.disabled = false;
+        btn.innerText = (nextDay === 7 ? '🎁 7일차 보상 받기' : '출석체크');
+        msg.innerText = '';
+      } else {
+        btn.disabled = true;
+        btn.innerText = '오늘 출석 완료';
+        msg.innerText = '내일 다시 출석체크 해주세요';
+      }
+    }
+
+    function claimAttendance() {
+      if (!attendanceCanClaimToday()) return;
+      const today = todayDateStrGolden();
+
+      // 연속 출석 판정: 어제 날짜였으면 streak 유지하며 +1, 아니면 1로 리셋
+      const y = new Date();
+      y.setDate(y.getDate() - 1);
+      const yesterday = y.getFullYear() + '-' + (y.getMonth() + 1) + '-' + y.getDate();
+      if (lastAttendanceDate === yesterday) attendanceStreak++;
+      else attendanceStreak = 1;
+
+      const dayIdx = (attendanceStreak - 1) % 7; // 0~6
+      const reward = ATTENDANCE_REWARDS[dayIdx];
+      reward.apply();
+
+      lastAttendanceDate = today;
+      attendanceTotalDays++;
+
+      updatePotionBtn(); updateUltraPotionBtn(); updateCelestialPotionBtn();
+      updateUI(); saveProgress(); updateAttendanceNavBadge();
+      checkGenericAchievements();
+
+      const msg = document.getElementById('attendance-claim-msg');
+      msg.innerText = `✓ ${reward.icon} ${reward.label} 획득!`;
+      renderAttendanceModal();
+    }
+
+    function updateAttendanceNavBadge() {
+      const btn = document.getElementById('attendance-nav-btn');
+      if (!btn) return;
+      btn.classList.toggle('unclaimed', attendanceCanClaimToday());
     }
 
     function openLogoutModal() {
@@ -4056,7 +4926,8 @@
         equippedTitle: '',
         goldenRollsTotal: 0,
         goldenTickets: 0, lastGoldenClaimDate: '',
-        guildName: '', guildJoinRolls: 0
+        guildName: '', guildJoinRolls: 0,
+        lastAttendanceDate: '', attendanceStreak: 0, attendanceTotalDays: 0
       };
     }
 
@@ -4073,18 +4944,22 @@
       celestialPotions = state.celestialPotions ?? d.celestialPotions;
       celestialPotionActive = state.celestialPotionActive ?? d.celestialPotionActive;
       bestTier = state.bestTier ?? d.bestTier;
-      if (history.length > 0) {
-        let realBest = bestTier;
-        for (const h of history) {
-          if (tierPowerRank(h.item.tier) > tierPowerRank(realBest)) {
-            realBest = h.item.tier;
-          }
-        }
-        bestTier = realBest;
-      }
       bestMutationByTier = state.bestMutationByTier ?? {};
       history.length = 0;
       (state.history || []).forEach(h => history.push(h));
+
+      // ⚠️ bestTier 오염 복구: 버그로 인해 골든 전용 등급(45~47)이 bestTier로 저장된 경우
+      // history에서 일반 등급(0~44) 중 tierPowerRank 기준으로 최고값을 재계산
+      if (GOLDEN_ONLY_TIERS.includes(bestTier)) {
+        let recoveredTier = -1;
+        for (const h of history) {
+          const t = h.item?.tier ?? -1;
+          if (!GOLDEN_ONLY_TIERS.includes(t) && tierPowerRank(t) > tierPowerRank(recoveredTier)) {
+            recoveredTier = t;
+          }
+        }
+        bestTier = recoveredTier;
+      }
       unlockedAchievements = new Set(state.unlocked || []);
       tiersObtained = new Set(state.tiers || []);
       potionsEarnedTotal = state.potionsEarnedTotal ?? 0;
@@ -4105,6 +4980,9 @@
       lastGoldenClaimDate = state.lastGoldenClaimDate ?? '';
       guildName = state.guildName ?? '';
       guildJoinRolls = state.guildJoinRolls ?? 0;
+      lastAttendanceDate = state.lastAttendanceDate ?? '';
+      attendanceStreak = state.attendanceStreak ?? 0;
+      attendanceTotalDays = state.attendanceTotalDays ?? 0;
       currentEpicStreak = 0; currentLegendaryStreak = 0;
     }
 
@@ -4128,7 +5006,8 @@
         equippedTitle,
         goldenRollsTotal,
         goldenTickets, lastGoldenClaimDate,
-        guildName, guildJoinRolls
+        guildName, guildJoinRolls,
+        lastAttendanceDate, attendanceStreak, attendanceTotalDays
       };
     }
 
@@ -4145,8 +5024,147 @@
       }, 400);
     }
 
-    const SPEEDS = [1.0, 1.0, 1.0, 1.07, 1.15, 1.23, 1.3, 1.38, 1.45, 1.52, 1.6, 1.67, 1.75, 1.82, 1.9, 1.98, 2.05, 2.12, 2.2, 2.27, 2.35, 2.42, 2.5, 2.58, 2.65, 2.72, 2.8, 2.88, 2.95, 3.02, 3.1, 3.17, 3.25, 3.32, 3.4, 3.47, 3.55, 3.62, 3.7, 3.77, 3.85, 3.92, 4.0, 4.07, 4.15, 4.22, 4.3, 4.5];
-    const DELAYS = [700, 700, 700, 805, 910, 1015, 1120, 1225, 1330, 1435, 1540, 1645, 1750, 1855, 1960, 2065, 2170, 2275, 2380, 2485, 2590, 2695, 2800, 2905, 3010, 3115, 3220, 3325, 3430, 3535, 3640, 3745, 3850, 3955, 4060, 4165, 4270, 4375, 4480, 4585, 4690, 4795, 4900, 5005, 5110, 5215, 5320, 5500];
+    // 등급별 별 지속 시간(ms) — 높을수록 길고 웅장하게
+    const STAR_DURATION = [1260, 1260, 1260, 1330, 1400, 1470, 1540, 1610, 1680, 1820, 1960, 2100, 2240, 2450, 2660, 2940, 3220, 3500, 3780, 4060, 4340, 4620, 4900, 5180, 5460, 5740, 6020, 6300, 6580, 6860, 7140, 7420, 7700, 7980, 8400, 8820, 9240, 9800, 10360, 10920, 11480, 12040, 12600, 13160, 13720, 14280, 14840, 15400];
+
+    // 등급별 소환 대사 (랜덤 선택)
+    const SUMMON_QUOTES = {
+      low: ['...', '무언가 나타난다', '희미한 빛'],
+      mid: ['강한 기운이 느껴진다', '소환의 문이 열린다', '운명이 흔들린다'],
+      high: ['세상이 진동한다', '신의 이름으로', '빛이 폭발한다', '당신은 선택받았다'],
+      ultra: ['현실이 붕괴된다', '이것은... 불가능해', '전설이 강림한다', '우주가 경배한다']
+    };
+    function getQuote(tier) {
+      const list = tier >= 30 ? SUMMON_QUOTES.ultra : tier >= 20 ? SUMMON_QUOTES.high : tier >= 13 ? SUMMON_QUOTES.mid : SUMMON_QUOTES.low;
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+    // ===== Web Audio 효과음 =====
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      return audioCtx;
+    }
+    function playStarSound(tier, phase) {
+      try {
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+        osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+        filter.type = 'lowpass';
+        if (phase === 'spin') {
+          // 처음 별 돌기 시작: 낮은 드론
+          const baseFreq = 60 + tier * 4;
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(baseFreq, now);
+          osc.frequency.linearRampToValueAtTime(baseFreq * 2.5, now + STAR_DURATION[tier] / 1000);
+          gain.gain.setValueAtTime(0, now);
+          gain.gain.linearRampToValueAtTime(0.12, now + 0.3);
+          gain.gain.linearRampToValueAtTime(0.18, now + STAR_DURATION[tier] / 1000 * 0.7);
+          gain.gain.linearRampToValueAtTime(0, now + STAR_DURATION[tier] / 1000);
+          filter.frequency.setValueAtTime(300 + tier * 30, now);
+          filter.frequency.linearRampToValueAtTime(4000, now + STAR_DURATION[tier] / 1000);
+          osc.start(now); osc.stop(now + STAR_DURATION[tier] / 1000);
+        } else if (phase === 'burst') {
+          // 폭발
+          const freq = tier >= 30 ? 80 : tier >= 20 ? 120 : 200;
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq * 3, now);
+          osc.frequency.exponentialRampToValueAtTime(freq, now + 0.4);
+          gain.gain.setValueAtTime(tier >= 20 ? 0.4 : 0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+          filter.frequency.setValueAtTime(2000, now);
+          filter.frequency.exponentialRampToValueAtTime(200, now + 0.4);
+          osc.start(now); osc.stop(now + 0.6);
+          // 고음 shimmer
+          if (tier >= 9) {
+            const osc2 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+            osc2.connect(gain2); gain2.connect(ctx.destination);
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(1800 + tier * 50, now);
+            osc2.frequency.exponentialRampToValueAtTime(800, now + 0.5);
+            gain2.gain.setValueAtTime(0.15, now);
+            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+            osc2.start(now); osc2.stop(now + 0.5);
+          }
+        }
+      } catch (e) { }
+    }
+
+    // ===== 새로운 별 애니메이션: rAF 기반, 처음 빠르게→커질수록 느려짐→폭발 =====
+    let starAnimId = null;
+    function animateStar(item, onDone) {
+      const starSvg = document.getElementById('star-svg');
+      const glowRing = document.getElementById('star-glow-ring');
+      const polyMain = document.getElementById('star-poly-main');
+      const polySub = document.getElementById('star-poly-sub');
+
+      const duration = STAR_DURATION[Math.min(item.tier, STAR_DURATION.length - 1)];
+      const color = item.color;
+      const tier = item.tier;
+
+      polyMain.setAttribute('fill', color);
+      polySub.setAttribute('fill', color);
+      starSvg.style.display = 'block';
+      starSvg.style.opacity = '1';
+      starSvg.style.transition = '';
+      starSvg.style.transform = 'scale(1)';
+      glowRing.style.opacity = '0';
+      glowRing.style.transition = '';
+
+      playStarSound(tier, 'spin');
+
+      let startTime = null;
+      let angle = 0;
+
+      function frame(ts) {
+        if (skipRequested) { cleanup(); onDone(); return; }
+        if (!startTime) startTime = ts;
+        const elapsed = ts - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // 회전 속도: 보통 속도로 좀 더 돌다가, 갈수록 매우 느려져서 거의 멈추듯 (강한 감쇠로 긴장감 강조)
+        const decel = Math.pow(1 - progress, 4); // 1 → 0, 막판에 거의 정지
+        const spinSpeed = 0.3 + decel * 3.2; // 3.5도/frame → 0.3도/frame
+        angle += spinSpeed;
+
+        // 크기는 고정, 글로우만 점점 강해짐
+        const glowIntensity = progress * progress;
+
+        starSvg.style.transform = `rotate(${angle}deg)`;
+        starSvg.style.filter = `drop-shadow(0 0 ${8 + glowIntensity * 30}px ${color}) drop-shadow(0 0 ${glowIntensity * 14}px white)`;
+
+        // 글로우 링 (크기 고정, 밝기만 변화)
+        glowRing.style.width = '260px';
+        glowRing.style.height = '260px';
+        glowRing.style.opacity = String(glowIntensity * 0.4);
+        glowRing.style.background = `radial-gradient(circle, ${color}33 0%, ${color}00 70%)`;
+        glowRing.style.boxShadow = `0 0 ${glowIntensity * 26}px ${color}66`;
+
+        if (progress < 1) {
+          starAnimId = requestAnimationFrame(frame);
+        } else {
+          playStarSound(tier, 'burst');
+          cleanup();
+          onDone();
+        }
+      }
+
+      function cleanup() {
+        if (starAnimId) { cancelAnimationFrame(starAnimId); starAnimId = null; }
+        starSvg.style.display = 'none';
+        starSvg.style.transform = '';
+        glowRing.style.opacity = '0';
+      }
+
+      starAnimId = requestAnimationFrame(frame);
+    }
+
+
+
 
     // ===================== GACHA =====================
     // multiplier: 포션 등으로 인한 Epic+ 확률 배수 (>1이면 상승)
@@ -4208,7 +5226,7 @@
         item = pickFromTier(13); // Nightshade(13) 이상 확정
       } else {
         const multiplier = potionActive ? 2 : 1;
-        item = pity >= 100 ? pool[20] : pick(multiplier, luckFactor);
+        item = pity >= 100 ? pool[34] : pick(multiplier, luckFactor);
       }
       lastPityUsed = pity;
       if (tierPowerRank(item.tier) > tierPowerRank(bestTier)) bestTier = item.tier;
@@ -4377,25 +5395,13 @@
       document.getElementById('gacha-idle').style.display = 'none';
       const animDiv = document.getElementById('gacha-anim');
       animDiv.style.display = 'flex';
-      const starSvg = document.getElementById('star-svg');
-      const starPolyMain = document.getElementById('star-poly-main');
-      const starPolySub = document.getElementById('star-poly-sub');
-      const res = document.getElementById('result-text');
-      starSvg.style.display = 'block'; starSvg.style.opacity = '1'; starSvg.style.transition = '';
-      starPolyMain.setAttribute('fill', item.color);
-      starPolySub.setAttribute('fill', item.color);
-      starSvg.style.filter = 'drop-shadow(0 0 24px ' + item.color + ')';
-      res.style.opacity = '0';
-      starSvg.style.animationDuration = SPEEDS[item.tier] + 's';
+      document.getElementById('result-text').style.opacity = '0';
       document.getElementById('skip-btn').classList.add('show');
-      setT(() => {
-        starSvg.style.transition = 'opacity 0.2s'; starSvg.style.opacity = '0';
-        setT(() => {
-          starSvg.style.display = 'none';
-          if (item.tier >= 9) showWhiteCrack(item);
-          else showResult(item);
-        }, 220);
-      }, DELAYS[item.tier]);
+      animateStar(item, () => {
+        if (skipRequested) return;
+        if (item.tier >= CUTSCENE_MIN_TIER) showWhiteCrack(item);
+        else showResult(item);
+      });
     }
 
     // ===================== MULTI ROLL (10연차, 각 롤 0.5배 럭) =====================
@@ -4435,25 +5441,13 @@
       document.getElementById('gacha-idle').style.display = 'none';
       const animDiv = document.getElementById('gacha-anim');
       animDiv.style.display = 'flex';
-      const starSvg = document.getElementById('star-svg');
-      const starPolyMain = document.getElementById('star-poly-main');
-      const starPolySub = document.getElementById('star-poly-sub');
-      const res = document.getElementById('result-text');
-      starSvg.style.display = 'block'; starSvg.style.opacity = '1'; starSvg.style.transition = '';
-      starPolyMain.setAttribute('fill', best.color);
-      starPolySub.setAttribute('fill', best.color);
-      starSvg.style.filter = 'drop-shadow(0 0 24px ' + best.color + ')';
-      res.style.opacity = '0';
-      starSvg.style.animationDuration = SPEEDS[best.tier] + 's';
+      document.getElementById('result-text').style.opacity = '0';
       document.getElementById('skip-btn').classList.add('show');
-      setT(() => {
-        starSvg.style.transition = 'opacity 0.2s'; starSvg.style.opacity = '0';
-        setT(() => {
-          starSvg.style.display = 'none';
-          if (best.tier >= 9) showWhiteCrack(best);
-          else showMultiRollGrid();
-        }, 220);
-      }, DELAYS[best.tier]);
+      animateStar(best, () => {
+        if (skipRequested) return;
+        if (best.tier >= CUTSCENE_MIN_TIER) showWhiteCrack(best);
+        else showMultiRollGrid();
+      });
     }
 
     // 별 애니메이션(+필요시 컷씬) 종료 후 10연차 결과 그리드를 보여준다
@@ -4602,26 +5596,14 @@
       document.getElementById('gacha-idle').style.display = 'none';
       const animDiv = document.getElementById('gacha-anim');
       animDiv.style.display = 'flex';
-      const starSvg = document.getElementById('star-svg');
-      const starPolyMain = document.getElementById('star-poly-main');
-      const starPolySub = document.getElementById('star-poly-sub');
-      const res = document.getElementById('result-text');
-      starSvg.style.display = 'block'; starSvg.style.opacity = '1'; starSvg.style.transition = '';
-      starPolyMain.setAttribute('fill', item.color);
-      starPolySub.setAttribute('fill', item.color);
-      starSvg.style.filter = 'drop-shadow(0 0 32px ' + item.color + ') drop-shadow(0 0 60px gold)';
-      res.style.opacity = '0';
-      starSvg.style.animationDuration = SPEEDS[item.tier] + 's';
+      document.getElementById('result-text').style.opacity = '0';
       document.getElementById('skip-btn').classList.add('show');
-      setT(() => {
-        starSvg.style.transition = 'opacity 0.2s'; starSvg.style.opacity = '0';
-        setT(() => {
-          starSvg.style.display = 'none';
-          if (item.tier === 47) showMegaEffect(item);
-          else if (item.tier >= 9) showWhiteCrack(item);
-          else showResult(item);
-        }, 220);
-      }, DELAYS[item.tier]);
+      animateStar(item, () => {
+        if (skipRequested) return;
+        if (item.tier === 47) showMegaEffect(item);
+        else if (item.tier >= CUTSCENE_MIN_TIER) showWhiteCrack(item);
+        else showResult(item);
+      });
     }
 
     // ===================== TIER 47 "???" 메가 이펙트 (20초) =====================
@@ -4672,6 +5654,11 @@
       if (!rolling || !currentRollItem) return;
       skipRequested = true;
       clearPendingTimeouts();
+      // rAF 별 애니메이션 취소
+      if (starAnimId) { cancelAnimationFrame(starAnimId); starAnimId = null; }
+      document.getElementById('star-svg').style.display = 'none';
+      document.getElementById('star-glow-ring').style.opacity = '0';
+      document.getElementById('summon-quote').classList.remove('show');
 
       // 모든 오버레이 숨기기
       document.getElementById('gacha-anim').style.display = 'none';
@@ -4854,37 +5841,493 @@
     </circle>
   </svg>`;
 
-    const PRECS_WRECK_SVG = `<svg viewBox="0 0 380 320" xmlns="http://www.w3.org/2000/svg">
-    <defs><linearGradient id="wreckG" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#4a4a5a"/><stop offset="100%" stop-color="#0a0a14"/>
-    </linearGradient></defs>
-    <path d="M40 220 L60 120 L180 80 L320 110 L340 220 C260 250 120 250 40 220 Z" fill="url(#wreckG)" stroke="#1a1a2a" stroke-width="3"/>
-    <rect x="170" y="20" width="8" height="100" fill="#2a2a3a"/>
-    <path d="M178 30 L240 70 L178 90 Z" fill="#3a3a4a" opacity="0.7"/>
-    <circle cx="120" cy="160" r="14" fill="none" stroke="#80deea" stroke-width="2" opacity="0.6"/>
-    <circle cx="220" cy="150" r="10" fill="none" stroke="#80deea" stroke-width="2" opacity="0.5"/>
-    <g fill="#80deea" opacity="0.5">
-      <circle cx="90" cy="260" r="4"><animate attributeName="cy" values="290;40" dur="2.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0" dur="2.6s" repeatCount="indefinite"/></circle>
-      <circle cx="200" cy="280" r="5"><animate attributeName="cy" values="300;30" dur="3.1s" repeatCount="indefinite" begin="0.5s"/><animate attributeName="opacity" values="0.6;0" dur="3.1s" repeatCount="indefinite" begin="0.5s"/></circle>
-      <circle cx="290" cy="270" r="3"><animate attributeName="cy" values="290;20" dur="2.3s" repeatCount="indefinite" begin="0.9s"/><animate attributeName="opacity" values="0.6;0" dur="2.3s" repeatCount="indefinite" begin="0.9s"/></circle>
+    // 업그레이드된 호수 + 연꽃잎 (수면 반사 + 떠다니는 잎 + 물결 + 안개)
+    // 범용 풍경 SVG 빌더: sky(상단 그라데이션) + glowOrb(달/태양/핵) + ground(하단) + silhouette(실루엣 svg path) + 별
+    function buildSceneSVG(color, opts) {
+      const o = Object.assign({
+        skyTop: '#000005', groundBottom: '#000003',
+        orbCy: 130, orbR: 50, orbColor: color,
+        silhouette: '', starCount: 4, mist: true
+      }, opts);
+      let stars = '';
+      for (let i = 0; i < o.starCount; i++) {
+        const sx = 60 + Math.random() * 680, sy = 20 + Math.random() * 140, sr = 1 + Math.random() * 1.2, sd = 1.5 + Math.random() * 1.5;
+        stars += `<circle cx="${sx.toFixed(0)}" cy="${sy.toFixed(0)}" r="${sr.toFixed(1)}"><animate attributeName="opacity" values="0.2;1;0.2" dur="${sd.toFixed(1)}s" repeatCount="indefinite"/></circle>`;
+      }
+      return `<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice" style="width:100%;height:100%">
+        <defs>
+          <linearGradient id="scnSky" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="${o.skyTop}"/><stop offset="60%" stop-color="${color}22"/><stop offset="100%" stop-color="#000"/>
+          </linearGradient>
+          <linearGradient id="scnGround" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="${color}40"/><stop offset="100%" stop-color="${o.groundBottom}"/>
+          </linearGradient>
+          <radialGradient id="scnOrb" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fff"/><stop offset="60%" stop-color="${o.orbColor}"/><stop offset="100%" stop-color="${o.orbColor}00"/>
+          </radialGradient>
+        </defs>
+        <rect x="0" y="0" width="800" height="290" fill="url(#scnSky)"/>
+        <circle cx="400" cy="${o.orbCy}" r="${o.orbR}" fill="url(#scnOrb)" opacity="0.92">
+          <animate attributeName="r" values="${o.orbR - 4};${o.orbR + 6};${o.orbR - 4}" dur="3.4s" repeatCount="indefinite"/>
+        </circle>
+        <rect x="0" y="290" width="800" height="210" fill="url(#scnGround)"/>
+        ${o.mist ? `<rect x="0" y="270" width="800" height="60" fill="${color}" opacity="0.12"/>` : ''}
+        ${o.silhouette}
+        <g opacity="0.5" fill="#fff">${stars}</g>
+      </svg>`;
+    }
+
+    function buildLakeScene(color) {
+      return `<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice" style="width:100%;height:100%">
+        <defs>
+          <linearGradient id="lakeSky" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#000005"/><stop offset="55%" stop-color="${color}22"/><stop offset="100%" stop-color="#000"/>
+          </linearGradient>
+          <linearGradient id="lakeWater" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="${color}66"/><stop offset="100%" stop-color="#000003"/>
+          </linearGradient>
+          <radialGradient id="lakeMoon" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fff"/><stop offset="55%" stop-color="${color}"/><stop offset="100%" stop-color="${color}00"/>
+          </radialGradient>
+          <radialGradient id="lakeGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fff" stop-opacity="0.6"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect x="0" y="0" width="800" height="290" fill="url(#lakeSky)"/>
+        <circle cx="400" cy="125" r="80" fill="url(#lakeGlow)"/>
+        <circle cx="400" cy="125" r="52" fill="url(#lakeMoon)" opacity="0.95">
+          <animate attributeName="r" values="48;58;48" dur="3.4s" repeatCount="indefinite"/>
+        </circle>
+        <rect x="0" y="290" width="800" height="210" fill="url(#lakeWater)"/>
+        <ellipse cx="400" cy="290" rx="58" ry="16" fill="${color}" opacity="0.5">
+          <animate attributeName="rx" values="52;68;52" dur="3.4s" repeatCount="indefinite"/>
+        </ellipse>
+        <g opacity="0.55" stroke="${color}" stroke-width="1.5" fill="none">
+          <path d="M0 330 Q100 320 200 330 T400 330 T600 330 T800 330"><animate attributeName="d" values="M0 330 Q100 320 200 330 T400 330 T600 330 T800 330;M0 332 Q100 340 200 332 T400 332 T600 332 T800 332;M0 330 Q100 320 200 330 T400 330 T600 330 T800 330" dur="4s" repeatCount="indefinite"/></path>
+          <path d="M0 380 Q120 368 240 380 T480 380 T720 380" opacity="0.35"><animate attributeName="d" values="M0 380 Q120 368 240 380 T480 380 T720 380;M0 384 Q120 396 240 384 T480 384 T720 384;M0 380 Q120 368 240 380 T480 380 T720 380" dur="5s" repeatCount="indefinite"/></path>
+        </g>
+        <g id="lakeLeaves">
+          <g transform="translate(180,360)" opacity="0.85"><ellipse cx="0" cy="0" rx="34" ry="11" fill="#1b3a1f" stroke="#3a6b3f" stroke-width="1.5"/><animateTransform attributeName="transform" type="translate" values="180,360;192,358;180,360" dur="3.6s" repeatCount="indefinite"/></g>
+          <g transform="translate(560,400)" opacity="0.8"><ellipse cx="0" cy="0" rx="40" ry="13" fill="#1b3a1f" stroke="#3a6b3f" stroke-width="1.5"/><animateTransform attributeName="transform" type="translate" values="560,400;546,403;560,400" dur="4.2s" repeatCount="indefinite"/></g>
+          <g transform="translate(630,340)" opacity="0.7"><ellipse cx="0" cy="0" rx="26" ry="9" fill="#1b3a1f" stroke="#3a6b3f" stroke-width="1.2"/></g>
+          <g transform="translate(250,420)" opacity="0.6"><ellipse cx="0" cy="0" rx="30" ry="10" fill="#1b3a1f" stroke="#3a6b3f" stroke-width="1.2"/></g>
+        </g>
+        <g opacity="0.6" fill="#fff">
+          <circle cx="130" cy="60" r="1.4"><animate attributeName="opacity" values="0.2;1;0.2" dur="2.1s" repeatCount="indefinite"/></circle>
+          <circle cx="680" cy="90" r="1.6"><animate attributeName="opacity" values="0.2;1;0.2" dur="2.7s" repeatCount="indefinite"/></circle>
+          <circle cx="240" cy="40" r="1.2"><animate attributeName="opacity" values="0.2;1;0.2" dur="1.8s" repeatCount="indefinite"/></circle>
+          <circle cx="560" cy="50" r="1.5"><animate attributeName="opacity" values="0.2;1;0.2" dur="2.4s" repeatCount="indefinite"/></circle>
+          <circle cx="100" cy="110" r="1.1"><animate attributeName="opacity" values="0.2;1;0.2" dur="2.3s" repeatCount="indefinite"/></circle>
+          <circle cx="730" cy="140" r="1.3"><animate attributeName="opacity" values="0.2;1;0.2" dur="2s" repeatCount="indefinite"/></circle>
+        </g>
+      </svg>`;
+    }
+
+    // 등급별(7~44) 고유 SVG 그림 실루엣 — 호수+연꽃과 같은 buildSceneSVG 템플릿 사용
+    const SCENE_SILHOUETTES = {
+      7: `<g transform="translate(400,250)" opacity="0.92"><path d="M-70 0 Q-70 -18 0 -10 Q70 -18 70 0 L70 18 Q0 10 -70 18 Z" fill="#2b1d0f" stroke="{color}" stroke-width="2"/><line x1="0" y1="-10" x2="0" y2="10" stroke="{color}" stroke-width="1.5" opacity="0.6"/><circle cx="0" cy="4" r="10" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.7"><animate attributeName="r" values="7;13;7" dur="2s" repeatCount="indefinite"/></circle></g>`, // Arcane-floating spellbook
+      8: `<g transform="translate(400,270)" opacity="0.92"><polygon points="-90,30 90,30 60,0 -60,0" fill="#1a1410" stroke="{color}" stroke-width="2"/><rect x="-40" y="-55" width="80" height="55" fill="#221a12" stroke="{color}" stroke-width="2"/><circle cx="0" cy="-70" r="14" fill="{color}" opacity="0.85"><animate attributeName="r" values="10;18;10" dur="1.6s" repeatCount="indefinite"/></circle></g>`, // Mythic-altar
+      10: `<g transform="translate(400,260)" opacity="0.92"><path d="M0 -90 L65 -60 L65 30 Q65 80 0 100 Q-65 80 -65 30 L-65 -60 Z" fill="#23262b" stroke="{color}" stroke-width="3"/><path d="M0 -60 L40 -42 L40 20 Q40 55 0 68 Q-40 55 -40 20 L-40 -42 Z" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.6"/><circle cx="0" cy="0" r="9" fill="{color}"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite"/></circle></g>`, // Sentinel-giant shield
+      11: `<g transform="translate(400,250)" opacity="0.92"><line x1="0" y1="-110" x2="0" y2="90" stroke="#3a3a3a" stroke-width="5"/><path d="M0 -110 L70 -90 L0 -70 Z" fill="{color}" opacity="0.85"/><polygon points="0,-130 -10,-110 10,-110" fill="#cfd8dc"/></g>`, // Vanguard-flag and spear
+      12: `<g transform="translate(400,275)" opacity="0.93" fill="#0c0c0e"><path d="M-90 20 Q-70 -30 -30 -35 L-10 -55 L0 -35 L25 -50 L20 -25 Q60 -15 80 20 Q40 10 0 18 Q-50 8 -90 20 Z"/><circle cx="-8" cy="-32" r="3" fill="{color}"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.3s" repeatCount="indefinite"/></circle></g>`, // Beast-wolf silhouette
+      14: `<g transform="translate(400,260)" opacity="0.9"><path d="M-160 60 L-160 -40 Q-150 -70 -130 -40 L-130 60 Z" fill="#15101f"/><path d="M-40 70 L-40 -70 Q-25 -110 -10 -70 L-10 70 Z" fill="#1a1428"/><path d="M90 65 L90 -50 Q102 -85 114 -50 L114 65 Z" fill="#15101f"/><ellipse cx="-10" cy="-20" rx="22" ry="30" fill="{color}" opacity="0.35"><animate attributeName="opacity" values="0.2;0.5;0.2" dur="2.4s" repeatCount="indefinite"/></ellipse></g>`, // Phantom-ghost forest
+      15: `<g transform="translate(400,220)" opacity="0.9" stroke="{color}" stroke-width="1.5" fill="{color}"><line x1="-80" y1="20" x2="-20" y2="-30"/><line x1="-20" y1="-30" x2="40" y2="-10"/><line x1="40" y1="-10" x2="80" y2="-50"/><circle cx="-80" cy="20" r="4"/><circle cx="-20" cy="-30" r="5"><animate attributeName="r" values="3;7;3" dur="1.8s" repeatCount="indefinite"/></circle><circle cx="40" cy="-10" r="4"/><circle cx="80" cy="-50" r="5"/></g>`, // Celestial-rising constellation
+      16: `<g transform="translate(400,280)" opacity="0.95"><polygon points="-180,60 -100,-60 -20,60" fill="#bce6f5" opacity="0.85"/><polygon points="-20,60 60,-90 140,60" fill="#e8f8ff" opacity="0.9"/><polygon points="60,60 130,-30 190,60" fill="#bce6f5" opacity="0.8"/><polygon points="-20,60 60,-90 80,-50 10,60" fill="#ffffff" opacity="0.5"/></g>`, // Frostbound-glacier mountains
+      18: `<g transform="translate(400,160)" opacity="0.85"><ellipse cx="0" cy="0" rx="140" ry="46" fill="{color}" opacity="0.35"><animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="10s" repeatCount="indefinite"/></ellipse><ellipse cx="0" cy="0" rx="90" ry="26" fill="#fff" opacity="0.25"><animateTransform attributeName="transform" type="rotate" from="40 0 0" to="-320 0 0" dur="8s" repeatCount="indefinite"/></ellipse><circle cx="0" cy="0" r="20" fill="#fff"/></g>`, // Cosmic-galaxy nebula
+      19: `<g transform="translate(400,290)" opacity="0.95"><path d="M-200 40 L-120 -20 L-60 30 L0 -50 L60 30 L120 -10 L200 40 Z" fill="#1a0d00"/><circle cx="0" cy="-30" r="46" fill="{color}" opacity="0.9"><animate attributeName="r" values="40;52;40" dur="2.6s" repeatCount="indefinite"/></circle></g>`, // Solflare-sunrise landscape
+      20: `<g transform="translate(400,210)" opacity="0.9"><ellipse cx="-60" cy="0" rx="90" ry="34" fill="#1c1f26"/><ellipse cx="60" cy="-10" rx="110" ry="40" fill="#23262e"/><ellipse cx="0" cy="20" rx="130" ry="30" fill="#15171c"/><path d="M-10 30 L10 30 L-5 70 L15 70 L-15 110" fill="none" stroke="{color}" stroke-width="3"><animate attributeName="opacity" values="0;1;0" dur="1.4s" repeatCount="indefinite"/></path></g>`, // Stormcaller-storm clouds
+      22: `<g transform="translate(400,180)" opacity="0.95"><circle cx="0" cy="0" r="70" fill="#fdf6e3"/><circle cx="-22" cy="0" r="70" fill="#000"/><circle cx="0" cy="0" r="78" fill="none" stroke="{color}" stroke-width="3" opacity="0.5"><animate attributeName="r" values="70;90;70" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0;0.6" dur="2.4s" repeatCount="indefinite"/></circle></g>`, // Eclipse-eclipse landscape
+      23: `<g transform="translate(400,250)" opacity="0.92"><path d="M0 -110 Q80 -110 80 -10 Q80 90 0 100 Q-80 90 -80 -10 Q-80 -110 0 -110 Z" fill="none" stroke="{color}" stroke-width="4"/><path d="M-30 -60 L10 -10 L-15 40" fill="none" stroke="#fff" stroke-width="2" opacity="0.6"/><ellipse cx="0" cy="-5" rx="38" ry="55" fill="#000"/></g>`, // Voidwalker-broken dimensional gate
+      24: `<g transform="translate(400,290)" opacity="0.95" fill="#0a0a12"><rect x="-180" y="-40" width="36" height="100"/><rect x="-130" y="-90" width="44" height="150"/><rect x="-70" y="-50" width="36" height="110"/><rect x="-10" y="-120" width="50" height="180"/><rect x="60" y="-70" width="40" height="130"/><rect x="120" y="-40" width="36" height="100"/><line x1="-10" y1="-120" x2="-10" y2="-150" stroke="{color}" stroke-width="2"><animate attributeName="opacity" values="0.3;1;0.3" dur="1s" repeatCount="indefinite"/></line></g>`, // Hyper-digital city silhouette
+      26: `<g transform="translate(400,260)" opacity="0.92"><path d="M-55 90 L-55 -40 Q-55 -90 0 -100 Q55 -90 55 -40 L55 90 Z" fill="#1a1310" stroke="{color}" stroke-width="2"/><path d="M-30 90 L-30 0 L30 0 L30 90 Z" fill="#241a14"/><circle cx="0" cy="-95" r="10" fill="{color}"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.4s" repeatCount="indefinite"/></circle></g>`, // Astral Monarch-throne
+      27: `<g transform="translate(400,250)" opacity="0.9" fill="none" stroke="{color}"><rect x="-180" y="-110" width="360" height="220" stroke-width="1.5" opacity="0.5"/><rect x="-164" y="-94" width="328" height="188" stroke-width="1.5" opacity="0.45"/><rect x="-148" y="-78" width="296" height="156" stroke-width="1.5" opacity="0.4"/><rect x="-132" y="-62" width="264" height="124" stroke-width="1.5" opacity="0.35"/><rect x="-116" y="-46" width="232" height="92" stroke-width="1.5" opacity="0.3"/><rect x="-100" y="-30" width="200" height="60" stroke-width="1.5" opacity="0.25"/><rect x="-84" y="-14" width="168" height="28" stroke-width="1.5" opacity="0.19999999999999996"/><rect x="-68" y="2" width="136" height="-4" stroke-width="1.5" opacity="0.14999999999999997"/><rect x="-52" y="18" width="104" height="-36" stroke-width="1.5" opacity="0.09999999999999998"/></g>`, // Infinity-infinite corridor
+      28: `<g transform="translate(400,275)" opacity="0.95" fill="#100a0a"><rect x="-150" y="-30" width="40" height="80"/><rect x="-150" y="-60" width="40" height="20"/><rect x="-70" y="-90" width="50" height="140"/><rect x="-70" y="-115" width="50" height="20"/><rect x="40" y="-50" width="40" height="100"/><rect x="100" y="-20" width="35" height="70"/><circle cx="-45" cy="-90" r="10" fill="{color}" opacity="0.6"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/></circle></g>`, // Dreadlord-ruined castle
+      30: `<g transform="translate(400,220)" opacity="0.95"><circle cx="0" cy="0" r="60" fill="#1a1a1a" stroke="{color}" stroke-width="2"/><path d="M-60 -10 L-10 -50 L20 -15 L60 10" fill="none" stroke="{color}" stroke-width="3"/><circle cx="0" cy="0" r="80" fill="none" stroke="{color}" stroke-width="2" opacity="0.5"><animate attributeName="r" values="60;110;60" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="1.8s" repeatCount="indefinite"/></circle></g>`, // ETERNAL DESTROYER-exploding planet
+      31: `<g transform="translate(400,240)" opacity="0.92" fill="none" stroke="{color}" stroke-width="3"><circle cx="-40" cy="0" r="55"/><line x1="15.0" y1="0.0" x2="32.0" y2="0.0"/><line x1="4.495934690622107" y1="32.328188876086024" x2="18.249223594996216" y2="42.32053816505807"/><line x1="-23.00406530937789" y1="52.30810839623344" x2="-17.750776405003784" y2="68.47606917325105"/><line x1="-56.99593469062211" y1="52.30810839623345" x2="-62.24922359499621" y2="68.47606917325106"/><line x1="-84.49593469062211" y1="32.32818887608603" x2="-98.24922359499621" y2="42.320538165058075"/><line x1="-95.0" y1="6.735557395310443e-15" x2="-112.0" y2="8.817456953860943e-15"/><line x1="-84.49593469062211" y1="-32.32818887608602" x2="-98.24922359499622" y2="-42.32053816505806"/><line x1="-56.995934690622114" y1="-52.30810839623344" x2="-62.249223594996224" y2="-68.47606917325105"/><line x1="-23.004065309377904" y1="-52.30810839623345" x2="-17.750776405003798" y2="-68.47606917325106"/><line x1="4.495934690622107" y1="-32.32818887608603" x2="18.24922359499621" y2="-42.32053816505808"/><circle cx="70" cy="40" r="32" stroke-width="2" opacity="0.7"/></g>`, // PRIME ARCHITECT-giant gear structure
+      32: `<g transform="translate(400,210)" opacity="0.95"><ellipse cx="0" cy="0" rx="120" ry="22" fill="none" stroke="{color}" stroke-width="3" opacity="0.7"><animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="5s" repeatCount="indefinite"/></ellipse><ellipse cx="0" cy="0" rx="80" ry="14" fill="none" stroke="#fff" stroke-width="2" opacity="0.5"><animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="3.5s" repeatCount="indefinite"/></ellipse><circle cx="0" cy="0" r="38" fill="#000"/></g>`, // VOID SOVEREIGN-black hole
+      33: `<g transform="translate(400,250)" opacity="0.93"><rect x="-30" y="-20" width="60" height="120" fill="#19130c" stroke="{color}" stroke-width="2"/><circle cx="0" cy="-50" r="38" fill="#1f1810" stroke="{color}" stroke-width="2.5"/><line x1="0" y1="-50" x2="0" y2="-72" stroke="#fff" stroke-width="2"><animateTransform attributeName="transform" type="rotate" from="0 0 -50" to="360 0 -50" dur="6s" repeatCount="indefinite"/></line><line x1="0" y1="-50" x2="18" y2="-50" stroke="#fff" stroke-width="2"><animateTransform attributeName="transform" type="rotate" from="0 0 -50" to="360 0 -50" dur="14s" repeatCount="indefinite"/></line></g>`, // CHRONO OVERLORD-clock tower
+      34: `<g transform="translate(400,260)" opacity="0.95"><circle cx="0" cy="20" r="85" fill="#dff6ff" opacity="0.9"/><polygon points="0,-65 8,-15 60,-5 8,5 0,65 -8,5 -60,-5 -8,-15" fill="#fff" opacity="0.85"><animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="9s" repeatCount="indefinite"/></polygon><circle cx="0" cy="20" r="95" fill="none" stroke="{color}" stroke-width="2" opacity="0.5"><animate attributeName="r" values="85;105;85" dur="2s" repeatCount="indefinite"/></circle></g>`, // ABSOLUTE ZERO-frozen world
+      36: `<g transform="translate(400,270)" opacity="0.95" fill="#0a0a0a"><path d="M-170 70 Q-150 -60 -60 -90 Q0 -130 60 -90 Q150 -60 170 70 Q80 40 0 50 Q-80 40 -170 70 Z"/><circle cx="-35" cy="-50" r="6" fill="{color}"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.1s" repeatCount="indefinite"/></circle><circle cx="35" cy="-50" r="6" fill="{color}"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.1s" repeatCount="indefinite"/></circle></g>`, // World Eater-giant monster shadow
+      37: `<g transform="translate(400,210)" opacity="0.92"><circle cx="0" cy="0" r="100" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.6"><animate attributeName="r" values="100;6;100" dur="2.4s" repeatCount="indefinite" begin="0.0s"/></circle><circle cx="0" cy="0" r="88" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.53"><animate attributeName="r" values="88;6;88" dur="2.4s" repeatCount="indefinite" begin="0.15s"/></circle><circle cx="0" cy="0" r="76" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.45999999999999996"><animate attributeName="r" values="76;6;76" dur="2.4s" repeatCount="indefinite" begin="0.3s"/></circle><circle cx="0" cy="0" r="64" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.38999999999999996"><animate attributeName="r" values="64;6;64" dur="2.4s" repeatCount="indefinite" begin="0.44999999999999996s"/></circle><circle cx="0" cy="0" r="52" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.31999999999999995"><animate attributeName="r" values="52;6;52" dur="2.4s" repeatCount="indefinite" begin="0.6s"/></circle><circle cx="0" cy="0" r="40" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.24999999999999994"><animate attributeName="r" values="40;6;40" dur="2.4s" repeatCount="indefinite" begin="0.75s"/></circle><circle cx="0" cy="0" r="28" fill="none" stroke="{color}" stroke-width="1.5" opacity="0.17999999999999994"><animate attributeName="r" values="28;6;28" dur="2.4s" repeatCount="indefinite" begin="0.8999999999999999s"/></circle></g>`, // Singularity-collapsing universe
+      38: `<g transform="translate(400,230)" opacity="0.9"><ellipse cx="-160" cy="-60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="-160" cy="-60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" repeatCount="indefinite"/></circle><ellipse cx="-80" cy="-60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="-80" cy="-60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite"/></circle><ellipse cx="0" cy="-60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="0" cy="-60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.7999999999999998s" repeatCount="indefinite"/></circle><ellipse cx="80" cy="-60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="80" cy="-60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="2.0999999999999996s" repeatCount="indefinite"/></circle><ellipse cx="160" cy="-60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="160" cy="-60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" repeatCount="indefinite"/></circle><ellipse cx="-160" cy="0" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="-160" cy="0" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite"/></circle><ellipse cx="-80" cy="0" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="-80" cy="0" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.7999999999999998s" repeatCount="indefinite"/></circle><ellipse cx="0" cy="0" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="0" cy="0" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="2.0999999999999996s" repeatCount="indefinite"/></circle><ellipse cx="80" cy="0" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="80" cy="0" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" repeatCount="indefinite"/></circle><ellipse cx="160" cy="0" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="160" cy="0" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite"/></circle><ellipse cx="-160" cy="60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="-160" cy="60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.7999999999999998s" repeatCount="indefinite"/></circle><ellipse cx="-80" cy="60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="-80" cy="60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="2.0999999999999996s" repeatCount="indefinite"/></circle><ellipse cx="0" cy="60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="0" cy="60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" repeatCount="indefinite"/></circle><ellipse cx="80" cy="60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="80" cy="60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite"/></circle><ellipse cx="160" cy="60" rx="16" ry="9" fill="#0c0c10" stroke="{color}" stroke-width="1.5"/><circle cx="160" cy="60" r="4" fill="{color}"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.7999999999999998s" repeatCount="indefinite"/></circle></g>`, // Omniscient-thousand eyes
+      39: `<g transform="translate(400,240)" opacity="0.9" fill="none" stroke="{color}" stroke-width="2"><path d="M-150 100 Q0 -150 150 100" opacity="0.5"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-142 90 Q0 -130 142 90" opacity="0.46"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="-15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-134 80 Q0 -110 134 80" opacity="0.42"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-126 70 Q0 -90 126 70" opacity="0.38"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="-15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-118 60 Q0 -70 118 60" opacity="0.33999999999999997"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-110 50 Q0 -50 110 50" opacity="0.3"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="-15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-102 40 Q0 -30 102 40" opacity="0.26"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-94 30 Q0 -10 94 30" opacity="0.21999999999999997"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="-15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-86 20 Q0 10 86 20" opacity="0.18"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="15 400 240" dur="3s" repeatCount="indefinite"/></path><path d="M-78 10 Q0 30 78 10" opacity="0.14"><animateTransform attributeName="transform" type="rotate" from="0 400 240" to="-15 400 240" dur="3s" repeatCount="indefinite"/></path></g>`, // Paradox-twisted corridor
+      41: `<g transform="translate(400,260)" opacity="0.93" fill="#15100a"><rect x="-180" y="-100" width="360" height="180" fill="none" stroke="{color}" stroke-width="2"/><line x1="-180" y1="-40" x2="180" y2="-40" stroke="{color}" stroke-width="1.5" opacity="0.6"/><line x1="-180" y1="20" x2="180" y2="20" stroke="{color}" stroke-width="1.5" opacity="0.6"/><rect x="-170" y="-95" width="9" height="50" fill="#221a10"/><rect x="-156" y="-95" width="9" height="50" fill="#221a10"/><rect x="-142" y="-95" width="9" height="50" fill="#221a10"/><rect x="-128" y="-95" width="9" height="50" fill="#221a10"/><rect x="-114" y="-95" width="9" height="50" fill="#221a10"/><rect x="-100" y="-95" width="9" height="50" fill="#221a10"/><rect x="-86" y="-95" width="9" height="50" fill="#221a10"/><rect x="-72" y="-95" width="9" height="50" fill="#221a10"/><rect x="-58" y="-95" width="9" height="50" fill="#221a10"/><rect x="-44" y="-95" width="9" height="50" fill="#221a10"/><rect x="-30" y="-95" width="9" height="50" fill="#221a10"/><rect x="-16" y="-95" width="9" height="50" fill="#221a10"/><rect x="-2" y="-95" width="9" height="50" fill="#221a10"/><rect x="12" y="-95" width="9" height="50" fill="#221a10"/><rect x="26" y="-95" width="9" height="50" fill="#221a10"/><rect x="40" y="-95" width="9" height="50" fill="#221a10"/><rect x="54" y="-95" width="9" height="50" fill="#221a10"/><rect x="68" y="-95" width="9" height="50" fill="#221a10"/><rect x="82" y="-95" width="9" height="50" fill="#221a10"/><rect x="96" y="-95" width="9" height="50" fill="#221a10"/><rect x="110" y="-95" width="9" height="50" fill="#221a10"/><rect x="124" y="-95" width="9" height="50" fill="#221a10"/><rect x="138" y="-95" width="9" height="50" fill="#221a10"/><rect x="152" y="-95" width="9" height="50" fill="#221a10"/></g>`, // Akashic Lord-library shelves
+      42: `<g transform="translate(400,230)" opacity="0.95"><ellipse cx="0" cy="-70" rx="22" ry="26" fill="#fff" opacity="0.9"/><path d="M0 -44 L0 60 M-40 -10 L40 -10 M0 60 L-30 120 M0 60 L30 120" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity="0.85"/><circle cx="0" cy="-70" r="46" fill="none" stroke="{color}" stroke-width="2" opacity="0.5"><animate attributeName="r" values="30;55;30" dur="2s" repeatCount="indefinite"/></circle></g>`, // Transcendent-humanoid of light
+      43: `<g transform="translate(400,290)" opacity="0.93" fill="#0c170c"><path d="M-180 60 Q-160 -60 -120 -100 Q-140 -40 -110 20 Z"/><path d="M-60 70 Q-40 -90 10 -130 Q-20 -50 20 30 Z"/><path d="M60 65 Q90 -50 140 -85 Q110 -20 150 30 Z"/><circle cx="-20" cy="-10" r="8" fill="{color}" opacity="0.6"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="1.8s" repeatCount="indefinite"/></circle></g>`, // Primordial-primordial jungle
+    };
+
+    function buildTierScene(tier, color) {
+      const sil = (SCENE_SILHOUETTES[tier] || '').replace(/\{color\}/g, color);
+      return buildSceneSVG(color, { silhouette: sil, starCount: 5 + (tier % 4) });
+    }
+
+    // 업그레이드된 난파선 (더 디테일, 깨진 돛대, 안개, 빛줄기, 부유물)
+    const PRECS_WRECK_SVG = `<svg viewBox="0 0 500 420" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="wreckG" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#5a5a6e"/><stop offset="100%" stop-color="#08080f"/>
+      </linearGradient>
+      <linearGradient id="wreckGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#80deea" stop-opacity="0.5"/><stop offset="100%" stop-color="#80deea" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="250" cy="250" rx="260" ry="60" fill="url(#wreckGlow)" opacity="0.4"/>
+    <path d="M40 270 L70 140 L240 90 L420 130 L450 270 C340 310 150 310 40 270 Z" fill="url(#wreckG)" stroke="#15151f" stroke-width="3"/>
+    <path d="M70 140 L240 90 L420 130 L405 160 L240 120 L90 165 Z" fill="#33333f" opacity="0.6"/>
+    <rect x="230" y="10" width="9" height="130" fill="#2a2a38"/>
+    <path d="M239 30 L320 75 L239 100 Z" fill="#3a3a4a" opacity="0.55"/>
+    <path d="M239 60 L160 95 L239 110 Z" fill="#3a3a4a" opacity="0.4"/>
+    <rect x="225" y="135" width="20" height="14" fill="#1a1a24" transform="rotate(18 235 142)"/>
+    <circle cx="160" cy="200" r="18" fill="none" stroke="#80deea" stroke-width="2" opacity="0.55"/>
+    <circle cx="300" cy="185" r="13" fill="none" stroke="#80deea" stroke-width="2" opacity="0.45"/>
+    <circle cx="340" cy="230" r="9" fill="none" stroke="#80deea" stroke-width="1.5" opacity="0.4"/>
+    <g fill="#80deea" opacity="0.55">
+      <circle cx="110" cy="330"><animate attributeName="r" values="3;5;3" dur="2.4s" repeatCount="indefinite"/><animate attributeName="cy" values="360;40" dur="3.1s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0" dur="3.1s" repeatCount="indefinite"/></circle>
+      <circle cx="260" cy="350"><animate attributeName="r" values="4;6;4" dur="2.8s" repeatCount="indefinite" begin="0.6s"/><animate attributeName="cy" values="380;30" dur="3.6s" repeatCount="indefinite" begin="0.6s"/><animate attributeName="opacity" values="0.6;0" dur="3.6s" repeatCount="indefinite" begin="0.6s"/></circle>
+      <circle cx="370" cy="335"><animate attributeName="r" values="2.5;4;2.5" dur="2.1s" repeatCount="indefinite" begin="1.1s"/><animate attributeName="cy" values="360;20" dur="2.8s" repeatCount="indefinite" begin="1.1s"/><animate attributeName="opacity" values="0.6;0" dur="2.8s" repeatCount="indefinite" begin="1.1s"/></circle>
     </g>
+    <rect x="0" y="260" width="500" height="160" fill="#0a1018" opacity="0.5"/>
   </svg>`;
+
+    // 마법진 SVG (3중 회전 룬 + 별)
+    function buildMagicCircle(color) {
+      return `
+      <svg class="precs-mc-ring spin1" viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="none" stroke="${color}" stroke-width="1.5" opacity="0.7"/><circle cx="100" cy="100" r="92" fill="none" stroke="${color}" stroke-width="1" stroke-dasharray="2 6" opacity="0.5"/></svg>
+      <svg class="precs-mc-ring spin2" viewBox="0 0 200 200"><polygon points="100,14 168,146 32,146" fill="none" stroke="${color}" stroke-width="1.4" opacity="0.55"/><polygon points="100,186 32,54 168,54" fill="none" stroke="${color}" stroke-width="1.4" opacity="0.55"/></svg>
+      <svg class="precs-mc-ring spin3" viewBox="0 0 200 200"><circle cx="100" cy="100" r="64" fill="none" stroke="${color}" stroke-width="2" opacity="0.8"/>${Array.from({ length: 12 }, (_, i) => { const a = Math.PI * 2 * i / 12; const x1 = 100 + Math.cos(a) * 64, y1 = 100 + Math.sin(a) * 64, x2 = 100 + Math.cos(a) * 72, y2 = 100 + Math.sin(a) * 72; return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="2"/>`; }).join('')}</svg>
+      <div style="position:absolute;inset:0;border-radius:50%;box-shadow:0 0 60px ${color}, inset 0 0 60px ${color}66;"></div>`;
+    }
+
+    // 사슬 SVG (양쪽에서 감겨오는 형태)
+    function buildChainSVG(color) {
+      return `<svg viewBox="0 0 38 400" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="chainMetal" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#3a3a44"/><stop offset="50%" stop-color="#8a8a96"/><stop offset="100%" stop-color="#1a1a20"/></linearGradient></defs>
+        ${Array.from({ length: 9 }, (_, i) => `<ellipse cx="${i % 2 === 0 ? 19 : 19}" cy="${i * 44 + 22}" rx="${i % 2 === 0 ? 13 : 9}" ry="${i % 2 === 0 ? 20 : 14}" fill="none" stroke="url(#chainMetal)" stroke-width="6" transform="rotate(${i % 2 === 0 ? 0 : 90} 19 ${i * 44 + 22})"/>`).join('')}
+        <circle cx="19" cy="396" r="10" fill="${color}" opacity="0.8"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.2s" repeatCount="indefinite"/></circle>
+      </svg>`;
+    }
+
+    // ===================== 캔버스 이펙트 엔진 (28개 신규 프리컷씬용) =====================
+    // mode에 따라 완전히 다른 모션 패턴을 그려주는 범용 캔버스 렌더러.
+    // config: { mode, color, color2, count, shape }
+    function runCanvasEffect(canvas, color, config, totalFrames, onFrame) {
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      const cx = w / 2, cy = h / 2;
+      const color2 = config.color2 || '#ffffff';
+      let particles = [];
+      const count = config.count || 40;
+
+      function rand(a, b) { return a + Math.random() * (b - a); }
+
+      // 모드별 초기화
+      if (config.mode === 'orbit') {
+        for (let i = 0; i < count; i++) particles.push({ a: rand(0, Math.PI * 2), r: rand(40, Math.min(w, h) * 0.42), speed: rand(0.01, 0.04) * (Math.random() < 0.5 ? 1 : -1), size: rand(2, 5) });
+      } else if (config.mode === 'rain') {
+        for (let i = 0; i < count; i++) particles.push({ x: rand(0, w), y: rand(-h, 0), vy: rand(6, 14), len: rand(20, 60) });
+      } else if (config.mode === 'spiral') {
+        for (let i = 0; i < count; i++) particles.push({ a: (Math.PI * 2 * i) / count, r: 0, speed: rand(0.05, 0.09), grow: rand(2.2, 3.4) });
+      } else if (config.mode === 'shatter') {
+        for (let i = 0; i < count; i++) { const a = rand(0, Math.PI * 2); particles.push({ x: cx, y: cy, vx: Math.cos(a) * rand(2, 9), vy: Math.sin(a) * rand(2, 9), size: rand(3, 9), rot: rand(0, 6.28), vr: rand(-0.1, 0.1) }); }
+      } else if (config.mode === 'starfield') {
+        for (let i = 0; i < count; i++) particles.push({ a: rand(0, Math.PI * 2), speed: rand(2, 9), dist: rand(0, 30) });
+      } else if (config.mode === 'lightning') {
+        // 가지치는 번개 라인들을 매 프레임 갱신
+      } else if (config.mode === 'wave') {
+        // 사인파 그리드
+      } else if (config.mode === 'vortex') {
+        for (let i = 0; i < count; i++) particles.push({ a: rand(0, Math.PI * 2), r: rand(20, Math.min(w, h) * 0.45), speed: rand(0.02, 0.06) });
+      } else if (config.mode === 'dna') {
+        for (let i = 0; i < count; i++) particles.push({ t: i / count });
+      } else if (config.mode === 'web') {
+        for (let i = 0; i < count; i++) particles.push({ a: (Math.PI * 2 * i) / count, len: rand(0.3, 1) });
+      } else if (config.mode === 'rings') {
+        for (let i = 0; i < count; i++) particles.push({ delay: i * 4, r: 0 });
+      } else if (config.mode === 'embergrid') {
+        for (let i = 0; i < count; i++) particles.push({ x: rand(0, w), y: rand(0, h), vy: rand(-2, -0.4), size: rand(1, 3), phase: rand(0, 6) });
+      } else if (config.mode === 'rune') {
+        for (let i = 0; i < count; i++) particles.push({ a: (Math.PI * 2 * i) / count, r: rand(60, Math.min(w, h) * 0.4), size: rand(14, 26), rot: rand(0, 6.28), sides: 3 + Math.floor(rand(0, 4)) });
+      } else if (config.mode === 'crystal') {
+        for (let i = 0; i < count; i++) particles.push({ x: rand(w * 0.15, w * 0.85), baseY: rand(h * 0.55, h * 0.95), h: rand(60, 220), w: rand(14, 34), delay: rand(0, 30), sway: rand(0, 6.28) });
+      } else if (config.mode === 'blade') {
+        for (let i = 0; i < count; i++) { const a = rand(0, Math.PI * 2); particles.push({ a0: a, dist: rand(Math.min(w, h) * 0.5, Math.min(w, h) * 0.9), len: rand(40, 90), rot: rand(0, 6.28), vr: rand(-0.15, 0.15) }); }
+      } else if (config.mode === 'beam') {
+        for (let i = 0; i < count; i++) particles.push({ angle: (Math.PI * i) / count, width: rand(2, 5), speed: rand(0.005, 0.02) });
+      } else if (config.mode === 'hexgrid') {
+        const cols = Math.ceil(Math.sqrt(count) * 1.4), rows = Math.ceil(count / cols);
+        for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) particles.push({ gx: c, gy: r, delay: (r + c) * 2 });
+      }
+
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        const progress = frame / totalFrames;
+
+        if (config.mode === 'orbit') {
+          ctx.save();
+          for (const p of particles) {
+            p.a += p.speed;
+            const x = cx + Math.cos(p.a) * p.r, y = cy + Math.sin(p.a) * p.r * 0.55;
+            ctx.beginPath(); ctx.arc(x, y, p.size, 0, 7); ctx.fillStyle = color; ctx.shadowColor = color; ctx.shadowBlur = 12; ctx.fill();
+          }
+          ctx.restore();
+        } else if (config.mode === 'rain') {
+          for (const p of particles) {
+            p.y += p.vy;
+            if (p.y > h) { p.y = rand(-100, 0); p.x = rand(0, w); }
+            const grad = ctx.createLinearGradient(p.x, p.y, p.x, p.y + p.len);
+            grad.addColorStop(0, 'rgba(255,255,255,0)'); grad.addColorStop(1, color);
+            ctx.strokeStyle = grad; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x, p.y + p.len); ctx.stroke();
+          }
+        } else if (config.mode === 'spiral') {
+          for (const p of particles) {
+            p.a += p.speed; p.r += p.grow;
+            if (p.r > Math.max(w, h) * 0.7) p.r = 0;
+            const x = cx + Math.cos(p.a) * p.r, y = cy + Math.sin(p.a) * p.r;
+            ctx.beginPath(); ctx.arc(x, y, 3, 0, 7); ctx.fillStyle = color; ctx.shadowColor = color; ctx.shadowBlur = 14; ctx.fill();
+          }
+        } else if (config.mode === 'shatter') {
+          for (const p of particles) {
+            p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+            ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+            ctx.fillStyle = color; ctx.shadowColor = color; ctx.shadowBlur = 10;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+            ctx.restore();
+          }
+        } else if (config.mode === 'starfield') {
+          ctx.fillStyle = color;
+          for (const p of particles) {
+            p.dist += p.speed;
+            const x = cx + Math.cos(p.a) * p.dist, y = cy + Math.sin(p.a) * p.dist * 0.6;
+            const sz = Math.max(0.5, p.dist / 60);
+            ctx.globalAlpha = Math.min(1, p.dist / 100);
+            ctx.beginPath(); ctx.arc(x, y, sz, 0, 7); ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+        } else if (config.mode === 'lightning') {
+          const branches = config.count || 5;
+          for (let i = 0; i < branches; i++) {
+            const seed = i * 137 + Math.floor(frame / 3) * 31;
+            const sx = cx, sy = 0;
+            let x = sx, y = sy;
+            ctx.beginPath(); ctx.moveTo(x, y);
+            const targetA = (Math.PI / 2) + (i - branches / 2) * 0.3;
+            for (let s = 0; s < 14; s++) {
+              x += Math.cos(targetA) * (h / 14) + Math.sin(seed + s) * 18;
+              y += Math.sin(targetA) * (h / 14) + Math.cos(seed + s * 2) * 8;
+              ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.shadowColor = color; ctx.shadowBlur = 18;
+            ctx.globalAlpha = 0.5 + Math.random() * 0.5;
+            ctx.stroke();
+          }
+          ctx.globalAlpha = 1;
+        } else if (config.mode === 'wave') {
+          const rows = 6;
+          for (let r = 0; r < rows; r++) {
+            ctx.beginPath();
+            for (let x = 0; x <= w; x += 12) {
+              const y = cy + Math.sin(x * 0.02 + frame * 0.07 + r) * (30 + r * 8);
+              if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = color; ctx.globalAlpha = 0.5 - r * 0.06; ctx.lineWidth = 2;
+            ctx.shadowColor = color; ctx.shadowBlur = 10;
+            ctx.stroke();
+          }
+          ctx.globalAlpha = 1;
+        } else if (config.mode === 'vortex') {
+          for (const p of particles) {
+            p.a += p.speed * (1 + (1 - p.r / (Math.min(w, h) * 0.45)) * 2);
+            p.r -= 1.2;
+            if (p.r < 5) p.r = Math.min(w, h) * 0.45;
+            const x = cx + Math.cos(p.a) * p.r, y = cy + Math.sin(p.a) * p.r;
+            ctx.beginPath(); ctx.arc(x, y, 2.5, 0, 7); ctx.fillStyle = color; ctx.shadowColor = color; ctx.shadowBlur = 10; ctx.fill();
+          }
+        } else if (config.mode === 'dna') {
+          ctx.strokeStyle = color; ctx.lineWidth = 2;
+          for (const p of particles) {
+            const yy = (p.t * h * 1.4 - frame * 2) % (h + 100) - 50;
+            const x1 = cx + Math.sin(p.t * 18 + frame * 0.05) * 60;
+            const x2 = cx - Math.sin(p.t * 18 + frame * 0.05) * 60;
+            ctx.beginPath(); ctx.arc(x1, yy, 3, 0, 7); ctx.fillStyle = color; ctx.shadowBlur = 8; ctx.shadowColor = color; ctx.fill();
+            ctx.beginPath(); ctx.arc(x2, yy, 3, 0, 7); ctx.fillStyle = color2; ctx.shadowColor = color2; ctx.fill();
+            if (Math.floor(p.t * 18) % 3 === 0) { ctx.beginPath(); ctx.moveTo(x1, yy); ctx.lineTo(x2, yy); ctx.globalAlpha = 0.3; ctx.stroke(); ctx.globalAlpha = 1; }
+          }
+        } else if (config.mode === 'web') {
+          ctx.strokeStyle = color; ctx.lineWidth = 1.5; ctx.shadowColor = color; ctx.shadowBlur = 8;
+          const reach = Math.min(w, h) * 0.46 * Math.min(1, progress * 1.8);
+          for (const p of particles) {
+            const x = cx + Math.cos(p.a) * reach * p.len, y = cy + Math.sin(p.a) * reach * p.len;
+            ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(x, y); ctx.stroke();
+          }
+          for (let ring = 1; ring <= 3; ring++) {
+            ctx.beginPath();
+            for (let i = 0; i <= count; i++) {
+              const a = (Math.PI * 2 * i) / count;
+              const x = cx + Math.cos(a) * reach * (ring / 3), y = cy + Math.sin(a) * reach * (ring / 3);
+              if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+          }
+        } else if (config.mode === 'rings') {
+          for (const p of particles) {
+            if (frame < p.delay) continue;
+            p.r = (frame - p.delay) * 6;
+            if (p.r > Math.max(w, h)) continue;
+            ctx.beginPath(); ctx.arc(cx, cy, p.r, 0, 7);
+            ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.globalAlpha = Math.max(0, 1 - p.r / (Math.max(w, h) * 0.8));
+            ctx.shadowColor = color; ctx.shadowBlur = 16;
+            ctx.stroke();
+          }
+          ctx.globalAlpha = 1;
+        } else if (config.mode === 'embergrid') {
+          for (const p of particles) {
+            p.y += p.vy; p.phase += 0.1;
+            if (p.y < -10) { p.y = h + 10; p.x = rand(0, w); }
+            const flicker = 0.5 + Math.sin(p.phase) * 0.4;
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, 7);
+            ctx.fillStyle = color; ctx.globalAlpha = flicker; ctx.shadowColor = color; ctx.shadowBlur = 6;
+            ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+        } else if (config.mode === 'rune') {
+          // 거대한 룬 문자(다각형)들이 원형으로 배치되어 또렷하게 새겨지는 효과
+          const reveal = Math.min(1, progress * 1.6);
+          for (const p of particles) {
+            p.rot += 0.01;
+            const x = cx + Math.cos(p.a) * p.r * reveal, y = cy + Math.sin(p.a) * p.r * reveal;
+            ctx.save(); ctx.translate(x, y); ctx.rotate(p.rot);
+            ctx.beginPath();
+            for (let s = 0; s < p.sides; s++) {
+              const aa = (Math.PI * 2 * s) / p.sides;
+              const px = Math.cos(aa) * p.size, py = Math.sin(aa) * p.size;
+              if (s === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.shadowColor = color; ctx.shadowBlur = 16;
+            ctx.globalAlpha = reveal;
+            ctx.stroke();
+            ctx.restore();
+          }
+          // 중앙 핵심 룬
+          ctx.save(); ctx.translate(cx, cy); ctx.rotate(-frame * 0.02);
+          ctx.beginPath();
+          for (let s = 0; s < 6; s++) {
+            const aa = (Math.PI * 2 * s) / 6; const rr = 30 + Math.sin(frame * 0.1) * 4;
+            const px = Math.cos(aa) * rr, py = Math.sin(aa) * rr;
+            if (s === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+          }
+          ctx.closePath(); ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.shadowBlur = 20; ctx.stroke();
+          ctx.restore();
+          ctx.globalAlpha = 1;
+        } else if (config.mode === 'crystal') {
+          // 화면 아래에서 뾰족한 결정체들이 솟아오르는 효과
+          for (const p of particles) {
+            const local = Math.max(0, Math.min(1, (frame - p.delay) / 26));
+            const eased = 1 - Math.pow(1 - local, 3);
+            const curH = p.h * eased;
+            const swayX = Math.sin(frame * 0.04 + p.sway) * 4;
+            const topX = p.x + swayX, topY = p.baseY - curH;
+            ctx.beginPath();
+            ctx.moveTo(p.x - p.w / 2, p.baseY); ctx.lineTo(topX, topY); ctx.lineTo(p.x + p.w / 2, p.baseY);
+            ctx.closePath();
+            const grad = ctx.createLinearGradient(p.x, p.baseY, topX, topY);
+            grad.addColorStop(0, color + '22'); grad.addColorStop(1, '#ffffff');
+            ctx.fillStyle = grad; ctx.globalAlpha = 0.85 * eased; ctx.shadowColor = color; ctx.shadowBlur = 18;
+            ctx.fill();
+            ctx.strokeStyle = color; ctx.lineWidth = 1.5; ctx.globalAlpha = eased; ctx.stroke();
+          }
+          ctx.globalAlpha = 1;
+        } else if (config.mode === 'blade') {
+          // 칼날 모양 파편들이 회전하며 중심으로 모여드는 효과
+          const gather = Math.min(1, progress * 1.5);
+          for (const p of particles) {
+            p.rot += p.vr;
+            const dist = p.dist * (1 - gather * 0.65);
+            const x = cx + Math.cos(p.a0) * dist, y = cy + Math.sin(p.a0) * dist;
+            ctx.save(); ctx.translate(x, y); ctx.rotate(p.rot);
+            ctx.beginPath();
+            ctx.moveTo(0, -p.len / 2); ctx.lineTo(p.len * 0.16, 0); ctx.lineTo(0, p.len / 2); ctx.lineTo(-p.len * 0.16, 0);
+            ctx.closePath();
+            ctx.fillStyle = color; ctx.shadowColor = color; ctx.shadowBlur = 14;
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1; ctx.globalAlpha = 0.6; ctx.stroke();
+            ctx.globalAlpha = 1;
+            ctx.restore();
+          }
+        } else if (config.mode === 'beam') {
+          // 교차하는 빛의 선 다발이 회전하며 화면을 가로지르는 효과
+          const diag = Math.sqrt(w * w + h * h);
+          for (const p of particles) {
+            p.angle += p.speed;
+            const x1 = cx + Math.cos(p.angle) * diag, y1 = cy + Math.sin(p.angle) * diag;
+            const x2 = cx - Math.cos(p.angle) * diag, y2 = cy - Math.sin(p.angle) * diag;
+            const grad = ctx.createLinearGradient(x1, y1, x2, y2);
+            grad.addColorStop(0, 'rgba(255,255,255,0)'); grad.addColorStop(0.5, color); grad.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.strokeStyle = grad; ctx.lineWidth = p.width; ctx.shadowColor = color; ctx.shadowBlur = 16;
+            ctx.globalAlpha = Math.min(1, progress * 2);
+            ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+          }
+          ctx.globalAlpha = 1;
+        } else if (config.mode === 'hexgrid') {
+          // 육각형 격자가 중심에서 퍼져나가며 채워지는 효과
+          const hexSize = Math.min(w, h) / 14;
+          for (const p of particles) {
+            const local = Math.max(0, Math.min(1, (frame - p.delay) / 14));
+            if (local <= 0) continue;
+            const px = cx + (p.gx - 6) * hexSize * 1.5;
+            const py = cy + (p.gy - 4) * hexSize * 1.3 + (p.gx % 2) * hexSize * 0.65;
+            ctx.save(); ctx.translate(px, py); ctx.scale(local, local);
+            ctx.beginPath();
+            for (let s = 0; s < 6; s++) {
+              const aa = (Math.PI * 2 * s) / 6 + Math.PI / 6;
+              const hx = Math.cos(aa) * hexSize * 0.45, hy = Math.sin(aa) * hexSize * 0.45;
+              if (s === 0) ctx.moveTo(hx, hy); else ctx.lineTo(hx, hy);
+            }
+            ctx.closePath();
+            ctx.strokeStyle = color; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.7 * local; ctx.shadowColor = color; ctx.shadowBlur = 8;
+            ctx.stroke();
+            ctx.restore();
+          }
+          ctx.globalAlpha = 1;
+        }
+
+        if (onFrame) onFrame(progress, ctx, w, h);
+
+        frame++;
+        if (skipRequested) return;
+        if (frame <= totalFrames) requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+    }
 
     function showPreCutscene(item) {
       const overlay = document.getElementById('precutscene');
       const canvas = document.getElementById('precs-canvas');
       const invert = document.getElementById('precs-invert');
       const lotus = document.getElementById('precs-lotus');
+      const lake = document.getElementById('precs-lake');
       const shock = document.getElementById('precs-shockwave');
       const wreck = document.getElementById('precs-wreck');
+      const magicCircle = document.getElementById('precs-magiccircle');
+      const chains = document.getElementById('precs-chains');
+      const pillars = document.getElementById('precs-pillars');
+      const devtext = document.getElementById('precs-devtext');
+      const fire = document.getElementById('precs-fire');
       const flash = document.getElementById('precs-flash');
       const root = document.getElementById('gacha-page');
 
-      // reset
+      // reset all
       invert.classList.remove('go');
       lotus.classList.remove('go'); lotus.innerHTML = '';
+      lake.classList.remove('go'); lake.innerHTML = '';
       shock.innerHTML = '';
       wreck.classList.remove('go'); wreck.innerHTML = '';
+      magicCircle.classList.remove('go'); magicCircle.innerHTML = '';
+      chains.innerHTML = '';
+      pillars.innerHTML = '';
+      devtext.classList.remove('go'); devtext.innerHTML = '';
+      fire.classList.remove('go'); fire.innerHTML = '';
       flash.style.transition = ''; flash.style.opacity = '0';
       canvas.style.opacity = '0';
       const ctx = canvas.getContext('2d');
@@ -4895,33 +6338,87 @@
       overlay.style.background = '#000';
 
       let duration = 1800;
+      const color = item.color;
 
-      if (item.tier <= 12) {
-        // 9-12: SCREEN SLASH (full diagonal cut, screen splits with light bleed)
+      function doFlashPulse(opacity, delayMs, fadeMs) {
+        setT(() => {
+          flash.style.transition = 'opacity 0.07s'; flash.style.opacity = String(opacity);
+          setT(() => { flash.style.transition = `opacity ${fadeMs}ms ease`; flash.style.opacity = '0'; }, 80);
+        }, delayMs);
+      }
+
+      // ===== 등급별(7~44) 완전히 다른 프리컷씬 디스패치 테이블 =====
+      // 8종 고유 네임드 이펙트는 대표 등급 하나씩 맡고, 나머지는 캔버스 엔진으로 등급마다 다른 모션을 그린다.
+      const PRECS_CONFIG = {
+        7: { mode: 'scene' },
+        8: { mode: 'scene' },
+        9: { mode: 'slash' },
+        10: { mode: 'scene' },
+        11: { mode: 'scene' },
+        12: { mode: 'scene' },
+        13: { mode: 'devtext' },
+        14: { mode: 'scene' },
+        15: { mode: 'scene' },
+        16: { mode: 'scene' },
+        17: { mode: 'fire' },
+        18: { mode: 'scene' },
+        19: { mode: 'scene' },
+        20: { mode: 'scene' },
+        21: { mode: 'lake' },
+        22: { mode: 'scene' },
+        23: { mode: 'scene' },
+        24: { mode: 'scene' },
+        25: { mode: 'magiccircle' },
+        26: { mode: 'scene' },
+        27: { mode: 'scene' },
+        28: { mode: 'scene' },
+        29: { mode: 'wreck' },
+        30: { mode: 'scene' },
+        31: { mode: 'scene' },
+        32: { mode: 'scene' },
+        33: { mode: 'scene' },
+        34: { mode: 'scene' },
+        35: { mode: 'chains' },
+        36: { mode: 'scene' },
+        37: { mode: 'scene' },
+        38: { mode: 'scene' },
+        39: { mode: 'scene' },
+        40: { mode: 'pillars' },
+        41: { mode: 'scene' },
+        42: { mode: 'scene' },
+        43: { mode: 'scene' },
+        44: { mode: 'finale' }
+      };
+
+      const conf = PRECS_CONFIG[item.tier] || { mode: 'canvas', cfg: { mode: 'orbit', count: 24 } };
+
+      if (conf.mode === 'slash') {
+        // 9: SCREEN SLASH — 양방향 더블 슬래시 + 화면 절단 효과
         overlay.style.background = '#000';
         canvas.style.opacity = '1';
         const cx = canvas.width, cy = canvas.height;
-        let frame = 0; const total = 22;
+        let frame = 0; const total = 24;
         function drawSlash() {
           ctx.clearRect(0, 0, cx, cy);
           const progress = Math.min(1, frame / total);
           const diag = Math.sqrt(cx * cx + cy * cy) * 1.4;
-          const len = progress * diag;
-          const angle = Math.PI * 0.78;
-          const sx = cx * 0.5 - Math.cos(angle) * len * 0.5, sy = cy * 0.5 - Math.sin(angle) * len * 0.5;
-          const ex = cx * 0.5 + Math.cos(angle) * len * 0.5, ey = cy * 0.5 + Math.sin(angle) * len * 0.5;
-          const grad = ctx.createLinearGradient(sx, sy, ex, ey);
-          grad.addColorStop(0, 'rgba(255,255,255,0)');
-          grad.addColorStop(0.5, item.color);
-          grad.addColorStop(1, 'rgba(255,255,255,0)');
-          ctx.strokeStyle = grad; ctx.lineWidth = 10; ctx.shadowColor = item.color; ctx.shadowBlur = 50;
-          ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
-          ctx.strokeStyle = 'rgba(255,255,255,0.95)'; ctx.lineWidth = 2.5; ctx.shadowBlur = 0;
-          ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
-          // glow bleed along the cut
-          if (progress > 0.5) {
-            ctx.globalAlpha = (progress - 0.5) * 1.6;
-            ctx.fillStyle = item.color;
+          [Math.PI * 0.78, Math.PI * 0.22].forEach((angle, idx) => {
+            const p2 = Math.max(0, Math.min(1, (frame - idx * 4) / total));
+            const len2 = p2 * diag;
+            const sx = cx * 0.5 - Math.cos(angle) * len2 * 0.5, sy = cy * 0.5 - Math.sin(angle) * len2 * 0.5;
+            const ex = cx * 0.5 + Math.cos(angle) * len2 * 0.5, ey = cy * 0.5 + Math.sin(angle) * len2 * 0.5;
+            const grad = ctx.createLinearGradient(sx, sy, ex, ey);
+            grad.addColorStop(0, 'rgba(255,255,255,0)');
+            grad.addColorStop(0.5, color);
+            grad.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.strokeStyle = grad; ctx.lineWidth = idx === 0 ? 10 : 6; ctx.shadowColor = color; ctx.shadowBlur = 50;
+            ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
+            ctx.strokeStyle = 'rgba(255,255,255,0.95)'; ctx.lineWidth = idx === 0 ? 2.5 : 1.5; ctx.shadowBlur = 0;
+            ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
+          });
+          if (progress > 0.55) {
+            ctx.globalAlpha = (progress - 0.55) * 1.8;
+            ctx.fillStyle = color;
             ctx.fillRect(0, 0, cx, cy);
             ctx.globalAlpha = 1;
           }
@@ -4930,130 +6427,180 @@
           if (frame <= total) requestAnimationFrame(drawSlash);
         }
         requestAnimationFrame(drawSlash);
-        setT(() => {
-          flash.style.transition = 'opacity 0.08s'; flash.style.opacity = '1';
-          setT(() => { flash.style.transition = 'opacity 0.6s ease'; flash.style.opacity = '0'; }, 90);
-        }, 700);
-        duration = 1700;
+        doFlashPulse(1, 750, 600);
+        duration = 1800;
 
-      } else if (item.tier <= 16) {
-        // 13-16: WATER DROP RIPPLE (multiple ripples, fills screen with color)
-        overlay.style.background = '#00141c';
-        canvas.style.opacity = '1';
-        const cx = canvas.width / 2, cy = canvas.height * 0.4;
-        let dropY = -40, dropped = false, frame = 0;
-        const rings = [];
-        function drawDrop() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          if (!dropped) {
-            dropY += 16;
-            ctx.fillStyle = item.color; ctx.shadowColor = item.color; ctx.shadowBlur = 30;
-            ctx.beginPath(); ctx.arc(cx, dropY, 12, 0, Math.PI * 2); ctx.fill();
-            if (dropY >= cy) { dropped = true; rings.push({ r: 5, life: 0 }); rings.push({ r: 5, life: -8 }); rings.push({ r: 5, life: -16 }); }
+      } else if (conf.mode === 'devtext') {
+        // 13: 개발자 콘솔 타이핑 효과
+        overlay.style.background = '#020403';
+        const lines = [
+          `> summon.init(tier=${item.tier})`,
+          `> loading_essence("${item.name}")...`,
+          `> [OK] integrity check passed`,
+          `> rendering soul_signature...`
+        ];
+        devtext.classList.add('go');
+        let li = 0, ci = 0;
+        function typeLine() {
+          if (li >= lines.length) { devtext.innerHTML += '<span class="precs-cursor"></span>'; return; }
+          const line = lines[li];
+          if (ci <= line.length) {
+            devtext.innerHTML = lines.slice(0, li).join('\n') + (li > 0 ? '\n' : '') + line.slice(0, ci) + '<span class="precs-cursor"></span>';
+            ci++;
+            if (!skipRequested) setTimeout(typeLine, 18 + Math.random() * 22);
           } else {
-            for (const ring of rings) { if (ring.life >= 0) ring.r += 14; ring.life++; }
-            for (const ring of rings) {
-              if (ring.life < 0) continue;
-              ctx.strokeStyle = item.color; ctx.globalAlpha = Math.max(0, 1 - ring.life / 45); ctx.lineWidth = 3;
-              ctx.shadowColor = item.color; ctx.shadowBlur = 20;
-              ctx.beginPath(); ctx.ellipse(cx, cy, ring.r, ring.r * 0.32, 0, 0, Math.PI * 2); ctx.stroke();
-            }
-            ctx.globalAlpha = 1;
+            li++; ci = 0;
+            if (!skipRequested) setTimeout(typeLine, 120);
           }
-          frame++;
-          if (skipRequested) return;
-          if (frame <= 70) requestAnimationFrame(drawDrop);
         }
-        requestAnimationFrame(drawDrop);
-        duration = 1900;
+        typeLine();
+        duration = 2200;
 
-      } else if (item.tier <= 20) {
-        // 17-20: SCREEN INVERT FLICKER (color wash + invert flashes)
-        overlay.style.background = item.color;
+      } else if (conf.mode === 'fire') {
+        // 17: 스타일리시 화염
+        overlay.style.background = '#0a0500';
         invert.classList.add('go');
-        duration = 1700;
-
-      } else if (item.tier <= 24) {
-        // 21-24: LOTUS BLOOM (larger, brighter, glow background)
-        overlay.style.background = 'radial-gradient(circle at 50% 50%, ' + item.color + '33 0%, #0a0010 70%)';
-        lotus.innerHTML = PRECS_LOTUS_SVG;
-        lotus.style.left = '50%'; lotus.style.top = '50%'; lotus.style.transform = 'translate(-50%,-50%) scale(0.3) rotate(0deg)';
-        requestAnimationFrame(() => {
-          lotus.style.transform = '';
-          lotus.classList.add('go');
+        fire.classList.add('go');
+        let fireHTML = '';
+        const positions = [38, 50, 62];
+        positions.forEach((pos, i) => {
+          const grad = `flameGrad${i}`;
+          fireHTML += `<svg style="position:absolute;left:${pos}%;bottom:0;width:90px;height:240px;transform:translateX(-50%)" viewBox="0 0 90 240" class="precs-flame" style="left:${pos}%;animation-delay:${i * 0.2}s">
+            <defs><linearGradient id="${grad}" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="${color}"/><stop offset="45%" stop-color="#ff8f00"/><stop offset="80%" stop-color="#ffd54f"/><stop offset="100%" stop-color="#fff9c4" stop-opacity="0.3"/>
+            </linearGradient></defs>
+            <path d="M45 235 C10 200 5 150 25 110 C15 90 20 60 45 5 C70 60 75 90 65 110 C85 150 80 200 45 235 Z" fill="url(#${grad})"/>
+          </svg>`;
         });
+        for (let i = 0; i < 14; i++) {
+          const left = 30 + Math.random() * 40;
+          fireHTML += `<div class="precs-ember" style="left:${left}%;--drift:${(Math.random() * 40 - 20).toFixed(0)}px;animation-duration:${1.4 + Math.random() * 1.2}s;animation-delay:${Math.random() * 1.5}s"></div>`;
+        }
+        fire.innerHTML = fireHTML;
         duration = 2000;
 
-      } else if (item.tier <= 28) {
-        // 25-28: ENERGY SHOCKWAVE (more rings, brighter, full screen flash on impact)
+      } else if (conf.mode === 'lake') {
+        // 21: 업그레이드된 호수 + 연꽃
         overlay.style.background = '#000';
-        for (let i = 0; i < 5; i++) {
-          const ring = document.createElement('div');
-          ring.className = 'precs-ring';
-          ring.style.borderColor = item.color;
-          ring.style.borderWidth = '4px';
-          ring.style.boxShadow = '0 0 40px ' + item.color;
-          ring.style.animationDelay = (i * 0.13) + 's';
-          shock.appendChild(ring);
-        }
+        lake.innerHTML = buildLakeScene(color);
+        lake.classList.add('go');
+        lotus.innerHTML = PRECS_LOTUS_SVG;
+        lotus.style.left = '50%'; lotus.style.top = '62%'; lotus.style.transform = 'translate(-50%,-50%) scale(0.3) rotate(0deg)';
         requestAnimationFrame(() => {
-          shock.querySelectorAll('.precs-ring').forEach(r => r.classList.add('go'));
-        });
-        setT(() => {
-          flash.style.transition = 'opacity 0.07s'; flash.style.opacity = '0.85';
-          setT(() => { flash.style.transition = 'opacity 0.5s ease'; flash.style.opacity = '0'; }, 80);
-        }, 500);
-        duration = 1900;
-
-      } else if (item.tier <= 34) {
-        // 29-34: SHIPWRECK RISING FROM THE DEEP (longer, eerie glow building)
-        overlay.style.background = 'linear-gradient(to bottom, #001018 0%, #000004 100%)';
-        wreck.innerHTML = PRECS_WRECK_SVG;
-        requestAnimationFrame(() => {
-          wreck.classList.add('go');
+          lotus.style.transform = 'translate(-50%,-50%)';
+          lotus.classList.add('go');
         });
         duration = 2400;
 
-      } else {
-        // 35-44: REALITY FRACTURE (shockwave + lotus + invert flicker combined)
-        overlay.style.background = 'radial-gradient(circle at 50% 50%, ' + item.color + '44 0%, #000000 75%)';
-        invert.classList.add('go');
-        lotus.innerHTML = PRECS_LOTUS_SVG;
-        lotus.style.left = '50%'; lotus.style.top = '50%'; lotus.style.transform = 'translate(-50%,-50%) scale(0.3) rotate(0deg)';
-        requestAnimationFrame(() => {
-          lotus.style.transform = '';
-          lotus.classList.add('go');
-        });
-        for (let i = 0; i < 7; i++) {
-          const ring = document.createElement('div');
-          ring.className = 'precs-ring';
-          ring.style.borderColor = item.color;
-          ring.style.borderWidth = '4px';
-          ring.style.boxShadow = '0 0 50px ' + item.color;
-          ring.style.animationDelay = (i * 0.1) + 's';
-          shock.appendChild(ring);
-        }
-        requestAnimationFrame(() => {
-          shock.querySelectorAll('.precs-ring').forEach(r => r.classList.add('go'));
-        });
-        setT(() => {
-          flash.style.transition = 'opacity 0.07s'; flash.style.opacity = '0.9';
-          setT(() => { flash.style.transition = 'opacity 0.5s ease'; flash.style.opacity = '0'; }, 80);
-        }, 700);
+      } else if (conf.mode === 'magiccircle') {
+        // 25: 마법진
+        overlay.style.background = `radial-gradient(circle at 50% 50%, ${color}22 0%, #000 75%)`;
+        magicCircle.innerHTML = buildMagicCircle(color);
+        magicCircle.style.left = '50%'; magicCircle.style.top = '50%'; magicCircle.style.transform = 'translate(-50%,-50%)';
+        requestAnimationFrame(() => magicCircle.classList.add('go'));
+        doFlashPulse(0.7, 1200, 500);
+        duration = 2200;
+
+      } else if (conf.mode === 'wreck') {
+        // 29: 업그레이드된 난파선
+        overlay.style.background = 'linear-gradient(to bottom, #001018 0%, #000004 100%)';
+        wreck.innerHTML = PRECS_WRECK_SVG;
+        requestAnimationFrame(() => wreck.classList.add('go'));
         duration = 2600;
+
+      } else if (conf.mode === 'chains') {
+        // 35: 사슬이 양쪽에서 감겨오는 효과
+        overlay.style.background = '#050505';
+        const positions = [8, 22, 78, 92];
+        positions.forEach((pos, i) => {
+          const c = document.createElement('div');
+          c.className = 'precs-chain';
+          c.style.left = pos + '%';
+          c.style.top = (i % 2 === 0 ? '-30%' : '-50%');
+          c.innerHTML = buildChainSVG(color);
+          chains.appendChild(c);
+        });
+        requestAnimationFrame(() => {
+          chains.querySelectorAll('.precs-chain').forEach((c, i) => {
+            setTimeout(() => { c.classList.add('go'); c.style.transform = `translateY(${i % 2 === 0 ? '70vh' : '90vh'})`; }, i * 90);
+          });
+        });
+        doFlashPulse(0.6, 1500, 450);
+        duration = 2400;
+
+      } else if (conf.mode === 'pillars') {
+        // 40: 빛 기둥 + 마법진 + 반전
+        overlay.style.background = `radial-gradient(circle at 50% 50%, ${color}33 0%, #000 80%)`;
+        invert.classList.add('go');
+        magicCircle.innerHTML = buildMagicCircle(color);
+        magicCircle.style.left = '50%'; magicCircle.style.top = '50%'; magicCircle.style.transform = 'translate(-50%,-50%)';
+        requestAnimationFrame(() => magicCircle.classList.add('go'));
+        let pillarHTML = '';
+        for (let i = 0; i < 9; i++) {
+          pillarHTML += `<div class="precs-pillar" style="background:linear-gradient(to top, ${color}, #fff 90%);box-shadow:0 0 40px ${color};animation-delay:${i * 0.05}s"></div>`;
+        }
+        pillars.innerHTML = pillarHTML;
+        requestAnimationFrame(() => {
+          pillars.querySelectorAll('.precs-pillar').forEach((p, i) => setTimeout(() => p.classList.add('go'), i * 60));
+        });
+        doFlashPulse(0.9, 1000, 400);
+        duration = 2400;
+
+      } else if (conf.mode === 'finale') {
+        // 44: GOD EMPEROR 전용 최종 콤보 — 빛기둥 + 마법진 + 사슬 끊김 + 반전 + 캔버스 폭풍
+        overlay.style.background = `radial-gradient(circle at 50% 50%, ${color}33 0%, #000 80%)`;
+        invert.classList.add('go');
+        magicCircle.innerHTML = buildMagicCircle(color);
+        magicCircle.style.left = '50%'; magicCircle.style.top = '50%'; magicCircle.style.transform = 'translate(-50%,-50%)';
+        requestAnimationFrame(() => magicCircle.classList.add('go'));
+        let pillarHTML = '';
+        for (let i = 0; i < 12; i++) {
+          pillarHTML += `<div class="precs-pillar" style="background:linear-gradient(to top, ${color}, #fff 90%);box-shadow:0 0 50px ${color};animation-delay:${i * 0.04}s"></div>`;
+        }
+        pillars.innerHTML = pillarHTML;
+        requestAnimationFrame(() => {
+          pillars.querySelectorAll('.precs-pillar').forEach((p, i) => setTimeout(() => p.classList.add('go'), i * 50));
+        });
+        canvas.style.opacity = '1';
+        runCanvasEffect(canvas, color, { mode: 'starfield', count: 220 }, 90);
+        doFlashPulse(0.9, 900, 400);
+        doFlashPulse(1.0, 2200, 500);
+        duration = 2800;
+
+      } else if (conf.mode === 'scene') {
+        // 7~43 사이 나머지 28개 등급: 호수+연꽃과 같은 SVG 그림 실루엣 템플릿 (점 파티클 대신 또렷한 풍경/심볼)
+        overlay.style.background = '#000';
+        lake.innerHTML = buildTierScene(item.tier, color);
+        requestAnimationFrame(() => lake.classList.add('go'));
+        if (item.tier >= 30) doFlashPulse(0.5, 1300, 450);
+        duration = 1900 + Math.min(900, Math.floor(item.tier * 12));
+
+      } else {
+        // 안전망: 알 수 없는 등급은 캔버스 기본값으로
+        overlay.style.background = `radial-gradient(circle at 50% 50%, ${color}1a 0%, #000 75%)`;
+        canvas.style.opacity = '1';
+        const totalFrames = 70;
+        runCanvasEffect(canvas, color, conf.cfg || { mode: 'orbit', count: 24 }, totalFrames);
+        duration = 1900;
       }
 
       setT(() => {
         overlay.classList.remove('active');
         invert.classList.remove('go');
         lotus.classList.remove('go');
+        lake.classList.remove('go');
         wreck.classList.remove('go');
+        magicCircle.classList.remove('go');
+        fire.classList.remove('go');
+        devtext.classList.remove('go');
         showCutscene(item);
       }, duration);
     }
 
     // ===================== CUTSCENE ART & THEME (35 TIERS, cutscene for tier>=9) =====================
     const cutsceneArt = {
+      7: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g7" cx="50%" cy="40%" r="65%"><stop offset="0%" stop-color="#b2fff0"/><stop offset="50%" stop-color="#00bfa5"/><stop offset="100%" stop-color="#00352d"/></radialGradient></defs><polygon points="100,25 145,60 160,115 100,180 40,115 55,60" fill="url(#g7)" stroke="#00e5c4" stroke-width="3"/><polygon points="100,55 125,75 132,108 100,145 68,108 75,75" fill="#e0fff7" opacity="0.5"/><circle cx="100" cy="105" r="12" fill="#fff"><animate attributeName="r" values="9;15;9" dur="1.5s" repeatCount="indefinite"/></circle></svg>`,
+      8: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g8" cx="50%" cy="40%" r="65%"><stop offset="0%" stop-color="#ffe0b2"/><stop offset="50%" stop-color="#ff9800"/><stop offset="100%" stop-color="#4a2800"/></radialGradient></defs><path d="M100 20 L155 55 L155 115 C155 150 130 172 100 185 C70 172 45 150 45 115 L45 55 Z" fill="url(#g8)" stroke="#ffb74d" stroke-width="3"/><path d="M100 50 L130 68 L130 110 C130 130 116 145 100 152 C84 145 70 130 70 110 L70 68 Z" fill="#3a1d00" opacity="0.45"/><circle cx="100" cy="105" r="13" fill="#fff8e1"><animate attributeName="r" values="10;17;10" dur="1.5s" repeatCount="indefinite"/></circle></svg>`,
       9: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g9" cx="50%" cy="40%" r="65%"><stop offset="0%" stop-color="#fff8dc"/><stop offset="45%" stop-color="#ffd700"/><stop offset="100%" stop-color="#b8860b"/></radialGradient></defs><polygon points="100,20 150,55 170,110 100,185 30,110 50,55" fill="url(#g9)" stroke="#ffd700" stroke-width="3"/><polygon points="100,50 130,70 140,105 100,150 60,105 70,70" fill="#fff8dc" opacity="0.5"/><circle cx="100" cy="100" r="14" fill="#fff"><animate attributeName="r" values="10;18;10" dur="1.6s" repeatCount="indefinite"/></circle></svg>`,
       10: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g10" cx="50%" cy="38%" r="68%"><stop offset="0%" stop-color="#fff3c4"/><stop offset="55%" stop-color="#ffd54f"/><stop offset="100%" stop-color="#c62828"/></radialGradient></defs><path d="M30 70 L60 55 L100 70 L140 55 L170 70 L150 110 L100 90 L50 110 Z" fill="#ffecb3" opacity="0.85"/><path d="M100 20 L160 50 L160 110 C160 150 132 178 100 192 C68 178 40 150 40 110 L40 50 Z" fill="url(#g10)" stroke="#ffd700" stroke-width="3"/><circle cx="100" cy="105" r="16" fill="#fff"><animate attributeName="r" values="12;20;12" dur="1.4s" repeatCount="indefinite"/></circle></svg>`,
       11: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g11" cx="50%" cy="40%" r="65%"><stop offset="0%" stop-color="#ffd54f"/><stop offset="100%" stop-color="#e65100"/></radialGradient></defs><path d="M100 18 L172 50 L172 110 C172 155 140 180 100 192 C60 180 28 155 28 110 L28 50 Z" fill="url(#g11)" stroke="#ff6f00" stroke-width="3"/><path d="M100 45 L145 65 L145 108 C145 138 124 156 100 165 C76 156 55 138 55 108 L55 65 Z" fill="#3e1d00" opacity="0.5"/><polygon points="100,75 112,98 138,102 112,108 100,132 88,108 62,102 88,98" fill="#fff8e1"/></svg>`,
@@ -5089,48 +6636,49 @@
       41: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g41" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#9fa8da"/><stop offset="55%" stop-color="#1a237e"/><stop offset="100%" stop-color="#000010"/></radialGradient></defs><circle cx="100" cy="100" r="88" fill="url(#g41)" stroke="#7986cb" stroke-width="3"/><g fill="none" stroke="#c5cae9" stroke-width="1.5" opacity="0.7"><path d="M100 25 L100 175 M40 60 L160 140 M160 60 L40 140"><animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="14s" repeatCount="indefinite"/></path></g><circle cx="100" cy="100" r="16" fill="#fff"><animate attributeName="opacity" values="1;0.3;1" dur="1.1s" repeatCount="indefinite"/></circle></svg>`,
       42: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g42" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff8a80"/><stop offset="20%" stop-color="#ffd180"/><stop offset="40%" stop-color="#fff59d"/><stop offset="60%" stop-color="#b9f6ca"/><stop offset="80%" stop-color="#80d8ff"/><stop offset="100%" stop-color="#ea80fc"/></linearGradient></defs><circle cx="100" cy="100" r="88" fill="#fff" opacity="0.95"/><circle cx="100" cy="100" r="88" fill="url(#g42)" opacity="0.55"><animate attributeName="opacity" values="0.4;0.75;0.4" dur="2s" repeatCount="indefinite"/></circle><g fill="none" stroke="#fff" stroke-width="2"><circle cx="100" cy="100" r="60"><animate attributeName="r" values="40;68;40" dur="1.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0;1" dur="1.6s" repeatCount="indefinite"/></circle></g><circle cx="100" cy="100" r="14" fill="#fff"/></svg>`,
       43: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g43" cx="50%" cy="50%" r="65%"><stop offset="0%" stop-color="#8d0000"/><stop offset="60%" stop-color="#3e0000"/><stop offset="100%" stop-color="#000000"/></radialGradient></defs><circle cx="100" cy="100" r="88" fill="url(#g43)" stroke="#5d0000" stroke-width="3"/><g fill="none" stroke="#ff5252" stroke-width="1.5" opacity="0.6"><path d="M100 100 m0 -70 a70 70 0 1 0 0.001 0" stroke-dasharray="4 10"><animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="20s" repeatCount="indefinite"/></path></g><circle cx="100" cy="100" r="34" fill="#ff1744"><animate attributeName="r" values="26;40;26" dur="1.7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.9;0.4;0.9" dur="1.7s" repeatCount="indefinite"/></circle></svg>`,
-      44: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g44core" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="#ffffff"/><stop offset="50%" stop-color="#ffd700"/><stop offset="100%" stop-color="#7c4dff"/></radialGradient><linearGradient id="g44ring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff1744"/><stop offset="20%" stop-color="#ffd700"/><stop offset="40%" stop-color="#76ff03"/><stop offset="60%" stop-color="#00e5ff"/><stop offset="80%" stop-color="#d500f9"/><stop offset="100%" stop-color="#ff1744"/></linearGradient></defs><g><animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="5s" repeatCount="indefinite"/><circle cx="100" cy="100" r="92" fill="none" stroke="url(#g44ring)" stroke-width="7" stroke-dasharray="20 6"/></g><g><animateTransform attributeName="transform" type="rotate" from="360 100 100" to="0 100 100" dur="3.5s" repeatCount="indefinite"/><circle cx="100" cy="100" r="72" fill="none" stroke="url(#g44ring)" stroke-width="4" stroke-dasharray="10 5" opacity="0.85"/></g><circle cx="100" cy="100" r="48" fill="url(#g44core)" stroke="#fff" stroke-width="2"><animate attributeName="r" values="40;54;40" dur="1.2s" repeatCount="indefinite"/></circle><circle cx="100" cy="100" r="8" fill="#fff"><animate attributeName="opacity" values="1;0.2;1" dur="0.6s" repeatCount="indefinite"/></circle></svg>`,
-      45: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g45" cx="50%" cy="45%" r="65%"><stop offset="0%" stop-color="#fff9c4"/><stop offset="35%" stop-color="#ffd700"/><stop offset="70%" stop-color="#ff8f00"/><stop offset="100%" stop-color="#3a2000"/></radialGradient></defs><circle cx="100" cy="100" r="90" fill="#1a0f00" opacity="0.6"/><g opacity="0.35" stroke="#ffd700" stroke-width="1.5"><line x1="100" y1="100" x2="100" y2="10"/><line x1="100" y1="100" x2="165" y2="35"/><line x1="100" y1="100" x2="190" y2="100"/><line x1="100" y1="100" x2="165" y2="165"/><line x1="100" y1="100" x2="100" y2="190"/><line x1="100" y1="100" x2="35" y2="165"/><line x1="100" y1="100" x2="10" y2="100"/><line x1="100" y1="100" x2="35" y2="35"/></g><circle cx="100" cy="100" r="80" fill="none" stroke="#ffd700" stroke-width="1.5" stroke-dasharray="8 6" opacity="0.5"/><circle cx="100" cy="100" r="67" fill="none" stroke="#ff8f00" stroke-width="1" opacity="0.4"/><circle cx="100" cy="100" r="58" fill="url(#g45)" stroke="#ffd700" stroke-width="2.5"/><path d="M62 88 L72 62 L84 78 L100 52 L116 78 L128 62 L138 88 L134 112 L66 112 Z" fill="#fff8dc" stroke="#ff8f00" stroke-width="1.5" opacity="0.92"/><circle cx="72" cy="64" r="4" fill="#ff8f00"/><circle cx="100" cy="54" r="6" fill="#fff9c4"/><circle cx="128" cy="64" r="4" fill="#ff8f00"/><rect x="64" y="110" width="72" height="7" rx="3" fill="#ffd700" opacity="0.8"/><circle cx="100" cy="100" r="14" fill="#fffde7" opacity="0.9"/><circle cx="100" cy="100" r="8" fill="#ffffff"/><polygon points="28,42 30,48 36,48 31,51 33,57 28,54 23,57 25,51 20,48 26,48" fill="#ffd700" opacity="0.7"/><polygon points="168,28 170,34 176,34 171,37 173,43 168,40 163,43 165,37 160,34 166,34" fill="#ffd700" opacity="0.65"/><polygon points="172,158 174,163 179,163 175,166 176,171 172,168 168,171 169,166 165,163 170,163" fill="#ff8f00" opacity="0.6"/></svg>`,
-      46: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g46c" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#ffffff"/><stop offset="25%" stop-color="#fff9c4"/><stop offset="55%" stop-color="#ffd700"/><stop offset="80%" stop-color="#ff6f00"/><stop offset="100%" stop-color="#1a0800"/></radialGradient><radialGradient id="g46g" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="#fffde7" stop-opacity="0.9"/><stop offset="100%" stop-color="#ff8f00" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="100" r="95" fill="#0a0500" opacity="0.85"/><circle cx="100" cy="100" r="92" fill="none" stroke="#ffd700" stroke-width="2" stroke-dasharray="6 4" opacity="0.6"/><circle cx="100" cy="100" r="82" fill="none" stroke="#ff8f00" stroke-width="1.5" stroke-dasharray="3 5" opacity="0.5"/><g opacity="0.5" stroke="#ffd700" stroke-width="2"><line x1="100" y1="100" x2="100" y2="8"/><line x1="100" y1="100" x2="165" y2="27"/><line x1="100" y1="100" x2="192" y2="100"/><line x1="100" y1="100" x2="165" y2="173"/><line x1="100" y1="100" x2="100" y2="192"/><line x1="100" y1="100" x2="35" y2="173"/><line x1="100" y1="100" x2="8" y2="100"/><line x1="100" y1="100" x2="35" y2="27"/></g><g opacity="0.25" stroke="#ffe082" stroke-width="1"><line x1="100" y1="100" x2="125" y2="10"/><line x1="100" y1="100" x2="182" y2="57"/><line x1="100" y1="100" x2="182" y2="143"/><line x1="100" y1="100" x2="125" y2="190"/><line x1="100" y1="100" x2="75" y2="190"/><line x1="100" y1="100" x2="18" y2="143"/><line x1="100" y1="100" x2="18" y2="57"/><line x1="100" y1="100" x2="75" y2="10"/></g><circle cx="100" cy="100" r="63" fill="url(#g46c)" stroke="#ffd700" stroke-width="3"/><circle cx="100" cy="100" r="46" fill="url(#g46g)"/><path d="M58 84 L70 52 L86 72 L100 38 L114 72 L130 52 L142 84 L138 118 L62 118 Z" fill="#fff8dc" stroke="#ff6f00" stroke-width="2" opacity="0.95"/><path d="M68 84 L78 56 L90 72 L100 44 L110 72 L122 56 L132 84" fill="none" stroke="#ff8f00" stroke-width="1" opacity="0.6"/><circle cx="70" cy="54" r="5" fill="#ff6f00"/><circle cx="100" cy="40" r="8" fill="#ffffff"/><circle cx="130" cy="54" r="5" fill="#ff6f00"/><circle cx="86" cy="72" r="3" fill="#ffe082"/><circle cx="114" cy="72" r="3" fill="#ffe082"/><rect x="60" y="116" width="80" height="9" rx="4" fill="#ffd700" opacity="0.9"/><circle cx="100" cy="100" r="20" fill="#fffde7" opacity="0.95"/><circle cx="100" cy="100" r="12" fill="#ffffff"/><circle cx="100" cy="100" r="5" fill="#fffde7" opacity="0.85"/><ellipse cx="100" cy="100" rx="75" ry="22" fill="none" stroke="#ffe082" stroke-width="1.5" stroke-dasharray="5 5" opacity="0.4" transform="rotate(-20 100 100)"/><ellipse cx="100" cy="100" rx="75" ry="22" fill="none" stroke="#ff8f00" stroke-width="1" stroke-dasharray="3 7" opacity="0.3" transform="rotate(40 100 100)"/><polygon points="22,35 25,43 33,43 27,47 29,55 22,51 15,55 17,47 11,43 19,43" fill="#ffd700" opacity="0.8"/><polygon points="175,20 178,28 186,28 180,32 182,40 175,36 168,40 170,32 164,28 172,28" fill="#ffd700" opacity="0.75"/><polygon points="185,165 187,171 193,171 188,174 190,180 185,177 180,180 182,174 177,171 183,171" fill="#ff8f00" opacity="0.7"/><polygon points="15,165 17,171 23,171 18,174 20,180 15,177 10,180 12,174 7,171 13,171" fill="#ffd700" opacity="0.65"/><polygon points="100,8 102,14 108,14 103,17 105,23 100,20 95,23 97,17 92,14 98,14" fill="#ffffff" opacity="0.9"/></svg>`,
+      44: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g44core" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="#ffffff"/><stop offset="50%" stop-color="#ffd700"/><stop offset="100%" stop-color="#7c4dff"/></radialGradient><linearGradient id="g44ring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff1744"/><stop offset="20%" stop-color="#ffd700"/><stop offset="40%" stop-color="#76ff03"/><stop offset="60%" stop-color="#00e5ff"/><stop offset="80%" stop-color="#d500f9"/><stop offset="100%" stop-color="#ff1744"/></linearGradient></defs><g><animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="5s" repeatCount="indefinite"/><circle cx="100" cy="100" r="92" fill="none" stroke="url(#g44ring)" stroke-width="7" stroke-dasharray="20 6"/></g><g><animateTransform attributeName="transform" type="rotate" from="360 100 100" to="0 100 100" dur="3.5s" repeatCount="indefinite"/><circle cx="100" cy="100" r="72" fill="none" stroke="url(#g44ring)" stroke-width="4" stroke-dasharray="10 5" opacity="0.85"/></g><circle cx="100" cy="100" r="48" fill="url(#g44core)" stroke="#fff" stroke-width="2"><animate attributeName="r" values="40;54;40" dur="1.2s" repeatCount="indefinite"/></circle><circle cx="100" cy="100" r="8" fill="#fff"><animate attributeName="opacity" values="1;0.2;1" dur="0.6s" repeatCount="indefinite"/></circle></svg>`
+
     };
 
     const cutsceneTheme = {
-      9: { bg: 'radial-gradient(circle at 50% 55%, #4a3c00 0%, #0a0700 70%)', ray: 'rgba(255,215,0,0.2)', particleColor: '#ffe57f', particleCount: 18, duration: 4500 },
-      10: { bg: 'radial-gradient(circle at 50% 55%, #4a3300 0%, #0a0600 70%)', ray: 'rgba(255,213,79,0.22)', particleColor: '#ffecb3', particleCount: 20, duration: 4680 },
-      11: { bg: 'radial-gradient(circle at 50% 55%, #4a2c00 0%, #0a0500 70%)', ray: 'rgba(255,111,0,0.18)', particleColor: '#ffd54f', particleCount: 21, duration: 4860 },
-      12: { bg: 'radial-gradient(circle at 50% 55%, #4a1500 0%, #0a0200 70%)', ray: 'rgba(255,61,0,0.18)', particleColor: '#ff6e40', particleCount: 22, duration: 5040 },
-      13: { bg: 'radial-gradient(circle at 50% 55%, #4a0000 0%, #0a0000 70%)', ray: 'rgba(255,23,68,0.22)', particleColor: '#ff8a80', particleCount: 24, duration: 5220 },
-      14: { bg: 'radial-gradient(circle at 50% 55%, #2a1450 0%, #060212 70%)', ray: 'rgba(126,87,194,0.2)', particleColor: '#d1c4e9', particleCount: 26, duration: 5400 },
-      15: { bg: 'radial-gradient(circle at 50% 55%, #003a4a 0%, #00050a 70%)', ray: 'rgba(0,229,255,0.18)', particleColor: '#80ffff', particleCount: 27, duration: 5580 },
-      16: { bg: 'radial-gradient(circle at 50% 55%, #003540 0%, #00080a 70%)', ray: 'rgba(77,208,225,0.22)', particleColor: '#b2ebf2', particleCount: 28, duration: 5760 },
-      17: { bg: 'radial-gradient(circle at 50% 55%, #4a0048 0%, #0a0010 70%)', ray: 'rgba(213,0,249,0.2)', particleColor: '#f8bbd0', particleCount: 30, duration: 5940 },
-      18: { bg: 'radial-gradient(circle at 50% 55%, #1a0050 0%, #050010 70%)', ray: 'rgba(101,31,255,0.2)', particleColor: '#b388ff', particleCount: 32, duration: 6120 },
-      19: { bg: 'radial-gradient(circle at 50% 55%, #4a0040 0%, #0a000a 70%)', ray: 'rgba(224,64,251,0.24)', particleColor: '#ea80fc', particleCount: 33, duration: 6300 },
-      20: { bg: 'radial-gradient(circle at 50% 55%, #002f4a 0%, #00060c 70%)', ray: 'rgba(41,182,246,0.22)', particleColor: '#81d4fa', particleCount: 34, duration: 6480 },
-      21: { bg: 'radial-gradient(circle at 50% 55%, #4a0008 0%, #0a0002 70%)', ray: 'rgba(255,82,82,0.24)', particleColor: '#ff8a80', particleCount: 36, duration: 6660 },
-      22: { bg: 'radial-gradient(circle at 50% 55%, #0c0c10 0%, #000000 70%)', ray: 'rgba(55,71,79,0.3)', particleColor: '#b0bec5', particleCount: 38, duration: 6840 },
-      23: { bg: 'radial-gradient(circle at 50% 55%, #0d1450 0%, #02030c 70%)', ray: 'rgba(57,73,171,0.24)', particleColor: '#9fa8da', particleCount: 39, duration: 7020 },
-      24: { bg: 'radial-gradient(circle at 50% 55%, #00352c 0%, #000a08 70%)', ray: 'rgba(0,255,157,0.22)', particleColor: '#b9ffe4', particleCount: 40, duration: 7200 },
-      25: { bg: 'radial-gradient(circle at 50% 55%, #0a3322 0%, #00080a 70%)', ray: 'rgba(105,240,174,0.26)', particleColor: '#b9f6ca', particleCount: 42, duration: 7380 },
-      26: { bg: 'radial-gradient(circle at 50% 55%, #4a002a 0%, #0a0006 70%)', ray: 'rgba(244,143,177,0.24)', particleColor: '#ffcdd2', particleCount: 44, duration: 7560 },
-      27: { bg: 'radial-gradient(circle at 50% 55%, #2a2a55 0%, #03030a 70%)', ray: 'rgba(255,255,255,0.25)', particleColor: '#ffffff', particleCount: 45, duration: 7740 },
-      28: { bg: 'radial-gradient(circle at 50% 55%, #400018 0%, #08000a 70%)', ray: 'rgba(252,228,236,0.28)', particleColor: '#fce4ec', particleCount: 46, duration: 7920 },
-      29: { bg: 'radial-gradient(circle at 50% 55%, #4a3500 0%, #0a0700 70%)', ray: 'rgba(255,235,59,0.26)', particleColor: '#fff9c4', particleCount: 48, duration: 8100 },
-      30: { bg: 'radial-gradient(circle at 50% 55%, #4a0048 0%, #05000a 70%)', ray: 'rgba(255,0,255,0.28)', particleColor: '#ff66ff', particleCount: 51, duration: 8280 },
-      31: { bg: 'radial-gradient(circle at 50% 55%, #1a1500 0%, #000000 70%)', ray: 'rgba(255,215,0,0.32)', particleColor: '#ffd700', particleCount: 54, duration: 8460 },
-      32: { bg: 'radial-gradient(circle at 50% 55%, #1a0030 0%, #000000 70%)', ray: 'rgba(255,255,255,0.3)', particleColor: '#ffffff', particleCount: 57, duration: 8640 },
-      33: { bg: 'radial-gradient(circle at 50% 55%, #001a30 0%, #000000 70%)', ray: 'rgba(0,229,255,0.34)', particleColor: '#80ffff', particleCount: 60, duration: 8820 },
-      34: { bg: 'radial-gradient(circle at 50% 55%, #0a0a1a 0%, #000000 70%)', ray: 'rgba(255,255,255,0.36)', particleColor: '#ffffff', particleCount: 68, duration: 9000 },
-      35: { bg: 'radial-gradient(circle at 50% 55%, #2a0040 0%, #050008 70%)', ray: 'rgba(225,190,231,0.3)', particleColor: '#e1bee7', particleCount: 70, duration: 9200 },
-      36: { bg: 'radial-gradient(circle at 50% 55%, #4a0000 0%, #000000 70%)', ray: 'rgba(255,82,82,0.34)', particleColor: '#ff8a80', particleCount: 72, duration: 9400 },
-      37: { bg: 'radial-gradient(circle at 50% 55%, #1a002a 0%, #000000 70%)', ray: 'rgba(213,0,249,0.32)', particleColor: '#d500f9', particleCount: 74, duration: 9600 },
-      38: { bg: 'radial-gradient(circle at 50% 55%, #4a3500 0%, #0a0700 70%)', ray: 'rgba(255,245,157,0.32)', particleColor: '#fff9c4', particleCount: 76, duration: 9800 },
-      39: { bg: 'radial-gradient(circle at 50% 55%, #00304a 0%, #1a0030 70%)', ray: 'rgba(224,64,251,0.3)', particleColor: '#80ffff', particleCount: 78, duration: 10000 },
-      40: { bg: 'radial-gradient(circle at 50% 55%, #2a2a2a 0%, #000000 70%)', ray: 'rgba(255,255,255,0.38)', particleColor: '#fffde7', particleCount: 80, duration: 10200 },
-      41: { bg: 'radial-gradient(circle at 50% 55%, #0a0a3a 0%, #000000 70%)', ray: 'rgba(159,168,218,0.32)', particleColor: '#c5cae9', particleCount: 82, duration: 10400 },
-      42: { bg: 'radial-gradient(circle at 50% 55%, #2a1a3a 0%, #000000 70%)', ray: 'rgba(255,255,255,0.4)', particleColor: '#ffffff', particleCount: 85, duration: 10600 },
-      43: { bg: 'radial-gradient(circle at 50% 55%, #3a0000 0%, #000000 70%)', ray: 'rgba(255,82,82,0.36)', particleColor: '#ff5252', particleCount: 88, duration: 10800 },
-      44: { bg: 'radial-gradient(circle at 50% 55%, #1a1a00 0%, #000000 70%)', ray: 'rgba(255,215,0,0.42)', particleColor: '#ffd700', particleCount: 92, duration: 11000 }
+      7: { bg: 'radial-gradient(circle at 50% 55%, #003d33 0%, #000a08 70%)', ray: 'rgba(0,191,165,0.2)', particleColor: '#80ffe8', particleCount: 16, duration: 14500 },
+      8: { bg: 'radial-gradient(circle at 50% 55%, #4a2800 0%, #0a0500 70%)', ray: 'rgba(255,152,0,0.2)', particleColor: '#ffcc80', particleCount: 17, duration: 14750 },
+      9: { bg: 'radial-gradient(circle at 50% 55%, #4a3c00 0%, #0a0700 70%)', ray: 'rgba(255,215,0,0.2)', particleColor: '#ffe57f', particleCount: 18, duration: 15000 },
+      10: { bg: 'radial-gradient(circle at 50% 55%, #4a3300 0%, #0a0600 70%)', ray: 'rgba(255,213,79,0.22)', particleColor: '#ffecb3', particleCount: 20, duration: 15143 },
+      11: { bg: 'radial-gradient(circle at 50% 55%, #4a2c00 0%, #0a0500 70%)', ray: 'rgba(255,111,0,0.18)', particleColor: '#ffd54f', particleCount: 21, duration: 15286 },
+      12: { bg: 'radial-gradient(circle at 50% 55%, #4a1500 0%, #0a0200 70%)', ray: 'rgba(255,61,0,0.18)', particleColor: '#ff6e40', particleCount: 22, duration: 15429 },
+      13: { bg: 'radial-gradient(circle at 50% 55%, #4a0000 0%, #0a0000 70%)', ray: 'rgba(255,23,68,0.22)', particleColor: '#ff8a80', particleCount: 24, duration: 15571 },
+      14: { bg: 'radial-gradient(circle at 50% 55%, #2a1450 0%, #060212 70%)', ray: 'rgba(126,87,194,0.2)', particleColor: '#d1c4e9', particleCount: 26, duration: 15714 },
+      15: { bg: 'radial-gradient(circle at 50% 55%, #003a4a 0%, #00050a 70%)', ray: 'rgba(0,229,255,0.18)', particleColor: '#80ffff', particleCount: 27, duration: 15857 },
+      16: { bg: 'radial-gradient(circle at 50% 55%, #003540 0%, #00080a 70%)', ray: 'rgba(77,208,225,0.22)', particleColor: '#b2ebf2', particleCount: 28, duration: 16000 },
+      17: { bg: 'radial-gradient(circle at 50% 55%, #4a0048 0%, #0a0010 70%)', ray: 'rgba(213,0,249,0.2)', particleColor: '#f8bbd0', particleCount: 30, duration: 16143 },
+      18: { bg: 'radial-gradient(circle at 50% 55%, #1a0050 0%, #050010 70%)', ray: 'rgba(101,31,255,0.2)', particleColor: '#b388ff', particleCount: 32, duration: 16286 },
+      19: { bg: 'radial-gradient(circle at 50% 55%, #4a0040 0%, #0a000a 70%)', ray: 'rgba(224,64,251,0.24)', particleColor: '#ea80fc', particleCount: 33, duration: 16429 },
+      20: { bg: 'radial-gradient(circle at 50% 55%, #002f4a 0%, #00060c 70%)', ray: 'rgba(41,182,246,0.22)', particleColor: '#81d4fa', particleCount: 34, duration: 16571 },
+      21: { bg: 'radial-gradient(circle at 50% 55%, #4a0008 0%, #0a0002 70%)', ray: 'rgba(255,82,82,0.24)', particleColor: '#ff8a80', particleCount: 36, duration: 16714 },
+      22: { bg: 'radial-gradient(circle at 50% 55%, #0c0c10 0%, #000000 70%)', ray: 'rgba(55,71,79,0.3)', particleColor: '#b0bec5', particleCount: 38, duration: 16857 },
+      23: { bg: 'radial-gradient(circle at 50% 55%, #0d1450 0%, #02030c 70%)', ray: 'rgba(57,73,171,0.24)', particleColor: '#9fa8da', particleCount: 39, duration: 17000 },
+      24: { bg: 'radial-gradient(circle at 50% 55%, #00352c 0%, #000a08 70%)', ray: 'rgba(0,255,157,0.22)', particleColor: '#b9ffe4', particleCount: 40, duration: 17143 },
+      25: { bg: 'radial-gradient(circle at 50% 55%, #0a3322 0%, #00080a 70%)', ray: 'rgba(105,240,174,0.26)', particleColor: '#b9f6ca', particleCount: 42, duration: 17286 },
+      26: { bg: 'radial-gradient(circle at 50% 55%, #4a002a 0%, #0a0006 70%)', ray: 'rgba(244,143,177,0.24)', particleColor: '#ffcdd2', particleCount: 44, duration: 17429 },
+      27: { bg: 'radial-gradient(circle at 50% 55%, #2a2a55 0%, #03030a 70%)', ray: 'rgba(255,255,255,0.25)', particleColor: '#ffffff', particleCount: 45, duration: 17571 },
+      28: { bg: 'radial-gradient(circle at 50% 55%, #400018 0%, #08000a 70%)', ray: 'rgba(252,228,236,0.28)', particleColor: '#fce4ec', particleCount: 46, duration: 17714 },
+      29: { bg: 'radial-gradient(circle at 50% 55%, #4a3500 0%, #0a0700 70%)', ray: 'rgba(255,235,59,0.26)', particleColor: '#fff9c4', particleCount: 48, duration: 17857 },
+      30: { bg: 'radial-gradient(circle at 50% 55%, #4a0048 0%, #05000a 70%)', ray: 'rgba(255,0,255,0.28)', particleColor: '#ff66ff', particleCount: 51, duration: 18000 },
+      31: { bg: 'radial-gradient(circle at 50% 55%, #1a1500 0%, #000000 70%)', ray: 'rgba(255,215,0,0.32)', particleColor: '#ffd700', particleCount: 54, duration: 18143 },
+      32: { bg: 'radial-gradient(circle at 50% 55%, #1a0030 0%, #000000 70%)', ray: 'rgba(255,255,255,0.3)', particleColor: '#ffffff', particleCount: 57, duration: 18286 },
+      33: { bg: 'radial-gradient(circle at 50% 55%, #001a30 0%, #000000 70%)', ray: 'rgba(0,229,255,0.34)', particleColor: '#80ffff', particleCount: 60, duration: 18429 },
+      34: { bg: 'radial-gradient(circle at 50% 55%, #0a0a1a 0%, #000000 70%)', ray: 'rgba(255,255,255,0.36)', particleColor: '#ffffff', particleCount: 68, duration: 18571 },
+      35: { bg: 'radial-gradient(circle at 50% 55%, #2a0040 0%, #050008 70%)', ray: 'rgba(225,190,231,0.3)', particleColor: '#e1bee7', particleCount: 70, duration: 18714 },
+      36: { bg: 'radial-gradient(circle at 50% 55%, #4a0000 0%, #000000 70%)', ray: 'rgba(255,82,82,0.34)', particleColor: '#ff8a80', particleCount: 72, duration: 18857 },
+      37: { bg: 'radial-gradient(circle at 50% 55%, #1a002a 0%, #000000 70%)', ray: 'rgba(213,0,249,0.32)', particleColor: '#d500f9', particleCount: 74, duration: 19000 },
+      38: { bg: 'radial-gradient(circle at 50% 55%, #4a3500 0%, #0a0700 70%)', ray: 'rgba(255,245,157,0.32)', particleColor: '#fff9c4', particleCount: 76, duration: 19143 },
+      39: { bg: 'radial-gradient(circle at 50% 55%, #00304a 0%, #1a0030 70%)', ray: 'rgba(224,64,251,0.3)', particleColor: '#80ffff', particleCount: 78, duration: 19286 },
+      40: { bg: 'radial-gradient(circle at 50% 55%, #2a2a2a 0%, #000000 70%)', ray: 'rgba(255,255,255,0.38)', particleColor: '#fffde7', particleCount: 80, duration: 19429 },
+      41: { bg: 'radial-gradient(circle at 50% 55%, #0a0a3a 0%, #000000 70%)', ray: 'rgba(159,168,218,0.32)', particleColor: '#c5cae9', particleCount: 82, duration: 19571 },
+      42: { bg: 'radial-gradient(circle at 50% 55%, #2a1a3a 0%, #000000 70%)', ray: 'rgba(255,255,255,0.4)', particleColor: '#ffffff', particleCount: 85, duration: 19714 },
+      43: { bg: 'radial-gradient(circle at 50% 55%, #3a0000 0%, #000000 70%)', ray: 'rgba(255,82,82,0.36)', particleColor: '#ff5252', particleCount: 88, duration: 19857 },
+      44: { bg: 'radial-gradient(circle at 50% 55%, #1a1a00 0%, #000000 70%)', ray: 'rgba(255,215,0,0.42)', particleColor: '#ffd700', particleCount: 92, duration: 20000 }
 
     };
 
@@ -5142,7 +6690,9 @@
 
     function spawnParticles(container, color, count) {
       container.innerHTML = '';
-      for (let i = 0; i < count; i++) {
+      const cappedCount = Math.min(count, 36); // 모바일 렉 방지용 상한
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < cappedCount; i++) {
         const p = document.createElement('div'); p.className = 'cs-particle';
         const big = Math.random() < 0.25;
         const size = big ? (6 + Math.random() * 8) : (2 + Math.random() * 5);
@@ -5153,13 +6703,14 @@
         const delay = Math.random() * 1.4, dur = 1.4 + Math.random() * 1.8;
         const rotate = (Math.random() - 0.5) * 720;
         p.style.cssText = `width:${size}px;height:${size}px;left:${startX}%;top:${startY}%;background:${color};box-shadow:0 0 ${glow}px ${color};transition:transform ${dur}s cubic-bezier(.2,.8,.3,1) ${delay}s,opacity ${dur}s ease-out ${delay}s`;
-        container.appendChild(p);
-        requestAnimationFrame(() => requestAnimationFrame(() => {
+        frag.appendChild(p);
+        setTimeout(() => {
           p.style.opacity = '1';
           p.style.transform = `translate(${endX - startX}vw,${endY - startY}vh) scale(${big ? 0.6 : 0.4}) rotate(${rotate}deg)`;
           setTimeout(() => { p.style.opacity = '0'; }, dur * 1000 * 0.65);
-        }));
+        }, 30);
       }
+      container.appendChild(frag);
     }
 
     function showCutscene(item) {
@@ -5186,51 +6737,99 @@
       rays.innerHTML = buildRays(theme.ray);
       if (item.tier >= 20) rays.classList.add('fast');
       art.innerHTML = cutsceneArt[item.tier] || cutsceneArt[9];
-      tierLabel.innerText = '★ '.repeat(Math.min(7, Math.max(1, Math.floor((item.tier - 7) / 3)))) + ' SUMMON';
+
+      // 별 개수: 등급 비례
+      const stars = '★'.repeat(Math.min(7, Math.max(1, Math.floor((item.tier - 7) / 3))));
+      tierLabel.innerText = stars + ' SUMMON';
       tierLabel.style.color = item.color;
       title.innerText = item.name;
       title.style.color = item.color;
-      title.style.textShadow = '0 0 30px ' + item.color + ', 0 0 60px ' + item.color;
+      title.style.textShadow = `0 0 40px ${item.color}, 0 0 80px ${item.color}88`;
 
       overlay.classList.add('active');
+
+      // 배경/레이 fade in
       requestAnimationFrame(() => { bg.style.opacity = '1'; rays.style.opacity = '1'; });
-      setT(() => bg.classList.add('breathe'), 900);
-      setT(() => spawnParticles(particles, theme.particleColor, theme.particleCount), 250);
-      setT(() => art.classList.add('show'), 600);
+      setT(() => bg.classList.add('breathe'), 600);
+
+      // 파티클 다단계 스폰
+      setT(() => spawnParticles(particles, theme.particleColor, theme.particleCount), 200);
+      setT(() => spawnParticles(particles, theme.particleColor, Math.floor(theme.particleCount * 0.6)), 800);
+
+      // 아트 등장
+      setT(() => { art.classList.add('show'); }, 500);
+
+      // 사운드
+      playStarSound(item.tier, 'burst');
 
       function doShake() {
         overlay.classList.remove('shake');
         requestAnimationFrame(() => overlay.classList.add('shake'));
       }
 
-      const flashTime = item.tier >= 29 ? 2400 : item.tier >= 19 ? 2000 : 1700;
-      setT(() => {
-        flash.style.transition = 'opacity 0.08s'; flash.style.opacity = '1';
-        doShake();
-        setT(() => { flash.style.transition = 'opacity 0.5s ease'; flash.style.opacity = '0'; art.classList.add('pulse'); }, 90);
-      }, flashTime);
-      setT(() => nameBox.classList.add('show'), flashTime + 500);
-      if (item.tier >= 21) { setT(() => { flash.style.transition = 'opacity 0.06s'; flash.style.opacity = '0.6'; doShake(); setT(() => { flash.style.transition = 'opacity 0.4s ease'; flash.style.opacity = '0'; }, 70); }, flashTime + 1200); }
-      if (item.tier >= 32) { setT(() => { spawnParticles(particles, theme.particleColor, theme.particleCount); doShake(); }, flashTime + 1300); }
+      function doFlash(opacity, fadeMs, delayMs) {
+        setT(() => {
+          flash.style.transition = 'opacity 0.07s';
+          flash.style.opacity = String(opacity);
+          setT(() => { flash.style.transition = `opacity ${fadeMs}ms ease`; flash.style.opacity = '0'; }, 80);
+        }, delayMs);
+      }
 
+      const baseTime = item.tier >= 29 ? 2200 : item.tier >= 19 ? 1900 : 1600;
+
+      // 1차 플래시 + 아트 펄스
+      doFlash(item.tier >= 29 ? 1.0 : 0.85, 500, baseTime);
+      setT(() => { doShake(); art.classList.add('pulse'); }, baseTime + 50);
+      setT(() => nameBox.classList.add('show'), baseTime + 400);
+
+      // 2차 플래시 (높은 등급만)
+      if (item.tier >= 21) {
+        doFlash(0.65, 400, baseTime + 1100);
+        setT(doShake, baseTime + 1150);
+      }
+
+      // 3차 플래시 + 파티클 추가 (초고 등급)
+      if (item.tier >= 32) {
+        doFlash(0.8, 350, baseTime + 2000);
+        setT(() => { spawnParticles(particles, theme.particleColor, theme.particleCount); doShake(); }, baseTime + 2050);
+      }
+
+      // 4차 (신의 경지)
+      if (item.tier >= 40) {
+        doFlash(1.0, 300, baseTime + 2800);
+        setT(() => { spawnParticles(particles, theme.particleColor, theme.particleCount * 2); doShake(); }, baseTime + 2850);
+      }
+
+      // 긴 컷씬(15~20초) 동안 지루하지 않게 가끔 파티클을 보충한다 (렉 방지를 위해 빈도/개수 최소화)
+      const ambientStart = baseTime + (item.tier >= 40 ? 3200 : item.tier >= 32 ? 2400 : item.tier >= 21 ? 1600 : 900);
+      const ambientEnd = theme.duration - 1500;
+      const ambientInterval = 4800;
+      for (let tAmb = ambientStart; tAmb < ambientEnd; tAmb += ambientInterval) {
+        setT(() => {
+          spawnParticles(particles, theme.particleColor, 14);
+        }, tAmb);
+      }
+
+      // 종료 fade out
       setT(() => {
         nameBox.style.transition = 'opacity 0.6s ease';
-        art.style.transition = 'opacity 0.6s ease,transform 0.6s ease';
-        bg.style.transition = 'opacity 0.6s ease'; rays.style.transition = 'opacity 0.6s ease';
-        nameBox.style.opacity = '0'; art.style.opacity = '0'; art.style.transform = 'scale(1.15)';
-        bg.style.opacity = '0'; rays.style.opacity = '0';
+        art.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        bg.style.transition = 'opacity 0.6s ease';
+        rays.style.transition = 'opacity 0.6s ease';
+        nameBox.style.opacity = '0';
+        art.style.opacity = '0';
+        art.style.transform = 'scale(1.18)';
+        bg.style.opacity = '0';
+        rays.style.opacity = '0';
         setT(() => {
           overlay.classList.remove('active');
           overlay.classList.remove('shake');
           bg.classList.remove('breathe');
           rays.classList.remove('fast');
           nameBox.style.transition = ''; art.style.transition = ''; bg.style.transition = ''; rays.style.transition = '';
-          // 컷씬 종료 → 검은 화면(gacha-anim)에서 뮤테이션 뽑기
           document.getElementById('gacha-anim').style.display = 'flex';
           showMutationReel(item.mutation, () => {
-            setT(() => {
-              finishRoll(item);
-            }, 900);
+            setT(() => { finishRoll(item); }, 900);
           });
         }, 650);
       }, theme.duration);
@@ -5335,7 +6934,7 @@
     // ===================== CUTSCENE REPLAY =====================
     function renderCutscenes() {
       const list = document.getElementById('cutscenes-list');
-      const cutsceneTiers = pool.filter(p => p.tier >= 9 && !GOLDEN_ONLY_TIERS.includes(p.tier));
+      const cutsceneTiers = pool.filter(p => p.tier >= CUTSCENE_MIN_TIER && !GOLDEN_ONLY_TIERS.includes(p.tier));
       const unlockedCount = cutsceneTiers.filter(p => tiersObtained.has(p.tier)).length;
       document.getElementById('cutscenes-count-num').innerText = unlockedCount;
       document.getElementById('cutscenes-count-total').innerText = cutsceneTiers.length;
@@ -5388,10 +6987,14 @@
       switchTab('gacha');
       document.getElementById('gacha-idle').style.display = 'none';
       document.getElementById('mutation-reel-wrap').classList.remove('show');
+      document.getElementById('result-text').style.opacity = '0';
       document.getElementById('skip-btn').classList.add('show');
 
-      if (item.tier >= 9) showWhiteCrack(item);
-      else showResult(item);
+      animateStar(item, () => {
+        if (skipRequested) return;
+        if (item.tier >= CUTSCENE_MIN_TIER) showWhiteCrack(item);
+        else showResult(item);
+      });
     }
 
     // ===================== SHOP (나이트셰이드 상인) =====================
@@ -6034,6 +7637,8 @@
       { id: 'first_question_mark', name: '???', icon: '✨', title: '???', desc: '골든 가챠 최상위 등급 첫 획득', check: () => tiersObtained.has(47), progress: () => tiersObtained.has(47) ? '완료' : '미달성' },
       { id: 'golden_roll_10', name: '황금시간 단골', icon: '🌇', title: '황금시간의 단골', desc: '골든 가챠 10회 진행', check: () => goldenRollsTotal >= 10, progress: () => `${Math.min(goldenRollsTotal, 10)} / 10` },
       { id: 'guild_join_first', name: '동료의 시작', icon: '🛡️', title: '길드원', desc: '길드에 가입하세요', check: () => !!guildName, progress: () => guildName ? '완료' : '미달성' },
+      { id: 'attendance_7', name: '꾸준함의 가치', icon: '📅', title: '꾸준한 소환사', desc: '7일 연속 출석체크', check: () => attendanceStreak >= 7, progress: () => `${Math.min(attendanceStreak, 7)} / 7` },
+      { id: 'attendance_30', name: '한 달의 약속', icon: '🗓️', title: '약속을 지키는 자', desc: '누적 30일 출석체크', check: () => attendanceTotalDays >= 30, progress: () => `${Math.min(attendanceTotalDays, 30)} / 30` },
     ];
 
     function checkAchievements(item) {
@@ -6115,12 +7720,34 @@
     }
 
 
+    // ===================== MOBILE MODE =====================
+    function applyMobileMode(isMobile) {
+      document.body.classList.toggle('mobile-mode', isMobile);
+      document.getElementById('mode-toggle-btn').textContent = isMobile ? '🖥️' : '📱';
+      localStorage.setItem('mobileMode', isMobile ? '1' : '0');
+    }
+
+    function toggleMobileMode() {
+      applyMobileMode(!document.body.classList.contains('mobile-mode'));
+    }
+
+    // 초기 모드 결정: 저장된 설정 우선, 없으면 뷰포트 폭으로 자동 감지
+    (function initMobileMode() {
+      const saved = localStorage.getItem('mobileMode');
+      if (saved !== null) {
+        applyMobileMode(saved === '1');
+      } else {
+        applyMobileMode(window.innerWidth < 768);
+      }
+    })();
+
     // ===================== KEY LISTENERS =====================
     document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
     document.getElementById('login-nick').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('login-pass').focus(); });
     document.getElementById('signup-pass2').addEventListener('keydown', e => { if (e.key === 'Enter') handleSignup(); });
     document.getElementById('signup-pass').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('signup-pass2').focus(); });
     document.getElementById('logout-modal').addEventListener('click', e => { if (e.target === document.getElementById('logout-modal')) closeLogoutModal(); });
+    document.getElementById('attendance-modal').addEventListener('click', e => { if (e.target === document.getElementById('attendance-modal')) closeAttendanceModal(); });
     document.getElementById('guild-search-input').addEventListener('keydown', e => { if (e.key === 'Enter') searchGuild(); });
   </script>
 </body>
