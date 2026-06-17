@@ -2089,6 +2089,35 @@
       position: relative;
     }
 
+    .dojang-delete-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.06);
+      color: #888;
+      font-size: 11px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+    }
+
+    .dojang-card:hover .dojang-delete-btn {
+      opacity: 1;
+    }
+
+    .dojang-delete-btn:hover {
+      background: rgba(255, 82, 82, 0.25);
+      color: #ff5252;
+    }
+
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -4356,6 +4385,7 @@
     }
     body.mobile-mode .dojang-card { padding: 10px 12px; }
     body.mobile-mode .dojang-name { font-size: 11px; }
+    body.mobile-mode .dojang-delete-btn { opacity: 1; }
 
     body.mobile-mode #ach-grid {
       grid-template-columns: 1fr;
@@ -8326,7 +8356,9 @@
       if (dojangFilter === 'good') filtered = history.filter(h => h.item.tier >= 5);
       if (dojangFilter === 'legendary') filtered = history.filter(h => h.item.tier >= 9);
       if (filtered.length === 0) { grid.innerHTML = '<div class="dojang-empty">해당 등급 기록 없음</div>'; return; }
-      grid.innerHTML = filtered.map(h => `
+      grid.innerHTML = filtered.map(h => {
+        const origIdx = history.indexOf(h);
+        return `
       <div class="dojang-card">
         <div class="dojang-dot" style="background:${h.item.color};box-shadow:0 0 8px ${h.item.color}44"></div>
         <div class="dojang-info">
@@ -8334,7 +8366,30 @@
           <div class="dojang-time">${h.time} · #${h.roll}</div>
         </div>
         ${mutationBadgeHTML(h.mutation)}
-      </div>`).join('');
+        <button class="dojang-delete-btn" onclick="deleteHistoryEntry(${origIdx})" title="이 항목 삭제">✕</button>
+      </div>`;
+      }).join('');
+    }
+
+    // 도감에서 항목 1개를 영구 삭제. bestTier가 그 항목에 의존했다면 남은 history 기준으로 재계산.
+    function deleteHistoryEntry(idx) {
+      if (idx < 0 || idx >= history.length) return;
+      const entry = history[idx];
+      if (!confirm(`"${entry.item.name}" (#${entry.roll}) 항목을 영구히 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.`)) return;
+      history.splice(idx, 1);
+
+      // bestTier 재계산: 삭제된 항목이 최고 등급이었을 수 있으므로 남은 history 전체에서 다시 계산
+      let recoveredTier = -1;
+      for (const h of history) {
+        const t = h.item?.tier ?? -1;
+        if (tierPowerRank(t) > tierPowerRank(recoveredTier)) recoveredTier = t;
+      }
+      bestTier = recoveredTier;
+
+      // tiersObtained도 재계산: 남은 history에 더는 없는 등급은 제거 (단, 업적류는 "한 번이라도 획득"을 영구 기록하는 의도이므로 건드리지 않음)
+      saveProgress();
+      renderDojang();
+      showPotionToast(`🗑️ "${entry.item.name}" 항목을 삭제했습니다`);
     }
 
     function renderOdds() {
