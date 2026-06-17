@@ -8635,10 +8635,15 @@
       return { kind: 'tier', tier, icon: '🎁', label: pool[tier].name };
     }
     function randomBoardTileHighValue() {
+      // 35등급(Quantum Reaper) 이상은 0.1% 확률로만 등장 — 보드에서 절대 흔하면 안 되는 최상위 보상
+      if (Math.random() < 0.001) {
+        const tier = 35 + Math.floor(Math.random() * 10); // 35~44
+        return { kind: 'tier', tier, icon: '💠', label: pool[tier].name };
+      }
       const r = Math.random();
       if (r < 0.5) {
-        // 30+ 후반 등급 아이템 (자체가 매우 희귀)
-        const tier = 30 + Math.floor(Math.random() * 15);
+        // 30~34 (ETERNAL DESTROYER ~ ABSOLUTE ZERO) — 여전히 고가치지만 흔치 않게
+        const tier = 30 + Math.floor(Math.random() * 5);
         return { kind: 'tier', tier, icon: '💠', label: pool[tier].name };
       }
       // 21~29 사이 중상위 등급
