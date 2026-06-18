@@ -4741,7 +4741,7 @@
     <div id="board-page">
       <div id="board-header">
         <div id="board-title">이벤트 — 운명의 보드</div>
-        <div id="board-sub-label">뽑기 100회마다 주사위 1개 획득 · 도착하는 모든 칸의 보상을 즉시 지급 · 30번 칸을 넘으면 1번 칸으로 순환</div>
+        <div id="board-sub-label">뽑기 100회마다 주사위 1개 획득 · 주사위로 이동해 최종 도착한 칸의 보상만 지급 · 30번 칸을 넘으면 1번 칸으로 순환</div>
       </div>
       <div id="board-main">
         <div id="board-grid-wrap">
@@ -8794,13 +8794,17 @@
       function stepOnce() {
         boardPosition = (boardPosition + 1) % BOARD_SIZE;
         movedSteps++;
-        grantBoardTile(boardPosition);
         renderBoard();
         const tileEl = document.querySelector(`.board-tile[data-idx="${boardPosition}"]`);
-        if (tileEl) { tileEl.classList.add('visited-flash'); setTimeout(() => tileEl.classList.remove('visited-flash'), 600); }
         if (movedSteps < steps) {
+          // 통과하는 칸: 잠깐 지나가는 표시만, 보상은 지급하지 않음
+          if (tileEl) { tileEl.classList.add('visited-flash'); setTimeout(() => tileEl.classList.remove('visited-flash'), 600); }
           setTimeout(stepOnce, 260);
         } else {
+          // 최종 도착한 칸: 이 칸 하나의 보상만 지급
+          grantBoardTile(boardPosition);
+          renderBoard();
+          if (tileEl) { tileEl.classList.add('visited-flash'); setTimeout(() => tileEl.classList.remove('visited-flash'), 600); }
           boardRolling = false;
           saveProgress();
           renderBoard();
