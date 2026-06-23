@@ -12465,34 +12465,11 @@
 
     // ── PWA Service Worker 등록 ──
     if ('serviceWorker' in navigator) {
-      const swCode = `
-const CACHE = 'ugacha-v1';
-const URLS = [self.location.href.replace('/sw.js','')];
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(URLS)).then(() => self.skipWaiting()));
-});
-self.addEventListener('activate', e => {
-  e.waitUntil(clients.claim());
-});
-self.addEventListener('fetch', e => {
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).then(res => {
-    if (res && res.status === 200) {
-      const clone = res.clone();
-      caches.open(CACHE).then(c => c.put(e.request, clone));
-    }
-    return res;
-  }).catch(() => caches.match(e.request))));
-});
-      `.trim();
-      const blob = new Blob([swCode], { type: 'application/javascript' });
-      const swUrl = URL.createObjectURL(blob);
-      navigator.serviceWorker.register(swUrl).then(reg => {
+      navigator.serviceWorker.register('./sw.js').then(reg => {
         console.log('SW registered');
-        // PWA 설치 프롬프트 감지
         window.addEventListener('beforeinstallprompt', e => {
           e.preventDefault();
           window._pwaPrompt = e;
-          // 로그인 화면에 설치 버튼 표시
           const offlineMsg = document.getElementById('offline-msg');
           if (offlineMsg) {
             const installBtn = document.createElement('button');
