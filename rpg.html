@@ -2986,12 +2986,12 @@
     }
 
     /* BOARD EVENT */
-    #potion-shop-page, #brewery-page {
+    #potion-shop-page, #brewery-page, #ranked-page {
       display: none;
       padding: 40px 32px;
       min-height: calc(100vh - 55px);
     }
-    #potion-shop-page.active, #brewery-page.active { display: block; }
+    #potion-shop-page.active, #brewery-page.active, #ranked-page.active { display: block; }
 
     #board-page {
       display: none;
@@ -4521,6 +4521,7 @@
         <button class="nav-tab" onclick="switchTab('shop')">상점</button>
         <button class="nav-tab" onclick="switchTab('potion-shop')">포션상점</button>
         <button class="nav-tab" onclick="switchTab('brewery')">양조기</button>
+        <button class="nav-tab" onclick="switchTab('ranked')">경쟁전</button>
         <button class="nav-tab" onclick="switchTab('board')">이벤트</button>
         <button class="nav-tab" onclick="switchTab('guild')">길드</button>
         <button class="nav-tab" onclick="switchTab('plaza')">광장</button>
@@ -4910,6 +4911,49 @@
       <div id="brewery-msg" style="margin-top:6px;font-size:12px;color:#69f0ae;"></div>
       <div style="margin-top:36px;font-size:11px;letter-spacing:2px;color:#444;margin-bottom:12px;">레시피 목록</div>
       <div id="brewery-recipes"></div>
+    </div>
+
+    <!-- 경쟁전 -->
+    <div id="ranked-page">
+      <div id="ranked-header">
+        <div style="font-size:22px;font-weight:800;margin-bottom:4px;">경쟁전</div>
+        <div style="font-size:12px;color:#666;">주간 리셋 · 등급에 비례한 점수 · 상위권이 올라갈수록 하위권 점수 하락</div>
+      </div>
+
+      <!-- 현재 티어 카드 -->
+      <div id="ranked-tier-card" style="margin:20px 0;padding:20px;border-radius:14px;text-align:center;border:1px solid rgba(255,255,255,0.1);">
+        <div id="ranked-tier-icon" style="font-size:48px;margin-bottom:8px;">⬜</div>
+        <div id="ranked-tier-name" style="font-size:24px;font-weight:900;letter-spacing:2px;margin-bottom:4px;">아이언</div>
+        <div id="ranked-score-display" style="font-size:14px;color:#888;">점수: 0</div>
+        <div id="ranked-score-bar-wrap" style="margin-top:12px;height:6px;border-radius:3px;background:rgba(255,255,255,0.06);overflow:hidden;">
+          <div id="ranked-score-bar" style="height:100%;border-radius:3px;width:0%;transition:width 0.5s ease;"></div>
+        </div>
+        <div id="ranked-score-range" style="font-size:11px;color:#555;margin-top:4px;"></div>
+      </div>
+
+      <!-- 티켓 + 뽑기 버튼 -->
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+        <div style="flex:1;padding:14px;border-radius:10px;border:0.5px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+          <div style="font-size:11px;color:#555;letter-spacing:2px;margin-bottom:4px;">경쟁전 티켓</div>
+          <div style="font-size:22px;font-weight:800;color:#ffd54f;">🎫 <span id="ranked-tickets">0</span>장</div>
+          <div style="font-size:10px;color:#444;margin-top:4px;">주간 출석/퀘스트로 획득</div>
+        </div>
+        <button id="ranked-roll-btn" onclick="doRankedRoll()" style="padding:16px 28px;border-radius:12px;border:none;background:linear-gradient(135deg,#aa44ff,#6600cc);color:#fff;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:1px;">
+          🎲 경쟁전 뽑기
+        </button>
+      </div>
+
+      <!-- 이번 주 기록 -->
+      <div style="margin-bottom:14px;">
+        <div style="font-size:13px;font-weight:700;color:#aaa;margin-bottom:10px;letter-spacing:0.5px;">이번 주 기록</div>
+        <div id="ranked-history" style="display:flex;flex-direction:column;gap:6px;max-height:300px;overflow-y:auto;"></div>
+      </div>
+
+      <!-- 티어 구간표 -->
+      <div style="margin-top:20px;">
+        <div style="font-size:13px;font-weight:700;color:#aaa;margin-bottom:10px;letter-spacing:0.5px;">티어 구간</div>
+        <div id="ranked-tier-table" style="display:flex;flex-direction:column;gap:4px;"></div>
+      </div>
     </div>
 
     <div id="board-page">
@@ -5302,6 +5346,57 @@
     }
     // ===== 운명의 보드 이벤트 =====
     const BOARD_SIZE = 30;
+
+    // ===== 경쟁전 시스템 =====
+    const RANKED_TIERS = [
+      { name: '아이언',     color: '#888888', bg: '#1a1a1a', min: 0,      max: 999,    icon: '⬜' },
+      { name: '브론즈',     color: '#cd7f32', bg: '#1a0e00', min: 1000,   max: 2999,   icon: '🟫' },
+      { name: '실버',       color: '#c0c0c0', bg: '#0d0d0d', min: 3000,   max: 5999,   icon: '⬜' },
+      { name: '골드',       color: '#ffd700', bg: '#1a1500', min: 6000,   max: 10999,  icon: '🟨' },
+      { name: '플래티넘',   color: '#00bcd4', bg: '#001a1f', min: 11000,  max: 17999,  icon: '🟦' },
+      { name: '다이아',     color: '#b9f2ff', bg: '#00101a', min: 18000,  max: 27999,  icon: '💎' },
+      { name: '마스터',     color: '#f44336', bg: '#1a0000', min: 28000,  max: 39999,  icon: '🟥' },
+      { name: '챌린저',     color: '#aa44ff', bg: '#0a0014', min: 40000,  max: Infinity, icon: '👑' },
+    ];
+
+    // 등급별 경쟁전 점수
+    const RANKED_SCORE_BY_TIER = [
+      0,0,0,0,0,        // 0~4
+      1,2,3,5,          // 5~8
+      10,15,20,         // 9~11
+      30,45,60,         // 12~14
+      80,110,150,       // 15~17
+      200,280,380,      // 18~20
+      500,650,          // 21~22
+      850,1100,1400,    // 23~25
+      1800,2300,3000,   // 26~28
+      4000,             // 29
+      5500,7000,9000,11000, // 30~33
+      14000,            // 34
+      18000,23000,29000,36000, // 35~38
+      44000,54000,65000,78000,92000, // 39~43
+      100000,           // 44 GOD EMPEROR
+    ];
+
+    let rankedScore = 0;
+    let rankedTickets = 0;
+    let rankedWeekKey = '';       // 현재 주차 키 (YYYY-WW)
+    let rankedHistory = [];       // 이번 주 경쟁전 기록
+    let rankedBestScore = 0;      // 이번 주 내 최고 점수 기록
+
+    function getRankedWeekKey() {
+      const d = new Date();
+      const jan1 = new Date(d.getFullYear(), 0, 1);
+      const week = Math.ceil(((d - jan1) / 86400000 + jan1.getDay() + 1) / 7);
+      return `${d.getFullYear()}-W${String(week).padStart(2,'0')}`;
+    }
+
+    function getRankedTier(score) {
+      for (let i = RANKED_TIERS.length - 1; i >= 0; i--) {
+        if (score >= RANKED_TIERS[i].min) return RANKED_TIERS[i];
+      }
+      return RANKED_TIERS[0];
+    }
     let boardPosition = 0;          // 현재 토큰 위치 (0-indexed, 0~29)
     let boardDice = 0;               // 보유 주사위 개수
     let boardDiceMilestone = 0;      // 마지막으로 주사위를 지급한 totalRolls 기준값 (100단위)
@@ -5592,12 +5687,12 @@
     // 7일 주기, 6일째까지는 소소한 보상, 7일째에 큰 보상 후 다음날 1일차로 리셋
     const ATTENDANCE_REWARDS = [
       { icon: '🧪', label: 'Lucky x2', apply: () => { potions += 2; potionsEarnedTotal += 2; } },
-      { icon: '🧪', label: 'Lucky x3', apply: () => { potions += 3; potionsEarnedTotal += 3; } },
+      { icon: '🎫', label: '경쟁전 티켓 x3', apply: () => { grantRankedTickets(3); } },
       { icon: '🔴', label: 'Ultra x1', apply: () => { ultraPotions += 1; ultraPotionsEarnedTotal += 1; } },
       { icon: '🧪', label: 'Lucky x5', apply: () => { potions += 5; potionsEarnedTotal += 5; } },
-      { icon: '⭐', label: '골든티켓 x10', apply: () => { goldenTickets += 10; } },
+      { icon: '🎫', label: '경쟁전 티켓 x5', apply: () => { grantRankedTickets(5); } },
       { icon: '🔴', label: 'Ultra x2', apply: () => { ultraPotions += 2; ultraPotionsEarnedTotal += 2; } },
-      { icon: '🌟', label: 'Celestial x1 + 골든×30', apply: () => { celestialPotions += 1; celestialPotionsEarnedTotal += 1; goldenTickets += 30; } },
+      { icon: '🌟', label: 'Celestial x1 + 골든×30 + 티켓×10', apply: () => { celestialPotions += 1; celestialPotionsEarnedTotal += 1; goldenTickets += 30; grantRankedTickets(10); } },
     ];
 
     function attendanceCanClaimToday() {
@@ -5714,6 +5809,7 @@
         guildName: '', guildJoinRolls: 0,
         lastAttendanceDate: '', attendanceStreak: 0, attendanceTotalDays: 0,
         boardPosition: 0, boardDice: 0, boardDiceMilestone: 0, boardLayout: null, boardLog: [],
+        rankedScore: 0, rankedTickets: 10, rankedWeekKey: '', rankedHistory: [], rankedBestScore: 0,
         starCurrency: 0,
         bigPotions: 0, megaPotions: 0, ultraMutPotions: 0, rainbowPotions: 0,
         godlyPotions: 0, zeroPotions: 0,
@@ -5782,6 +5878,19 @@
       boardDiceMilestone = state.boardDiceMilestone ?? Math.floor((state.totalRolls ?? 0) / 100) * 100;
       boardLayout = Array.isArray(state.boardLayout) && state.boardLayout.length === BOARD_SIZE ? state.boardLayout : null;
       boardLog = Array.isArray(state.boardLog) ? state.boardLog : [];
+      // 경쟁전 — 주간 리셋 체크
+      const thisWeek = getRankedWeekKey();
+      if ((state.rankedWeekKey || '') !== thisWeek) {
+        rankedScore = 0; rankedHistory = []; rankedBestScore = 0;
+        rankedTickets = (state.rankedTickets ?? 10) + 10; // 주간 리셋 시 티켓 10장 지급
+        rankedWeekKey = thisWeek;
+      } else {
+        rankedScore = state.rankedScore ?? 0;
+        rankedTickets = state.rankedTickets ?? 10;
+        rankedWeekKey = state.rankedWeekKey ?? thisWeek;
+        rankedHistory = Array.isArray(state.rankedHistory) ? state.rankedHistory : [];
+        rankedBestScore = state.rankedBestScore ?? 0;
+      }
       starCurrency = state.starCurrency ?? 0;
       bigPotions = state.bigPotions ?? 0;
       megaPotions = state.megaPotions ?? 0;
@@ -5821,6 +5930,7 @@
         guildName, guildJoinRolls,
         lastAttendanceDate, attendanceStreak, attendanceTotalDays,
         boardPosition, boardDice, boardDiceMilestone, boardLayout, boardLog: boardLog.slice(0, 30),
+        rankedScore, rankedTickets, rankedWeekKey, rankedHistory: rankedHistory.slice(0, 50), rankedBestScore,
         starCurrency,
         bigPotions, megaPotions, ultraMutPotions, rainbowPotions,
         godlyPotions, zeroPotions,
@@ -10382,7 +10492,7 @@
     }
 
     function switchTab(tab) {
-      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'cutscenes', 'shop', 'potion-shop', 'brewery', 'board', 'guild', 'plaza', 'friends', 'ranking'];
+      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'cutscenes', 'shop', 'potion-shop', 'brewery', 'ranked', 'board', 'guild', 'plaza', 'friends', 'ranking'];
       document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', tabs[i] === tab));
       tabs.forEach(id => document.getElementById(id + '-page').classList.toggle('active', id === tab));
       if (tab === 'dojang') renderDojang();
@@ -10392,6 +10502,7 @@
       if (tab === 'shop') renderShop();
       if (tab === 'potion-shop') renderPotionShop();
       if (tab === 'brewery') renderBrewery();
+      if (tab === 'ranked') renderRanked();
       if (tab === 'board') renderBoard();
       if (tab === 'guild') renderGuild();
       if (tab === 'plaza') enterPlaza();
@@ -11297,6 +11408,116 @@
           else { btn.style.display='inline'; badge.style.display='none'; }
         }
       }
+    }
+
+    // ===== 경쟁전 =====
+    function doRankedRoll() {
+      if (rankedTickets <= 0) { showPotionToast('🎫 경쟁전 티켓이 없습니다!'); return; }
+      if (rolling) return;
+
+      rankedTickets--;
+
+      // 경쟁전 전용 뽑기 (일반 pity/totalRolls에 영향 없음)
+      const item = pick(1, 0);
+      const mutation = rollMutation();
+      const mRank = mutationRank(mutation);
+      const baseScore = RANKED_SCORE_BY_TIER[item.tier] || 0;
+      const mutBonus = [1, 1.5, 2.5, 4, 8][mRank] || 1;
+      const earned = Math.floor(baseScore * mutBonus);
+
+      rankedScore += earned;
+      rankedBestScore = Math.max(rankedBestScore, rankedScore);
+
+      const now = new Date();
+      const timeStr = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+      rankedHistory.unshift({ item, mutation, earned, time: timeStr });
+
+      // 다른 유저 점수 하락 효과 (Firestore에 내 점수 저장, 랭킹 시스템과 연동)
+      saveProgress();
+      renderRanked();
+      showPotionToast(`🏆 +${earned.toLocaleString()}점! ${item.name}${mutation ? ' (' + mutation + ')' : ''}`);
+    }
+
+    // 주간 출석 시 경쟁전 티켓 지급
+    function grantRankedTickets(n) {
+      rankedTickets += n;
+      saveProgress();
+      if (document.getElementById('ranked-page').classList.contains('active')) renderRanked();
+    }
+
+    function renderRanked() {
+      // 주간 리셋 체크
+      const thisWeek = getRankedWeekKey();
+      if (rankedWeekKey !== thisWeek) {
+        rankedScore = 0; rankedHistory = []; rankedBestScore = 0;
+        rankedTickets += 10;
+        rankedWeekKey = thisWeek;
+        saveProgress();
+      }
+
+      const tier = getRankedTier(rankedScore);
+      const nextTier = RANKED_TIERS[RANKED_TIERS.indexOf(tier) + 1];
+
+      // 티어 카드
+      const card = document.getElementById('ranked-tier-card');
+      card.style.background = `linear-gradient(135deg, ${tier.bg}, #000)`;
+      card.style.borderColor = tier.color + '44';
+      document.getElementById('ranked-tier-icon').innerText = tier.icon;
+      document.getElementById('ranked-tier-name').style.color = tier.color;
+      document.getElementById('ranked-tier-name').innerText = tier.name;
+
+      // 다이아 반짝이 효과
+      if (tier.name === '다이아') {
+        document.getElementById('ranked-tier-name').style.textShadow = `0 0 20px ${tier.color}, 0 0 40px ${tier.color}88`;
+      } else {
+        document.getElementById('ranked-tier-name').style.textShadow = `0 0 15px ${tier.color}88`;
+      }
+
+      document.getElementById('ranked-score-display').innerText = `점수: ${rankedScore.toLocaleString()}`;
+      document.getElementById('ranked-tickets').innerText = rankedTickets;
+      document.getElementById('ranked-roll-btn').disabled = rankedTickets <= 0;
+
+      // 점수 바
+      const bar = document.getElementById('ranked-score-bar');
+      const range = document.getElementById('ranked-score-range');
+      if (nextTier) {
+        const pct = Math.min(100, ((rankedScore - tier.min) / (nextTier.min - tier.min)) * 100);
+        bar.style.width = pct + '%';
+        bar.style.background = `linear-gradient(90deg, ${tier.color}, ${nextTier.color})`;
+        range.innerText = `${rankedScore.toLocaleString()} / ${nextTier.min.toLocaleString()} (다음: ${nextTier.name})`;
+      } else {
+        bar.style.width = '100%';
+        bar.style.background = tier.color;
+        range.innerText = '최고 티어 달성! 🎉';
+      }
+
+      // 이번 주 기록
+      const histEl = document.getElementById('ranked-history');
+      if (rankedHistory.length === 0) {
+        histEl.innerHTML = '<div style="font-size:12px;color:#555;padding:12px 0;">아직 이번 주 경쟁전 기록이 없습니다</div>';
+      } else {
+        histEl.innerHTML = rankedHistory.map(h => {
+          const t = getRankedTier(0); // 개별 아이템 색상
+          return `<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;border:0.5px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);">
+            <div style="width:8px;height:8px;border-radius:50%;background:${h.item.color};flex-shrink:0;"></div>
+            <div style="flex:1;font-size:12px;color:${h.item.color};font-weight:700;">${h.item.name}${h.mutation ? ' <span style="color:#aaa;font-weight:400;">(' + h.mutation + ')</span>' : ''}</div>
+            <div style="font-size:12px;color:#ffd54f;font-weight:700;">+${h.earned.toLocaleString()}</div>
+            <div style="font-size:10px;color:#555;">${h.time}</div>
+          </div>`;
+        }).join('');
+      }
+
+      // 티어 구간표
+      const tableEl = document.getElementById('ranked-tier-table');
+      tableEl.innerHTML = RANKED_TIERS.map((t, i) => {
+        const isCurrent = rankedScore >= t.min && (i === RANKED_TIERS.length-1 || rankedScore < RANKED_TIERS[i+1].min);
+        return `<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;border:0.5px solid ${isCurrent ? t.color+'66' : 'rgba(255,255,255,0.05)'};background:${isCurrent ? t.color+'11' : 'transparent'};">
+          <div style="font-size:18px;">${t.icon}</div>
+          <div style="font-size:13px;font-weight:700;color:${t.color};width:80px;">${t.name}</div>
+          <div style="font-size:11px;color:#555;">${t.min.toLocaleString()}${t.max === Infinity ? '+' : ' ~ ' + t.max.toLocaleString()}점</div>
+          ${isCurrent ? '<div style="margin-left:auto;font-size:10px;color:'+t.color+';font-weight:700;">현재 ◀</div>' : ''}
+        </div>`;
+      }).join('');
     }
 
     // ===================== RANKING =====================
