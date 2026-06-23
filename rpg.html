@@ -5946,7 +5946,6 @@
       saveTimer = setTimeout(async () => {
         try {
           if (offlineMode) {
-            // 오프라인: localStorage에만 저장, Firestore엔 절대 안 씀 → 랭킹 영향 없음
             const account = { state: buildState() };
             localStorage.setItem('ugacha_offline_save', JSON.stringify(account));
             return;
@@ -5954,8 +5953,15 @@
           const existing = await storageGet('account:' + currentUser);
           const account = existing ? JSON.parse(existing.value) : { password: '' };
           account.state = buildState();
-          await storageSet('account:' + currentUser, JSON.stringify(account));
-        } catch (e) { console.error('save failed', e); }
+          const ok = await storageSet('account:' + currentUser, JSON.stringify(account));
+          if (!ok) {
+            console.error('save failed:', window.__lastStorageError);
+            showPotionToast('⚠️ 저장 실패: ' + (window.__lastStorageError || '알 수 없는 오류'));
+          }
+        } catch (e) {
+          console.error('save failed', e);
+          showPotionToast('⚠️ 저장 오류: ' + (e.message || String(e)));
+        }
       }, 400);
     }
 
@@ -11185,12 +11191,12 @@
       lucky:       500,
       ultra:       15000,
       celestial:   360000,
-      godly:       6000000,
-      zero:        100000000,
-      big_mut:     30000,
-      mega_mut:    80000,
-      ultra_mut:   200000,
-      rainbow_mut: 500000,
+      godly:       100000000,
+      zero:        500000000,
+      big_mut:     1000000,
+      mega_mut:    3000000,
+      ultra_mut:   6000000,
+      rainbow_mut: 10000000,
     };
 
     function renderPotionShop() {
@@ -12465,7 +12471,7 @@
 
     // ── PWA Service Worker 등록 ──
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').then(reg => {
+      navigator.serviceWorker.register('/Baka/sw.js').then(reg => {
         console.log('SW registered');
         window.addEventListener('beforeinstallprompt', e => {
           e.preventDefault();
