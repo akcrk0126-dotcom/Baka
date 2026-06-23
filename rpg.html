@@ -5349,33 +5349,33 @@
 
     // ===== 경쟁전 시스템 =====
     const RANKED_TIERS = [
-      { name: '아이언',     color: '#888888', bg: '#1a1a1a', min: 0,      max: 999,    icon: '⬜' },
-      { name: '브론즈',     color: '#cd7f32', bg: '#1a0e00', min: 1000,   max: 2999,   icon: '🟫' },
-      { name: '실버',       color: '#c0c0c0', bg: '#0d0d0d', min: 3000,   max: 5999,   icon: '⬜' },
-      { name: '골드',       color: '#ffd700', bg: '#1a1500', min: 6000,   max: 10999,  icon: '🟨' },
-      { name: '플래티넘',   color: '#00bcd4', bg: '#001a1f', min: 11000,  max: 17999,  icon: '🟦' },
-      { name: '다이아',     color: '#b9f2ff', bg: '#00101a', min: 18000,  max: 27999,  icon: '💎' },
-      { name: '마스터',     color: '#f44336', bg: '#1a0000', min: 28000,  max: 39999,  icon: '🟥' },
-      { name: '챌린저',     color: '#aa44ff', bg: '#0a0014', min: 40000,  max: Infinity, icon: '👑' },
+      { name: '아이언',     color: '#888888', bg: '#1a1a1a', min: 0,    max: 49,   icon: '⬜' },
+      { name: '브론즈',     color: '#cd7f32', bg: '#1a0e00', min: 50,   max: 149,  icon: '🟫' },
+      { name: '실버',       color: '#c0c0c0', bg: '#0d0d0d', min: 150,  max: 299,  icon: '⬜' },
+      { name: '골드',       color: '#ffd700', bg: '#1a1500', min: 300,  max: 499,  icon: '🟨' },
+      { name: '플래티넘',   color: '#00bcd4', bg: '#001a1f', min: 500,  max: 699,  icon: '🟦' },
+      { name: '다이아',     color: '#b9f2ff', bg: '#00101a', min: 700,  max: 899,  icon: '💎' },
+      { name: '마스터',     color: '#f44336', bg: '#1a0000', min: 900,  max: 999,  icon: '🟥' },
+      { name: '챌린저',     color: '#aa44ff', bg: '#0a0014', min: 1000, max: Infinity, icon: '👑' },
     ];
 
-    // 등급별 경쟁전 점수
+    // 등급별 경쟁전 점수 (챌린저 1000점 기준)
     const RANKED_SCORE_BY_TIER = [
       0,0,0,0,0,        // 0~4
-      1,2,3,5,          // 5~8
-      10,15,20,         // 9~11
-      30,45,60,         // 12~14
-      80,110,150,       // 15~17
-      200,280,380,      // 18~20
-      500,650,          // 21~22
-      850,1100,1400,    // 23~25
-      1800,2300,3000,   // 26~28
-      4000,             // 29
-      5500,7000,9000,11000, // 30~33
-      14000,            // 34
-      18000,23000,29000,36000, // 35~38
-      44000,54000,65000,78000,92000, // 39~43
-      100000,           // 44 GOD EMPEROR
+      1,1,2,3,          // 5~8
+      5,7,9,            // 9~11
+      12,16,20,         // 12~14
+      25,32,40,         // 15~17
+      50,65,80,         // 18~20
+      100,130,          // 21~22
+      160,200,250,      // 23~25
+      300,370,450,      // 26~28
+      540,              // 29
+      640,750,860,960,  // 30~33
+      1000,             // 34 ABSOLUTE ZERO
+      1100,1250,1400,1580, // 35~38
+      1800,2100,2500,3000,3600, // 39~43
+      5000,             // 44 GOD EMPEROR
     ];
 
     let rankedScore = 0;
@@ -6929,6 +6929,14 @@
       const canvas = document.getElementById('crack-canvas');
       canvas.style.opacity = '0';
       try { canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); } catch (e) { }
+
+      // 경쟁전 패치 후처리
+      if (window._rankedFinishPatch) {
+        const fn = window._rankedFinishPatch;
+        window._rankedFinishPatch = null;
+        fn(item);
+        return;
+      }
 
       if (isReplaying) {
         document.getElementById('mutation-reel-wrap').classList.remove('show');
@@ -11416,15 +11424,24 @@
       if (rolling) return;
 
       rankedTickets--;
+      rolling = true;
+      skipRequested = false; // 스킵 버튼 비활성화 (떡상 방지)
+      isMultiRoll = false;
+      clearPendingTimeouts();
 
-      // 경쟁전 전용 뽑기 (일반 pity/totalRolls에 영향 없음)
-      const item = pick(1, 0);
+      // 경쟁전 전용 뽑기 (pity/totalRolls에 영향 없음, 포션은 적용)
+      const item = pick(potionActive ? 2 : 1, 0);
+      if (potionActive) { potionActive = false; }
+      if (ultraPotionActive) { ultraPotionActive = false; }
+      if (celestialPotionActive) { celestialPotionActive = false; }
       const mutation = rollMutation();
       const mRank = mutationRank(mutation);
+      if (mRank > (bestMutationByTier[item.tier] ?? 0)) bestMutationByTier[item.tier] = mRank;
+
+      // 점수 계산
       const baseScore = RANKED_SCORE_BY_TIER[item.tier] || 0;
       const mutBonus = [1, 1.5, 2.5, 4, 8][mRank] || 1;
       const earned = Math.floor(baseScore * mutBonus);
-
       rankedScore += earned;
       rankedBestScore = Math.max(rankedBestScore, rankedScore);
 
@@ -11432,10 +11449,33 @@
       const timeStr = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
       rankedHistory.unshift({ item, mutation, earned, time: timeStr });
 
-      // 다른 유저 점수 하락 효과 (Firestore에 내 점수 저장, 랭킹 시스템과 연동)
+      item.mutation = mutation;
+      currentRollItem = item;
+
+      updatePotionBtn(); updateUltraPotionBtn(); updateCelestialPotionBtn();
+      updateGodlyZeroPotionBtns();
       saveProgress();
-      renderRanked();
-      showPotionToast(`🏆 +${earned.toLocaleString()}점! ${item.name}${mutation ? ' (' + mutation + ')' : ''}`);
+
+      // 컷씬 연출 (스킵 버튼 숨김)
+      document.getElementById('gacha-anim').style.display = 'none';
+      const skipBtn = document.getElementById('skip-btn');
+      const skipBtnOrig = skipBtn ? skipBtn.style.display : '';
+      if (skipBtn) skipBtn.style.display = 'none'; // 스킵 버튼 숨김!
+
+      showPotionToast(`🏆 +${earned.toLocaleString()}점 획득!`);
+
+      animateStar(item, () => {
+        showWhiteCrack(item);
+        // 컷씬 끝나고 스킵 버튼 복원
+        const origFinishRoll = finishRoll;
+        const patchedFinish = (it) => {
+          if (skipBtn) skipBtn.style.display = skipBtnOrig;
+          renderRanked();
+          origFinishRoll.call(window, it);
+        };
+        // finishRoll을 한 번만 패치
+        window._rankedFinishPatch = patchedFinish;
+      });
     }
 
     // 주간 출석 시 경쟁전 티켓 지급
