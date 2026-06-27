@@ -5287,67 +5287,91 @@
 
     // ===================== POOL (35 TIERS) =====================
     const pool = [
-      { name: "Common", chance: 25.7912, color: "#888888", tier: 0 },
-      { name: "Uncommon", chance: 17.5184, color: "#4caf50", tier: 1 },
-      { name: "Rare", chance: 11.6789, color: "#2196f3", tier: 2 },
-      { name: "Polished", chance: 8.2726, color: "#00bcd4", tier: 3 },
-      { name: "Gilded", chance: 5.8395, color: "#ffc107", tier: 4 },
-      { name: "Epic", chance: 6.8127, color: "#9c27b0", tier: 5 },
-      { name: "Refined", chance: 5.1582, color: "#7c4dff", tier: 6 },
-      { name: "Arcane", chance: 3.6983, color: "#00bfa5", tier: 7 },
-      { name: "Mythic", chance: 3.6983, color: "#ff9800", tier: 8 },
-      { name: "Legendary", chance: 2.7251, color: "#ffd700", tier: 9 },
-      { name: "Sentinel", chance: 1.8492, color: "#ffd54f", tier: 10 },
-      { name: "Vanguard", chance: 1.7518, color: "#ff6f00", tier: 11 },
-      { name: "Beast", chance: 1.2652, color: "#ff3d00", tier: 12 },
-      { name: "Nightshade", chance: 0.8759, color: "#ff1744", tier: 13 },
-      { name: "Phantom", chance: 0.7299, color: "#7e57c2", tier: 14 },
-      { name: "Celestial", chance: 0.5353, color: "#00e5ff", tier: 15 },
-      { name: "Frostbound", chance: 0.3893, color: "#4dd0e1", tier: 16 },
-      { name: "Wraithlord", chance: 0.3406, color: "#d500f9", tier: 17 },
-      { name: "Cosmic", chance: 0.2628, color: "#651fff", tier: 18 },
-      { name: "Solflare", chance: 0.1946, color: "#e040fb", tier: 19 },
-      { name: "Stormcaller", chance: 0.1557, color: "#29b6f6", tier: 20 },
-      { name: "Ultra", chance: 0.1168, color: "#ff5252", tier: 21 },
-      { name: "Eclipse", chance: 0.0876, color: "#37474f", tier: 22 },
-      { name: "Voidwalker", chance: 0.0681, color: "#1a237e", tier: 23 },
-      { name: "Hyper", chance: 0.0487, color: "#00ff9d", tier: 24 },
-      { name: "Seraphic", chance: 0.0389, color: "#69f0ae", tier: 25 },
-      { name: "Astral Monarch", chance: 0.0292, color: "#f48fb1", tier: 26 },
-      { name: "Infinity", chance: 0.0195, color: "#ffffff", tier: 27 },
-      { name: "Dreadlord", chance: 0.0146, color: "#fce4ec", tier: 28 },
-      { name: "Genesis", chance: 0.0117, color: "#ffeb3b", tier: 29 },
-      { name: "ETERNAL DESTROYER", chance: 0.0078, color: "#ff00ff", tier: 30 },
-      { name: "PRIME ARCHITECT", chance: 0.0058, color: "#ffd700", tier: 31 },
-      { name: "VOID SOVEREIGN", chance: 0.0039, color: "#e0e0ff", tier: 32 },
-      { name: "CHRONO OVERLORD", chance: 0.0024, color: "#00e5ff", tier: 33 },
-      { name: "ABSOLUTE ZERO", chance: 0.0015, color: "#ffffff", tier: 34 },
-      { name: "Quantum Reaper", chance: 0.00095, color: "#7c1fa2", tier: 35 },
-      { name: "World Eater", chance: 0.0006, color: "#b71c1c", tier: 36 },
-      { name: "Singularity", chance: 0.00038, color: "#4a0072", tier: 37 },
-      { name: "Omniscient", chance: 0.00024, color: "#fff59d", tier: 38 },
-      { name: "Paradox", chance: 0.00015, color: "#e040fb", tier: 39 },
-      { name: "Demiurge", chance: 0.0001, color: "#fffde7", tier: 40 },
-      { name: "Akashic Lord", chance: 0.00006, color: "#1a237e", tier: 41 },
-      { name: "Transcendent", chance: 0.00004, color: "#ffffff", tier: 42 },
-      { name: "Primordial", chance: 0.000025, color: "#3e0000", tier: 43 },
-      { name: "GOD EMPEROR", chance: 0.000015, color: "#ffd700", tier: 44 },
-      // ===== 골든 가챠 전용 등급 (일반 가챠에는 등장하지 않음) =====
-      { name: "리얼골드", chance: 1, color: "#ffc400", tier: 45 },
-      { name: "레전드골드", chance: 0.1, color: "#ff8f00", tier: 46 },
-      { name: "???", chance: 0.0001, color: "#fffde7", tier: 47 }
-
+      { name: "Common",           chance: 25.7912, color: "#888888", tier: 0  },
+      { name: "Uncommon",         chance: 17.5184, color: "#4caf50", tier: 1  },
+      { name: "Rare",             chance: 11.6789, color: "#2196f3", tier: 2  },
+      { name: "Polished",         chance: 8.2726,  color: "#00bcd4", tier: 3  },
+      { name: "Gilded",           chance: 5.8395,  color: "#ffc107", tier: 4  },
+      { name: "Epic",             chance: 6.8127,  color: "#9c27b0", tier: 5  },
+      { name: "Refined",          chance: 5.1582,  color: "#7c4dff", tier: 6  },
+      { name: "Arcane",           chance: 3.6983,  color: "#00bfa5", tier: 7  },
+      { name: "Mythic",           chance: 3.6983,  color: "#ff9800", tier: 8  },
+      { name: "Legendary",        chance: 2.7251,  color: "#ffd700", tier: 9  },
+      { name: "Ironveil",         chance: 2.3000,  color: "#607d8b", tier: 10 },
+      { name: "Sentinel",         chance: 1.8492,  color: "#ffd54f", tier: 11 },
+      { name: "Emberstrike",      chance: 1.8000,  color: "#ff8a65", tier: 12 },
+      { name: "Vanguard",         chance: 1.7518,  color: "#ff6f00", tier: 13 },
+      { name: "Thornwall",        chance: 1.5000,  color: "#8d6e63", tier: 14 },
+      { name: "Beast",            chance: 1.2652,  color: "#ff3d00", tier: 15 },
+      { name: "Bloodthorn",       chance: 1.0500,  color: "#e53935", tier: 16 },
+      { name: "Nightshade",       chance: 0.8759,  color: "#ff1744", tier: 17 },
+      { name: "Grimshade",        chance: 0.7800,  color: "#6a1a4c", tier: 18 },
+      { name: "Phantom",          chance: 0.7299,  color: "#7e57c2", tier: 19 },
+      { name: "Frostfang",        chance: 0.6200,  color: "#80cbc4", tier: 20 },
+      { name: "Celestial",        chance: 0.5353,  color: "#00e5ff", tier: 21 },
+      { name: "Ashbound",         chance: 0.4500,  color: "#78909c", tier: 22 },
+      { name: "Frostbound",       chance: 0.3893,  color: "#4dd0e1", tier: 23 },
+      { name: "Stormbrand",       chance: 0.3600,  color: "#42a5f5", tier: 24 },
+      { name: "Wraithlord",       chance: 0.3406,  color: "#d500f9", tier: 25 },
+      { name: "Voidmark",         chance: 0.3000,  color: "#7b1fa2", tier: 26 },
+      { name: "Cosmic",           chance: 0.2628,  color: "#651fff", tier: 27 },
+      { name: "Blazewarden",      chance: 0.2200,  color: "#ff6f00", tier: 28 },
+      { name: "Solflare",         chance: 0.1946,  color: "#e040fb", tier: 29 },
+      { name: "Duskmantle",       chance: 0.1700,  color: "#546e7a", tier: 30 },
+      { name: "Stormcaller",      chance: 0.1557,  color: "#29b6f6", tier: 31 },
+      { name: "Ironwrath",        chance: 0.1300,  color: "#78909c", tier: 32 },
+      { name: "Ultra",            chance: 0.1168,  color: "#ff5252", tier: 33 },
+      { name: "Shadowmere",       chance: 0.1000,  color: "#455a64", tier: 34 },
+      { name: "Eclipse",          chance: 0.0876,  color: "#37474f", tier: 35 },
+      { name: "Hollowgrave",      chance: 0.0750,  color: "#4a148c", tier: 36 },
+      { name: "Voidwalker",       chance: 0.0681,  color: "#1a237e", tier: 37 },
+      { name: "Starbreaker",      chance: 0.0580,  color: "#1565c0", tier: 38 },
+      { name: "Hyper",            chance: 0.0487,  color: "#00ff9d", tier: 39 },
+      { name: "Seraphic",         chance: 0.0389,  color: "#69f0ae", tier: 40 },
+      { name: "Astral Monarch",   chance: 0.0292,  color: "#f48fb1", tier: 41 },
+      { name: "Infinity",         chance: 0.0195,  color: "#ffffff", tier: 42 },
+      { name: "Dreadlord",        chance: 0.0146,  color: "#fce4ec", tier: 43 },
+      { name: "Genesis",          chance: 0.0117,  color: "#ffeb3b", tier: 44 },
+      { name: "Voidpact",         chance: 0.0095,  color: "#311b92", tier: 45 },
+      { name: "ETERNAL DESTROYER",chance: 0.0078,  color: "#ff00ff", tier: 46 },
+      { name: "Grimtide",         chance: 0.0065,  color: "#880e4f", tier: 47 },
+      { name: "PRIME ARCHITECT",  chance: 0.0058,  color: "#ffd700", tier: 48 },
+      { name: "Nullbinder",       chance: 0.0048,  color: "#37474f", tier: 49 },
+      { name: "VOID SOVEREIGN",   chance: 0.0039,  color: "#e0e0ff", tier: 50 },
+      { name: "Desolator",        chance: 0.0030,  color: "#bf360c", tier: 51 },
+      { name: "CHRONO OVERLORD",  chance: 0.0024,  color: "#00e5ff", tier: 52 },
+      { name: "Frostchasm",       chance: 0.0018,  color: "#e1f5fe", tier: 53 },
+      { name: "ABSOLUTE ZERO",    chance: 0.0015,  color: "#ffffff", tier: 54 },
+      { name: "Ruinweave",        chance: 0.0012,  color: "#3e2723", tier: 55 },
+      { name: "Quantum Reaper",   chance: 0.00095, color: "#7c1fa2", tier: 56 },
+      { name: "Ashrender",        chance: 0.00075, color: "#ff3d00", tier: 57 },
+      { name: "World Eater",      chance: 0.0006,  color: "#b71c1c", tier: 58 },
+      { name: "Wraithstorm",      chance: 0.00046, color: "#4a0072", tier: 59 },
+      { name: "Singularity",      chance: 0.00038, color: "#4a0072", tier: 60 },
+      { name: "Omniscient",       chance: 0.00024, color: "#fff59d", tier: 61 },
+      { name: "Paradox",          chance: 0.00015, color: "#e040fb", tier: 62 },
+      { name: "Demiurge",         chance: 0.0001,  color: "#fffde7", tier: 63 },
+      { name: "Akashic Lord",     chance: 0.00006, color: "#1a237e", tier: 64 },
+      { name: "Transcendent",     chance: 0.00004, color: "#ffffff", tier: 65 },
+      { name: "Primordial",       chance: 0.000025,color: "#3e0000", tier: 66 },
+      { name: "GOD EMPEROR",      chance: 0.000015,color: "#ffd700", tier: 67 },
+      { name: "Riftwalker",       chance: 0.000011,color: "#00acc1", tier: 68 },
+      { name: "Voidbane",         chance: 0.0000082,color:"#7e57c2", tier: 69 },
+      { name: "Netherstrike",     chance: 0.0000060,color:"#e53935", tier: 70 },
+      { name: "Soulrender",       chance: 0.0000044,color:"#880e4f", tier: 71 },
+      { name: "Doomweaver",       chance: 0.0000032,color:"#4e342e", tier: 72 },
+      { name: "Oblivion",         chance: 0.0000023,color:"#212121", tier: 73 },
+      { name: "THE ABSOLUTE",     chance: 0.0000016,color:"#ffffff", tier: 74 },
+      // ===== 골든 가챠 전용 등급 =====
+      { name: "리얼골드",  chance: 1,      color: "#ffc400", tier: 75 },
+      { name: "레전드골드",chance: 0.1,    color: "#ff8f00", tier: 76 },
+      { name: "???",       chance: 0.0001, color: "#fffde7", tier: 77 }
     ];
 
-    // 골든 가챠 전용 등급 (45~47)
-    const GOLDEN_ONLY_TIERS = [45, 46, 47];
-    // 컷씬(화이트크랙+프리컷씬+메인컷씬)이 시작되는 최소 등급. Arcane(7)부터 적용.
+        // 골든 가챠 전용 등급 (75~77)
+    const GOLDEN_ONLY_TIERS = [75, 76, 77];
     const CUTSCENE_MIN_TIER = 7;
-
-    // 골든 가챠 전용 등급(45~47)은 tier 숫자가 일반 등급보다 크지만,
-    // 실제 파워는 그 숫자에 대응하지 않으므로 랭킹/비교 시 이 값을 사용한다.
-    // 45 리얼골드 ≈ Genesis(29)보다 약간 위, 46 레전드골드 ≈ CHRONO OVERLORD(33)급, 47 ???은 최상위
-    const TIER_POWER_OVERRIDE = { 45: 29.5, 46: 33, 47: 1000 };
+    const TIER_POWER_OVERRIDE = { 75: 44.5, 76: 52, 77: 1000 };
     function tierPowerRank(tier) {
       return TIER_POWER_OVERRIDE[tier] ?? tier;
     }
@@ -5368,21 +5392,74 @@
     let godlyPotionActive = false, zeroPotionActive = false;
 
     const STAR_VALUES = [
-      1, 2, 3, 4, 5,                          // 0~4  (Common~Gilded)
-      10, 20, 35, 60,                          // 5~8  (Epic~Mythic)
-      500, 700, 900,                           // 9~11 (Legendary~Vanguard)
-      1500, 2500, 4000,                        // 12~14 (Beast~Phantom)
-      5000, 8000, 12000,                       // 15~17 (Celestial~Wraithlord)
-      30000, 70000, 120000,                    // 18~20 (Cosmic~Stormcaller)
-      200000, 300000,                          // 21~22 (Ultra~Eclipse) — 포션 기준 약 200k
-      500000, 700000, 900000,                  // 23~25 (Voidwalker~Seraphic)
-      1100000, 1400000, 1800000,               // 26~28 (Astral~Dreadlord)
-      2000000,                                 // 29    (Genesis)
-      3000000, 4000000, 5000000, 6500000,      // 30~33 (ETERNAL~CHRONO) — Godly 기준 1M 이상
-      8000000,                                 // 34    (ABSOLUTE ZERO) — Zero 포션 3M의 약 2.5배
-      10000000, 13000000, 16000000, 20000000,  // 35~38 (Quantum~Omniscient)
-      25000000, 32000000, 40000000, 50000000, 65000000, // 39~43
-      10000000                                 // 44    (GOD EMPEROR — 확정)
+      1, 2, 3, 4, 5,          // 0~4
+      8, 14, 20, 30,          // 5~8
+      50,                     // 9  Legendary
+      70,                     // 10 Ironveil
+      100,                    // 11 Sentinel
+      140,                    // 12 Emberstrike
+      190,                    // 13 Vanguard
+      260,                    // 14 Thornwall
+      350,                    // 15 Beast
+      480,                    // 16 Bloodthorn
+      650,                    // 17 Nightshade
+      880,                    // 18 Grimshade
+      1200,                   // 19 Phantom
+      1600,                   // 20 Frostfang
+      2200,                   // 21 Celestial
+      3000,                   // 22 Ashbound
+      4000,                   // 23 Frostbound
+      5500,                   // 24 Stormbrand
+      7500,                   // 25 Wraithlord
+      10000,                  // 26 Voidmark
+      14000,                  // 27 Cosmic
+      19000,                  // 28 Blazewarden
+      26000,                  // 29 Solflare
+      35000,                  // 30 Duskmantle
+      48000,                  // 31 Stormcaller
+      65000,                  // 32 Ironwrath
+      90000,                  // 33 Ultra
+      120000,                 // 34 Shadowmere
+      160000,                 // 35 Eclipse
+      220000,                 // 36 Hollowgrave
+      300000,                 // 37 Voidwalker
+      400000,                 // 38 Starbreaker
+      550000,                 // 39 Hyper
+      750000,                 // 40 Seraphic
+      1000000,                // 41 Astral Monarch
+      1400000,                // 42 Infinity
+      1900000,                // 43 Dreadlord
+      2600000,                // 44 Genesis
+      3500000,                // 45 Voidpact
+      4800000,                // 46 ETERNAL DESTROYER
+      6500000,                // 47 Grimtide
+      9000000,                // 48 PRIME ARCHITECT
+      12000000,               // 49 Nullbinder
+      16000000,               // 50 VOID SOVEREIGN
+      22000000,               // 51 Desolator
+      30000000,               // 52 CHRONO OVERLORD
+      40000000,               // 53 Frostchasm
+      55000000,               // 54 ABSOLUTE ZERO
+      75000000,               // 55 Ruinweave
+      100000000,              // 56 Quantum Reaper
+      140000000,              // 57 Ashrender
+      190000000,              // 58 World Eater
+      260000000,              // 59 Wraithstorm
+      350000000,              // 60 Singularity
+      480000000,              // 61 Omniscient
+      650000000,              // 62 Paradox
+      900000000,              // 63 Demiurge
+      1200000000,             // 64 Akashic Lord
+      1600000000,             // 65 Transcendent
+      2200000000,             // 66 Primordial
+      3000000000,             // 67 GOD EMPEROR
+      4000000000,             // 68 Riftwalker
+      5500000000,             // 69 Voidbane
+      7500000000,             // 70 Netherstrike
+      10000000000,            // 71 Soulrender
+      14000000000,            // 72 Doomweaver
+      19000000000,            // 73 Oblivion
+      25000000000,            // 74 THE ABSOLUTE
     ];
 
     const MUT_BONUS = { null: 1, undefined: 1, None: 1, Big: 2, Mega: 5, Ultra: 12, Rainbow: 30 };
@@ -7369,46 +7446,42 @@
     // tier → 씬 ID
     function getTierScene(tier) {
       const scenes = {
-        7:  'arcane_runes',      // Arcane — 신비한 룬 문자
-        8:  'mythic_dragon',     // Mythic — 용 실루엣
-        9:  'star_burst',        // Legendary — 별 8방향 폭발
-        10: 'ocean_deep',        // Sentinel — 바닷속 해파리
-        11: 'pixel_world',       // Vanguard — 픽셀 도트
-        12: 'beast_fire',        // Beast — 발톱 자국 + 불
-        13: 'night_sky',         // Nightshade — 초승달 + 독 방울
-        14: 'phantom_invert',    // Phantom — 유령 실루엣
-        15: 'celestial_pillars', // Celestial — 별자리 + 빛기둥
-        16: 'frost_crystal',     // Frostbound — 얼음 결정체
-        17: 'wraith_dual',       // Wraithlord — 두 에너지 충돌
-        18: 'cosmic_typing',     // Cosmic — 은하 소용돌이 + 타이핑
-        19: 'solflare_sun',      // Solflare — 태양 코로나
-        20: 'storm_lightning',   // Stormcaller — 번개
-        21: 'ultra_matrix',      // Ultra — 매트릭스 코드
-        22: 'eclipse_ring',      // Eclipse — 일식
-        23: 'void_ocean',        // Voidwalker — 심해 균열
-        24: 'hyper_speed',       // Hyper — 초고속 에너지
-        25: 'seraph_wings',      // Seraphic — 천사 날개
-        26: 'astral_crown',      // Astral Monarch — 별의 왕관
-        27: 'infinity_all',      // Infinity — ∞ 심볼
-        28: 'dread_darkness',    // Dreadlord — 어둠의 손
-        29: 'genesis_big',       // Genesis — 대폭발
-        30: 'eternal_pillars',   // ETERNAL DESTROYER — 파괴 균열
-        31: 'blueprint_scan',    // PRIME ARCHITECT — 설계도
-        32: 'void_collapse',     // VOID SOVEREIGN — 블랙홀 붕괴
-        33: 'chrono_clock',      // CHRONO OVERLORD — 시계
-        34: 'absolute_zero',     // ABSOLUTE ZERO — 눈결정
-        35: 'quantum_reaper',    // Quantum Reaper — 낫 + 양자 분열
-        36: 'world_eater',       // World Eater — 소용돌이
-        37: 'singularity_type',  // Singularity — 특이점 타이핑
-        38: 'omniscient_eyes',   // Omniscient — 눈들
-        39: 'paradox_twist',     // Paradox — 메비우스
-        40: 'demiurge_create',   // Demiurge — 창조의 손 + 타이핑
-        41: 'akashic_data',      // Akashic Lord — DNA 스트림
-        42: 'transcend_white',   // Transcendent — 흰빛 초월
-        43: 'primordial_fire',   // Primordial — 원시 룬
-        44: 'god_emperor',       // GOD EMPEROR — 왕관 + 왕권광선
+        7:  'arcane_runes',      8:  'mythic_dragon',
+        9:  'star_burst',        10: 'ironveil_steel',
+        11: 'ocean_deep',        12: 'emberstrike_fire',
+        13: 'pixel_world',       14: 'thornwall_earth',
+        15: 'beast_fire',        16: 'bloodthorn_red',
+        17: 'night_sky',         18: 'grimshade_purple',
+        19: 'phantom_invert',    20: 'frostfang_ice',
+        21: 'celestial_pillars', 22: 'ashbound_grey',
+        23: 'frost_crystal',     24: 'stormbrand_lightning',
+        25: 'wraith_dual',       26: 'voidmark_dark',
+        27: 'cosmic_typing',     28: 'blazewarden_flame',
+        29: 'solflare_sun',      30: 'duskmantle_dusk',
+        31: 'storm_lightning',   32: 'ironwrath_metal',
+        33: 'ultra_matrix',      34: 'shadowmere_shadow',
+        35: 'eclipse_ring',      36: 'hollowgrave_void',
+        37: 'void_ocean',        38: 'starbreaker_burst',
+        39: 'hyper_speed',       40: 'seraph_wings',
+        41: 'astral_crown',      42: 'infinity_all',
+        43: 'dread_darkness',    44: 'genesis_big',
+        45: 'voidpact_pact',     46: 'eternal_pillars',
+        47: 'grimtide_tide',     48: 'blueprint_scan',
+        49: 'nullbinder_null',   50: 'void_collapse',
+        51: 'desolator_des',     52: 'chrono_clock',
+        53: 'frostchasm_chasm',  54: 'absolute_zero',
+        55: 'ruinweave_ruin',    56: 'quantum_reaper',
+        57: 'ashrender_ash',     58: 'world_eater',
+        59: 'wraithstorm_ws',    60: 'singularity_type',
+        61: 'omniscient_eyes',   62: 'paradox_twist',
+        63: 'demiurge_create',   64: 'akashic_data',
+        65: 'transcend_white',   66: 'primordial_fire',
+        67: 'god_emperor',       68: 'riftwalker_rift',
+        69: 'voidbane_bane',     70: 'netherstrike_ns',
+        71: 'soulrender_sr',     72: 'doomweaver_dw',
+        73: 'oblivion_ob',       74: 'the_absolute',
       };
-      return scenes[tier] || 'simple_circle';
+      return scenes[tier] || (GOLDEN_ONLY_TIERS.includes(tier) ? 'god_emperor' : 'simple_circle');
     }
 
     // 색상 파싱 (#rrggbb → {r,g,b} 0~255)
@@ -7987,14 +8060,36 @@
         const t = performance.now() - startTime;
         const elapsed = t / 1000;
 
-        // 1. 배경
+        // 1. 배경 (단순 fill 대신 그라디언트)
         ctx.fillStyle = sceneBg;
         ctx.fillRect(0,0,w,h);
+        // 배경 에너지 흐름 (고등급일수록 강하게)
+        if (tier >= 10) {
+          const bgIntensity = Math.min(0.15, tier * 0.002);
+          const bgG = ctx.createRadialGradient(cx,cy,0, cx,cy,h*0.8);
+          bgG.addColorStop(0, `rgba(${rgb},${bgIntensity})`);
+          bgG.addColorStop(0.6, `rgba(${rgb},${bgIntensity*0.3})`);
+          bgG.addColorStop(1, `rgba(${rgb},0)`);
+          ctx.fillStyle = bgG;
+          ctx.fillRect(0,0,w,h);
+          // 에너지 파동 (느리게 퍼짐)
+          const waveR = (elapsed*0.08 % 1) * h*1.2;
+          const waveOp = Math.max(0, 0.08 - (waveR/(h*1.2))*0.08);
+          ctx.strokeStyle = `rgba(${rgb},${waveOp})`;
+          ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.arc(cx,cy,waveR,0,Math.PI*2); ctx.stroke();
+        }
 
-        // 2. 성운/안개
+        // 2. 성운/안개 (강화)
         ctx.save();
-        const nebulaIntensity = 0.5 + (tier/44)*1.0;
+        const nebulaIntensity = Math.min(1.5, 0.4 + (tier/74)*1.2);
         drawNebula(t, nebulaIntensity);
+        // 추가 성운 레이어 (고등급)
+        if (tier >= 30) {
+          ctx.globalAlpha = 0.4;
+          drawNebula(t*0.7 + 1000, nebulaIntensity*0.5);
+          ctx.globalAlpha = 1;
+        }
         ctx.restore();
 
         // 3. 씬별 심볼리즘 그래픽
@@ -8959,6 +9054,467 @@
             break;
           }
 
+          // ── 새 등급 고유 씬들 ──
+          case 'ironveil_steel': {
+            // Ironveil — 철의 장막, 육각형 격자
+            ctx.strokeStyle=`rgba(${rgb},0.6)`; ctx.lineWidth=1.5;
+            ctx.shadowColor=`rgba(${rgb},0.5)`; ctx.shadowBlur=8;
+            const hexR=h*0.06;
+            for(let r=-3;r<=3;r++) for(let c=-3;c<=3;c++){
+              const hx=cx+c*hexR*1.75+(r%2)*hexR*0.875, hy=cy+r*hexR*1.5;
+              if(Math.sqrt((hx-cx)**2+(hy-cy)**2)>h*0.3) continue;
+              ctx.beginPath();
+              for(let i=0;i<6;i++){const a=i/6*Math.PI*2+Math.PI/6;i===0?ctx.moveTo(hx+Math.cos(a)*hexR,hy+Math.sin(a)*hexR):ctx.lineTo(hx+Math.cos(a)*hexR,hy+Math.sin(a)*hexR);}
+              ctx.closePath(); ctx.stroke();
+            }
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'emberstrike_fire': {
+            // Emberstrike — 번쩍이는 화염 번개
+            ctx.strokeStyle=`rgba(255,120,0,0.8)`; ctx.lineWidth=3;
+            ctx.shadowColor='rgba(255,80,0,0.9)'; ctx.shadowBlur=20;
+            if(Math.floor(elapsed*4)%3<2){
+              const lx=cx+(Math.random()-.5)*w*0.3;
+              ctx.beginPath(); ctx.moveTo(lx,cy-h*0.3);
+              let py=cy-h*0.3,px=lx;
+              for(let s=0;s<8;s++){px+=(Math.random()-.5)*h*0.08;py+=h*0.075;ctx.lineTo(px,py);}
+              ctx.stroke();
+            }
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'thornwall_earth': {
+            // Thornwall — 가시 덩굴
+            ctx.strokeStyle=`rgba(${rgb},0.65)`; ctx.lineWidth=2; ctx.lineCap='round';
+            ctx.shadowColor=`rgba(${rgb},0.5)`; ctx.shadowBlur=8;
+            for(let i=0;i<6;i++){
+              const a=(i/6)*Math.PI*2+elapsed*0.1;
+              ctx.beginPath(); ctx.moveTo(cx,cy);
+              let tx=cx,ty=cy;
+              for(let s=0;s<8;s++){
+                tx+=Math.cos(a+(Math.random()-.5)*0.6)*h*0.04;
+                ty+=Math.sin(a+(Math.random()-.5)*0.6)*h*0.04;
+                ctx.lineTo(tx,ty);
+                // 가시
+                ctx.moveTo(tx,ty);
+                ctx.lineTo(tx+Math.cos(a+1.2)*h*0.02,ty+Math.sin(a+1.2)*h*0.02);
+                ctx.moveTo(tx,ty);
+              }
+              ctx.stroke();
+            }
+            ctx.lineCap='butt'; ctx.shadowBlur=0;
+            break;
+          }
+          case 'bloodthorn_red': {
+            // Bloodthorn — 혈흔 + 가시
+            ctx.fillStyle=`rgba(180,0,0,0.6)`;
+            for(let i=0;i<8;i++){
+              const a=(i/8)*Math.PI*2;
+              const r=h*(0.05+Math.sin(elapsed*2+i)*0.02);
+              const dx=cx+Math.cos(a)*h*0.15, dy=cy+Math.sin(a)*h*0.15;
+              ctx.beginPath(); ctx.arc(dx,dy,r,0,Math.PI*2); ctx.fill();
+            }
+            ctx.strokeStyle=`rgba(${rgb},0.7)`; ctx.lineWidth=2;
+            for(let i=0;i<5;i++){
+              const a=(i/5)*Math.PI*2+elapsed*0.15;
+              ctx.beginPath(); ctx.moveTo(cx,cy);
+              ctx.lineTo(cx+Math.cos(a)*h*0.22,cy+Math.sin(a)*h*0.22);
+              ctx.stroke();
+            }
+            break;
+          }
+          case 'grimshade_purple': {
+            // Grimshade — 보라빛 그림자 소환진
+            ctx.strokeStyle=`rgba(${rgb},0.55)`; ctx.lineWidth=1.5;
+            ctx.shadowColor=`rgba(${rgb},0.6)`; ctx.shadowBlur=15;
+            for(let i=0;i<5;i++){
+              const r=h*(0.06+i*0.04);
+              ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke();
+            }
+            for(let i=0;i<6;i++){
+              const a=(i/6)*Math.PI*2+elapsed*0.2;
+              ctx.beginPath(); ctx.moveTo(cx,cy);
+              ctx.lineTo(cx+Math.cos(a)*h*0.28,cy+Math.sin(a)*h*0.28); ctx.stroke();
+            }
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'frostfang_ice': {
+            // Frostfang — 날카로운 얼음 송곳니
+            ctx.strokeStyle='rgba(150,230,255,0.8)'; ctx.lineWidth=2;
+            ctx.shadowColor='rgba(100,200,255,0.7)'; ctx.shadowBlur=14;
+            for(let i=0;i<8;i++){
+              const a=(i/8)*Math.PI*2;
+              const len=h*(0.1+i%2*0.06);
+              const x1=cx+Math.cos(a)*h*0.08, y1=cy+Math.sin(a)*h*0.08;
+              const x2=cx+Math.cos(a)*len, y2=cy+Math.sin(a)*len;
+              ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+              ctx.beginPath(); ctx.moveTo(x2-Math.sin(a)*h*0.02,y2+Math.cos(a)*h*0.02);
+              ctx.lineTo(x2,y2); ctx.lineTo(x2+Math.sin(a)*h*0.02,y2-Math.cos(a)*h*0.02);
+              ctx.stroke();
+            }
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'ashbound_grey': {
+            // Ashbound — 재의 소용돌이
+            ctx.strokeStyle=`rgba(${rgb},0.4)`; ctx.lineWidth=1.5;
+            for(let i=0;i<3;i++){
+              ctx.beginPath();
+              for(let j=0;j<=60;j++){
+                const t2=j/60, a2=t2*Math.PI*6+i*(Math.PI*2/3)+elapsed*0.4;
+                const r2=t2*h*0.22;
+                j===0?ctx.moveTo(cx+Math.cos(a2)*r2,cy+Math.sin(a2)*r2):ctx.lineTo(cx+Math.cos(a2)*r2,cy+Math.sin(a2)*r2);
+              }
+              ctx.stroke();
+            }
+            break;
+          }
+          case 'stormbrand_lightning': {
+            // Stormbrand — 브랜드 문양 + 번개
+            ctx.strokeStyle=`rgba(${rgb},0.7)`; ctx.lineWidth=2.5;
+            ctx.shadowColor=`rgba(${rgb},0.8)`; ctx.shadowBlur=18;
+            // S자 브랜드
+            ctx.beginPath();
+            ctx.moveTo(cx-h*0.08,cy-h*0.12);
+            ctx.bezierCurveTo(cx+h*0.12,cy-h*0.12,cx-h*0.12,cy,cx+h*0.08,cy);
+            ctx.bezierCurveTo(cx+h*0.12,cy,cx-h*0.12,cy+h*0.12,cx+h*0.08,cy+h*0.12);
+            ctx.stroke();
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'voidmark_dark': {
+            // Voidmark — 어둠의 낙인
+            ctx.fillStyle=`rgba(0,0,0,0.7)`;
+            ctx.beginPath(); ctx.arc(cx,cy,h*0.09,0,Math.PI*2); ctx.fill();
+            ctx.strokeStyle=`rgba(${rgb},0.7)`; ctx.lineWidth=2;
+            ctx.shadowColor=`rgba(${rgb},0.6)`; ctx.shadowBlur=15;
+            for(let i=0;i<5;i++){
+              const a=(i/5)*Math.PI*2+elapsed*0.15;
+              ctx.beginPath(); ctx.arc(cx+Math.cos(a)*h*0.16,cy+Math.sin(a)*h*0.16,h*0.025,0,Math.PI*2); ctx.stroke();
+            }
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'blazewarden_flame': {
+            // Blazewarden — 화염 수호자 방패
+            ctx.strokeStyle=`rgba(${rgb},0.75)`; ctx.lineWidth=2.5;
+            ctx.shadowColor=`rgba(${rgb},0.8)`; ctx.shadowBlur=18;
+            // 방패 형태
+            ctx.beginPath();
+            ctx.moveTo(cx,cy-h*0.16);
+            ctx.lineTo(cx+h*0.12,cy-h*0.08);
+            ctx.lineTo(cx+h*0.12,cy+h*0.04);
+            ctx.quadraticCurveTo(cx,cy+h*0.18,cx,cy+h*0.18);
+            ctx.quadraticCurveTo(cx,cy+h*0.18,cx-h*0.12,cy+h*0.04);
+            ctx.lineTo(cx-h*0.12,cy-h*0.08);
+            ctx.closePath(); ctx.stroke();
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'duskmantle_dusk': {
+            // Duskmantle — 황혼의 망토
+            const dg=ctx.createLinearGradient(0,0,0,h);
+            dg.addColorStop(0,'rgba(255,100,0,0.15)');
+            dg.addColorStop(0.5,'rgba(80,0,80,0.1)');
+            dg.addColorStop(1,'rgba(0,0,0,0)');
+            ctx.fillStyle=dg; ctx.fillRect(0,0,w,h);
+            ctx.strokeStyle=`rgba(${rgb},0.5)`; ctx.lineWidth=1.5;
+            for(let i=0;i<4;i++){
+              const y=h*(0.2+i*0.18);
+              ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y+Math.sin(elapsed+i)*h*0.03); ctx.stroke();
+            }
+            break;
+          }
+          case 'ironwrath_metal': {
+            // Ironwrath — 금속 파편
+            ctx.strokeStyle=`rgba(${rgb},0.7)`; ctx.lineWidth=2;
+            ctx.shadowColor=`rgba(${rgb},0.6)`; ctx.shadowBlur=10;
+            for(let i=0;i<12;i++){
+              const a=(i/12)*Math.PI*2+elapsed*0.2;
+              const r1=h*0.05, r2=h*(0.12+i%3*0.04);
+              ctx.beginPath();
+              ctx.moveTo(cx+Math.cos(a)*r1,cy+Math.sin(a)*r1);
+              ctx.lineTo(cx+Math.cos(a)*r2,cy+Math.sin(a)*r2);
+              ctx.stroke();
+            }
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'shadowmere_shadow': {
+            // Shadowmere — 그림자 호수
+            for(let i=0;i<5;i++){
+              const op=0.3-i*0.05;
+              const ry=h*(0.06+i*0.04);
+              ctx.strokeStyle=`rgba(${rgb},${op})`; ctx.lineWidth=1;
+              ctx.beginPath(); ctx.ellipse(cx,cy,h*0.2,ry,0,0,Math.PI*2); ctx.stroke();
+            }
+            break;
+          }
+          case 'hollowgrave_void': {
+            // Hollowgrave — 공허한 묘비
+            ctx.strokeStyle=`rgba(${rgb},0.6)`; ctx.lineWidth=2;
+            ctx.shadowColor=`rgba(${rgb},0.5)`; ctx.shadowBlur=12;
+            // 묘비 실루엣
+            ctx.beginPath();
+            ctx.moveTo(cx-h*0.07,cy+h*0.15);
+            ctx.lineTo(cx-h*0.07,cy-h*0.05);
+            ctx.arc(cx,cy-h*0.05,h*0.07,Math.PI,0);
+            ctx.lineTo(cx+h*0.07,cy+h*0.15);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(cx-h*0.04,cy-h*0.02);
+            ctx.lineTo(cx+h*0.04,cy-h*0.02);
+            ctx.moveTo(cx,cy-h*0.06);
+            ctx.lineTo(cx,cy+h*0.06);
+            ctx.stroke();
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'starbreaker_burst': {
+            // Starbreaker — 별 파괴
+            ctx.strokeStyle=`rgba(${rgb},0.8)`; ctx.lineWidth=2;
+            ctx.shadowColor=`rgba(${rgb},0.9)`; ctx.shadowBlur=20;
+            const sbCount=16;
+            for(let i=0;i<sbCount;i++){
+              const a=(i/sbCount)*Math.PI*2;
+              const len=h*(0.08+i%3*0.05)+Math.sin(elapsed*3+i)*h*0.015;
+              ctx.beginPath(); ctx.moveTo(cx,cy);
+              ctx.lineTo(cx+Math.cos(a)*len,cy+Math.sin(a)*len); ctx.stroke();
+            }
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'voidpact_pact': {
+            // Voidpact — 계약의 인장
+            ctx.strokeStyle=`rgba(${rgb},0.7)`; ctx.lineWidth=2;
+            ctx.shadowColor=`rgba(${rgb},0.6)`; ctx.shadowBlur=14;
+            ctx.beginPath(); ctx.arc(cx,cy,h*0.14,0,Math.PI*2); ctx.stroke();
+            for(let i=0;i<5;i++){
+              const a=(i/5)*Math.PI*2+elapsed*0.1;
+              ctx.beginPath();
+              ctx.moveTo(cx+Math.cos(a)*h*0.14,cy+Math.sin(a)*h*0.14);
+              ctx.lineTo(cx+Math.cos(a+Math.PI*2/5*2)*h*0.14,cy+Math.sin(a+Math.PI*2/5*2)*h*0.14);
+              ctx.stroke();
+            }
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'grimtide_tide': {
+            // Grimtide — 어둠의 조류
+            for(let w2=0;w2<4;w2++){
+              ctx.strokeStyle=`rgba(${rgb},${0.5-w2*0.1})`; ctx.lineWidth=2;
+              ctx.beginPath();
+              for(let x=0;x<=w;x+=4){
+                const y=cy+Math.sin(x*0.02+elapsed*1.5+w2*0.8)*h*(0.06+w2*0.02);
+                x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+              }
+              ctx.stroke();
+            }
+            break;
+          }
+          case 'nullbinder_null': {
+            // Nullbinder — 무효화 기호 (∅)
+            ctx.strokeStyle=`rgba(${rgb},0.75)`; ctx.lineWidth=3;
+            ctx.shadowColor=`rgba(${rgb},0.7)`; ctx.shadowBlur=16;
+            ctx.beginPath(); ctx.arc(cx,cy,h*0.12,0,Math.PI*2); ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(cx-h*0.09,cy+h*0.09);
+            ctx.lineTo(cx+h*0.09,cy-h*0.09); ctx.stroke();
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'desolator_des': {
+            // Desolator — 황무지 균열
+            ctx.strokeStyle=`rgba(${rgb},0.6)`; ctx.lineWidth=2;
+            ctx.shadowColor=`rgba(${rgb},0.5)`; ctx.shadowBlur=10;
+            for(let c=0;c<6;c++){
+              const ca=(c/6)*Math.PI*2;
+              ctx.beginPath(); ctx.moveTo(cx,cy);
+              let px=cx,py=cy;
+              for(let s=0;s<6;s++){
+                px+=Math.cos(ca+(Math.random()-.5)*0.7)*h*0.05;
+                py+=Math.sin(ca+(Math.random()-.5)*0.7)*h*0.05;
+                ctx.lineTo(px,py);
+              }
+              ctx.stroke();
+            }
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'frostchasm_chasm': {
+            // Frostchasm — 얼음 균열 심연
+            ctx.strokeStyle='rgba(200,240,255,0.7)'; ctx.lineWidth=1.5;
+            ctx.shadowColor='rgba(150,220,255,0.6)'; ctx.shadowBlur=12;
+            for(let i=0;i<5;i++){
+              const a=Math.PI/2+i*0.3-0.6;
+              ctx.beginPath(); ctx.moveTo(cx,cy);
+              let px=cx,py=cy;
+              for(let s=0;s<8;s++){
+                px+=Math.cos(a+(Math.random()-.5)*0.5)*h*0.04;
+                py+=Math.sin(a+(Math.random()-.5)*0.5)*h*0.04;
+                ctx.lineTo(px,py);
+              }
+              ctx.stroke();
+            }
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'ruinweave_ruin': {
+            // Ruinweave — 폐허의 직물
+            ctx.strokeStyle=`rgba(${rgb},0.5)`; ctx.lineWidth=1.5;
+            for(let i=0;i<6;i++){
+              for(let j=0;j<6;j++){
+                if(Math.random()<0.4) continue;
+                const x=cx-h*0.15+i*h*0.06, y=cy-h*0.15+j*h*0.06;
+                ctx.beginPath();
+                ctx.moveTo(x,y); ctx.lineTo(x+h*0.05*(Math.random()>.5?1:-1),y+h*0.05*(Math.random()>.5?1:-1));
+                ctx.stroke();
+              }
+            }
+            break;
+          }
+          case 'ashrender_ash': {
+            // Ashrender — 재로 찢어진 공간
+            ctx.strokeStyle=`rgba(${rgb},0.7)`; ctx.lineWidth=3;
+            ctx.shadowColor=`rgba(${rgb},0.8)`; ctx.shadowBlur=20;
+            ctx.lineCap='round';
+            for(let i=0;i<3;i++){
+              const off=(i-1)*h*0.08;
+              ctx.beginPath();
+              ctx.moveTo(cx+off-h*0.05,cy-h*0.15);
+              ctx.quadraticCurveTo(cx+off+h*0.04,cy,cx+off+h*0.05,cy+h*0.15);
+              ctx.stroke();
+            }
+            ctx.lineCap='butt'; ctx.shadowBlur=0;
+            break;
+          }
+          case 'wraithstorm_ws': {
+            // Wraithstorm — 유령 폭풍
+            ctx.strokeStyle=`rgba(${rgb},0.5)`; ctx.lineWidth=1.5;
+            for(let i=0;i<8;i++){
+              const a=(i/8)*Math.PI*2+elapsed*0.6;
+              const r1=h*0.04, r2=h*0.22;
+              ctx.beginPath();
+              ctx.moveTo(cx+Math.cos(a)*r1,cy+Math.sin(a)*r1);
+              ctx.quadraticCurveTo(cx+Math.cos(a+0.5)*h*0.12,cy+Math.sin(a+0.5)*h*0.12,cx+Math.cos(a+0.8)*r2,cy+Math.sin(a+0.8)*r2);
+              ctx.stroke();
+            }
+            break;
+          }
+          case 'riftwalker_rift': {
+            // Riftwalker — 공간 균열
+            ctx.strokeStyle=`rgba(${rgb},0.8)`; ctx.lineWidth=3;
+            ctx.shadowColor=`rgba(${rgb},0.9)`; ctx.shadowBlur=25;
+            ctx.beginPath();
+            ctx.moveTo(cx-h*0.02,cy-h*0.2);
+            ctx.lineTo(cx+h*0.04,cy-h*0.05);
+            ctx.lineTo(cx-h*0.04,cy+h*0.05);
+            ctx.lineTo(cx+h*0.02,cy+h*0.2);
+            ctx.stroke();
+            // 균열 내부 빛
+            const rg=ctx.createLinearGradient(cx,cy-h*0.2,cx,cy+h*0.2);
+            rg.addColorStop(0,`rgba(${rgb},0)`);
+            rg.addColorStop(0.5,`rgba(255,255,255,0.5)`);
+            rg.addColorStop(1,`rgba(${rgb},0)`);
+            ctx.fillStyle=rg;
+            ctx.beginPath(); ctx.ellipse(cx,cy,h*0.015,h*0.18,0,0,Math.PI*2); ctx.fill();
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'voidbane_bane': {
+            // Voidbane — 공허 결계
+            ctx.strokeStyle=`rgba(${rgb},0.7)`; ctx.lineWidth=2;
+            ctx.shadowColor=`rgba(${rgb},0.7)`; ctx.shadowBlur=18;
+            for(let i=0;i<6;i++){
+              const a=(i/6)*Math.PI*2+elapsed*0.1;
+              ctx.beginPath(); ctx.arc(cx+Math.cos(a)*h*0.12,cy+Math.sin(a)*h*0.12,h*0.04,0,Math.PI*2); ctx.stroke();
+            }
+            ctx.beginPath(); ctx.arc(cx,cy,h*0.18,0,Math.PI*2); ctx.stroke();
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'netherstrike_ns': {
+            // Netherstrike — 지하세계 강타
+            ctx.strokeStyle=`rgba(${rgb},0.8)`; ctx.lineWidth=3;
+            ctx.shadowColor=`rgba(${rgb},0.9)`; ctx.shadowBlur=22;
+            ctx.lineCap='round';
+            ctx.beginPath();
+            ctx.moveTo(cx,cy-h*0.22);
+            ctx.lineTo(cx-h*0.06,cy+h*0.08);
+            ctx.lineTo(cx+h*0.04,cy+h*0.02);
+            ctx.lineTo(cx-h*0.02,cy+h*0.22);
+            ctx.stroke();
+            ctx.lineCap='butt'; ctx.shadowBlur=0;
+            break;
+          }
+          case 'soulrender_sr': {
+            // Soulrender — 영혼 찢기
+            ctx.strokeStyle=`rgba(${rgb},0.7)`; ctx.lineWidth=2.5;
+            ctx.shadowColor=`rgba(${rgb},0.8)`; ctx.shadowBlur=20;
+            for(let i=0;i<4;i++){
+              const off=(i-1.5)*h*0.07;
+              ctx.beginPath();
+              ctx.moveTo(cx+off,cy-h*0.2);
+              ctx.bezierCurveTo(cx+off+h*(i%2?.06:-.06),cy,cx+off-h*(i%2?.06:-.06),cy,cx+off,cy+h*0.2);
+              ctx.stroke();
+            }
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'doomweaver_dw': {
+            // Doomweaver — 파멸의 직조
+            ctx.strokeStyle=`rgba(${rgb},0.65)`; ctx.lineWidth=1.8;
+            ctx.shadowColor=`rgba(${rgb},0.6)`; ctx.shadowBlur=15;
+            const pts=[];
+            for(let i=0;i<12;i++){
+              const a=(i/12)*Math.PI*2;
+              pts.push({x:cx+Math.cos(a)*h*0.18,y:cy+Math.sin(a)*h*0.18});
+            }
+            for(let i=0;i<pts.length;i++){
+              for(let j=i+2;j<pts.length;j+=2){
+                ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke();
+              }
+            }
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'oblivion_ob': {
+            // Oblivion — 망각, 모든 것이 사라짐
+            const fade=0.6+Math.sin(elapsed*0.5)*0.3;
+            ctx.fillStyle=`rgba(0,0,0,${fade*0.4})`;
+            ctx.fillRect(0,0,w,h);
+            ctx.strokeStyle=`rgba(${rgb},${0.8-fade*0.3})`; ctx.lineWidth=2;
+            ctx.shadowColor=`rgba(${rgb},0.7)`; ctx.shadowBlur=20;
+            ctx.beginPath(); ctx.arc(cx,cy,h*0.15,0,Math.PI*2); ctx.stroke();
+            ctx.shadowBlur=0;
+            break;
+          }
+          case 'the_absolute': {
+            // THE ABSOLUTE — 절대자, 모든 형태를 초월
+            // 타이핑 메시지
+            if(!typingState) typingState=makeTypingText(["THE ABSOLUTE.","beyond all existence.","you have transcended."],2000);
+            // 왕관 + 무한 링
+            ctx.strokeStyle=`rgba(${rgb},0.8)`; ctx.lineWidth=2.5;
+            ctx.shadowColor=`rgba(${rgb},1)`; ctx.shadowBlur=30;
+            for(let i=0;i<5;i++){
+              const r=h*(0.06+i*0.055)+Math.sin(elapsed*1.5+i)*h*0.01;
+              ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke();
+            }
+            const rayN=24;
+            for(let i=0;i<rayN;i++){
+              const ra=(i/rayN)*Math.PI*2+elapsed*0.05;
+              const rg2=ctx.createLinearGradient(cx,cy,cx+Math.cos(ra)*h*0.5,cy+Math.sin(ra)*h*0.5);
+              rg2.addColorStop(0,`rgba(255,255,255,0.2)`);
+              rg2.addColorStop(1,`rgba(${rgb},0)`);
+              ctx.strokeStyle=rg2; ctx.lineWidth=1;
+              ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(ra)*h*0.5,cy+Math.sin(ra)*h*0.5); ctx.stroke();
+            }
+            ctx.shadowBlur=0;
+            break;
+          }
+
         }
         ctx.restore();
 
@@ -8966,33 +9522,37 @@
                 // 4. 픽셀 모드
         if (scene_id === 'pixel_world' || scene_id === 'quantum_glitch') drawPixelGrid(t);
 
-        // 5. 마법진
+        // 5. 마법진 (펄스 + 회전 강화)
         ctx.save();
-        const circleR = h * (0.22 + (tier/44)*0.1);
-        const rot = elapsed * (0.2 + (tier/44)*0.4);
-        drawMagicCircle(cx, cy, circleR, 64, 0.45+Math.sin(t*0.001)*0.15, rot);
-        if (tier >= 16) drawMagicCircle(cx, cy, circleR*1.22, 64, 0.3, -rot*0.7);
-        if (tier >= 23) drawMagicCircle(cx, cy, circleR*1.5, 64, 0.2, rot*0.5);
-        if (tier >= 30) { drawMagicCircle(cx, cy, circleR*1.75, 128, 0.18, -rot*0.3); drawMagicCircle(cx, cy, circleR*0.75, 32, 0.35, rot*1.2); }
-        if (tier >= 35) for(let i=0;i<5;i++) drawMagicCircle(cx, cy, circleR*(0.4+i*0.35), 64, 0.5-i*0.07, rot*(1.5-i*0.3));
+        const circleR = h * (0.18 + (tier/74)*0.12);
+        const rotSpd = 0.15 + (tier/74)*0.5;
+        const rot = elapsed * rotSpd;
+        const circlePulse = 0.4+Math.sin(t*0.0015)*0.2;
+        drawMagicCircle(cx, cy, circleR, 64, circlePulse, rot);
+        if (tier >= 12) drawMagicCircle(cx, cy, circleR*1.25, 64, circlePulse*0.7, -rot*0.75);
+        if (tier >= 20) drawMagicCircle(cx, cy, circleR*1.55, 96, circlePulse*0.5, rot*0.5);
+        if (tier >= 30) { drawMagicCircle(cx, cy, circleR*1.85, 128, circlePulse*0.35, -rot*0.3); drawMagicCircle(cx, cy, circleR*0.7, 32, circlePulse*0.6, rot*1.5); }
+        if (tier >= 45) for(let i=0;i<6;i++) drawMagicCircle(cx, cy, circleR*(0.35+i*0.32), 64, 0.55-i*0.07, rot*(1.8-i*0.28));
+        if (tier >= 60) for(let i=0;i<3;i++) drawMagicCircle(cx, cy, circleR*(2.1+i*0.25), 128, 0.2-i*0.05, -rot*(0.2+i*0.05));
         // 별 패턴
-        const starPoints = tier>=35?12:tier>=23?8:tier>=16?6:5;
-        drawStar(cx, cy, circleR*0.88, circleR*0.35, starPoints, 0.45, rot*0.5);
-        if (tier>=20) drawStar(cx, cy, circleR*1.12, circleR*0.45, starPoints+1, 0.3, -rot*0.4);
+        const starPoints = tier>=60?14:tier>=45?12:tier>=30?10:tier>=20?8:tier>=12?6:5;
+        drawStar(cx, cy, circleR*0.85, circleR*0.33, starPoints, circlePulse*0.9, rot*0.5);
+        if (tier>=17) drawStar(cx, cy, circleR*1.15, circleR*0.45, starPoints+2, circlePulse*0.5, -rot*0.38);
+        if (tier>=40) drawStar(cx, cy, circleR*1.48, circleR*0.58, starPoints+4, circlePulse*0.3, rot*0.22);
         ctx.restore();
 
         // 6. 충격파
         ctx.save(); drawShockwaves(shockwaves, t); ctx.restore();
 
-        // 6. 에너지 링 (두께감 있게)
+        // 6.5. 에너지 링 (두께감 + 펄스)
         ctx.save();
-        const ringCount = tier >= 35 ? 4 : tier >= 25 ? 3 : 2;
+        const ringCount = tier >= 60 ? 6 : tier >= 45 ? 5 : tier >= 30 ? 4 : tier >= 20 ? 3 : 2;
         for (let i = 0; i < ringCount; i++) {
-          const rBase = h * (0.15 + i * 0.07);
-          const rPulse = rBase + Math.sin(elapsed * (1.2 + i * 0.3) + i) * h * 0.015;
-          const rop = 0.55 - i * 0.1;
-          const thickness = 3.5 - i * 0.6;
-          drawEnergyRing(cx, cy, rPulse, thickness, rop, t, 0.8 + i * 0.4);
+          const rBase = h * (0.12 + i * 0.06);
+          const rPulse = rBase + Math.sin(elapsed * (1.5 + i * 0.35) + i) * h * 0.018;
+          const rop = (0.6 - i * 0.08) * (0.8+Math.sin(t*0.002+i)*0.2);
+          const thickness = 4 - i * 0.5;
+          drawEnergyRing(cx, cy, rPulse, Math.max(1.5,thickness), rop, t, 0.6 + i * 0.35);
         }
         ctx.restore();
 
@@ -9001,40 +9561,115 @@
         updateDrawShards(shards, t);
         ctx.restore();
 
-        // 7. 파티클
+        // 7. 파티클 (물리 개선 + 글로우 강화)
         ctx.save();
         particles.forEach(p => {
-          // 씬별 파티클 움직임
-          if (scene_id==='beast_fire'||scene_id==='primordial_fire') {
-            p.y -= 0.8+Math.random()*0.5;
-            p.x += Math.sin(t*0.002+p.phase)*0.6;
-            if (p.y < cy-h*0.4) { p.y=cy+h*0.15; p.x=cx+(Math.random()-.5)*w*0.4; }
-          } else if (scene_id==='ocean_deep'||scene_id==='void_ocean') {
-            p.x += Math.sin(t*0.0008+p.phase)*0.5;
-            p.y += Math.cos(t*0.0006+p.phase)*0.3;
-          } else {
+          if (scene_id==='beast_fire'||scene_id==='primordial_fire'||scene_id==='blazewarden_flame'||scene_id==='emberstrike_fire'||scene_id==='ashrender_ash') {
+            // 불 — 위로 올라가면서 흔들림 + 중력 감소
+            p.vy -= 0.04;
+            p.vx += Math.sin(t*0.003+p.phase)*0.08;
             p.x += p.vx; p.y += p.vy;
+            if (p.y < cy-h*0.45 || p.r < 0.3) {
+              p.y=cy+h*0.2+(Math.random()-.5)*h*0.1;
+              p.x=cx+(Math.random()-.5)*w*0.35;
+              p.vy=-(0.5+Math.random()*1.5);
+              p.vx=(Math.random()-.5)*0.8;
+              p.r=0.8+Math.random()*2.5;
+            }
+            p.r *= 0.998; // 타오르며 작아짐
+          } else if (scene_id==='ocean_deep'||scene_id==='void_ocean') {
+            // 바다 — 물결 + 부력
+            p.x += Math.sin(t*0.0008+p.phase)*0.6 + p.vx*0.3;
+            p.y += Math.cos(t*0.0006+p.phase)*0.4 + p.vy*0.3;
+            // 경계 반사
+            if (p.x < 0 || p.x > w) p.vx *= -1;
+            if (p.y < 0 || p.y > h) p.vy *= -1;
+          } else if (scene_id==='hyper_speed'||scene_id==='starbreaker_burst') {
+            // 고속 — 중심으로 빨려들어감
+            const dx=cx-p.x, dy=cy-p.y;
+            const dist=Math.sqrt(dx*dx+dy*dy);
+            p.vx += dx/dist*0.3;
+            p.vy += dy/dist*0.3;
+            p.vx *= 0.95; p.vy *= 0.95;
+            p.x += p.vx; p.y += p.vy;
+            if (dist < 15) {
+              const a=Math.random()*Math.PI*2, r=h*0.2+Math.random()*h*0.3;
+              p.x=cx+Math.cos(a)*r; p.y=cy+Math.sin(a)*r;
+              p.vx=0; p.vy=0;
+            }
+          } else {
+            // 기본 — 중심 주변 공전 + 약한 인력
             const dx=p.x-cx, dy=p.y-cy;
-            if (dx*dx+dy*dy > h*h*0.35) { p.vx*=-1; p.vy*=-1; }
+            const dist=Math.sqrt(dx*dx+dy*dy);
+            // 접선 방향 회전력
+            p.vx += -dy/dist*0.05 - dx/dist*0.02;
+            p.vy +=  dx/dist*0.05 - dy/dist*0.02;
+            p.vx *= 0.98; p.vy *= 0.98;
+            p.x += p.vx; p.y += p.vy;
+            // 너무 멀리 가면 다시 당김
+            if (dist > h*0.52) { p.vx -= dx/dist*0.5; p.vy -= dy/dist*0.5; }
+            if (dist < h*0.05) { p.vx += dx/dist*0.3; p.vy += dy/dist*0.3; }
           }
-          const pulse = 0.5+Math.sin(t*0.003+p.phase)*0.5;
-          ctx.globalAlpha = pulse * (0.4+Math.random()*0.3);
-          ctx.fillStyle = p.color ? p.color + (pulse*0.7)+')' : `rgba(${rgb},${pulse*0.7})`;
-          ctx.shadowColor = p.color ? p.color+'0.5)' : `rgba(${rgb},0.5)`;
-          ctx.shadowBlur = 6;
-          ctx.beginPath(); ctx.arc(p.x, p.y, p.r*(0.7+pulse*0.5), 0, Math.PI*2); ctx.fill();
+
+          // 렌더링 — 크기별로 다른 글로우
+          const pulse = 0.4+Math.sin(t*0.004+p.phase)*0.4;
+          const alpha = pulse * (0.5+Math.random()*0.3);
+          const glow = p.r * (3+pulse*4);
+          ctx.save();
+          ctx.globalAlpha = alpha;
+          if (p.r > 1.5) {
+            // 큰 파티클 — 방사형 그라디언트 글로우
+            const pg = ctx.createRadialGradient(p.x,p.y,0, p.x,p.y,glow);
+            const c = p.color ? p.color+'1)' : `rgba(${rgb},1)`;
+            const c0 = p.color ? p.color+'0)' : `rgba(${rgb},0)`;
+            pg.addColorStop(0, 'rgba(255,255,255,'+alpha+')');
+            pg.addColorStop(0.3, c);
+            pg.addColorStop(1, c0);
+            ctx.fillStyle = pg;
+            ctx.beginPath(); ctx.arc(p.x,p.y,glow,0,Math.PI*2); ctx.fill();
+          } else {
+            // 작은 파티클 — 단색 점
+            ctx.shadowColor = p.color ? p.color+'0.8)' : `rgba(${rgb},0.8)`;
+            ctx.shadowBlur = glow*2;
+            ctx.fillStyle = p.color ? p.color+alpha+')' : `rgba(${rgb},${alpha})`;
+            ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+          }
+          ctx.restore();
         });
         ctx.globalAlpha=1; ctx.shadowBlur=0;
         ctx.restore();
 
-        // 8. 중심 렌즈 플레어
+        // 8. 중심 렌즈 플레어 (다중 레이어)
         ctx.save();
-        const flareSize = h*(0.28+tier*0.006);
-        const flareOpacity = 0.7+Math.sin(t*0.002)*0.2;
-        const flareSpikes = tier>=35?12:tier>=25?10:tier>=16?8:6;
-        drawFlare(cx, cy, flareSize, flareOpacity, flareSpikes, elapsed*0.25);
-        // 보조 플레어 (45도 회전)
-        if (tier>=13) drawFlare(cx, cy, flareSize*0.55, flareOpacity*0.5, Math.floor(flareSpikes/2), elapsed*0.25+Math.PI/flareSpikes);
+        const flareSize = h*(0.22+tier*0.004);
+        const fOp = 0.75+Math.sin(t*0.0015)*0.2;
+        const flareSpikes = tier>=60?16:tier>=45?14:tier>=30?12:tier>=20?10:tier>=13?8:6;
+
+        // 외곽 대형 헤일로
+        const haloG = ctx.createRadialGradient(cx,cy,0,cx,cy,flareSize*1.8);
+        haloG.addColorStop(0, `rgba(${rgb},${fOp*0.15})`);
+        haloG.addColorStop(0.5, `rgba(${rgb},${fOp*0.05})`);
+        haloG.addColorStop(1, `rgba(${rgb},0)`);
+        ctx.fillStyle=haloG;
+        ctx.beginPath(); ctx.arc(cx,cy,flareSize*1.8,0,Math.PI*2); ctx.fill();
+
+        // 메인 플레어
+        drawFlare(cx, cy, flareSize, fOp, flareSpikes, elapsed*0.22);
+        // 보조 플레어 (다른 각도)
+        if (tier>=10) drawFlare(cx, cy, flareSize*0.6, fOp*0.55, Math.ceil(flareSpikes*0.6), elapsed*0.22+Math.PI/flareSpikes);
+        // 3번째 플레어 (고등급)
+        if (tier>=35) drawFlare(cx, cy, flareSize*0.35, fOp*0.35, 4, elapsed*0.22+Math.PI*0.4);
+
+        // 중심 코어 (강렬한 흰 빛)
+        const coreR = flareSize*0.08+Math.sin(t*0.003)*flareSize*0.015;
+        const coreG = ctx.createRadialGradient(cx,cy,0,cx,cy,coreR);
+        coreG.addColorStop(0,'rgba(255,255,255,1)');
+        coreG.addColorStop(0.4,'rgba(255,255,255,0.8)');
+        coreG.addColorStop(0.8,`rgba(${rgb},0.4)`);
+        coreG.addColorStop(1,`rgba(${rgb},0)`);
+        ctx.fillStyle=coreG;
+        ctx.beginPath(); ctx.arc(cx,cy,coreR,0,Math.PI*2); ctx.fill();
+
         ctx.restore();
 
         // 9. 타이핑 텍스트
@@ -9042,19 +9677,29 @@
           ctx.save(); drawTyping(typingState, t); ctx.restore();
         }
 
-        // 10. 이름 표시 (하단 중앙 가이드라인)
-        // — showCutscene의 nameBox가 담당
+        // 10. 블룸 효과 (강화 — 멀티패스)
+        if (Math.floor(elapsed*60)%2===0) {
+          const bw=bc.width, bh2=bc.height;
+          bloomCtx.clearRect(0,0,bw,bh2);
 
-        // 11. 블룸 효과
-        if (Math.floor(elapsed*60)%4===0) {
-          bloomCtx.clearRect(0,0,bc.width,bc.height);
-          bloomCtx.drawImage(cv,0,0,bc.width,bc.height);
-          const blurAmt = 8+tier*0.4;
-          for(let p=0;p<3;p++){
-            bloomCtx.filter=`blur(${blurAmt-p*2}px)`;
-            bloomCtx.drawImage(bc,0,0);
-          }
+          // 패스 1: 강한 블러
+          bloomCtx.drawImage(cv,0,0,bw,bh2);
+          const blurAmt = 6 + tier*0.5;
+          bloomCtx.filter=`blur(${blurAmt}px)`;
+          bloomCtx.drawImage(bc,0,0);
+
+          // 패스 2: 중간 블러 (더 밝게)
+          bloomCtx.filter=`blur(${blurAmt*0.5}px) brightness(1.3)`;
+          bloomCtx.globalAlpha=0.6;
+          bloomCtx.drawImage(bc,0,0);
+
+          // 패스 3: 약한 블러 + 채도 강화
+          bloomCtx.filter=`blur(${blurAmt*0.2}px) saturate(2)`;
+          bloomCtx.globalAlpha=0.4;
+          bloomCtx.drawImage(bc,0,0);
+
           bloomCtx.filter='none';
+          bloomCtx.globalAlpha=1;
         }
       }
 
