@@ -5287,85 +5287,81 @@
 
     // ===================== POOL (35 TIERS) =====================
     const pool = [
-      { name: "Common",           chance: 25.7912, color: "#888888", tier: 0  },
-      { name: "Uncommon",         chance: 17.5184, color: "#4caf50", tier: 1  },
-      { name: "Rare",             chance: 11.6789, color: "#2196f3", tier: 2  },
-      { name: "Polished",         chance: 8.2726,  color: "#00bcd4", tier: 3  },
-      { name: "Gilded",           chance: 5.8395,  color: "#ffc107", tier: 4  },
-      { name: "Epic",             chance: 6.8127,  color: "#9c27b0", tier: 5  },
-      { name: "Refined",          chance: 5.1582,  color: "#7c4dff", tier: 6  },
-      { name: "Arcane",           chance: 3.6983,  color: "#00bfa5", tier: 7  },
-      { name: "Mythic",           chance: 3.6983,  color: "#ff9800", tier: 8  },
-      { name: "Legendary",        chance: 2.7251,  color: "#ffd700", tier: 9  },
-      { name: "Ironveil",         chance: 2.3000,  color: "#607d8b", tier: 10 },
-      { name: "Sentinel",         chance: 1.8492,  color: "#ffd54f", tier: 11 },
-      { name: "Emberstrike",      chance: 1.8000,  color: "#ff8a65", tier: 12 },
-      { name: "Vanguard",         chance: 1.7518,  color: "#ff6f00", tier: 13 },
-      { name: "Thornwall",        chance: 1.5000,  color: "#8d6e63", tier: 14 },
-      { name: "Beast",            chance: 1.2652,  color: "#ff3d00", tier: 15 },
-      { name: "Bloodthorn",       chance: 1.0500,  color: "#e53935", tier: 16 },
-      { name: "Nightshade",       chance: 0.8759,  color: "#ff1744", tier: 17 },
-      { name: "Grimshade",        chance: 0.7800,  color: "#6a1a4c", tier: 18 },
-      { name: "Phantom",          chance: 0.7299,  color: "#7e57c2", tier: 19 },
-      { name: "Frostfang",        chance: 0.6200,  color: "#80cbc4", tier: 20 },
-      { name: "Celestial",        chance: 0.5353,  color: "#00e5ff", tier: 21 },
-      { name: "Ashbound",         chance: 0.4500,  color: "#78909c", tier: 22 },
-      { name: "Frostbound",       chance: 0.3893,  color: "#4dd0e1", tier: 23 },
-      { name: "Stormbrand",       chance: 0.3600,  color: "#42a5f5", tier: 24 },
-      { name: "Wraithlord",       chance: 0.3406,  color: "#d500f9", tier: 25 },
-      { name: "Voidmark",         chance: 0.3000,  color: "#7b1fa2", tier: 26 },
-      { name: "Cosmic",           chance: 0.2628,  color: "#651fff", tier: 27 },
-      { name: "Blazewarden",      chance: 0.2200,  color: "#ff6f00", tier: 28 },
-      { name: "Solflare",         chance: 0.1946,  color: "#e040fb", tier: 29 },
-      { name: "Duskmantle",       chance: 0.1700,  color: "#546e7a", tier: 30 },
-      { name: "Stormcaller",      chance: 0.1557,  color: "#29b6f6", tier: 31 },
-      { name: "Ironwrath",        chance: 0.1300,  color: "#78909c", tier: 32 },
-      { name: "Ultra",            chance: 0.1168,  color: "#ff5252", tier: 33 },
-      { name: "Shadowmere",       chance: 0.1000,  color: "#455a64", tier: 34 },
-      { name: "Eclipse",          chance: 0.0876,  color: "#37474f", tier: 35 },
-      { name: "Hollowgrave",      chance: 0.0750,  color: "#4a148c", tier: 36 },
-      { name: "Voidwalker",       chance: 0.0681,  color: "#1a237e", tier: 37 },
-      { name: "Starbreaker",      chance: 0.0580,  color: "#1565c0", tier: 38 },
-      { name: "Hyper",            chance: 0.0487,  color: "#00ff9d", tier: 39 },
-      { name: "Seraphic",         chance: 0.0389,  color: "#69f0ae", tier: 40 },
-      { name: "Astral Monarch",   chance: 0.0292,  color: "#f48fb1", tier: 41 },
-      { name: "Infinity",         chance: 0.0195,  color: "#ffffff", tier: 42 },
-      { name: "Dreadlord",        chance: 0.0146,  color: "#fce4ec", tier: 43 },
-      { name: "Genesis",          chance: 0.0117,  color: "#ffeb3b", tier: 44 },
-      { name: "Voidpact",         chance: 0.0095,  color: "#311b92", tier: 45 },
-      { name: "ETERNAL DESTROYER",chance: 0.0078,  color: "#ff00ff", tier: 46 },
-      { name: "Grimtide",         chance: 0.0065,  color: "#880e4f", tier: 47 },
-      { name: "PRIME ARCHITECT",  chance: 0.0058,  color: "#ffd700", tier: 48 },
-      { name: "Nullbinder",       chance: 0.0048,  color: "#37474f", tier: 49 },
-      { name: "VOID SOVEREIGN",   chance: 0.0039,  color: "#e0e0ff", tier: 50 },
-      { name: "Desolator",        chance: 0.0030,  color: "#bf360c", tier: 51 },
-      { name: "CHRONO OVERLORD",  chance: 0.0024,  color: "#00e5ff", tier: 52 },
-      { name: "Frostchasm",       chance: 0.0018,  color: "#e1f5fe", tier: 53 },
-      { name: "ABSOLUTE ZERO",    chance: 0.0015,  color: "#ffffff", tier: 54 },
-      { name: "Ruinweave",        chance: 0.0012,  color: "#3e2723", tier: 55 },
-      { name: "Quantum Reaper",   chance: 0.00095, color: "#7c1fa2", tier: 56 },
-      { name: "Ashrender",        chance: 0.00075, color: "#ff3d00", tier: 57 },
-      { name: "World Eater",      chance: 0.0006,  color: "#b71c1c", tier: 58 },
-      { name: "Wraithstorm",      chance: 0.00046, color: "#4a0072", tier: 59 },
-      { name: "Singularity",      chance: 0.00038, color: "#4a0072", tier: 60 },
-      { name: "Omniscient",       chance: 0.00024, color: "#fff59d", tier: 61 },
-      { name: "Paradox",          chance: 0.00015, color: "#e040fb", tier: 62 },
-      { name: "Demiurge",         chance: 0.0001,  color: "#fffde7", tier: 63 },
-      { name: "Akashic Lord",     chance: 0.00006, color: "#1a237e", tier: 64 },
-      { name: "Transcendent",     chance: 0.00004, color: "#ffffff", tier: 65 },
-      { name: "Primordial",       chance: 0.000025,color: "#3e0000", tier: 66 },
-      { name: "GOD EMPEROR",      chance: 0.000015,color: "#ffd700", tier: 67 },
-      { name: "Riftwalker",       chance: 0.000011,color: "#00acc1", tier: 68 },
-      { name: "Voidbane",         chance: 0.0000082,color:"#7e57c2", tier: 69 },
-      { name: "Netherstrike",     chance: 0.0000060,color:"#e53935", tier: 70 },
-      { name: "Soulrender",       chance: 0.0000044,color:"#880e4f", tier: 71 },
-      { name: "Doomweaver",       chance: 0.0000032,color:"#4e342e", tier: 72 },
-      { name: "Oblivion",         chance: 0.0000023,color:"#212121", tier: 73 },
-      { name: "THE ABSOLUTE",     chance: 0.0000016,color:"#ffffff", tier: 74 },
-      // ===== 골든 가챠 전용 등급 =====
-      { name: "리얼골드",  chance: 1,      color: "#ffc400", tier: 75 },
-      { name: "레전드골드",chance: 0.1,    color: "#ff8f00", tier: 76 },
-      { name: "???",       chance: 0.0001, color: "#fffde7", tier: 77 }
+      { name: "Common",            chance: 25.7912, color: "#888888", tier: 0  },
+      { name: "Uncommon",          chance: 17.5184, color: "#4caf50", tier: 1  },
+      { name: "Rare",              chance: 11.6789, color: "#2196f3", tier: 2  },
+      { name: "Polished",          chance: 8.2726,  color: "#00bcd4", tier: 3  },
+      { name: "Gilded",            chance: 5.8395,  color: "#ffc107", tier: 4  },
+      { name: "Epic",              chance: 6.8127,  color: "#9c27b0", tier: 5  },
+      { name: "Refined",           chance: 5.1582,  color: "#7c4dff", tier: 6  },
+      { name: "Arcane",            chance: 3.6983,  color: "#00bfa5", tier: 7  },
+      { name: "Mythic",            chance: 3.6983,  color: "#ff9800", tier: 8  },
+      { name: "Legendary",         chance: 2.7251,  color: "#ffd700", tier: 9  },
+      { name: "Ironveil",          chance: 2.1000,  color: "#607d8b", tier: 10 },
+      { name: "Sentinel",          chance: 1.8492,  color: "#ffd54f", tier: 11 },
+      { name: "Emberstrike",       chance: 1.8000,  color: "#ff8a65", tier: 12 },
+      { name: "Vanguard",          chance: 1.7518,  color: "#ff6f00", tier: 13 },
+      { name: "Thornwall",         chance: 1.5000,  color: "#8d6e63", tier: 14 },
+      { name: "Beast",             chance: 1.2652,  color: "#ff3d00", tier: 15 },
+      { name: "Bloodthorn",        chance: 1.0500,  color: "#e53935", tier: 16 },
+      { name: "Nightshade",        chance: 0.8759,  color: "#ff1744", tier: 17 },
+      { name: "Grimshade",         chance: 0.7800,  color: "#6a1a4c", tier: 18 },
+      { name: "Phantom",           chance: 0.7299,  color: "#7e57c2", tier: 19 },
+      { name: "Frostfang",         chance: 0.6200,  color: "#80cbc4", tier: 20 },
+      { name: "Celestial",         chance: 0.5353,  color: "#00e5ff", tier: 21 },
+      { name: "Ashbound",          chance: 0.4500,  color: "#78909c", tier: 22 },
+      { name: "Frostbound",        chance: 0.3893,  color: "#4dd0e1", tier: 23 },
+      { name: "Stormbrand",        chance: 0.3600,  color: "#42a5f5", tier: 24 },
+      { name: "Wraithlord",        chance: 0.3406,  color: "#d500f9", tier: 25 },
+      { name: "Voidmark",          chance: 0.3000,  color: "#7b1fa2", tier: 26 },
+      { name: "Cosmic",            chance: 0.2628,  color: "#651fff", tier: 27 },
+      { name: "Blazewarden",       chance: 0.2200,  color: "#ff6f00", tier: 28 },
+      { name: "Solflare",          chance: 0.1946,  color: "#e040fb", tier: 29 },
+      { name: "Duskmantle",        chance: 0.1700,  color: "#546e7a", tier: 30 },
+      { name: "Stormcaller",       chance: 0.1557,  color: "#29b6f6", tier: 31 },
+      { name: "Ironwrath",         chance: 0.1300,  color: "#78909c", tier: 32 },
+      { name: "Ultra",             chance: 0.1168,  color: "#ff5252", tier: 33 },
+      { name: "Shadowmere",        chance: 0.1000,  color: "#455a64", tier: 34 },
+      { name: "Eclipse",           chance: 0.0876,  color: "#37474f", tier: 35 },
+      { name: "Hollowgrave",       chance: 0.0750,  color: "#4a148c", tier: 36 },
+      { name: "Voidwalker",        chance: 0.0681,  color: "#1a237e", tier: 37 },
+      { name: "Starbreaker",       chance: 0.0580,  color: "#1565c0", tier: 38 },
+      { name: "Hyper",             chance: 0.0487,  color: "#00ff9d", tier: 39 },
+      { name: "Seraphic",          chance: 0.0389,  color: "#69f0ae", tier: 40 },
+      { name: "Astral Monarch",    chance: 0.0292,  color: "#f48fb1", tier: 41 },
+      { name: "Infinity",          chance: 0.0195,  color: "#ffffff", tier: 42 },
+      { name: "Dreadlord",         chance: 0.0146,  color: "#fce4ec", tier: 43 },
+      { name: "Genesis",           chance: 0.0117,  color: "#ffeb3b", tier: 44 },
+      { name: "Voidpact",          chance: 0.0095,  color: "#311b92", tier: 45 },
+      { name: "ETERNAL DESTROYER", chance: 0.0078,  color: "#ff00ff", tier: 46 },
+      { name: "Grimtide",          chance: 0.0065,  color: "#880e4f", tier: 47 },
+      { name: "PRIME ARCHITECT",   chance: 0.0058,  color: "#ffd700", tier: 48 },
+      { name: "Nullbinder",        chance: 0.0048,  color: "#37474f", tier: 49 },
+      { name: "VOID SOVEREIGN",    chance: 0.0039,  color: "#e0e0ff", tier: 50 },
+      { name: "Desolator",         chance: 0.0030,  color: "#bf360c", tier: 51 },
+      { name: "CHRONO OVERLORD",   chance: 0.0024,  color: "#00e5ff", tier: 52 },
+      { name: "Frostchasm",        chance: 0.0018,  color: "#e1f5fe", tier: 53 },
+      { name: "ABSOLUTE ZERO",     chance: 0.0015,  color: "#ffffff", tier: 54 },
+      { name: "Ruinweave",         chance: 0.0012,  color: "#3e2723", tier: 55 },
+      { name: "Quantum Reaper",    chance: 0.00095, color: "#7c1fa2", tier: 56 },
+      { name: "Ashrender",         chance: 0.00075, color: "#ff3d00", tier: 57 },
+      { name: "World Eater",       chance: 0.0006,  color: "#b71c1c", tier: 58 },
+      { name: "Wraithstorm",       chance: 0.00046, color: "#4a0072", tier: 59 },
+      { name: "Singularity",       chance: 0.00038, color: "#4a0072", tier: 60 },
+      { name: "Omniscient",        chance: 0.00024, color: "#fff59d", tier: 61 },
+      { name: "Paradox",           chance: 0.00015, color: "#e040fb", tier: 62 },
+      { name: "Demiurge",          chance: 0.0001,  color: "#fffde7", tier: 63 },
+      { name: "Akashic Lord",      chance: 0.00006, color: "#1a237e", tier: 64 },
+      { name: "Transcendent",      chance: 0.00004, color: "#ffffff", tier: 65 },
+      { name: "Primordial",        chance: 0.000025,color: "#3e0000", tier: 66 },
+      { name: "GOD EMPEROR",       chance: 0.000015,color: "#ffd700", tier: 67 },
+      { name: "Riftwalker",        chance: 0.000011,color: "#00acc1", tier: 68 },
+      { name: "Voidbane",          chance: 0.0000082,color:"#7e57c2", tier: 69 },
+      { name: "Netherstrike",      chance: 0.0000060,color:"#e53935", tier: 70 },
+      { name: "Soulrender",        chance: 0.0000044,color:"#880e4f", tier: 71 },
+      { name: "Doomweaver",        chance: 0.0000032,color:"#4e342e", tier: 72 },
+      { name: "Oblivion",          chance: 0.0000023,color:"#212121", tier: 73 },
+      { name: "THE ABSOLUTE",      chance: 0.0000016,color:"#ffffff", tier: 74 },
     ];
 
         // 골든 가챠 전용 등급 (75~77)
@@ -5394,72 +5390,51 @@
     const STAR_VALUES = [
       1, 2, 3, 4, 5,          // 0~4
       8, 14, 20, 30,          // 5~8
-      50,                     // 9  Legendary
-      70,                     // 10 Ironveil
-      100,                    // 11 Sentinel
-      140,                    // 12 Emberstrike
-      190,                    // 13 Vanguard
-      260,                    // 14 Thornwall
-      350,                    // 15 Beast
-      480,                    // 16 Bloodthorn
-      650,                    // 17 Nightshade
-      880,                    // 18 Grimshade
-      1200,                   // 19 Phantom
-      1600,                   // 20 Frostfang
-      2200,                   // 21 Celestial
-      3000,                   // 22 Ashbound
-      4000,                   // 23 Frostbound
-      5500,                   // 24 Stormbrand
-      7500,                   // 25 Wraithlord
-      10000,                  // 26 Voidmark
-      14000,                  // 27 Cosmic
-      19000,                  // 28 Blazewarden
-      26000,                  // 29 Solflare
-      35000,                  // 30 Duskmantle
-      48000,                  // 31 Stormcaller
-      65000,                  // 32 Ironwrath
-      90000,                  // 33 Ultra
-      120000,                 // 34 Shadowmere
-      160000,                 // 35 Eclipse
-      220000,                 // 36 Hollowgrave
-      300000,                 // 37 Voidwalker
-      400000,                 // 38 Starbreaker
-      550000,                 // 39 Hyper
-      750000,                 // 40 Seraphic
-      1000000,                // 41 Astral Monarch
-      1400000,                // 42 Infinity
-      1900000,                // 43 Dreadlord
-      2600000,                // 44 Genesis
-      3500000,                // 45 Voidpact
-      4800000,                // 46 ETERNAL DESTROYER
-      6500000,                // 47 Grimtide
-      9000000,                // 48 PRIME ARCHITECT
-      12000000,               // 49 Nullbinder
-      16000000,               // 50 VOID SOVEREIGN
-      22000000,               // 51 Desolator
-      30000000,               // 52 CHRONO OVERLORD
-      40000000,               // 53 Frostchasm
-      55000000,               // 54 ABSOLUTE ZERO
-      75000000,               // 55 Ruinweave
-      100000000,              // 56 Quantum Reaper
-      140000000,              // 57 Ashrender
-      190000000,              // 58 World Eater
-      260000000,              // 59 Wraithstorm
-      350000000,              // 60 Singularity
-      480000000,              // 61 Omniscient
-      650000000,              // 62 Paradox
-      900000000,              // 63 Demiurge
-      1200000000,             // 64 Akashic Lord
-      1600000000,             // 65 Transcendent
-      2200000000,             // 66 Primordial
-      3000000000,             // 67 GOD EMPEROR
-      4000000000,             // 68 Riftwalker
-      5500000000,             // 69 Voidbane
-      7500000000,             // 70 Netherstrike
-      10000000000,            // 71 Soulrender
-      14000000000,            // 72 Doomweaver
-      19000000000,            // 73 Oblivion
-      25000000000,            // 74 THE ABSOLUTE
+      50, 70, 100, 140,       // 9~12
+      190, 260, 350,          // 13~15
+      480, 650, 880,          // 16~18
+      1200, 1600, 2200,       // 19~21
+      3000, 4000, 5500,       // 22~24
+      7500, 10000, 14000,     // 25~27
+      19000, 26000,           // 28~29
+      35000, 48000, 65000,    // 30~32
+      90000, 120000,          // 33~34
+      160000, 220000, 300000, // 35~37
+      400000, 550000,         // 38~39
+      750000, 1000000,        // 40~41
+      1400000, 1900000,       // 42~43
+      2600000,                // 44 GOD EMPEROR
+      // 새 등급 45~74
+      3500000,    // 45 Ironveil
+      4800000,    // 46 Emberstrike
+      6500000,    // 47 Thornwall
+      9000000,    // 48 Bloodthorn
+      12000000,   // 49 Grimshade
+      16000000,   // 50 Frostfang
+      22000000,   // 51 Ashbound
+      30000000,   // 52 Stormbrand
+      40000000,   // 53 Voidmark
+      55000000,   // 54 Blazewarden
+      75000000,   // 55 Duskmantle
+      100000000,  // 56 Ironwrath
+      140000000,  // 57 Shadowmere
+      190000000,  // 58 Hollowgrave
+      260000000,  // 59 Starbreaker
+      350000000,  // 60 Voidpact
+      480000000,  // 61 Grimtide
+      650000000,  // 62 Nullbinder
+      900000000,  // 63 Desolator
+      1200000000, // 64 Frostchasm
+      1600000000, // 65 Ruinweave
+      2200000000, // 66 Ashrender
+      3000000000, // 67 Wraithstorm
+      4000000000, // 68 Riftwalker
+      5500000000, // 69 Voidbane
+      7500000000, // 70 Netherstrike
+      10000000000,// 71 Soulrender
+      14000000000,// 72 Doomweaver
+      19000000000,// 73 Oblivion
+      25000000000,// 74 THE ABSOLUTE
     ];
 
     const MUT_BONUS = { null: 1, undefined: 1, None: 1, Big: 2, Mega: 5, Ultra: 12, Rainbow: 30 };
@@ -6131,10 +6106,17 @@
       ultraPotionActive = false;
       celestialPotions = state.celestialPotions ?? d.celestialPotions;
       celestialPotionActive = state.celestialPotionActive ?? d.celestialPotionActive;
-      bestTier = state.bestTier ?? d.bestTier;
+      bestTier = migrateTier(state.bestTier ?? d.bestTier);
       bestMutationByTier = state.bestMutationByTier ?? {};
+      // ── 구버전 tier 번호 → 새 tier 번호 자동 마이그레이션 ──
+      const TIER_MIGRATION = {0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:11,11:13,12:15,13:17,14:19,15:21,16:23,17:25,18:27,19:29,20:31,21:33,22:35,23:37,24:39,25:40,26:41,27:42,28:43,29:44,30:46,31:48,32:50,33:52,34:54,35:56,36:58,37:60,38:61,39:62,40:63,41:64,42:65,43:66,44:67};
+      function migrateTier(t) { return (t !== undefined && t <= 44 && TIER_MIGRATION[t] !== undefined) ? TIER_MIGRATION[t] : t; }
+
       history.length = 0;
-      (state.history || []).forEach(h => history.push(h));
+      (state.history || []).forEach(h => {
+        if (h.item && h.item.tier !== undefined) h.item.tier = migrateTier(h.item.tier);
+        history.push(h);
+      });
 
       // ⚠️ bestTier 오염 복구: 버그로 인해 골든 전용 등급(45~47)이 bestTier로 저장된 경우
       // history에서 일반 등급(0~44) 중 tierPowerRank 기준으로 최고값을 재계산
