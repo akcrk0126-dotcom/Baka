@@ -6107,8 +6107,8 @@
       celestialPotions = state.celestialPotions ?? d.celestialPotions;
       celestialPotionActive = state.celestialPotionActive ?? d.celestialPotionActive;
       // ── 구버전 tier 번호 → 새 tier 번호 자동 마이그레이션 ──
-      const TIER_MIGRATION = {0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:11,11:13,12:15,13:17,14:19,15:21,16:23,17:25,18:27,19:29,20:31,21:33,22:35,23:37,24:39,25:40,26:41,27:42,28:43,29:44,30:46,31:48,32:50,33:52,34:54,35:56,36:58,37:60,38:61,39:62,40:63,41:64,42:65,43:66,44:67};
-      function migrateTier(t) { return (t !== undefined && t <= 44 && TIER_MIGRATION[t] !== undefined) ? TIER_MIGRATION[t] : t; }
+      const TIER_MIGRATION = {0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:11,11:13,12:15,13:17,14:19,15:21,16:23,17:25,18:27,19:29,20:31,21:33,22:35,23:37,24:39,25:40,26:41,27:42,28:43,29:44,30:46,31:48,32:50,33:52,34:54,35:56,36:58,37:60,38:61,39:62,40:63,41:64,42:65,43:66,44:67,45:75,46:76,47:77};
+      function migrateTier(t) { return (t !== undefined && TIER_MIGRATION[t] !== undefined) ? TIER_MIGRATION[t] : t; }
 
       bestTier = migrateTier(state.bestTier ?? d.bestTier);
       bestMutationByTier = state.bestMutationByTier ?? {};
@@ -7119,7 +7119,7 @@
       document.getElementById('skip-btn').classList.add('show');
       animateStar(item, () => {
         if (skipRequested) return;
-        if (item.tier === 47) showMegaEffect(item);
+        if (item.tier === 77) showMegaEffect(item);
         else if (item.tier >= CUTSCENE_MIN_TIER) showWhiteCrack(item);
         else showResult(item);
       });
@@ -13107,7 +13107,7 @@
           const obj = fromFirestoreDoc(doc);
           const nick = decodeURIComponent(doc.name.split('/').pop());
           const state = obj.state || {};
-          const TMAP = {0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:11,11:13,12:15,13:17,14:19,15:21,16:23,17:25,18:27,19:29,20:31,21:33,22:35,23:37,24:39,25:40,26:41,27:42,28:43,29:44,30:46,31:48,32:50,33:52,34:54,35:56,36:58,37:60,38:61,39:62,40:63,41:64,42:65,43:66,44:67};
+          const TMAP = {0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:11,11:13,12:15,13:17,14:19,15:21,16:23,17:25,18:27,19:29,20:31,21:33,22:35,23:37,24:39,25:40,26:41,27:42,28:43,29:44,30:46,31:48,32:50,33:52,34:54,35:56,36:58,37:60,38:61,39:62,40:63,41:64,42:65,43:66,44:67,45:75,46:76,47:77};
           const rawTier = state.bestTier ?? -1;
           const bestTier = (rawTier >= 0 && rawTier <= 44 && TMAP[rawTier] !== undefined) ? TMAP[rawTier] : rawTier;
           const bestMutationByTier = state.bestMutationByTier || {};
