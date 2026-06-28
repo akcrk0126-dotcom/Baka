@@ -6106,12 +6106,13 @@
       ultraPotionActive = false;
       celestialPotions = state.celestialPotions ?? d.celestialPotions;
       celestialPotionActive = state.celestialPotionActive ?? d.celestialPotionActive;
-      bestTier = migrateTier(state.bestTier ?? d.bestTier);
-      bestMutationByTier = state.bestMutationByTier ?? {};
       // ── 구버전 tier 번호 → 새 tier 번호 자동 마이그레이션 ──
       const TIER_MIGRATION = {0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:11,11:13,12:15,13:17,14:19,15:21,16:23,17:25,18:27,19:29,20:31,21:33,22:35,23:37,24:39,25:40,26:41,27:42,28:43,29:44,30:46,31:48,32:50,33:52,34:54,35:56,36:58,37:60,38:61,39:62,40:63,41:64,42:65,43:66,44:67};
       function migrateTier(t) { return (t !== undefined && t <= 44 && TIER_MIGRATION[t] !== undefined) ? TIER_MIGRATION[t] : t; }
 
+      bestTier = migrateTier(state.bestTier ?? d.bestTier);
+      bestMutationByTier = state.bestMutationByTier ?? {};
+      // ── 구버전 tier 번호 → 새 tier 번호 자동 마이그레이션 ──
       history.length = 0;
       (state.history || []).forEach(h => {
         if (h.item && h.item.tier !== undefined) h.item.tier = migrateTier(h.item.tier);
