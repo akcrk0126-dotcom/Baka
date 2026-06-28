@@ -13107,7 +13107,9 @@
           const obj = fromFirestoreDoc(doc);
           const nick = decodeURIComponent(doc.name.split('/').pop());
           const state = obj.state || {};
-          const bestTier = state.bestTier ?? -1;
+          const TMAP = {0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:11,11:13,12:15,13:17,14:19,15:21,16:23,17:25,18:27,19:29,20:31,21:33,22:35,23:37,24:39,25:40,26:41,27:42,28:43,29:44,30:46,31:48,32:50,33:52,34:54,35:56,36:58,37:60,38:61,39:62,40:63,41:64,42:65,43:66,44:67};
+          const rawTier = state.bestTier ?? -1;
+          const bestTier = (rawTier >= 0 && rawTier <= 44 && TMAP[rawTier] !== undefined) ? TMAP[rawTier] : rawTier;
           const bestMutationByTier = state.bestMutationByTier || {};
           const bestMutationRank = bestTier >= 0 ? (bestMutationByTier[bestTier] ?? bestMutationByTier[String(bestTier)] ?? 0) : 0;
           return {
