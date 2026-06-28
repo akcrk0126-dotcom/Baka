@@ -4558,6 +4558,7 @@
         <div style="text-align:center">
           <div id="gacha-title-main">Premium Summon</div>
           <div id="gacha-title-big">Gacha</div>
+          <div style="font-size:9px;letter-spacing:3px;color:#aa44ff;border:0.5px solid #aa44ff66;border-radius:4px;padding:2px 8px;display:inline-block;margin-top:4px;">SEASON 4</div>
         </div>
         <div id="stats-row">
           <div class="stat-item">
@@ -4754,8 +4755,12 @@
           <div id="golden-page-title">Golden Hour</div>
           <div id="golden-page-title-big">Gacha</div>
         </div>
-        <div id="golden-page-tickets">보유 골든롤 티켓 <b id="golden-page-ticket-count">0</b>개</div>
-        <button id="golden-roll-btn" onclick="doGoldenRoll()">▶ GOLDEN ROLL</button>
+        <div id="golden-page-tickets">보유 골든롤 티켓 <b id="golden-page-ticket-count">0</b>개 · 천장 <b id="golden-pity-count">0</b>/30</div>
+        <div style="display:flex;gap:8px;margin-bottom:0;">
+          <button id="golden-roll-btn" onclick="doGoldenRoll()" style="flex:2;">▶ GOLDEN ROLL</button>
+          <button id="golden-roll10-btn" onclick="doGoldenRollMulti(10)" style="flex:1;height:46px;border-radius:8px;border:0.5px solid rgba(255,215,0,0.4);background:rgba(255,215,0,0.08);color:#ffd700;font-size:12px;font-weight:800;cursor:pointer;letter-spacing:1px;">×10</button>
+          <button id="golden-roll100-btn" onclick="doGoldenRollMulti(100)" style="flex:1;height:46px;border-radius:8px;border:0.5px solid rgba(255,215,0,0.6);background:rgba(255,215,0,0.15);color:#ffd700;font-size:12px;font-weight:800;cursor:pointer;letter-spacing:1px;">×100</button>
+        </div>
         <div id="golden-page-lastresult"></div>
       </div>
 
@@ -4951,9 +4956,10 @@
       </div>
 
       <!-- 뽑기 버튼 -->
-      <button id="red-roll-btn" onclick="doRedRoll()" style="width:100%;padding:18px;border-radius:14px;border:none;background:linear-gradient(135deg,#cc0000,#ff2222,#cc0000);color:#fff;font-size:16px;font-weight:900;cursor:pointer;letter-spacing:2px;margin-bottom:24px;box-shadow:0 0 30px rgba(255,0,0,0.4);text-shadow:0 0 10px rgba(255,255,255,0.5);">
+      <button id="red-roll-btn" onclick="doRedRoll()" style="width:100%;padding:18px;border-radius:14px;border:none;background:linear-gradient(135deg,#cc0000,#ff2222,#cc0000);color:#fff;font-size:16px;font-weight:900;cursor:pointer;letter-spacing:2px;margin-bottom:8px;box-shadow:0 0 30px rgba(255,0,0,0.4);text-shadow:0 0 10px rgba(255,255,255,0.5);">
         🔴 RED 뽑기
       </button>
+      <button id="red-skip-btn" onclick="redSkipRequested=true;" style="display:none;width:100%;padding:10px;border-radius:10px;border:0.5px solid rgba(255,60,60,0.3);background:rgba(255,0,0,0.05);color:#ff4444;font-size:12px;font-weight:700;cursor:pointer;margin-bottom:16px;">⏩ 스킵</button>
 
       <!-- 퀘스트 -->
       <div style="margin-bottom:20px;">
@@ -5527,9 +5533,9 @@
     const MUT_BONUS = { null: 1, undefined: 1, None: 1, Big: 2, Mega: 5, Ultra: 12, Rainbow: 30 };
 
     function getStarValue(tier, mutation) {
-      const base = STAR_VALUES[tier] ?? 1;
-      const bonus = MUT_BONUS[mutation] ?? 1;
-      return Math.floor(base * bonus);
+      // 뮤테이션은 ★ 판매가에 영향 없음 (복사 방지)
+      // 뮤테이션 보너스는 경쟁전 점수에만 적용
+      return STAR_VALUES[tier] ?? 1;
     }
 
     function updateStarDisplay() {
@@ -5618,15 +5624,66 @@
       return RED_POOL[0];
     }
 
+    function doGoldenRollMulti(count) {
+      if (rolling) return;
+      if (goldenTickets < count) { showPotionToast(`🎫 골든 티켓이 부족합니다! (${goldenTickets}/${count})`); return; }
+
+      goldenTickets -= count;
+      const results = [];
+      for (let i = 0; i < count; i++) {
+        const r = rollGolden();
+        if (!r) break;
+        results.push(r.item);
+      }
+      updateUI(); saveProgress();
+
+      // 최고 등급 찾기
+      const best = results.reduce((a, b) => tierPowerRank(b.tier) > tierPowerRank(a.tier) ? b : a, results[0]);
+
+      // 멀티롤 결과 그리드 표시
+      showGoldenMultiGrid(results, best, count);
+    }
+
+    function showGoldenMultiGrid(results, best, count) {
+      const existing = document.getElementById('golden-multi-modal');
+      if (existing) existing.remove();
+
+      const modal = document.createElement('div');
+      modal.id = 'golden-multi-modal';
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto;padding:20px;';
+
+      const bestItem = pool[best.tier];
+      modal.innerHTML = `
+        <div style="font-size:11px;color:#ffd700;letter-spacing:3px;margin-bottom:8px;">GOLDEN ×${count} RESULTS</div>
+        <div style="font-size:14px;font-weight:900;color:${bestItem?.color||'#ffd700'};margin-bottom:16px;">최고: ${bestItem?.name||'?'}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:360px;margin-bottom:20px;">
+          ${results.map(item => {
+            const p = pool[item.tier];
+            return `<div style="padding:6px 10px;border-radius:6px;border:0.5px solid ${p?.color||'#ffd700'}44;background:rgba(255,215,0,0.04);font-size:11px;font-weight:700;color:${p?.color||'#ffd700'};">${p?.name||'?'}</div>`;
+          }).join('')}
+        </div>
+        <button onclick="document.getElementById('golden-multi-modal').remove()" style="padding:12px 32px;border-radius:10px;border:0.5px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.06);color:#ffd700;font-size:13px;font-weight:700;cursor:pointer;">확인</button>
+      `;
+      document.body.appendChild(modal);
+    }
+
+    // 레드 가챠 스킵 변수
+    let redSkipRequested = false;
+    let redRolling = false;
+
     function doRedRoll() {
       if (!isRedEventActive()) { showPotionToast('🔴 Red 가챠 기간이 종료됐습니다'); return; }
       if (redTickets <= 0) { showPotionToast('🎫 레드 티켓이 없습니다!'); return; }
+      if (redRolling) return;
+
       redTickets--;
       redTotalRolls++;
+      redRolling = true;
+      redSkipRequested = false;
 
       const item = pickRed();
       const mutation = rollMutation();
-      const starVal = Math.floor((RED_STAR_VALUES[item.tier] || 1) * (MUT_BONUS[mutation] || 1));
+      const starVal = RED_STAR_VALUES[item.tier] || 1;
       starCurrency += starVal;
 
       const now = new Date();
@@ -5636,8 +5693,46 @@
       checkRedQuests();
       updateStarDisplay();
       saveProgress();
-      renderRedGacha();
-      showPotionToast(`🔴 ${item.name}${mutation?' ('+mutation+')':''} — ★+${starVal.toLocaleString()}`);
+
+      // 스킵 버튼 표시
+      const skipBtn = document.getElementById('red-skip-btn');
+      const rollBtn = document.getElementById('red-roll-btn');
+      if (skipBtn) skipBtn.style.display = 'block';
+      if (rollBtn) rollBtn.disabled = true;
+
+      // 컷씬 연출 — 빨강 테마 프리컷씬 + 메인 컷씬
+      const redColor = RED_POOL[item.tier]?.color || '#ff0000';
+      const duration = 500 + item.tier * 200;
+
+      // 빨강 플래시
+      const flash = document.createElement('div');
+      flash.style.cssText = `position:fixed;inset:0;background:${redColor};opacity:0;z-index:8000;pointer-events:none;transition:opacity 0.15s;`;
+      document.body.appendChild(flash);
+      requestAnimationFrame(() => { flash.style.opacity = '0.35'; });
+      setTimeout(() => { flash.style.opacity = '0'; setTimeout(() => flash.remove(), 200); }, 300);
+
+      // 결과 토스트 (스킵 or 자동)
+      const showResult = () => {
+        if (skipBtn) skipBtn.style.display = 'none';
+        if (rollBtn) rollBtn.disabled = false;
+        redRolling = false;
+        renderRedGacha();
+        showPotionToast(`🔴 ${item.name}${mutation?' ('+mutation+')':''} — ★+${starVal.toLocaleString()}`);
+      };
+
+      // 스킵 체크 루프
+      const skipCheck = setInterval(() => {
+        if (redSkipRequested) {
+          clearInterval(skipCheck);
+          clearTimeout(autoEnd);
+          showResult();
+        }
+      }, 50);
+
+      const autoEnd = setTimeout(() => {
+        clearInterval(skipCheck);
+        showResult();
+      }, Math.max(800, duration));
     }
 
     function renderRedGacha() {
@@ -5836,8 +5931,7 @@
       const mutation = rollMutation();
       const mRank = mutationRank(mutation);
       const base = STAR_VALUES[item.tier] || 1;
-      const bonus = [1,1.5,2.5,4,8][mRank] || 1;
-      const earned = Math.floor(base * bonus);
+      const earned = base; // 뮤테이션 보너스 미적용 (복사 방지)
       battleMyScore += earned;
       battleMyRolls++;
 
@@ -6131,7 +6225,8 @@
     let shopDate = '', shopRerollCount = [0, 0, 0], shopDeliveredTotal = 0; // 상점 갱신 날짜, 슬롯별 리롤(=납품) 횟수, 누적 납품 수
     let equippedTitle = ''; // 장착 중인 타이틀
     let goldenRollsTotal = 0; // 누적 골든 가챠 횟수
-    let goldenTickets = 0, lastGoldenClaimDate = ''; // 보유 골든롤 티켓 수, 마지막 티켓 수령 날짜
+    let goldenTickets = 0, lastGoldenClaimDate = '';
+    let goldenPity = 0; // 골든 가챠 천장 (30번에 레전드골드 확정)
     let guildName = '', guildJoinRolls = 0; // 가입한 길드 이름, 가입 시점의 totalRolls (레벨 계산용)
     let lastAttendanceDate = '', attendanceStreak = 0, attendanceTotalDays = 0; // 출석체크: 마지막 출석일, 연속 출석일, 누적 출석일
     let myFriends = [], myBlocked = []; // 친구 닉네임 배열, 차단 닉네임 배열 (계정 문서 최상위에 저장, state와 독립)
@@ -6417,7 +6512,7 @@
         shopDate: '', shopRerollCount: [0, 0, 0], shopDeliveredTotal: 0,
         equippedTitle: '',
         goldenRollsTotal: 0,
-        goldenTickets: 0, lastGoldenClaimDate: '',
+        goldenTickets: 0, lastGoldenClaimDate: '', goldenPity: 0,
         guildName: '', guildJoinRolls: 0,
         lastAttendanceDate: '', attendanceStreak: 0, attendanceTotalDays: 0,
         boardPosition: 0, boardDice: 0, boardDiceMilestone: 0, boardLayout: null, boardLog: [],
@@ -6488,6 +6583,7 @@
       goldenRollsTotal = state.goldenRollsTotal ?? 0;
       goldenTickets = state.goldenTickets ?? 0;
       lastGoldenClaimDate = state.lastGoldenClaimDate ?? '';
+      goldenPity = state.goldenPity ?? 0;
       guildName = state.guildName ?? '';
       guildJoinRolls = state.guildJoinRolls ?? 0;
       lastAttendanceDate = state.lastAttendanceDate ?? '';
@@ -6553,7 +6649,7 @@
         shopDate, shopRerollCount, shopDeliveredTotal,
         equippedTitle,
         goldenRollsTotal,
-        goldenTickets, lastGoldenClaimDate,
+        goldenTickets, lastGoldenClaimDate, goldenPity,
         guildName, guildJoinRolls,
         lastAttendanceDate, attendanceStreak, attendanceTotalDays,
         boardPosition, boardDice, boardDiceMilestone, boardLayout, boardLog: boardLog.slice(0, 30),
@@ -7085,7 +7181,17 @@
     function rollGolden() {
       if (goldenTickets <= 0) return null;
       goldenTickets--;
-      const item = pickGolden();
+      goldenPity++;
+
+      // 천장: 30번에 레전드골드(tier 76) 확정
+      let item;
+      if (goldenPity >= 30) {
+        item = pool[76]; // 레전드골드
+        goldenPity = 0;
+      } else {
+        item = pickGolden();
+      }
+
       goldenRollsTotal++;
       if (tierPowerRank(item.tier) > tierPowerRank(bestTier)) bestTier = item.tier;
       const potionMsg = computePotionEarn(item.tier);
@@ -7420,9 +7526,13 @@
         if (!isGoldenWindow(now)) return; // 티켓도 없고 시간도 아니면 입장 불가
       }
       document.getElementById('golden-page').classList.add('active');
-      document.getElementById('golden-page-ticket-count').innerText = goldenTickets;
+      document.getElementById('golden-page-ticket-count').innerText = goldenTickets; const gpc = document.getElementById('golden-pity-count'); if(gpc) gpc.innerText = goldenPity;
       document.getElementById('golden-page-lastresult').innerText = '';
       document.getElementById('golden-roll-btn').disabled = goldenTickets <= 0;
+      const r10 = document.getElementById('golden-roll10-btn');
+      const r100 = document.getElementById('golden-roll100-btn');
+      if (r10) r10.disabled = goldenTickets < 10;
+      if (r100) r100.disabled = goldenTickets < 100;
     }
 
     function closeGoldenGacha() {
@@ -7595,8 +7705,12 @@
         const lr = document.getElementById('golden-page-lastresult');
         lr.innerText = 'LAST · ' + item.name; lr.style.color = item.color;
         document.getElementById('golden-page').classList.add('active');
-        document.getElementById('golden-page-ticket-count').innerText = goldenTickets;
+        document.getElementById('golden-page-ticket-count').innerText = goldenTickets; const gpc = document.getElementById('golden-pity-count'); if(gpc) gpc.innerText = goldenPity;
         document.getElementById('golden-roll-btn').disabled = goldenTickets <= 0;
+        const r10b = document.getElementById('golden-roll10-btn');
+        const r100b = document.getElementById('golden-roll100-btn');
+        if (r10b) r10b.disabled = goldenTickets < 10;
+        if (r100b) r100b.disabled = goldenTickets < 100;
         if (currentPotionMsg && currentPotionMsg.lines) showPotionToastLines(currentPotionMsg.lines);
         currentRollItem = null; currentPotionMsg = null;
         rolling = false;
@@ -13875,7 +13989,7 @@
       const sel = document.getElementById('inventory-min-tier-select');
       if (!sel) return;
       sel.innerHTML = '<option value="0">전부 저장 (기본값)</option>';
-      for (let t = 1; t < pool.length; t++) {
+      for (let t = 1; t < 75; t++) { // 골든 등급(75~77) 제외
         if (!pool[t] || GOLDEN_ONLY_TIERS.includes(t)) continue; // 골든 전용 등급 제외
         const opt = document.createElement('option');
         opt.value = t;
@@ -14673,24 +14787,30 @@
 
       rankedTickets--;
       rolling = true;
-      skipRequested = false; // 스킵 버튼 비활성화 (떡상 방지)
+      skipRequested = false;
       isMultiRoll = false;
+      isReplaying = false;
+      isGoldenRoll = false;
       clearPendingTimeouts();
 
-      // 경쟁전 전용 뽑기 (pity/totalRolls에 영향 없음, 포션은 적용)
-      const item = pick(potionActive ? 2 : 1, 0);
-      if (potionActive) { potionActive = false; }
-      if (ultraPotionActive) { ultraPotionActive = false; }
-      if (celestialPotionActive) { celestialPotionActive = false; }
+      // 경쟁전 전용 뽑기 (pity/totalRolls에 영향 없음, 포션 적용)
+      let item;
+      if (zeroPotionActive)      { item = pickFromTier(55); zeroPotionActive = false; }
+      else if (godlyPotionActive){ item = pickFromTier(45); godlyPotionActive = false; }
+      else if (celestialPotionActive) { item = pickFromTier(29); celestialPotionActive = false; }
+      else if (ultraPotionActive){ item = pickFromTier(17); ultraPotionActive = false; }
+      else { item = pick(potionActive ? 2 : 1, 0); }
+      if (potionActive) potionActive = false;
+
       const mutation = rollMutation();
       const mRank = mutationRank(mutation);
       if (mRank > (bestMutationByTier[item.tier] ?? 0)) bestMutationByTier[item.tier] = mRank;
 
-      // 점수 계산
-      const baseScore = RANKED_SCORE_BY_TIER[item.tier] || 0;
+      // 점수 계산 (뮤테이션 보너스 유지 - 경쟁전은 OK)
+      const baseScore = RANKED_SCORE_BY_TIER[Math.min(item.tier, RANKED_SCORE_BY_TIER.length-1)] || 0;
       const mutBonus = [1, 1.5, 2.5, 4, 8][mRank] || 1;
       const earned = Math.floor(baseScore * mutBonus);
-      rankedScore += earned;
+      rankedScore = Math.max(0, rankedScore + earned); // 음수 방지
       rankedBestScore = Math.max(rankedBestScore, rankedScore);
 
       const now = new Date();
@@ -14699,30 +14819,30 @@
 
       item.mutation = mutation;
       currentRollItem = item;
+      currentPotionMsg = null;
 
       updatePotionBtn(); updateUltraPotionBtn(); updateCelestialPotionBtn();
       updateGodlyZeroPotionBtns();
       saveProgress();
 
-      // 컷씬 연출 (스킵 버튼 숨김)
-      document.getElementById('gacha-anim').style.display = 'none';
+      // 스킵 버튼 숨김 (떡상 방지)
       const skipBtn = document.getElementById('skip-btn');
-      const skipBtnOrig = skipBtn ? skipBtn.style.display : '';
-      if (skipBtn) skipBtn.style.display = 'none'; // 스킵 버튼 숨김!
+      if (skipBtn) { skipBtn.classList.remove('show'); skipBtn.style.display = 'none'; }
 
       showPotionToast(`🏆 +${earned.toLocaleString()}점 획득!`);
 
+      // 컷씬 연출
+      document.getElementById('gacha-anim').style.display = 'flex';
+      document.getElementById('gacha-idle').style.display = 'none';
+
+      // finishRoll 패치 - 끝나면 스킵 복원 + ranked 렌더
+      window._rankedFinishPatch = (it) => {
+        if (skipBtn) { skipBtn.style.display = ''; }
+        renderRanked();
+      };
+
       animateStar(item, () => {
         showWhiteCrack(item);
-        // 컷씬 끝나고 스킵 버튼 복원
-        const origFinishRoll = finishRoll;
-        const patchedFinish = (it) => {
-          if (skipBtn) skipBtn.style.display = skipBtnOrig;
-          renderRanked();
-          origFinishRoll.call(window, it);
-        };
-        // finishRoll을 한 번만 패치
-        window._rankedFinishPatch = patchedFinish;
       });
     }
 
