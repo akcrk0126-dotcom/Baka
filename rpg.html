@@ -2986,13 +2986,20 @@
     }
 
     /* BOARD EVENT */
-    #potion-shop-page, #brewery-page, #ranked-page, #red-gacha-page {
+    #potion-shop-page, #brewery-page, #ranked-page, #red-gacha-page, #battle-page {
       display: none;
       padding: 40px 32px;
       min-height: calc(100vh - 55px);
     }
-    #potion-shop-page.active, #brewery-page.active, #ranked-page.active, #red-gacha-page.active { display: block; }
+    #potion-shop-page.active, #brewery-page.active, #ranked-page.active, #red-gacha-page.active, #battle-page.active { display: block; }
     #red-gacha-page.active { background: linear-gradient(180deg, #0d0000 0%, #000 40%); }
+    .battle-vs { font-size:32px; font-weight:900; color:#ff4444; text-shadow:0 0 20px #ff444488; }
+    .battle-score { font-size:28px; font-weight:900; }
+    .battle-bar { height:8px; border-radius:4px; background:rgba(255,255,255,0.06); overflow:hidden; margin:6px 0; }
+    .battle-bar-fill { height:100%; border-radius:4px; transition:width 0.3s; }
+    .battle-roll-btn { width:100%; padding:18px; border-radius:14px; border:none; background:linear-gradient(135deg,#cc0000,#ff4444); color:#fff; font-size:16px; font-weight:900; cursor:pointer; letter-spacing:2px; box-shadow:0 0 20px rgba(255,68,68,0.4); }
+    .battle-roll-btn:disabled { opacity:0.4; cursor:not-allowed; }
+    .battle-history-item { display:flex; align-items:center; gap:6px; padding:4px 0; border-bottom:0.5px solid rgba(255,255,255,0.04); font-size:11px; }
 
     #board-page {
       display: none;
@@ -4523,6 +4530,7 @@
         <button class="nav-tab" onclick="switchTab('potion-shop')">포션상점</button>
         <button class="nav-tab" onclick="switchTab('brewery')">양조기</button>
         <button class="nav-tab" onclick="switchTab('red-gacha')" style="color:#ff4444;">🔴 RED</button>
+        <button class="nav-tab" onclick="switchTab('battle')" style="color:#ff6b6b;">⚔️ 배틀</button>
         <button class="nav-tab" onclick="switchTab('ranked')">경쟁전</button>
         <button class="nav-tab" onclick="switchTab('board')">이벤트</button>
         <button class="nav-tab" onclick="switchTab('guild')">길드</button>
@@ -4967,6 +4975,68 @@
       </div>
     </div>
 
+    <!-- 배틀 -->
+    <div id="battle-page">
+      <div style="font-size:22px;font-weight:900;color:#ff4444;margin-bottom:4px;letter-spacing:1px;">⚔️ 1대1 배틀</div>
+      <div style="font-size:11px;color:#555;margin-bottom:20px;">3분 동안 뽑기 — 등급 가치 합산으로 승부</div>
+
+      <!-- 상태 패널 -->
+      <div id="battle-lobby" style="text-align:center;">
+        <div style="padding:40px 0 20px;">
+          <div style="font-size:40px;margin-bottom:12px;">⚔️</div>
+          <div style="font-size:14px;color:#888;margin-bottom:24px;">상대방을 찾아 실시간으로 뽑기 대결!</div>
+          <button onclick="battleJoinQueue()" style="padding:16px 40px;border-radius:12px;border:none;background:linear-gradient(135deg,#cc0000,#ff4444);color:#fff;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:1px;">매칭 찾기</button>
+          <div id="battle-queue-status" style="margin-top:16px;font-size:12px;color:#666;"></div>
+        </div>
+        <div id="battle-my-stats" style="border:0.5px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px;margin-top:8px;"></div>
+        <div id="battle-recent" style="margin-top:16px;"></div>
+      </div>
+
+      <!-- 인게임 -->
+      <div id="battle-ingame" style="display:none;">
+        <!-- 타이머 -->
+        <div style="text-align:center;margin-bottom:16px;">
+          <div id="battle-timer" style="font-size:36px;font-weight:900;color:#ff4444;font-variant-numeric:tabular-nums;"></div>
+          <div style="font-size:11px;color:#555;">남은 시간</div>
+        </div>
+
+        <!-- 점수판 -->
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:16px;">
+          <div style="text-align:center;">
+            <div style="font-size:11px;color:#4dd0e1;letter-spacing:1px;margin-bottom:4px;">나</div>
+            <div id="battle-my-score" class="battle-score" style="color:#4dd0e1;">0</div>
+            <div class="battle-bar"><div id="battle-my-bar" class="battle-bar-fill" style="background:#4dd0e1;width:50%;"></div></div>
+            <div id="battle-my-rolls" style="font-size:10px;color:#444;">0번 뽑음</div>
+          </div>
+          <div class="battle-vs">VS</div>
+          <div style="text-align:center;">
+            <div style="font-size:11px;color:#ff6b6b;letter-spacing:1px;margin-bottom:4px;" id="battle-opp-name">상대</div>
+            <div id="battle-opp-score" class="battle-score" style="color:#ff6b6b;">0</div>
+            <div class="battle-bar"><div id="battle-opp-bar" class="battle-bar-fill" style="background:#ff6b6b;width:50%;"></div></div>
+            <div id="battle-opp-rolls" style="font-size:10px;color:#444;">0번 뽑음</div>
+          </div>
+        </div>
+
+        <!-- 뽑기 버튼 -->
+        <button id="battle-roll-btn" class="battle-roll-btn" onclick="battleDoRoll()">⚔️ 뽑기!</button>
+        <div style="font-size:10px;color:#444;text-align:center;margin-top:6px;">탭할 때마다 1번 뽑기 (빠를수록 유리)</div>
+
+        <!-- 최근 뽑기 -->
+        <div style="margin-top:16px;">
+          <div style="font-size:11px;color:#555;margin-bottom:6px;">내 최근 뽑기</div>
+          <div id="battle-roll-history" style="max-height:120px;overflow-y:auto;"></div>
+        </div>
+      </div>
+
+      <!-- 결과 -->
+      <div id="battle-result" style="display:none;text-align:center;padding:20px 0;">
+        <div id="battle-result-icon" style="font-size:60px;margin-bottom:12px;"></div>
+        <div id="battle-result-text" style="font-size:20px;font-weight:900;margin-bottom:8px;"></div>
+        <div id="battle-result-sub" style="font-size:12px;color:#666;margin-bottom:24px;"></div>
+        <button onclick="battleReset()" style="padding:14px 32px;border-radius:10px;border:0.5px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:#aaa;font-size:13px;cursor:pointer;">다시 매칭</button>
+      </div>
+    </div>
+
     <!-- 경쟁전 -->
     <div id="ranked-page">
       <div id="ranked-header">
@@ -5362,6 +5432,10 @@
       { name: "Doomweaver",        chance: 0.0000032,color:"#4e342e", tier: 72 },
       { name: "Oblivion",          chance: 0.0000023,color:"#212121", tier: 73 },
       { name: "THE ABSOLUTE",      chance: 0.0000016,color:"#ffffff", tier: 74 },
+      // ===== 골든 가챠 전용 등급 =====
+      { name: "리얼골드",  chance: 1,      color: "#ffc400", tier: 75 },
+      { name: "레전드골드",chance: 0.1,    color: "#ff8f00", tier: 76 },
+      { name: "???",       chance: 0.0001, color: "#fffde7", tier: 77 }
     ];
 
         // 골든 가챠 전용 등급 (75~77)
@@ -5631,7 +5705,250 @@
       }
     }
 
-    // ===== 경쟁전 시스템 =====
+    // ===== 1대1 배틀 시스템 =====
+    const RTDB = 'https://ultrarng-default-rtdb.firebaseio.com';
+    const BATTLE_DURATION = 180; // 3분
+
+    let battleState = 'idle'; // idle | queuing | playing | result
+    let battleId = null;
+    let battleSide = null; // 'a' | 'b'
+    let battleTimer = null;
+    let battlePollTimer = null;
+    let battleSecondsLeft = BATTLE_DURATION;
+    let battleMyScore = 0;
+    let battleOppScore = 0;
+    let battleMyRolls = 0;
+    let battleRollHistory = [];
+
+    async function rtdbGet(path) {
+      try {
+        const res = await fetch(`${RTDB}${path}.json`);
+        if (!res.ok) return null;
+        return await res.json();
+      } catch { return null; }
+    }
+    async function rtdbSet(path, data) {
+      try {
+        await fetch(`${RTDB}${path}.json`, { method: 'PUT', body: JSON.stringify(data), headers: {'Content-Type':'application/json'} });
+      } catch {}
+    }
+    async function rtdbDelete(path) {
+      try { await fetch(`${RTDB}${path}.json`, { method: 'DELETE' }); } catch {}
+    }
+
+    async function battleJoinQueue() {
+      if (!currentUser) { showPotionToast('⚔️ 로그인 필요!'); return; }
+      if (battleState !== 'idle') return;
+      battleState = 'queuing';
+      document.getElementById('battle-queue-status').innerText = '🔍 상대방 찾는 중...';
+      document.querySelector('[onclick="battleJoinQueue()"]').disabled = true;
+
+      // 대기열 확인
+      const queue = await rtdbGet('/battle_queue');
+      const entries = queue ? Object.entries(queue) : [];
+      // 나 자신 제외 대기자 찾기
+      const opponent = entries.find(([uid]) => uid !== currentUser);
+
+      if (opponent) {
+        // 매칭 성공! 내가 B
+        const [oppUid, oppData] = opponent;
+        battleId = oppData.battleId;
+        battleSide = 'b';
+        // 대기열에서 상대 제거
+        await rtdbDelete(`/battle_queue/${oppUid}`);
+        // 배틀 방 업데이트
+        const startTime = Date.now();
+        await rtdbSet(`/battles/${battleId}`, {
+          a: { uid: oppUid, name: oppData.name, score: 0, rolls: 0 },
+          b: { uid: currentUser, name: currentUser, score: 0, rolls: 0 },
+          startTime, status: 'playing'
+        });
+        battleStart(oppData.name, startTime);
+      } else {
+        // 대기열에 등록 (내가 A)
+        battleId = `battle_${Date.now()}_${currentUser}`;
+        await rtdbSet(`/battle_queue/${currentUser}`, { name: currentUser, battleId, joinedAt: Date.now() });
+        // 상대가 들어올 때까지 폴링
+        battlePollTimer = setInterval(async () => {
+          const battle = await rtdbGet(`/battles/${battleId}`);
+          if (battle && battle.status === 'playing' && battle.b) {
+            clearInterval(battlePollTimer);
+            battleStart(battle.b.name, battle.startTime);
+          }
+          // 30초 타임아웃
+          const q = await rtdbGet(`/battle_queue/${currentUser}`);
+          if (!q) return; // 이미 매칭됨
+          if (Date.now() - q.joinedAt > 30000) {
+            clearInterval(battlePollTimer);
+            await rtdbDelete(`/battle_queue/${currentUser}`);
+            battleState = 'idle';
+            document.getElementById('battle-queue-status').innerText = '⏱ 상대를 찾지 못했습니다. 다시 시도해주세요.';
+            document.querySelector('[onclick="battleJoinQueue()"]').disabled = false;
+          }
+        }, 2000);
+      }
+    }
+
+    function battleStart(oppName, startTime) {
+      battleState = 'playing';
+      battleMyScore = 0; battleOppScore = 0; battleMyRolls = 0; battleRollHistory = [];
+      document.getElementById('battle-lobby').style.display = 'none';
+      document.getElementById('battle-ingame').style.display = 'block';
+      document.getElementById('battle-result').style.display = 'none';
+      document.getElementById('battle-opp-name').innerText = oppName;
+      document.getElementById('battle-roll-btn').disabled = false;
+
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      battleSecondsLeft = Math.max(0, BATTLE_DURATION - elapsed);
+
+      // 타이머
+      battleTimer = setInterval(async () => {
+        battleSecondsLeft--;
+        const m = Math.floor(battleSecondsLeft / 60);
+        const s = battleSecondsLeft % 60;
+        const el = document.getElementById('battle-timer');
+        if (el) el.innerText = `${m}:${s.toString().padStart(2,'0')}`;
+        if (battleSecondsLeft <= 0) {
+          clearInterval(battleTimer);
+          clearInterval(battlePollTimer);
+          await battleEnd();
+        }
+      }, 1000);
+
+      // 상대 점수 폴링
+      battlePollTimer = setInterval(async () => {
+        const battle = await rtdbGet(`/battles/${battleId}`);
+        if (!battle) return;
+        const opp = battleSide === 'a' ? battle.b : battle.a;
+        if (opp) {
+          battleOppScore = opp.score || 0;
+          updateBattleUI();
+        }
+        document.getElementById('battle-opp-rolls').innerText = `${opp?.rolls || 0}번 뽑음`;
+      }, 1500);
+    }
+
+    async function battleDoRoll() {
+      if (battleState !== 'playing' || battleSecondsLeft <= 0) return;
+      // 빠른 뽑기 (컷씬 없음)
+      const item = pick(1, 0);
+      const mutation = rollMutation();
+      const mRank = mutationRank(mutation);
+      const base = STAR_VALUES[item.tier] || 1;
+      const bonus = [1,1.5,2.5,4,8][mRank] || 1;
+      const earned = Math.floor(base * bonus);
+      battleMyScore += earned;
+      battleMyRolls++;
+
+      battleRollHistory.unshift({ name: item.name, color: item.color, mutation, earned });
+      if (battleRollHistory.length > 30) battleRollHistory.pop();
+
+      // RTDB 업데이트
+      await rtdbSet(`/battles/${battleId}/${battleSide}`, {
+        uid: currentUser, name: currentUser,
+        score: battleMyScore, rolls: battleMyRolls
+      });
+
+      updateBattleUI();
+    }
+
+    function updateBattleUI() {
+      const myEl = document.getElementById('battle-my-score');
+      const oppEl = document.getElementById('battle-opp-score');
+      const myRollsEl = document.getElementById('battle-my-rolls');
+      if (myEl) myEl.innerText = battleMyScore.toLocaleString();
+      if (oppEl) oppEl.innerText = battleOppScore.toLocaleString();
+      if (myRollsEl) myRollsEl.innerText = `${battleMyRolls}번 뽑음`;
+
+      // 바 업데이트
+      const total = battleMyScore + battleOppScore || 1;
+      const myPct = Math.round(battleMyScore / total * 100);
+      const myBar = document.getElementById('battle-my-bar');
+      const oppBar = document.getElementById('battle-opp-bar');
+      if (myBar) myBar.style.width = myPct + '%';
+      if (oppBar) oppBar.style.width = (100 - myPct) + '%';
+
+      // 최근 뽑기 기록
+      const histEl = document.getElementById('battle-roll-history');
+      if (histEl) {
+        histEl.innerHTML = battleRollHistory.slice(0, 10).map(h => `
+          <div class="battle-history-item">
+            <div style="width:6px;height:6px;border-radius:50%;background:${h.color};flex-shrink:0;"></div>
+            <div style="color:${h.color};font-weight:700;">${h.name}</div>
+            ${h.mutation ? `<div style="color:#888;">(${h.mutation})</div>` : ''}
+            <div style="margin-left:auto;color:#ffd54f;">+${h.earned.toLocaleString()}★</div>
+          </div>`).join('');
+      }
+    }
+
+    async function battleEnd() {
+      battleState = 'result';
+      clearInterval(battleTimer);
+      clearInterval(battlePollTimer);
+      document.getElementById('battle-roll-btn').disabled = true;
+
+      // 최종 상대 점수 가져오기
+      const battle = await rtdbGet(`/battles/${battleId}`);
+      if (battle) {
+        const opp = battleSide === 'a' ? battle.b : battle.a;
+        if (opp) battleOppScore = opp.score || 0;
+      }
+
+      // 정리
+      await rtdbDelete(`/battles/${battleId}`);
+
+      const win = battleMyScore > battleOppScore;
+      const draw = battleMyScore === battleOppScore;
+      const reward = win ? Math.floor(battleMyScore * 0.1) : Math.floor(battleMyScore * 0.02);
+      starCurrency += reward;
+      updateStarDisplay();
+      saveProgress();
+
+      document.getElementById('battle-ingame').style.display = 'none';
+      document.getElementById('battle-result').style.display = 'block';
+      document.getElementById('battle-result-icon').innerText = draw ? '🤝' : win ? '🏆' : '💀';
+      document.getElementById('battle-result-text').innerText = draw ? '무승부!' : win ? '승리!' : '패배...';
+      document.getElementById('battle-result-sub').innerHTML = `
+        나: ${battleMyScore.toLocaleString()}★ vs 상대: ${battleOppScore.toLocaleString()}★<br>
+        <span style="color:#ffd54f;">★ +${reward.toLocaleString()} 획득</span>
+      `;
+    }
+
+    function battleReset() {
+      battleState = 'idle';
+      battleId = null; battleSide = null;
+      clearInterval(battleTimer); clearInterval(battlePollTimer);
+      document.getElementById('battle-lobby').style.display = 'block';
+      document.getElementById('battle-ingame').style.display = 'none';
+      document.getElementById('battle-result').style.display = 'none';
+      document.getElementById('battle-queue-status').innerText = '';
+      const btn = document.querySelector('[onclick="battleJoinQueue()"]');
+      if (btn) btn.disabled = false;
+      renderBattle();
+    }
+
+    function renderBattle() {
+      const statsEl = document.getElementById('battle-my-stats');
+      if (statsEl && currentUser) {
+        statsEl.innerHTML = `
+          <div style="font-size:10px;color:#444;letter-spacing:1px;margin-bottom:8px;">내 현황</div>
+          <div style="display:flex;gap:12px;justify-content:center;">
+            <div style="text-align:center;">
+              <div style="font-size:18px;font-weight:800;color:#4dd0e1;">${totalRolls.toLocaleString()}</div>
+              <div style="font-size:10px;color:#555;">총 뽑기</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:18px;font-weight:800;color:#ffd54f;">${starCurrency.toLocaleString()}</div>
+              <div style="font-size:10px;color:#555;">보유 ★</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:18px;font-weight:800;color:#ff6b6b;">${pool[Math.min(bestTier,74)]?.name || '-'}</div>
+              <div style="font-size:10px;color:#555;">최고 등급</div>
+            </div>
+          </div>
+        `;
+      }
+    }
     const RANKED_TIERS = [
       { name: '아이언',     color: '#888888', bg: '#1a1a1a', min: 0,    max: 49,   icon: '⬜' },
       { name: '브론즈',     color: '#cd7f32', bg: '#1a0e00', min: 50,   max: 149,  icon: '🟫' },
@@ -13428,7 +13745,7 @@
     }
 
     function switchTab(tab) {
-      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'cutscenes', 'shop', 'potion-shop', 'brewery', 'red-gacha', 'ranked', 'board', 'guild', 'plaza', 'friends', 'ranking'];
+      const tabs = ['gacha', 'dojang', 'ach', 'odds', 'cutscenes', 'shop', 'potion-shop', 'brewery', 'red-gacha', 'ranked', 'battle', 'board', 'guild', 'plaza', 'friends', 'ranking'];
       document.querySelectorAll('.nav-tab').forEach((t, i) => t.classList.toggle('active', tabs[i] === tab));
       tabs.forEach(id => document.getElementById(id + '-page').classList.toggle('active', id === tab));
       if (tab === 'dojang') renderDojang();
@@ -13439,6 +13756,7 @@
       if (tab === 'potion-shop') renderPotionShop();
       if (tab === 'brewery') renderBrewery();
       if (tab === 'red-gacha') renderRedGacha();
+      if (tab === 'battle') renderBattle();
       if (tab === 'ranked') renderRanked();
       if (tab === 'board') renderBoard();
       if (tab === 'guild') renderGuild();
@@ -15274,9 +15592,9 @@
       { id: 'celestial_potion_use_3', name: '천상의 가호', icon: '✨', title: '천상의 축복을 받은 자', desc: 'Celestial Potion 3개 사용', check: () => celestialPotionsUsedTotal >= 3, progress: () => `${Math.min(celestialPotionsUsedTotal, 3)} / 3` },
       { id: 'shop_deliver_first', name: '상인과의 거래', icon: '🤝', title: '거래인', desc: '상점에 첫 납품 완료', check: () => shopDeliveredTotal >= 1, progress: () => shopDeliveredTotal >= 1 ? '완료' : '미달성' },
       { id: 'shop_deliver_10', name: '단골 손님', icon: '📦', title: '단골 손님', desc: '상점에 10회 납품', check: () => shopDeliveredTotal >= 10, progress: () => `${Math.min(shopDeliveredTotal, 10)} / 10` },
-      { id: 'first_real_gold', name: '리얼골드', icon: '🥇', title: '리얼골드 수집가', desc: '골든 가챠에서 리얼골드 첫 획득', check: () => tiersObtained.has(45), progress: () => tiersObtained.has(45) ? '완료' : '미달성' },
-      { id: 'first_legend_gold', name: '레전드골드', icon: '🏅', title: '레전드골드의 주인', desc: '골든 가챠에서 레전드골드 첫 획득', check: () => tiersObtained.has(46), progress: () => tiersObtained.has(46) ? '완료' : '미달성' },
-      { id: 'first_question_mark', name: '???', icon: '✨', title: '???', desc: '골든 가챠 최상위 등급 첫 획득', check: () => tiersObtained.has(47), progress: () => tiersObtained.has(47) ? '완료' : '미달성' },
+      { id: 'first_real_gold', name: '리얼골드', icon: '🥇', title: '리얼골드 수집가', desc: '골든 가챠에서 리얼골드 첫 획득', check: () => tiersObtained.has(75), progress: () => tiersObtained.has(75) ? '완료' : '미달성' },
+      { id: 'first_legend_gold', name: '레전드골드', icon: '🏅', title: '레전드골드의 주인', desc: '골든 가챠에서 레전드골드 첫 획득', check: () => tiersObtained.has(76), progress: () => tiersObtained.has(76) ? '완료' : '미달성' },
+      { id: 'first_question_mark', name: '???', icon: '✨', title: '???', desc: '골든 가챠 최상위 등급 첫 획득', check: () => tiersObtained.has(77), progress: () => tiersObtained.has(77) ? '완료' : '미달성' },
       { id: 'golden_roll_10', name: '황금시간 단골', icon: '🌇', title: '황금시간의 단골', desc: '골든 가챠 10회 진행', check: () => goldenRollsTotal >= 10, progress: () => `${Math.min(goldenRollsTotal, 10)} / 10` },
       { id: 'guild_join_first', name: '동료의 시작', icon: '🛡️', title: '길드원', desc: '길드에 가입하세요', check: () => !!guildName, progress: () => guildName ? '완료' : '미달성' },
       { id: 'friend_first', name: '첫 인연', icon: '🤝', title: '소셜라이트', desc: '친구를 1명 이상 추가하세요', check: () => myFriends.length >= 1, progress: () => `${Math.min(myFriends.length, 1)} / 1` },
