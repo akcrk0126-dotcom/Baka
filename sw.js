@@ -1,4 +1,4 @@
-const CACHE = 'ugacha-v4';
+const CACHE = 'ugacha-v5';
 const FILES = [
   '/Baka/rpg.html',
 ];
