@@ -5372,7 +5372,19 @@
       return TIER_POWER_OVERRIDE[tier] ?? tier;
     }
 
-    const potionRewards = { 9: 1, 10: 2, 11: 3, 12: 4, 13: 5, 14: 6, 15: 7, 16: 8, 17: 9, 18: 10, 19: 11, 20: 12, 21: 13, 22: 14, 23: 15, 24: 16, 25: 17, 26: 18, 27: 19, 28: 20, 29: 20, 30: 20, 31: 20, 32: 20, 33: 20, 34: 20, 35: 20, 36: 20, 37: 20, 38: 20, 39: 20, 40: 20, 41: 20, 42: 20, 43: 20, 44: 20, 45: 30, 46: 40, 47: 50 };
+    const potionRewards = {
+      9:1, 10:1, 11:2, 12:2, 13:3, 14:3, 15:4, 16:4, 17:5, 18:5,
+      19:6, 20:6, 21:7, 22:7, 23:8, 24:8, 25:9, 26:9, 27:10, 28:10,
+      29:11, 30:11, 31:12, 32:12, 33:13, 34:13, 35:14, 36:14, 37:15, 38:15,
+      39:16, 40:16, 41:17, 42:17, 43:18, 44:19,
+      45:20, 46:20, 47:20, 48:20, 49:20,
+      50:20, 51:20, 52:20, 53:20, 54:20,
+      55:20, 56:20, 57:20, 58:20, 59:20,
+      60:20, 61:20, 62:20, 63:20, 64:20,
+      65:20, 66:20, 67:20, 68:30, 69:30,
+      70:30, 71:30, 72:30, 73:40, 74:50,
+      75:30, 76:40, 77:50
+    };
 
     let rolling = false, pity = 0, totalRolls = 0, legendaryCount = 0;
 
@@ -5489,9 +5501,9 @@
       { id:'rq4',  desc:'뽑기 300번 하기',       target:300, reward:12, rankedReward:8,  type:'totalRolls', done:false },
       { id:'rq5',  desc:'뽑기 500번 하기',       target:500, reward:20, rankedReward:12, type:'totalRolls', done:false },
       { id:'rq6',  desc:'Legendary 등급 달성',   target:9,   reward:5,  rankedReward:3,  type:'tierReach',  done:false },
-      { id:'rq7',  desc:'Nightshade 등급 달성',  target:13,  reward:8,  rankedReward:5,  type:'tierReach',  done:false },
-      { id:'rq8',  desc:'Celestial 등급 달성',   target:15,  reward:12, rankedReward:7,  type:'tierReach',  done:false },
-      { id:'rq9',  desc:'Ultra 등급 달성',       target:21,  reward:20, rankedReward:10, type:'tierReach',  done:false },
+      { id:'rq7',  desc:'Nightshade 등급 달성',  target:17,  reward:8,  rankedReward:5,  type:'tierReach',  done:false },
+      { id:'rq8',  desc:'Celestial 등급 달성',   target:21,  reward:12, rankedReward:7,  type:'tierReach',  done:false },
+      { id:'rq9',  desc:'Ultra 등급 달성',       target:33,  reward:20, rankedReward:10, type:'tierReach',  done:false },
       { id:'rq10', desc:'Red 가챠 10번 뽑기',    target:10,  reward:5,  rankedReward:3,  type:'redRolls',   done:false },
       { id:'rq11', desc:'Red 가챠 30번 뽑기',    target:30,  reward:10, rankedReward:5,  type:'redRolls',   done:false },
       { id:'rq12', desc:'첫 로그인 보너스',       target:1,   reward:10, rankedReward:5,  type:'login',      done:false },
@@ -5631,23 +5643,32 @@
       { name: '챌린저',     color: '#aa44ff', bg: '#0a0014', min: 1000, max: Infinity, icon: '👑' },
     ];
 
-    // 등급별 경쟁전 점수 (챌린저 1000점 기준)
     const RANKED_SCORE_BY_TIER = [
-      0,0,0,0,0,        // 0~4
-      1,1,2,3,          // 5~8
-      5,7,9,            // 9~11
-      12,16,20,         // 12~14
-      25,32,40,         // 15~17
-      50,65,80,         // 18~20
-      100,130,          // 21~22
-      160,200,250,      // 23~25
-      300,370,450,      // 26~28
-      540,              // 29
-      640,750,860,960,  // 30~33
-      1000,             // 34 ABSOLUTE ZERO
-      1100,1250,1400,1580, // 35~38
-      1800,2100,2500,3000,3600, // 39~43
-      5000,             // 44 GOD EMPEROR
+      0,0,0,0,0,          // 0~4
+      1,1,2,3,            // 5~8
+      5,6,8,              // 9~11
+      10,13,16,           // 12~14
+      20,25,32,           // 15~17
+      40,50,65,           // 18~20
+      80,100,130,         // 21~23
+      160,200,250,        // 24~26 (새 등급 포함)
+      300,370,450,        // 25~27 → 25~27
+      540,                // 28
+      640,                // 29
+      750,900,            // 30~31
+      1050,1200,          // 32~33
+      1400,1600,          // 34~35
+      1850,2100,          // 36~37
+      2400,2700,          // 38~39
+      3100,3500,          // 40~41
+      4000,4600,          // 42~43
+      5200,               // 44 GOD EMPEROR
+      6000,7000,8000,9500,11000,   // 45~49
+      13000,15000,18000,21000,25000,// 50~54
+      30000,35000,42000,50000,60000,// 55~59
+      72000,85000,100000,120000,145000,// 60~64
+      175000,210000,250000,300000,360000,// 65~69
+      430000,520000,620000,750000,900000,// 70~74
     ];
 
     let rankedScore = 0;
@@ -6706,18 +6727,18 @@
       checkBoardDiceGrant();
       let item;
       if (zeroPotionActive) {
-        item = pickFromTier(35); // ABSOLUTE ZERO 초과 등급 확정 tier 35+
+        item = pickFromTier(55); // Ruinweave(55) 이상 확정 (구 ABSOLUTE ZERO 위)
         zeroPotionActive = false;
       } else if (godlyPotionActive) {
-        item = pickFromTier(30); // Genesis 초과 등급 확정 tier 30+
+        item = pickFromTier(45); // Voidpact(45) 이상 확정 (구 Genesis 위)
         godlyPotionActive = false;
       } else if (celestialPotionActive) {
-        item = pickFromTier(19); // Solflare(19) 이상 확정
+        item = pickFromTier(29); // Solflare(29) 이상 확정
       } else if (ultraPotionActive) {
-        item = pickFromTier(13); // Nightshade(13) 이상 확정
+        item = pickFromTier(17); // Nightshade(17) 이상 확정
       } else {
         const multiplier = potionActive ? 2 : 1;
-        item = pity >= 100 ? pool[34] : pick(multiplier, luckFactor);
+        item = pity >= 100 ? pool[54] : pick(multiplier, luckFactor); // pity 100 = ABSOLUTE ZERO(54)
       }
       lastPityUsed = pity;
       if (tierPowerRank(item.tier) > tierPowerRank(bestTier)) bestTier = item.tier;
@@ -10831,47 +10852,77 @@
         }, delayMs);
       }
 
-      // ===== 등급별(7~44) 완전히 다른 프리컷씬 디스패치 테이블 =====
-      // 8종 고유 네임드 이펙트는 대표 등급 하나씩 맡고, 나머지는 캔버스 엔진으로 등급마다 다른 모션을 그린다.
+      // ===== 등급별 프리컷씬 디스패치 =====
       const PRECS_CONFIG = {
-        7:  { mode: 'scene' },
-        8:  { mode: 'scene' },
+        7:  { mode: 'rune_circle' },
+        8:  { mode: 'dragon_wings' },
         9:  { mode: 'slash' },
-        10: { mode: 'scene' },
-        11: { mode: 'scene' },
-        12: { mode: 'scene' },
+        10: { mode: 'ocean_rise' },
+        11: { mode: 'pixel_build' },
+        12: { mode: 'claw_strike' },
         13: { mode: 'devtext' },
-        14: { mode: 'scene' },
-        15: { mode: 'scene' },
-        16: { mode: 'scene' },
+        14: { mode: 'ghost_appear' },
+        15: { mode: 'star_converge' },
+        16: { mode: 'ice_freeze' },
         17: { mode: 'fire' },
-        18: { mode: 'scene' },
-        19: { mode: 'scene' },
-        20: { mode: 'scene' },
+        18: { mode: 'galaxy_spin' },
+        19: { mode: 'solar_flare' },
+        20: { mode: 'thunder_strike' },
         21: { mode: 'lake' },
-        22: { mode: 'scene' },
-        23: { mode: 'scene' },
-        24: { mode: 'scene' },
+        22: { mode: 'eclipse_cover' },
+        23: { mode: 'void_crack' },
+        24: { mode: 'speed_dash' },
         25: { mode: 'magiccircle' },
-        26: { mode: 'scene' },
-        27: { mode: 'scene' },
-        28: { mode: 'scene' },
+        26: { mode: 'crown_rise' },
+        27: { mode: 'infinity_pulse' },
+        28: { mode: 'darkness_hand' },
         29: { mode: 'wreck' },
-        30: { mode: 'scene' },
-        31: { mode: 'scene' },
-        32: { mode: 'scene' },
-        33: { mode: 'scene' },
-        34: { mode: 'scene' },
+        30: { mode: 'dual_energy' },
+        31: { mode: 'blueprint_scan_pre' },
+        32: { mode: 'blackhole_pull' },
+        33: { mode: 'time_stop' },
+        34: { mode: 'absolute_freeze' },
         35: { mode: 'chains' },
-        36: { mode: 'scene' },
-        37: { mode: 'scene' },
-        38: { mode: 'scene' },
-        39: { mode: 'scene' },
+        36: { mode: 'world_devour' },
+        37: { mode: 'singularity_collapse' },
+        38: { mode: 'eyes_open' },
+        39: { mode: 'paradox_flip' },
         40: { mode: 'pillars' },
-        41: { mode: 'scene' },
-        42: { mode: 'scene' },
-        43: { mode: 'scene' },
-        44: { mode: 'finale' }
+        41: { mode: 'data_stream' },
+        42: { mode: 'white_transcend' },
+        43: { mode: 'primal_rune' },
+        44: { mode: 'finale' },
+        // tier 45~74 새 등급
+        45: { mode: 'pact_seal' },
+        46: { mode: 'eternal_destroy' },
+        47: { mode: 'grimtide_wave' },
+        48: { mode: 'prime_construct' },
+        49: { mode: 'null_field' },
+        50: { mode: 'void_sovereign_pre' },
+        51: { mode: 'desolate_land' },
+        52: { mode: 'chrono_shatter' },
+        53: { mode: 'frost_abyss' },
+        54: { mode: 'zero_absolute' },
+        55: { mode: 'ruin_weave_pre' },
+        56: { mode: 'quantum_split' },
+        57: { mode: 'ash_storm' },
+        58: { mode: 'world_consume' },
+        59: { mode: 'wraith_cyclone' },
+        60: { mode: 'singularity_pre' },
+        61: { mode: 'all_seeing' },
+        62: { mode: 'reality_break' },
+        63: { mode: 'god_hand' },
+        64: { mode: 'akashic_flood' },
+        65: { mode: 'pure_white' },
+        66: { mode: 'primal_eruption' },
+        67: { mode: 'god_emperor_pre' },
+        68: { mode: 'rift_open' },
+        69: { mode: 'void_bane_pre' },
+        70: { mode: 'nether_surge' },
+        71: { mode: 'soul_shred' },
+        72: { mode: 'doom_loom' },
+        73: { mode: 'oblivion_pre' },
+        74: { mode: 'absolute_pre' }
       };
 
       const conf = PRECS_CONFIG[item.tier] || { mode: 'canvas', cfg: { mode: 'orbit', count: 24 } };
@@ -11054,19 +11105,2032 @@
         setT(() => playImpactSound(44, 'cutscene'), 1700);
         duration = 3200;
 
-      } else if (conf.mode === 'scene') {
-        // 7~43 사이 나머지 28개 등급: 캔버스 기반 빛 이펙트 (가산합성+다층글로우+트레일로 화려하게)
+      } else if (conf.mode === 'rune_circle') {
+        // 7 Arcane — 룬 문자들이 원형으로 나타나며 회전
         overlay.style.background = '#000';
         canvas.style.opacity = '1';
-        duration = 1900 + Math.min(900, Math.floor(item.tier * 12));
-        runLightCanvas(canvas, item.tier, color, duration);
-        // 화이트크랙 직후라 첫 플래시는 생략 — 밝은 플래시가 "또 크랙났다"처럼 혼동을 줌
-        doFlashPulse(item.tier >= 30 ? 0.9 : 0.6, 500, 600);
-        if (item.tier >= 20) doFlashPulse(0.6, 1100, 400);
-        if (item.tier >= 30) doFlashPulse(0.7, 1700, 400);
-        if (item.tier >= 36) doFlashPulse(0.85, 2300, 400);
-        if (item.tier >= 42) doFlashPulse(1.0, 2900, 400);
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        const runes='ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃ'.split('');
+        let t=0;
+        function drawRune(){
+          ctx.clearRect(0,0,cw,ch);
+          const progress=Math.min(1,t/80);
+          ctx.fillStyle=`rgba(0,191,165,${progress*0.08})`;
+          ctx.fillRect(0,0,cw,ch);
+          const r=Math.min(cw,ch)*0.3;
+          runes.forEach((rune,i)=>{
+            const a=(i/runes.length)*Math.PI*2+t*0.025;
+            const x=cx2+Math.cos(a)*r, y=cy2+Math.sin(a)*r;
+            const op=Math.min(1,t/40)*0.8;
+            ctx.font=`${Math.round(r*0.22)}px serif`;
+            ctx.textAlign='center'; ctx.textBaseline='middle';
+            ctx.shadowColor=color; ctx.shadowBlur=20;
+            ctx.fillStyle=`rgba(0,191,165,${op})`;
+            ctx.fillText(rune,x,y);
+          });
+          // 중심 마법진
+          ctx.strokeStyle=`rgba(0,191,165,${Math.min(1,t/50)*0.6})`;
+          ctx.lineWidth=2; ctx.shadowBlur=15;
+          ctx.beginPath(); ctx.arc(cx2,cy2,r*0.5,0,Math.PI*2); ctx.stroke();
+          ctx.beginPath(); ctx.arc(cx2,cy2,r*0.3,0,Math.PI*2); ctx.stroke();
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<90) requestAnimationFrame(drawRune);
+        }
+        requestAnimationFrame(drawRune);
+        duration=2000;
 
+      } else if (conf.mode === 'dragon_wings') {
+        // 8 Mythic — 용 날개가 펼쳐지는 연출
+        overlay.style.background = '#0a0500';
+        canvas.style.opacity = '1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawWings(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          const wingSpan=Math.min(cw,ch)*0.45*p;
+          // 불꽃 배경
+          ctx.fillStyle=`rgba(255,100,0,${p*0.06})`;
+          ctx.fillRect(0,0,cw,ch);
+          // 날개
+          [-1,1].forEach(side=>{
+            ctx.strokeStyle=color; ctx.lineWidth=3;
+            ctx.shadowColor=color; ctx.shadowBlur=25;
+            ctx.globalAlpha=p;
+            ctx.beginPath();
+            ctx.moveTo(cx2,cy2+ch*0.05);
+            ctx.quadraticCurveTo(cx2+side*wingSpan*0.5,cy2-ch*0.15,cx2+side*wingSpan,cy2-ch*0.2);
+            ctx.quadraticCurveTo(cx2+side*wingSpan*0.8,cy2,cx2+side*wingSpan*0.4,cy2+ch*0.1);
+            ctx.stroke();
+            // 깃털 선
+            for(let f=0;f<4;f++){
+              const fr=(f+1)/5;
+              ctx.lineWidth=1.5; ctx.shadowBlur=10;
+              ctx.beginPath();
+              ctx.moveTo(cx2+side*wingSpan*fr*0.7,cy2-ch*0.12*fr);
+              ctx.lineTo(cx2+side*wingSpan*fr,cy2+ch*0.05*(1-fr));
+              ctx.stroke();
+            }
+          });
+          ctx.globalAlpha=1; ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawWings);
+        }
+        requestAnimationFrame(drawWings);
+        doFlashPulse(0.7,1200,500);
+        duration=2200;
+
+      } else if (conf.mode === 'ocean_rise') {
+        // 10 Sentinel — 바닷속에서 떠오르는 연출
+        overlay.style.background='#000d1a';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height;
+        let t=0;
+        function drawOcean(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=t/80;
+          // 물결 여러 겹
+          for(let w=0;w<5;w++){
+            const wy=ch*(0.3+w*0.12)+Math.sin(t*0.05+w)*ch*0.02;
+            const op=0.15-w*0.02;
+            ctx.strokeStyle=`rgba(30,${100+w*20},255,${op+Math.sin(t*0.04+w)*0.05})`;
+            ctx.lineWidth=2;
+            ctx.beginPath();
+            for(let x=0;x<=cw;x+=4){
+              const y=wy+Math.sin(x*0.015+t*0.04+w)*ch*0.025;
+              x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+            }
+            ctx.stroke();
+          }
+          // 빛기둥 아래서 위로
+          const pillarH=Math.min(1,t/50)*ch;
+          const pg=ctx.createLinearGradient(cw/2,ch,cw/2,ch-pillarH);
+          pg.addColorStop(0,`rgba(30,150,255,0)`);
+          pg.addColorStop(0.5,`rgba(100,200,255,0.3)`);
+          pg.addColorStop(1,`rgba(255,255,255,0.6)`);
+          ctx.fillStyle=pg;
+          ctx.fillRect(cw/2-30,ch-pillarH,60,pillarH);
+          // 버블
+          for(let b=0;b<8;b++){
+            const bx=cw*(0.2+b*0.08)+Math.sin(t*0.03+b)*20;
+            const by=ch-(t*2+b*40)%ch;
+            ctx.strokeStyle=`rgba(100,200,255,0.4)`;
+            ctx.lineWidth=1;
+            ctx.beginPath(); ctx.arc(bx,by,3+b%3,0,Math.PI*2); ctx.stroke();
+          }
+          t++;
+          if(!skipRequested && t<90) requestAnimationFrame(drawOcean);
+        }
+        requestAnimationFrame(drawOcean);
+        duration=2200;
+
+      } else if (conf.mode === 'pixel_build') {
+        // 11 Vanguard — 픽셀들이 모여서 형태를 만듦
+        overlay.style.background='#000011';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        const ps=Math.round(Math.min(cw,ch)/20);
+        let t=0;
+        const pixels=[];
+        for(let i=0;i<40;i++){
+          pixels.push({
+            tx:cx2+(Math.random()-.5)*ps*8, ty:cy2+(Math.random()-.5)*ps*6,
+            x:Math.random()*cw, y:Math.random()*ch,
+            delay:Math.random()*40
+          });
+        }
+        function drawPixel(){
+          ctx.clearRect(0,0,cw,ch);
+          pixels.forEach(p=>{
+            const prog=Math.max(0,Math.min(1,(t-p.delay)/40));
+            p.x=p.x+(p.tx-p.x)*0.08;
+            p.y=p.y+(p.ty-p.y)*0.08;
+            const op=prog*0.9;
+            ctx.fillStyle=`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},${op})`;
+            ctx.shadowColor=color; ctx.shadowBlur=10;
+            ctx.fillRect(p.x-ps/2, p.y-ps/2, ps-1, ps-1);
+          });
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawPixel);
+        }
+        requestAnimationFrame(drawPixel);
+        duration=2000;
+
+      } else if (conf.mode === 'claw_strike') {
+        // 12 Beast — 발톱 3개가 화면을 긁음
+        overlay.style.background='#0d0000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawClaw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/30);
+          // 불꽃 배경
+          ctx.fillStyle=`rgba(255,60,0,${p*0.05})`;
+          ctx.fillRect(0,0,cw,ch);
+          // 발톱 3개
+          const offsets=[-cw*0.12,0,cw*0.12];
+          offsets.forEach((off,i)=>{
+            const dp=Math.max(0,Math.min(1,(t-i*8)/25));
+            const sx=cx2+off-cw*0.08, sy=cy2-ch*0.3;
+            const ex=cx2+off+cw*0.04, ey=cy2+ch*0.3*dp;
+            ctx.strokeStyle=color; ctx.lineWidth=8;
+            ctx.shadowColor=color; ctx.shadowBlur=30;
+            ctx.lineCap='round';
+            ctx.beginPath(); ctx.moveTo(sx,sy); ctx.quadraticCurveTo(cx2+off,cy2*0.8,ex,ey); ctx.stroke();
+            ctx.strokeStyle='rgba(255,255,255,0.8)'; ctx.lineWidth=2; ctx.shadowBlur=0;
+            ctx.beginPath(); ctx.moveTo(sx,sy); ctx.quadraticCurveTo(cx2+off,cy2*0.8,ex,ey); ctx.stroke();
+          });
+          ctx.lineCap='butt'; ctx.shadowBlur=0;
+          // 충격파
+          if(t>35){
+            const sr=Math.min(1,(t-35)/20)*Math.min(cw,ch)*0.5;
+            const op=Math.max(0,1-(t-35)/20);
+            ctx.strokeStyle=`rgba(255,100,0,${op})`; ctx.lineWidth=4;
+            ctx.beginPath(); ctx.arc(cx2,cy2,sr,0,Math.PI*2); ctx.stroke();
+          }
+          t++;
+          if(!skipRequested && t<70) requestAnimationFrame(drawClaw);
+        }
+        requestAnimationFrame(drawClaw);
+        doFlashPulse(0.8,800,400);
+        duration=2000;
+
+      } else if (conf.mode === 'ghost_appear') {
+        // 14 Phantom — 화면이 반전되며 유령 실루엣 등장
+        overlay.style.background='#ffffff';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawGhost(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          // 흑백 반전 배경
+          const bgOp=Math.sin(p*Math.PI)*0.3;
+          ctx.fillStyle=`rgba(0,0,0,${bgOp})`;
+          ctx.fillRect(0,0,cw,ch);
+          // 유령 실루엣
+          const gs=Math.min(cw,ch)*0.35*p;
+          ctx.globalAlpha=p*0.7;
+          ctx.strokeStyle='rgba(0,0,0,0.8)';
+          ctx.fillStyle='rgba(0,0,0,0.15)';
+          ctx.lineWidth=3;
+          ctx.beginPath();
+          ctx.arc(cx2,cy2-gs*0.3,gs*0.35,Math.PI,0);
+          ctx.lineTo(cx2+gs*0.35,cy2+gs*0.4);
+          for(let i=0;i<3;i++){
+            const wx=cx2+gs*0.35-gs*0.23*(i+0.5);
+            ctx.quadraticCurveTo(wx,cy2+gs*0.5+Math.sin(t*0.1+i)*gs*0.06,cx2+gs*0.35-gs*0.23*(i+1),cy2+gs*0.4);
+          }
+          ctx.lineTo(cx2-gs*0.35,cy2-gs*0.3);
+          ctx.fill(); ctx.stroke();
+          ctx.globalAlpha=1;
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawGhost);
+        }
+        requestAnimationFrame(drawGhost);
+        duration=2000;
+
+      } else if (conf.mode === 'star_converge') {
+        // 15 Celestial — 별들이 중심으로 수렴
+        overlay.style.background='#000510';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        const stars=Array.from({length:60},(_,i)=>{
+          const a=Math.random()*Math.PI*2;
+          const r=Math.min(cw,ch)*(0.3+Math.random()*0.3);
+          return {x:cx2+Math.cos(a)*r, y:cy2+Math.sin(a)*r, tx:cx2, ty:cy2};
+        });
+        let t=0;
+        function drawStarConverge(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          stars.forEach(s=>{
+            s.x+=(s.tx-s.x)*0.06;
+            s.y+=(s.ty-s.y)*0.06;
+            const op=0.5+Math.sin(t*0.1+Math.random())*0.3;
+            ctx.fillStyle=`rgba(255,255,255,${op})`;
+            ctx.shadowColor='rgba(0,229,255,0.8)'; ctx.shadowBlur=10;
+            ctx.beginPath(); ctx.arc(s.x,s.y,2+Math.random(),0,Math.PI*2); ctx.fill();
+          });
+          // 중심 빛
+          if(p>0.5){
+            const cg=ctx.createRadialGradient(cx2,cy2,0,cx2,cy2,Math.min(cw,ch)*0.2*(p-0.5)*2);
+            cg.addColorStop(0,'rgba(255,255,255,0.9)');
+            cg.addColorStop(0.4,'rgba(0,229,255,0.4)');
+            cg.addColorStop(1,'rgba(0,229,255,0)');
+            ctx.fillStyle=cg;
+            ctx.beginPath(); ctx.arc(cx2,cy2,Math.min(cw,ch)*0.2*(p-0.5)*2,0,Math.PI*2); ctx.fill();
+          }
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawStarConverge);
+        }
+        requestAnimationFrame(drawStarConverge);
+        doFlashPulse(0.9,1500,500);
+        duration=2200;
+
+      } else if (conf.mode === 'ice_freeze') {
+        // 16 Frostbound — 화면이 얼어붙음
+        overlay.style.background='#000d1a';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawIce(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/70);
+          // 얼음 결정이 퍼져나감
+          const numCrystals=Math.floor(p*8);
+          for(let i=0;i<8;i++){
+            if(i>=numCrystals) break;
+            const a=(i/8)*Math.PI*2;
+            const len=Math.min(cw,ch)*0.35*p;
+            ctx.strokeStyle=`rgba(150,230,255,${0.6+Math.sin(t*0.05+i)*0.2})`;
+            ctx.lineWidth=2; ctx.shadowColor='rgba(100,200,255,0.7)'; ctx.shadowBlur=15;
+            ctx.beginPath(); ctx.moveTo(cx2,cy2);
+            ctx.lineTo(cx2+Math.cos(a)*len, cy2+Math.sin(a)*len); ctx.stroke();
+            // 가지
+            const bl=len*0.4;
+            [[0.4,0.5],[0.6,0.5]].forEach(([fr,ba])=>{
+              const bx=cx2+Math.cos(a)*len*fr, by=cy2+Math.sin(a)*len*fr;
+              ctx.beginPath(); ctx.moveTo(bx,by);
+              ctx.lineTo(bx+Math.cos(a+Math.PI*ba)*bl, by+Math.sin(a+Math.PI*ba)*bl); ctx.stroke();
+            });
+          }
+          // 서리 오버레이
+          ctx.fillStyle=`rgba(200,240,255,${p*0.08})`;
+          ctx.fillRect(0,0,cw,ch);
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<90) requestAnimationFrame(drawIce);
+        }
+        requestAnimationFrame(drawIce);
+        duration=2200;
+
+      } else if (conf.mode === 'galaxy_spin') {
+        // 18 Cosmic — 은하 소용돌이
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawGalaxy(){
+          ctx.fillStyle='rgba(0,0,0,0.15)';
+          ctx.fillRect(0,0,cw,ch);
+          for(let arm=0;arm<3;arm++){
+            for(let j=0;j<30;j++){
+              const frac=j/30;
+              const a=frac*Math.PI*4+arm*(Math.PI*2/3)+t*0.04;
+              const r=frac*Math.min(cw,ch)*0.38;
+              const x=cx2+Math.cos(a)*r, y=cy2+Math.sin(a)*r*0.6;
+              const op=(1-frac)*0.6;
+              ctx.fillStyle=`rgba(101,31,255,${op})`;
+              ctx.shadowColor='rgba(101,31,255,0.8)'; ctx.shadowBlur=8;
+              ctx.beginPath(); ctx.arc(x,y,2+frac*2,0,Math.PI*2); ctx.fill();
+            }
+          }
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawGalaxy);
+        }
+        requestAnimationFrame(drawGalaxy);
+        duration=2000;
+
+      } else if (conf.mode === 'solar_flare') {
+        // 19 Solflare — 태양 폭발
+        overlay.style.background='#0d0400';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawSolar(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/50);
+          // 태양 코어
+          const sg=ctx.createRadialGradient(cx2,cy2,0,cx2,cy2,Math.min(cw,ch)*0.2*p);
+          sg.addColorStop(0,'rgba(255,255,200,1)');
+          sg.addColorStop(0.4,'rgba(255,160,0,0.8)');
+          sg.addColorStop(1,'rgba(255,60,0,0)');
+          ctx.fillStyle=sg;
+          ctx.beginPath(); ctx.arc(cx2,cy2,Math.min(cw,ch)*0.2*p,0,Math.PI*2); ctx.fill();
+          // 코로나 방출
+          const flares=10;
+          for(let i=0;i<flares;i++){
+            const a=(i/flares)*Math.PI*2+t*0.02;
+            const len=Math.min(cw,ch)*(0.1+Math.sin(t*0.08+i)*0.06)*p;
+            const fg=ctx.createLinearGradient(cx2,cy2,cx2+Math.cos(a)*len,cy2+Math.sin(a)*len);
+            fg.addColorStop(0,'rgba(255,200,50,0.8)');
+            fg.addColorStop(1,'rgba(255,60,0,0)');
+            ctx.strokeStyle=fg; ctx.lineWidth=4+Math.sin(t*0.1+i)*2;
+            ctx.shadowColor='rgba(255,120,0,0.8)'; ctx.shadowBlur=20;
+            ctx.beginPath(); ctx.moveTo(cx2,cy2);
+            ctx.lineTo(cx2+Math.cos(a)*len,cy2+Math.sin(a)*len); ctx.stroke();
+          }
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<85) requestAnimationFrame(drawSolar);
+        }
+        requestAnimationFrame(drawSolar);
+        doFlashPulse(0.9,1600,500);
+        duration=2400;
+
+      } else if (conf.mode === 'thunder_strike') {
+        // 20 Stormcaller — 번개가 여러 번 내리침
+        overlay.style.background='#000811';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2;
+        let t=0, lastBolt=0;
+        function drawLightning(x1,y1,x2,y2,depth){
+          if(depth<=0){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();return;}
+          const mx=(x1+x2)/2+(Math.random()-.5)*60, my=(y1+y2)/2+(Math.random()-.5)*30;
+          drawLightning(x1,y1,mx,my,depth-1);
+          drawLightning(mx,my,x2,y2,depth-1);
+        }
+        function drawThunder(){
+          ctx.clearRect(0,0,cw,ch);
+          if(t-lastBolt>20 || lastBolt===0){
+            lastBolt=t;
+            const bx=cx2+(Math.random()-.5)*cw*0.4;
+            ctx.strokeStyle='rgba(200,230,255,0.9)'; ctx.lineWidth=2;
+            ctx.shadowColor='rgba(150,200,255,0.9)'; ctx.shadowBlur=20;
+            drawLightning(bx,0,bx+(Math.random()-.5)*80,ch,3);
+            ctx.shadowBlur=0;
+            doFlashPulse(0.5,0,300);
+          }
+          t++;
+          if(!skipRequested && t<90) requestAnimationFrame(drawThunder);
+        }
+        requestAnimationFrame(drawThunder);
+        duration=2200;
+
+      } else if (conf.mode === 'eclipse_cover') {
+        // 22 Eclipse — 검은 원이 빛을 덮음
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawEclipse(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          // 코로나
+          const coronaR=Math.min(cw,ch)*0.3;
+          const cg=ctx.createRadialGradient(cx2,cy2,coronaR*0.3,cx2,cy2,coronaR);
+          cg.addColorStop(0,`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},${p*0.7})`);
+          cg.addColorStop(0.4,`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},${p*0.2})`);
+          cg.addColorStop(1,'rgba(0,0,0,0)');
+          ctx.fillStyle=cg;
+          ctx.beginPath(); ctx.arc(cx2,cy2,coronaR,0,Math.PI*2); ctx.fill();
+          // 검은 원 (이동)
+          const moonOff=coronaR*(1-p)*1.5;
+          ctx.fillStyle='#000';
+          ctx.shadowBlur=0;
+          ctx.beginPath(); ctx.arc(cx2-moonOff,cy2-moonOff*0.3,coronaR*0.32,0,Math.PI*2); ctx.fill();
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawEclipse);
+        }
+        requestAnimationFrame(drawEclipse);
+        duration=2200;
+
+      } else if (conf.mode === 'void_crack') {
+        // 23 Voidwalker — 공간에 균열
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        const cracks=Array.from({length:5},(_,i)=>{
+          const a=(i/5)*Math.PI*2;
+          const pts=[{x:cx2,y:cy2}];
+          let px=cx2,py=cy2;
+          for(let s=0;s<8;s++){
+            px+=Math.cos(a+(Math.random()-.5)*0.8)*Math.min(cw,ch)*0.06;
+            py+=Math.sin(a+(Math.random()-.5)*0.8)*Math.min(cw,ch)*0.06;
+            pts.push({x:px,y:py});
+          }
+          return {pts,delay:i*10};
+        });
+        function drawVoidCrack(){
+          ctx.clearRect(0,0,cw,ch);
+          cracks.forEach(cr=>{
+            const p=Math.max(0,Math.min(1,(t-cr.delay)/30));
+            if(p<=0) return;
+            const numPts=Math.floor(p*cr.pts.length);
+            ctx.strokeStyle=color; ctx.lineWidth=2;
+            ctx.shadowColor=color; ctx.shadowBlur=20;
+            ctx.beginPath();
+            cr.pts.slice(0,numPts+1).forEach((pt,i)=>i===0?ctx.moveTo(pt.x,pt.y):ctx.lineTo(pt.x,pt.y));
+            ctx.stroke();
+            ctx.shadowBlur=0;
+          });
+          // 균열 빛
+          const glowOp=Math.min(1,t/40)*0.3;
+          const gg=ctx.createRadialGradient(cx2,cy2,0,cx2,cy2,Math.min(cw,ch)*0.3);
+          gg.addColorStop(0,`rgba(30,30,200,${glowOp})`);
+          gg.addColorStop(1,'rgba(0,0,0,0)');
+          ctx.fillStyle=gg;
+          ctx.fillRect(0,0,cw,ch);
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawVoidCrack);
+        }
+        requestAnimationFrame(drawVoidCrack);
+        duration=2200;
+
+      } else if (conf.mode === 'speed_dash') {
+        // 24 Hyper — 속도선이 중심으로 돌진
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawSpeed(){
+          ctx.fillStyle='rgba(0,0,0,0.2)';
+          ctx.fillRect(0,0,cw,ch);
+          const lineCount=30;
+          for(let i=0;i<lineCount;i++){
+            const a=(i/lineCount)*Math.PI*2;
+            const speed=((t*1.5+i*7)%100)/100;
+            const startR=Math.min(cw,ch)*0.5*(1-speed);
+            const len=Math.min(cw,ch)*0.12*speed;
+            ctx.strokeStyle=`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},${speed*0.8})`;
+            ctx.lineWidth=2*speed;
+            ctx.shadowColor=color; ctx.shadowBlur=10;
+            ctx.beginPath();
+            ctx.moveTo(cx2+Math.cos(a)*startR,cy2+Math.sin(a)*startR);
+            ctx.lineTo(cx2+Math.cos(a)*(startR-len),cy2+Math.sin(a)*(startR-len));
+            ctx.stroke();
+          }
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<70) requestAnimationFrame(drawSpeed);
+        }
+        requestAnimationFrame(drawSpeed);
+        doFlashPulse(0.8,1200,400);
+        duration=2000;
+
+      } else if (conf.mode === 'crown_rise') {
+        // 26 Astral Monarch — 별들로 왕관이 만들어짐
+        overlay.style.background='#080010';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawCrown(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          const s=Math.min(cw,ch)*0.3;
+          // 왕관
+          ctx.strokeStyle=color; ctx.lineWidth=3;
+          ctx.shadowColor=color; ctx.shadowBlur=20;
+          ctx.globalAlpha=p;
+          ctx.beginPath();
+          ctx.moveTo(cx2-s*0.5,cy2+s*0.2);
+          ctx.lineTo(cx2-s*0.5,cy2-s*0.15);
+          ctx.lineTo(cx2-s*0.25,cy2-s*0.45);
+          ctx.lineTo(cx2,cy2-s*0.65);
+          ctx.lineTo(cx2+s*0.25,cy2-s*0.45);
+          ctx.lineTo(cx2+s*0.5,cy2-s*0.15);
+          ctx.lineTo(cx2+s*0.5,cy2+s*0.2);
+          ctx.stroke();
+          // 별
+          [[0,cy2-s*0.65],[cx2-s*0.25-cx2,cy2-s*0.45],[cx2+s*0.25-cx2,cy2-s*0.45]].forEach(([ox,y])=>{
+            const sg=ctx.createRadialGradient(cx2+ox,y,0,cx2+ox,y,s*0.05);
+            sg.addColorStop(0,'rgba(255,255,255,1)');
+            sg.addColorStop(1,`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},0)`);
+            ctx.fillStyle=sg;
+            ctx.beginPath(); ctx.arc(cx2+ox,y,s*0.06*(1+Math.sin(t*0.1)*0.2),0,Math.PI*2); ctx.fill();
+          });
+          ctx.globalAlpha=1; ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawCrown);
+        }
+        requestAnimationFrame(drawCrown);
+        duration=2200;
+
+      } else if (conf.mode === 'infinity_pulse') {
+        // 27 Infinity — ∞ 심볼이 그려짐
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawInfinity(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          const r=Math.min(cw,ch)*0.18;
+          // ∞ 경로
+          ctx.strokeStyle=color; ctx.lineWidth=4;
+          ctx.shadowColor=color; ctx.shadowBlur=25;
+          const steps=Math.floor(p*100);
+          ctx.beginPath();
+          for(let i=0;i<=steps;i++){
+            const tt=i/100*Math.PI*2;
+            const x=cx2+r*Math.cos(tt)/(1+Math.sin(tt)*Math.sin(tt));
+            const y=cy2+r*Math.sin(tt)*Math.cos(tt)/(1+Math.sin(tt)*Math.sin(tt));
+            i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+          }
+          ctx.stroke();
+          // 펄스
+          const pu=0.5+Math.sin(t*0.1)*0.5;
+          ctx.strokeStyle=`rgba(255,255,255,${pu*0.4})`;
+          ctx.lineWidth=2; ctx.shadowBlur=10;
+          for(let i=0;i<=steps;i++){
+            const tt=i/100*Math.PI*2;
+            const x=cx2+r*Math.cos(tt)/(1+Math.sin(tt)*Math.sin(tt));
+            const y=cy2+r*Math.sin(tt)*Math.cos(tt)/(1+Math.sin(tt)*Math.sin(tt));
+            i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+          }
+          ctx.stroke();
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawInfinity);
+        }
+        requestAnimationFrame(drawInfinity);
+        duration=2200;
+
+      } else if (conf.mode === 'darkness_hand') {
+        // 28 Dreadlord — 어둠의 손이 뻗어옴
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawHand(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/55);
+          const fingers=5;
+          for(let f=0;f<fingers;f++){
+            const fa=(f/(fingers-1)-0.5)*0.8-Math.PI/2;
+            const len=Math.min(cw,ch)*(0.35+f%2*0.05)*p;
+            ctx.strokeStyle=color; ctx.lineWidth=8-f;
+            ctx.shadowColor=color; ctx.shadowBlur=20;
+            ctx.lineCap='round';
+            ctx.beginPath();
+            ctx.moveTo(cx2,ch);
+            ctx.quadraticCurveTo(cx2+Math.cos(fa+0.2)*len*0.5,cy2*1.5,cx2+Math.cos(fa)*len,cy2+Math.sin(fa)*len*0.5);
+            ctx.stroke();
+          }
+          ctx.lineCap='butt'; ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<75) requestAnimationFrame(drawHand);
+        }
+        requestAnimationFrame(drawHand);
+        doFlashPulse(0.6,1400,500);
+        duration=2200;
+
+      } else if (conf.mode === 'dual_energy') {
+        // 30 ETERNAL DESTROYER — 두 에너지 충돌
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawDual(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/50);
+          [-1,1].forEach((side,i)=>{
+            const startX=side<0?-cw*0.1:cw*1.1;
+            const x=startX+(cx2-startX)*p;
+            const colors=['#ff00ff','#00e5ff'];
+            const g=ctx.createRadialGradient(x,cy2,0,x,cy2,Math.min(cw,ch)*0.2);
+            g.addColorStop(0,'rgba(255,255,255,0.9)');
+            g.addColorStop(0.3,colors[i]+'cc');
+            g.addColorStop(1,colors[i]+'00');
+            ctx.fillStyle=g;
+            ctx.beginPath(); ctx.arc(x,cy2,Math.min(cw,ch)*0.2,0,Math.PI*2); ctx.fill();
+            // 에너지 꼬리
+            ctx.strokeStyle=colors[i]; ctx.lineWidth=4;
+            ctx.shadowColor=colors[i]; ctx.shadowBlur=20;
+            ctx.beginPath(); ctx.moveTo(startX,cy2); ctx.lineTo(x,cy2); ctx.stroke();
+          });
+          // 충돌 효과
+          if(p>0.85){
+            const cp=((p-0.85)/0.15);
+            ctx.fillStyle=`rgba(255,255,255,${cp*0.9})`;
+            ctx.fillRect(0,0,cw,ch);
+          }
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<75) requestAnimationFrame(drawDual);
+        }
+        requestAnimationFrame(drawDual);
+        doFlashPulse(1.0,1600,400);
+        duration=2400;
+
+      } else if (conf.mode === 'blueprint_scan_pre') {
+        // 31 PRIME ARCHITECT — 설계도 스캔 연출
+        overlay.style.background='#00080d';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height;
+        let t=0;
+        function drawBP(){
+          ctx.clearRect(0,0,cw,ch);
+          // 그리드
+          ctx.strokeStyle='rgba(255,215,0,0.1)'; ctx.lineWidth=0.8;
+          const gs=Math.round(Math.min(cw,ch)/12);
+          for(let x=0;x<cw;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,ch);ctx.stroke();}
+          for(let y=0;y<ch;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(cw,y);ctx.stroke();}
+          // 스캔 라인
+          const sy=((t*3)%ch);
+          const sg=ctx.createLinearGradient(0,sy-30,0,sy+30);
+          sg.addColorStop(0,'rgba(255,215,0,0)');
+          sg.addColorStop(0.5,'rgba(255,215,0,0.5)');
+          sg.addColorStop(1,'rgba(255,215,0,0)');
+          ctx.fillStyle=sg; ctx.fillRect(0,sy-30,cw,60);
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawBP);
+        }
+        requestAnimationFrame(drawBP);
+        duration=2200;
+
+      } else if (conf.mode === 'blackhole_pull') {
+        // 32 VOID SOVEREIGN — 블랙홀이 모든 것을 빨아들임
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        const particles2=Array.from({length:50},()=>({
+          x:Math.random()*cw, y:Math.random()*ch,
+          vx:0, vy:0
+        }));
+        let t=0;
+        function drawBH(){
+          ctx.fillStyle='rgba(0,0,0,0.15)';
+          ctx.fillRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          particles2.forEach(pt=>{
+            const dx=cx2-pt.x, dy=cy2-pt.y;
+            const dist=Math.sqrt(dx*dx+dy*dy)+1;
+            pt.vx+=dx/dist*1.5; pt.vy+=dy/dist*1.5;
+            pt.vx*=0.92; pt.vy*=0.92;
+            pt.x+=pt.vx; pt.y+=pt.vy;
+            ctx.fillStyle=`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},0.7)`;
+            ctx.shadowColor=color; ctx.shadowBlur=6;
+            ctx.beginPath(); ctx.arc(pt.x,pt.y,2,0,Math.PI*2); ctx.fill();
+          });
+          // 블랙홀 코어
+          ctx.fillStyle='#000';
+          ctx.shadowColor=color; ctx.shadowBlur=30;
+          ctx.beginPath(); ctx.arc(cx2,cy2,Math.min(cw,ch)*0.06*p,0,Math.PI*2); ctx.fill();
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawBH);
+        }
+        requestAnimationFrame(drawBH);
+        duration=2200;
+
+      } else if (conf.mode === 'time_stop') {
+        // 33 CHRONO OVERLORD — 시간이 멈추는 연출
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawTime(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          // 시계 원
+          ctx.strokeStyle=`rgba(0,229,255,${p*0.7})`; ctx.lineWidth=3;
+          ctx.shadowColor='rgba(0,229,255,0.7)'; ctx.shadowBlur=20;
+          const cr=Math.min(cw,ch)*0.3;
+          ctx.beginPath(); ctx.arc(cx2,cy2,cr,0,Math.PI*2); ctx.stroke();
+          // 눈금
+          for(let i=0;i<12;i++){
+            const a=(i/12)*Math.PI*2-Math.PI/2;
+            const r1=cr*0.88, r2=i%3===0?cr*0.75:cr*0.8;
+            ctx.lineWidth=i%3===0?3:1.5;
+            ctx.beginPath(); ctx.moveTo(cx2+Math.cos(a)*r1,cy2+Math.sin(a)*r1);
+            ctx.lineTo(cx2+Math.cos(a)*r2,cy2+Math.sin(a)*r2); ctx.stroke();
+          }
+          // 침 (점점 느려짐)
+          const slowFactor=1-p*0.9;
+          const ha=(t*0.015*slowFactor)%(Math.PI*2)-Math.PI/2;
+          const ma=(t*0.08*slowFactor)%(Math.PI*2)-Math.PI/2;
+          [[ha,cr*0.55,4],[ma,cr*0.75,2.5]].forEach(([a,r,lw])=>{
+            ctx.lineWidth=lw; ctx.lineCap='round';
+            ctx.beginPath(); ctx.moveTo(cx2,cy2);
+            ctx.lineTo(cx2+Math.cos(a)*r,cy2+Math.sin(a)*r); ctx.stroke();
+            ctx.lineCap='butt';
+          });
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<85) requestAnimationFrame(drawTime);
+        }
+        requestAnimationFrame(drawTime);
+        duration=2400;
+
+      } else if (conf.mode === 'absolute_freeze') {
+        // 34 ABSOLUTE ZERO — 화면 전체가 얼어붙음
+        overlay.style.background='#000814';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawFreeze(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/65);
+          // 얼음 퍼짐
+          const maxR=Math.sqrt(cx2*cx2+cy2*cy2)*p;
+          const numCrystals=12;
+          for(let i=0;i<numCrystals;i++){
+            const a=(i/numCrystals)*Math.PI*2;
+            const len=maxR;
+            ctx.strokeStyle=`rgba(150,230,255,${0.5+Math.sin(t*0.05+i)*0.2})`;
+            ctx.lineWidth=1.5; ctx.shadowColor='rgba(100,200,255,0.6)'; ctx.shadowBlur=12;
+            ctx.beginPath(); ctx.moveTo(cx2,cy2);
+            ctx.lineTo(cx2+Math.cos(a)*len,cy2+Math.sin(a)*len); ctx.stroke();
+          }
+          // 서리 오버레이
+          ctx.fillStyle=`rgba(200,240,255,${p*0.15})`;
+          ctx.fillRect(0,0,cw,ch);
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<85) requestAnimationFrame(drawFreeze);
+        }
+        requestAnimationFrame(drawFreeze);
+        doFlashPulse(0.8,1800,500);
+        duration=2600;
+
+      } else if (conf.mode === 'world_devour') {
+        // 36 World Eater — 소용돌이가 세계를 삼킴
+        overlay.style.background='#050000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawDevour(){
+          ctx.fillStyle='rgba(0,0,0,0.1)';
+          ctx.fillRect(0,0,cw,ch);
+          for(let arm=0;arm<5;arm++){
+            ctx.strokeStyle=color; ctx.lineWidth=2-arm*0.3;
+            ctx.shadowColor=color; ctx.shadowBlur=15;
+            ctx.beginPath();
+            for(let j=0;j<=60;j++){
+              const frac=j/60;
+              const a=frac*Math.PI*5+arm*(Math.PI*2/5)-t*0.05;
+              const r=frac*Math.min(cw,ch)*0.42;
+              j===0?ctx.moveTo(cx2+Math.cos(a)*r,cy2+Math.sin(a)*r*0.65):
+                    ctx.lineTo(cx2+Math.cos(a)*r,cy2+Math.sin(a)*r*0.65);
+            }
+            ctx.stroke();
+          }
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawDevour);
+        }
+        requestAnimationFrame(drawDevour);
+        duration=2200;
+
+      } else if (conf.mode === 'singularity_collapse') {
+        // 37 Singularity — 모든 것이 한 점으로 수렴
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        const lines2=Array.from({length:24},(_,i)=>{
+          const a=(i/24)*Math.PI*2;
+          const r=Math.min(cw,ch)*0.5;
+          return {sx:cx2+Math.cos(a)*r, sy:cy2+Math.sin(a)*r};
+        });
+        let t=0;
+        function drawSingularity(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          lines2.forEach(l=>{
+            const x=l.sx+(cx2-l.sx)*p;
+            const y=l.sy+(cy2-l.sy)*p;
+            const g=ctx.createLinearGradient(l.sx,l.sy,cx2,cy2);
+            g.addColorStop(0,`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},0)`);
+            g.addColorStop(1,`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},${0.5+p*0.3})`);
+            ctx.strokeStyle=g; ctx.lineWidth=1.5;
+            ctx.shadowColor=color; ctx.shadowBlur=8;
+            ctx.beginPath(); ctx.moveTo(l.sx,l.sy); ctx.lineTo(x,y); ctx.stroke();
+          });
+          // 중심 포인트
+          if(p>0.7){
+            const cp=(p-0.7)/0.3;
+            const cg=ctx.createRadialGradient(cx2,cy2,0,cx2,cy2,Math.min(cw,ch)*0.1*cp);
+            cg.addColorStop(0,'rgba(255,255,255,1)');
+            cg.addColorStop(1,'rgba(74,0,114,0)');
+            ctx.fillStyle=cg;
+            ctx.beginPath(); ctx.arc(cx2,cy2,Math.min(cw,ch)*0.1*cp,0,Math.PI*2); ctx.fill();
+          }
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawSingularity);
+        }
+        requestAnimationFrame(drawSingularity);
+        doFlashPulse(1.0,1700,400);
+        duration=2400;
+
+      } else if (conf.mode === 'eyes_open') {
+        // 38 Omniscient — 여러 눈이 열림
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        const eyePos=[[0,-0.18],[0.2,0.02],[-0.2,0.02],[0.1,0.18],[-0.1,0.18],[0,0.32]];
+        let t=0;
+        function drawEyes(){
+          ctx.clearRect(0,0,cw,ch);
+          const s=Math.min(cw,ch);
+          eyePos.forEach(([ex,ey],i)=>{
+            const delay=i*8;
+            const p=Math.max(0,Math.min(1,(t-delay)/30));
+            const x=cx2+ex*s, y=cy2+ey*s;
+            const er=s*0.045*(1+i%2*0.3);
+            const blink=Math.sin(p*Math.PI);
+            ctx.strokeStyle=color; ctx.lineWidth=2;
+            ctx.shadowColor=color; ctx.shadowBlur=15;
+            ctx.beginPath();
+            ctx.ellipse(x,y,er*1.8,er*blink,0,0,Math.PI*2); ctx.stroke();
+            if(blink>0.3){
+              ctx.fillStyle=color;
+              ctx.beginPath(); ctx.arc(x,y,er*0.5,0,Math.PI*2); ctx.fill();
+              ctx.fillStyle='rgba(255,255,255,0.9)';
+              ctx.beginPath(); ctx.arc(x+er*0.2,y-er*0.2,er*0.15,0,Math.PI*2); ctx.fill();
+            }
+            ctx.shadowBlur=0;
+          });
+          t++;
+          if(!skipRequested && t<85) requestAnimationFrame(drawEyes);
+        }
+        requestAnimationFrame(drawEyes);
+        duration=2400;
+
+      } else if (conf.mode === 'paradox_flip') {
+        // 39 Paradox — 화면이 뒤집히는 느낌
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawParadox(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          // 메비우스 띠
+          for(let side=0;side<2;side++){
+            ctx.strokeStyle=side===0?color:'rgba(255,255,255,0.6)';
+            ctx.lineWidth=3-side;
+            ctx.shadowColor=color; ctx.shadowBlur=15;
+            ctx.beginPath();
+            const r=Math.min(cw,ch)*0.22*p;
+            for(let j=0;j<=100;j++){
+              const tt=j/100*Math.PI*2+side*Math.PI;
+              const x=cx2+r*Math.cos(tt)+Math.cos(tt/2)*r*0.3;
+              const y=cy2+r*Math.sin(tt)*0.6;
+              j===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+            }
+            ctx.stroke();
+          }
+          // 뒤틀림 효과
+          if(p>0.5){
+            ctx.strokeStyle=`rgba(255,255,255,${(p-0.5)*0.4})`;
+            ctx.lineWidth=1;
+            for(let i=0;i<5;i++){
+              ctx.beginPath();
+              ctx.moveTo(0,ch*(i/5));
+              ctx.bezierCurveTo(cw*0.3,ch*(i/5)+Math.sin(t*0.05+i)*30,cw*0.7,ch*(i/5)-Math.sin(t*0.05+i)*30,cw,ch*(i/5));
+              ctx.stroke();
+            }
+          }
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawParadox);
+        }
+        requestAnimationFrame(drawParadox);
+        duration=2200;
+
+      } else if (conf.mode === 'data_stream') {
+        // 41 Akashic Lord — 데이터 스트림 + DNA
+        overlay.style.background='#000808';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2;
+        let t=0;
+        function drawData(){
+          ctx.fillStyle='rgba(0,8,8,0.2)';
+          ctx.fillRect(0,0,cw,ch);
+          // DNA 이중 나선
+          for(let strand=0;strand<2;strand++){
+            ctx.strokeStyle=`rgba(0,200,180,${0.6-strand*0.1})`; ctx.lineWidth=2.5;
+            ctx.shadowColor='rgba(0,200,180,0.5)'; ctx.shadowBlur=10;
+            ctx.beginPath();
+            for(let y=0;y<=ch;y+=4){
+              const dx=Math.sin(y*0.025+t*0.03+(strand?Math.PI:0))*cw*0.1;
+              y===0?ctx.moveTo(cx2+dx,y):ctx.lineTo(cx2+dx,y);
+            }
+            ctx.stroke();
+          }
+          // 염기쌍
+          for(let y=0;y<=ch;y+=ch*0.07){
+            const dx1=Math.sin(y*0.025+t*0.03)*cw*0.1;
+            const dx2=Math.sin(y*0.025+t*0.03+Math.PI)*cw*0.1;
+            ctx.strokeStyle='rgba(0,200,180,0.2)'; ctx.lineWidth=1;
+            ctx.beginPath(); ctx.moveTo(cx2+dx1,y); ctx.lineTo(cx2+dx2,y); ctx.stroke();
+          }
+          ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<80) requestAnimationFrame(drawData);
+        }
+        requestAnimationFrame(drawData);
+        duration=2200;
+
+      } else if (conf.mode === 'white_transcend') {
+        // 42 Transcendent — 흰 빛이 퍼지며 모든 것을 초월
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        function drawWhite(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/70);
+          const r=Math.min(cw,ch)*0.5*p;
+          const wg=ctx.createRadialGradient(cx2,cy2,0,cx2,cy2,r);
+          wg.addColorStop(0,'rgba(255,255,255,1)');
+          wg.addColorStop(0.3,'rgba(255,255,255,0.8)');
+          wg.addColorStop(0.7,'rgba(200,200,255,0.3)');
+          wg.addColorStop(1,'rgba(255,255,255,0)');
+          ctx.fillStyle=wg;
+          ctx.beginPath(); ctx.arc(cx2,cy2,r,0,Math.PI*2); ctx.fill();
+          // 링들
+          for(let i=0;i<5;i++){
+            const lr=r*(0.2+i*0.2);
+            const op=Math.max(0,0.6-i*0.1)*(1-p*0.5);
+            ctx.strokeStyle=`rgba(0,0,0,${op})`; ctx.lineWidth=2-i*0.3;
+            ctx.beginPath(); ctx.arc(cx2,cy2,lr,0,Math.PI*2); ctx.stroke();
+          }
+          t++;
+          if(!skipRequested && t<85) requestAnimationFrame(drawWhite);
+        }
+        requestAnimationFrame(drawWhite);
+        doFlashPulse(1.0,1500,600);
+        duration=2400;
+
+      } else if (conf.mode === 'primal_rune') {
+        // 43 Primordial — 원시 룬 폭발
+        overlay.style.background='#0d0000';
+        canvas.style.opacity='1';
+        const cw=canvas.width, ch=canvas.height, cx2=cw/2, cy2=ch/2;
+        let t=0;
+        const s=Math.min(cw,ch)*0.22;
+        function drawPrimal(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/55);
+          const scl=0.5+p*0.5;
+          ctx.save(); ctx.translate(cx2,cy2); ctx.scale(scl,scl);
+          ctx.strokeStyle=color; ctx.lineWidth=4;
+          ctx.shadowColor=color; ctx.shadowBlur=25;
+          ctx.lineCap='round';
+          // 다윗의 별
+          ctx.beginPath();
+          ctx.moveTo(0,-s); ctx.lineTo(s*0.6,s*0.5); ctx.lineTo(-s*0.6,s*0.5); ctx.closePath(); ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(0,s); ctx.lineTo(-s*0.6,-s*0.5); ctx.lineTo(s*0.6,-s*0.5); ctx.closePath(); ctx.stroke();
+          ctx.restore();
+          // 불꽃 파티클
+          for(let i=0;i<10;i++){
+            const a=Math.random()*Math.PI*2;
+            const r=s*p*(0.5+Math.random());
+            ctx.fillStyle=`rgba(255,${Math.floor(Math.random()*120)},0,${Math.random()*0.6})`;
+            ctx.shadowBlur=0;
+            ctx.beginPath(); ctx.arc(cx2+Math.cos(a)*r,cy2+Math.sin(a)*r,3+Math.random()*4,0,Math.PI*2); ctx.fill();
+          }
+          ctx.lineCap='butt'; ctx.shadowBlur=0;
+          t++;
+          if(!skipRequested && t<75) requestAnimationFrame(drawPrimal);
+        }
+        requestAnimationFrame(drawPrimal);
+        doFlashPulse(0.9,1600,500);
+        duration=2400;
+
+      } else if (conf.mode === 'pact_seal') {
+        // 45 Voidpact — 계약 인장이 타오르며 새겨짐
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          const r=Math.min(cw,ch)*0.28*p;
+          ctx.strokeStyle=color;ctx.lineWidth=3;
+          ctx.shadowColor=color;ctx.shadowBlur=25;
+          ctx.beginPath();ctx.arc(cx2,cy2,r,0,Math.PI*2);ctx.stroke();
+          // 오각형 인장
+          ctx.beginPath();
+          for(let i=0;i<5;i++){
+            const a=(i/5)*Math.PI*2-Math.PI/2;
+            i===0?ctx.moveTo(cx2+Math.cos(a)*r,cy2+Math.sin(a)*r):ctx.lineTo(cx2+Math.cos(a)*r,cy2+Math.sin(a)*r);
+          }
+          ctx.closePath();ctx.stroke();
+          // 불꽃 효과
+          for(let i=0;i<8;i++){
+            const a=Math.random()*Math.PI*2;
+            ctx.fillStyle=`rgba(50,0,128,${Math.random()*0.4})`;
+            ctx.shadowBlur=0;
+            ctx.beginPath();ctx.arc(cx2+Math.cos(a)*r,cy2+Math.sin(a)*r,3+Math.random()*5,0,Math.PI*2);ctx.fill();
+          }
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(0.8,1400,500);
+        duration=2400;
+
+      } else if (conf.mode === 'eternal_destroy') {
+        // 46 ETERNAL DESTROYER — 마젠타 에너지가 사방을 파괴
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.fillStyle='rgba(0,0,0,0.15)';ctx.fillRect(0,0,cw,ch);
+          const count=16;
+          for(let i=0;i<count;i++){
+            const a=(i/count)*Math.PI*2+t*0.03;
+            const spd=((t*2+i*15)%100)/100;
+            const r=spd*Math.min(cw,ch)*0.52;
+            ctx.strokeStyle=`rgba(255,0,255,${(1-spd)*0.8})`;
+            ctx.lineWidth=3*(1-spd)+1;
+            ctx.shadowColor='rgba(255,0,255,0.8)';ctx.shadowBlur=15;
+            ctx.beginPath();
+            ctx.moveTo(cx2+Math.cos(a)*r*0.1,cy2+Math.sin(a)*r*0.1);
+            ctx.lineTo(cx2+Math.cos(a)*r,cy2+Math.sin(a)*r);
+            ctx.stroke();
+          }
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(0.9,1600,400);
+        duration=2400;
+
+      } else if (conf.mode === 'grimtide_wave') {
+        // 47 Grimtide — 어두운 조류가 밀려옴
+        overlay.style.background='#050010';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          for(let w=0;w<6;w++){
+            const wy=ch*(1.1-t*0.015)-w*ch*0.08;
+            ctx.strokeStyle=`rgba(136,14,79,${0.5-w*0.07})`;
+            ctx.lineWidth=2;
+            ctx.beginPath();
+            for(let x=0;x<=cw;x+=4){
+              const y=wy+Math.sin(x*0.018+t*0.06+w)*ch*0.04;
+              x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+            }
+            ctx.stroke();
+            if(wy<ch){
+              ctx.fillStyle=`rgba(136,14,79,${0.05-w*0.007})`;
+              ctx.fillRect(0,wy,cw,ch);
+            }
+          }
+          t++;if(!skipRequested&&t<75)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2200;
+
+      } else if (conf.mode === 'prime_construct') {
+        // 48 PRIME ARCHITECT — 건축물이 조립됨
+        overlay.style.background='#00080a';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        const lines3=[
+          [[0,0],[1,0]],[[1,0],[1,1]],[[1,1],[0,1]],[[0,1],[0,0]],
+          [[0.5,-0.3],[0,0]],[[0.5,-0.3],[1,0]],[[1.5,0.7],[1,0]],[[1.5,0.7],[1,1]]
+        ].map(([[x1,y1],[x2,y2]])=>[cx2+(x1-0.75)*Math.min(cw,ch)*0.4,cy2+(y1-0.35)*Math.min(cw,ch)*0.4,cx2+(x2-0.75)*Math.min(cw,ch)*0.4,cy2+(y2-0.35)*Math.min(cw,ch)*0.4]);
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          // 그리드
+          ctx.strokeStyle='rgba(255,215,0,0.08)';ctx.lineWidth=0.8;
+          const gs=Math.round(Math.min(cw,ch)/14);
+          for(let x=0;x<cw;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,ch);ctx.stroke();}
+          for(let y=0;y<ch;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(cw,y);ctx.stroke();}
+          // 선 조립
+          const numLines=Math.floor(Math.min(1,t/60)*lines3.length);
+          lines3.slice(0,numLines).forEach(([x1,y1,x2,y2])=>{
+            ctx.strokeStyle='rgba(255,215,0,0.85)';ctx.lineWidth=2.5;
+            ctx.shadowColor='rgba(255,215,0,0.7)';ctx.shadowBlur=15;
+            ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+          });
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2400;
+
+      } else if (conf.mode === 'null_field') {
+        // 49 Nullbinder — 무효화 필드 확산
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/65);
+          // ∅ 심볼 확대
+          const r=Math.min(cw,ch)*0.25*p;
+          ctx.strokeStyle=color;ctx.lineWidth=4;
+          ctx.shadowColor=color;ctx.shadowBlur=20;
+          ctx.beginPath();ctx.arc(cx2,cy2,r,0,Math.PI*2);ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(cx2-r*0.7,cy2+r*0.7);
+          ctx.lineTo(cx2+r*0.7,cy2-r*0.7);ctx.stroke();
+          // 무효화 파동
+          for(let i=0;i<3;i++){
+            const wr=(p-(i*0.15))*Math.min(cw,ch)*0.5;
+            if(wr<0)continue;
+            const op=Math.max(0,0.4-(p-i*0.15)*0.4);
+            ctx.strokeStyle=`rgba(55,71,79,${op})`;ctx.lineWidth=2;
+            ctx.shadowBlur=0;
+            ctx.beginPath();ctx.arc(cx2,cy2,wr,0,Math.PI*2);ctx.stroke();
+          }
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2400;
+
+      } else if (conf.mode === 'void_sovereign_pre') {
+        // 50 VOID SOVEREIGN — 무지개색 링이 수렴
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.fillStyle='rgba(0,0,0,0.12)';ctx.fillRect(0,0,cw,ch);
+          const colors2=['#ff00ff','#00e5ff','#ffeb3b','#76ff03','#ff1744'];
+          colors2.forEach((c,i)=>{
+            const r=Math.min(cw,ch)*(0.45-i*0.05)-(t%60)*0.8;
+            if(r<5)return;
+            ctx.strokeStyle=c;ctx.lineWidth=3;
+            ctx.shadowColor=c;ctx.shadowBlur=15;
+            ctx.beginPath();ctx.arc(cx2,cy2,r,0,Math.PI*2);ctx.stroke();
+          });
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(0.9,1600,400);
+        duration=2400;
+
+      } else if (conf.mode === 'desolate_land') {
+        // 51 Desolator — 황무지 균열이 퍼짐
+        overlay.style.background='#050000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        const cracks2=Array.from({length:8},(_,i)=>{
+          const a=(i/8)*Math.PI*2;
+          const pts=[{x:cx2,y:cy2}];
+          let px=cx2,py=cy2;
+          for(let s=0;s<10;s++){
+            px+=Math.cos(a+(Math.random()-.5)*0.9)*Math.min(cw,ch)*0.055;
+            py+=Math.sin(a+(Math.random()-.5)*0.9)*Math.min(cw,ch)*0.055;
+            pts.push({x:px,y:py});
+          }
+          return {pts,delay:i*7};
+        });
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          ctx.fillStyle='rgba(5,0,0,0.4)';ctx.fillRect(0,0,cw,ch);
+          cracks2.forEach(cr=>{
+            const p=Math.max(0,Math.min(1,(t-cr.delay)/30));
+            if(p<=0)return;
+            const n=Math.floor(p*cr.pts.length);
+            ctx.strokeStyle=color;ctx.lineWidth=2;
+            ctx.shadowColor=color;ctx.shadowBlur=15;
+            ctx.beginPath();
+            cr.pts.slice(0,n+1).forEach((pt,i)=>i===0?ctx.moveTo(pt.x,pt.y):ctx.lineTo(pt.x,pt.y));
+            ctx.stroke();ctx.shadowBlur=0;
+          });
+          t++;if(!skipRequested&&t<85)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2400;
+
+      } else if (conf.mode === 'chrono_shatter') {
+        // 52 CHRONO OVERLORD — 시계가 박살남
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        const shards2=Array.from({length:20},(_,i)=>({
+          x:cx2,y:cy2,
+          vx:(Math.random()-.5)*8,vy:(Math.random()-.5)*8,
+          rot:Math.random()*Math.PI*2,rotV:(Math.random()-.5)*0.2,
+          size:5+Math.random()*15
+        }));
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          // 시계 (초반)
+          if(t<30){
+            const p=t/30;
+            ctx.strokeStyle=`rgba(0,229,255,${p*0.8})`;ctx.lineWidth=2;
+            ctx.shadowColor='rgba(0,229,255,0.6)';ctx.shadowBlur=15;
+            ctx.beginPath();ctx.arc(cx2,cy2,Math.min(cw,ch)*0.25,0,Math.PI*2);ctx.stroke();
+          }
+          // 파편
+          if(t>25){
+            shards2.forEach(s=>{
+              s.x+=s.vx;s.y+=s.vy;s.rot+=s.rotV;s.vx*=0.96;s.vy*=0.96;
+              const op=Math.max(0,1-(t-25)/50);
+              ctx.save();ctx.translate(s.x,s.y);ctx.rotate(s.rot);
+              ctx.strokeStyle=`rgba(0,229,255,${op*0.8})`;ctx.lineWidth=1.5;
+              ctx.shadowColor='rgba(0,229,255,0.5)';ctx.shadowBlur=8;
+              ctx.beginPath();ctx.rect(-s.size/2,-s.size/4,s.size,s.size/2);ctx.stroke();
+              ctx.restore();
+            });
+          }
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(1.0,800,300);
+        duration=2400;
+
+      } else if (conf.mode === 'frost_abyss') {
+        // 53 Frostchasm — 얼음 심연으로 빠져들어감
+        overlay.style.background='#000814';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/65);
+          // 원근감 있는 얼음 터널
+          for(let i=8;i>=0;i--){
+            const scale=i/8+p*0.5;
+            const r=Math.min(cw,ch)*0.4*scale;
+            const op=(1-scale*0.8)*0.5;
+            ctx.strokeStyle=`rgba(150,230,255,${op})`;ctx.lineWidth=1.5;
+            ctx.beginPath();ctx.arc(cx2,cy2,r,0,Math.PI*2);ctx.stroke();
+            // 얼음 결정
+            if(i%2===0){
+              for(let j=0;j<6;j++){
+                const a=(j/6)*Math.PI*2;
+                ctx.beginPath();
+                ctx.moveTo(cx2+Math.cos(a)*r*0.9,cy2+Math.sin(a)*r*0.9);
+                ctx.lineTo(cx2+Math.cos(a)*r*1.05,cy2+Math.sin(a)*r*1.05);
+                ctx.stroke();
+              }
+            }
+          }
+          // 중심 블루 코어
+          const cg=ctx.createRadialGradient(cx2,cy2,0,cx2,cy2,Math.min(cw,ch)*0.15*p);
+          cg.addColorStop(0,'rgba(200,240,255,0.9)');
+          cg.addColorStop(1,'rgba(0,100,180,0)');
+          ctx.fillStyle=cg;
+          ctx.beginPath();ctx.arc(cx2,cy2,Math.min(cw,ch)*0.15*p,0,Math.PI*2);ctx.fill();
+          t++;if(!skipRequested&&t<85)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2600;
+
+      } else if (conf.mode === 'zero_absolute') {
+        // 54 ABSOLUTE ZERO — 절대 영도, 화면이 결빙
+        overlay.style.background='#000814';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/70);
+          const maxR=Math.sqrt(cx2*cx2+cy2*cy2)*p;
+          // 얼음 퍼짐 (16방향)
+          for(let i=0;i<16;i++){
+            const a=(i/16)*Math.PI*2;
+            ctx.strokeStyle=`rgba(200,240,255,${0.6+Math.sin(t*0.04+i)*0.2})`;
+            ctx.lineWidth=1.8;ctx.shadowColor='rgba(150,220,255,0.7)';ctx.shadowBlur=12;
+            ctx.beginPath();ctx.moveTo(cx2,cy2);
+            ctx.lineTo(cx2+Math.cos(a)*maxR,cy2+Math.sin(a)*maxR);ctx.stroke();
+            // 가지
+            const bLen=maxR*0.35;
+            const bStart=0.5;
+            ctx.lineWidth=1;ctx.shadowBlur=5;
+            ctx.beginPath();
+            ctx.moveTo(cx2+Math.cos(a)*maxR*bStart,cy2+Math.sin(a)*maxR*bStart);
+            ctx.lineTo(cx2+Math.cos(a)*maxR*bStart+Math.cos(a+0.5)*bLen,cy2+Math.sin(a)*maxR*bStart+Math.sin(a+0.5)*bLen);
+            ctx.stroke();
+          }
+          ctx.fillStyle=`rgba(200,240,255,${p*0.12})`;ctx.fillRect(0,0,cw,ch);
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<90)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(0.9,2000,500);
+        duration=2800;
+
+      } else if (conf.mode === 'ruin_weave_pre') {
+        // 55 Ruinweave — 폐허의 천이 짜여짐
+        overlay.style.background='#050300';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/65);
+          const gs=Math.round(Math.min(cw,ch)/10);
+          const range=Math.floor(p*8);
+          for(let r=-range;r<=range;r++){
+            for(let c=-range;c<=range;c++){
+              if(Math.abs(r)+Math.abs(c)>range*1.4)continue;
+              const x=cx2+c*gs,y=cy2+r*gs;
+              if(Math.random()<0.6){
+                ctx.strokeStyle=`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},${0.3+Math.random()*0.3})`;
+                ctx.lineWidth=1.5;
+                ctx.beginPath();
+                ctx.moveTo(x,y);
+                ctx.lineTo(x+gs*(Math.random()>.5?1:-1)*(Math.random()>.5?1:0),y+gs*(Math.random()>.5?0:1));
+                ctx.stroke();
+              }
+            }
+          }
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2400;
+
+      } else if (conf.mode === 'quantum_split') {
+        // 56 Quantum Reaper — 낫이 복제되며 양자 분열
+        overlay.style.background='#050000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function drawScythe(ox,oy,op,scale){
+          const s=scale||1;
+          ctx.save();ctx.translate(cx2+ox,cy2+oy);ctx.scale(s,s);
+          ctx.strokeStyle=`rgba(124,31,162,${op})`;ctx.lineWidth=3;
+          ctx.shadowColor='rgba(124,31,162,0.8)';ctx.shadowBlur=20;
+          ctx.lineCap='round';
+          ctx.beginPath();
+          ctx.moveTo(30,100);ctx.lineTo(-30,-60);ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(-30,-60);
+          ctx.quadraticCurveTo(80,-120,70,0);
+          ctx.quadraticCurveTo(60,20,-10,-30);ctx.stroke();
+          ctx.restore();
+        }
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/50);
+          // 메인 낫
+          drawScythe(0,0,p,p*0.8+0.2);
+          // 복제
+          if(t>30){
+            const cp=(t-30)/30;
+            [[-80,-20],[80,-20],[-40,60],[40,60]].forEach(([ox,oy],i)=>{
+              const op=Math.max(0,cp-i*0.1)*0.4;
+              drawScythe(ox,oy,op,0.6);
+            });
+          }
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(0.9,1600,400);
+        duration=2400;
+
+      } else if (conf.mode === 'ash_storm') {
+        // 57 Ashrender — 재 폭풍
+        overlay.style.background='#050300';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        const ashPts=Array.from({length:100},()=>({x:Math.random()*cw,y:Math.random()*ch,s:1+Math.random()*3,vx:(Math.random()-.5)*3,vy:-1-Math.random()*2}));
+        let t=0;
+        function draw(){
+          ctx.fillStyle='rgba(5,3,0,0.2)';ctx.fillRect(0,0,cw,ch);
+          const p=Math.min(1,t/50);
+          ashPts.forEach(a=>{
+            a.x+=a.vx+Math.sin(t*0.02+a.y*0.01)*1.5;a.y+=a.vy;
+            if(a.y<0){a.y=ch;a.x=Math.random()*cw;}
+            ctx.fillStyle=`rgba(255,60,0,${0.3*p})`;
+            ctx.shadowColor='rgba(255,60,0,0.5)';ctx.shadowBlur=6;
+            ctx.beginPath();ctx.arc(a.x,a.y,a.s,0,Math.PI*2);ctx.fill();
+          });
+          // 슬래시
+          if(t>30){
+            const sp=(t-30)/40;
+            [-1,0,1].forEach((off,i)=>{
+              ctx.strokeStyle=`rgba(255,60,0,${Math.max(0,sp-i*0.2)*0.8})`;
+              ctx.lineWidth=4;ctx.shadowColor='rgba(255,60,0,0.8)';ctx.shadowBlur=20;
+              ctx.lineCap='round';
+              ctx.beginPath();
+              ctx.moveTo(cx2+off*cw*0.15-cw*0.1,cy2-ch*0.2);
+              ctx.lineTo(cx2+off*cw*0.15+cw*0.1,cy2+ch*0.2);ctx.stroke();
+            });
+            ctx.lineCap='butt';
+          }
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<85)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2400;
+
+      } else if (conf.mode === 'world_consume') {
+        // 58 World Eater — 행성이 삼켜짐
+        overlay.style.background='#050000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          // 행성
+          const pR=Math.min(cw,ch)*0.2*(1-p*0.7);
+          const pg=ctx.createRadialGradient(cx2,cy2,0,cx2,cy2,pR);
+          pg.addColorStop(0,'rgba(100,50,20,0.9)');
+          pg.addColorStop(0.6,'rgba(50,20,10,0.8)');
+          pg.addColorStop(1,'rgba(20,5,0,0)');
+          ctx.fillStyle=pg;
+          ctx.beginPath();ctx.arc(cx2,cy2,pR,0,Math.PI*2);ctx.fill();
+          // 소용돌이
+          for(let arm=0;arm<5;arm++){
+            ctx.strokeStyle=color;ctx.lineWidth=2.5-arm*0.4;
+            ctx.shadowColor=color;ctx.shadowBlur=15;
+            ctx.beginPath();
+            for(let j=0;j<=50;j++){
+              const f=j/50,a=f*Math.PI*5+arm*(Math.PI*2/5)-t*0.06;
+              const r=(pR+f*Math.min(cw,ch)*0.35);
+              j===0?ctx.moveTo(cx2+Math.cos(a)*r,cy2+Math.sin(a)*r*0.65):
+                    ctx.lineTo(cx2+Math.cos(a)*r,cy2+Math.sin(a)*r*0.65);
+            }
+            ctx.stroke();
+          }
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2400;
+
+      } else if (conf.mode === 'wraith_cyclone') {
+        // 59 Wraithstorm — 유령 사이클론
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.fillStyle='rgba(0,0,0,0.12)';ctx.fillRect(0,0,cw,ch);
+          for(let i=0;i<12;i++){
+            const a=(i/12)*Math.PI*2+t*0.05;
+            const r=Math.min(cw,ch)*0.25+Math.sin(t*0.04+i)*Math.min(cw,ch)*0.05;
+            const tx=cx2+Math.cos(a)*r*0.3,ty=cy2+Math.sin(a)*r*0.3;
+            ctx.strokeStyle=`rgba(74,0,114,${0.5+Math.sin(t*0.06+i)*0.3})`;
+            ctx.lineWidth=2;ctx.shadowColor='rgba(74,0,114,0.6)';ctx.shadowBlur=15;
+            ctx.beginPath();
+            ctx.moveTo(cx2+Math.cos(a-0.3)*r,cy2+Math.sin(a-0.3)*r*0.7);
+            ctx.quadraticCurveTo(tx,ty,cx2+Math.cos(a+0.3)*r*0.5,cy2+Math.sin(a+0.3)*r*0.5*0.7);
+            ctx.stroke();
+          }
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2400;
+
+      } else if (conf.mode === 'singularity_pre') {
+        // 60 Singularity — 모든 것이 붕괴
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          // 24개 선이 한 점으로
+          for(let i=0;i<24;i++){
+            const a=(i/24)*Math.PI*2;
+            const r=Math.min(cw,ch)*0.5*(1-p);
+            const g=ctx.createLinearGradient(cx2+Math.cos(a)*r,cy2+Math.sin(a)*r,cx2,cy2);
+            g.addColorStop(0,`rgba(74,0,114,0)`);
+            g.addColorStop(1,`rgba(74,0,114,${0.6+p*0.3})`);
+            ctx.strokeStyle=g;ctx.lineWidth=1.5;ctx.shadowColor=color;ctx.shadowBlur=6;
+            ctx.beginPath();ctx.moveTo(cx2+Math.cos(a)*r,cy2+Math.sin(a)*r);ctx.lineTo(cx2,cy2);ctx.stroke();
+          }
+          // 중심 폭발
+          if(p>0.8){
+            const ep=(p-0.8)/0.2;
+            const cg=ctx.createRadialGradient(cx2,cy2,0,cx2,cy2,Math.min(cw,ch)*0.15*ep);
+            cg.addColorStop(0,'rgba(255,255,255,1)');
+            cg.addColorStop(1,'rgba(74,0,114,0)');
+            ctx.fillStyle=cg;ctx.beginPath();ctx.arc(cx2,cy2,Math.min(cw,ch)*0.15*ep,0,Math.PI*2);ctx.fill();
+          }
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(1.0,1700,400);
+        duration=2600;
+
+      } else if (conf.mode === 'all_seeing') {
+        // 61 Omniscient — 거대한 눈이 열림
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          const blink=Math.sin(p*Math.PI);
+          const er=Math.min(cw,ch)*0.35;
+          ctx.strokeStyle=color;ctx.lineWidth=3;
+          ctx.shadowColor=color;ctx.shadowBlur=25;
+          // 눈 외곽
+          ctx.beginPath();
+          ctx.ellipse(cx2,cy2,er,er*blink*0.4,0,0,Math.PI*2);ctx.stroke();
+          // 동공
+          if(blink>0.3){
+            const pupilR=er*0.25*blink;
+            ctx.fillStyle=color;
+            ctx.beginPath();ctx.arc(cx2,cy2,pupilR,0,Math.PI*2);ctx.fill();
+            ctx.fillStyle='rgba(255,255,255,0.9)';
+            ctx.beginPath();ctx.arc(cx2-pupilR*0.3,cy2-pupilR*0.3,pupilR*0.2,0,Math.PI*2);ctx.fill();
+            // 홍채
+            for(let i=0;i<8;i++){
+              const a=(i/8)*Math.PI*2;
+              ctx.strokeStyle=`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},0.6)`;
+              ctx.lineWidth=1;ctx.shadowBlur=5;
+              ctx.beginPath();
+              ctx.moveTo(cx2+Math.cos(a)*pupilR*1.2,cy2+Math.sin(a)*pupilR*1.2);
+              ctx.lineTo(cx2+Math.cos(a)*er*0.6,cy2+Math.sin(a)*er*0.6);ctx.stroke();
+            }
+          }
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<85)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2600;
+
+      } else if (conf.mode === 'reality_break') {
+        // 62 Paradox — 현실이 깨짐
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          // 격자 뒤틀림
+          const gs=Math.round(Math.min(cw,ch)/8);
+          ctx.strokeStyle=`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},0.2)`;
+          ctx.lineWidth=1;
+          for(let x=0;x<=cw;x+=gs){
+            ctx.beginPath();
+            for(let y=0;y<=ch;y+=4){
+              const dx=Math.sin(y*0.02+t*0.03)*p*30;
+              y===0?ctx.moveTo(x+dx,y):ctx.lineTo(x+dx,y);
+            }
+            ctx.stroke();
+          }
+          // 균열
+          const numCr=Math.floor(p*6);
+          for(let i=0;i<numCr;i++){
+            const a=(i/6)*Math.PI*2;
+            ctx.strokeStyle=color;ctx.lineWidth=2;
+            ctx.shadowColor=color;ctx.shadowBlur=15;
+            ctx.beginPath();ctx.moveTo(cx2,cy2);
+            let px=cx2,py=cy2;
+            for(let s=0;s<8;s++){
+              px+=Math.cos(a+(Math.random()-.5)*0.8)*Math.min(cw,ch)*0.06;
+              py+=Math.sin(a+(Math.random()-.5)*0.8)*Math.min(cw,ch)*0.06;
+              ctx.lineTo(px,py);
+            }
+            ctx.stroke();ctx.shadowBlur=0;
+          }
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2400;
+
+      } else if (conf.mode === 'god_hand') {
+        // 63 Demiurge — 창조신의 손이 하늘에서 내려옴
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          // 빛줄기
+          const fingers2=5;
+          for(let f=0;f<fingers2;f++){
+            const fa=(f/(fingers2-1)-0.5)*0.7;
+            const len=Math.min(cw,ch)*(0.5+f%2*0.05)*p;
+            const startY=-ch*0.05;
+            ctx.strokeStyle=color;ctx.lineWidth=7-f;
+            ctx.shadowColor=color;ctx.shadowBlur=25;
+            ctx.lineCap='round';
+            ctx.globalAlpha=p;
+            ctx.beginPath();
+            ctx.moveTo(cx2+Math.sin(fa)*ch*0.1,startY);
+            ctx.quadraticCurveTo(cx2+Math.sin(fa)*ch*0.05,cy2*0.6,cx2+Math.sin(fa)*ch*0.12,cy2*p);
+            ctx.stroke();
+            // 빛 끝
+            const ex=cx2+Math.sin(fa)*ch*0.12,ey=cy2*p;
+            const gg=ctx.createRadialGradient(ex,ey,0,ex,ey,Math.min(cw,ch)*0.06);
+            gg.addColorStop(0,'rgba(255,255,255,0.9)');
+            gg.addColorStop(1,`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},0)`);
+            ctx.fillStyle=gg;
+            ctx.beginPath();ctx.arc(ex,ey,Math.min(cw,ch)*0.06,0,Math.PI*2);ctx.fill();
+          }
+          ctx.globalAlpha=1;ctx.lineCap='butt';ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(0.9,1600,500);
+        duration=2600;
+
+      } else if (conf.mode === 'akashic_flood') {
+        // 64 Akashic Lord — 녹색 데이터 홍수
+        overlay.style.background='#000808';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height;
+        const chars='01アイウエオ∞Ω◈▲■ABCDEFabcdef'.split('');
+        let t=0;
+        const cols=Math.floor(cw/18);
+        const drops=Array.from({length:cols},()=>Math.random()*ch);
+        function draw(){
+          ctx.fillStyle='rgba(0,8,8,0.15)';ctx.fillRect(0,0,cw,ch);
+          ctx.font=`${Math.round(cw/cols*0.9)}px monospace`;
+          ctx.textAlign='center';
+          drops.forEach((y,i)=>{
+            const x=i*(cw/cols)+(cw/cols/2);
+            ctx.shadowColor='rgba(0,200,180,0.8)';ctx.shadowBlur=8;
+            ctx.fillStyle=`rgba(0,200,180,${0.5+Math.random()*0.4})`;
+            ctx.fillText(chars[Math.floor(Math.random()*chars.length)],x,y);
+            drops[i]=(y+16+Math.random()*4)%ch;
+          });
+          ctx.shadowBlur=0;ctx.textAlign='left';
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2400;
+
+      } else if (conf.mode === 'pure_white') {
+        // 65 Transcendent — 순백
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/70);
+          const r=Math.sqrt(cx2*cx2+cy2*cy2)*p;
+          const wg=ctx.createRadialGradient(cx2,cy2,0,cx2,cy2,r);
+          wg.addColorStop(0,'rgba(255,255,255,1)');
+          wg.addColorStop(0.5,'rgba(255,255,255,0.8)');
+          wg.addColorStop(0.8,'rgba(220,220,255,0.4)');
+          wg.addColorStop(1,'rgba(255,255,255,0)');
+          ctx.fillStyle=wg;ctx.fillRect(0,0,cw,ch);
+          // 검은 링들 (역설)
+          for(let i=0;i<6;i++){
+            const lr=r*(0.15+i*0.15);
+            ctx.strokeStyle=`rgba(0,0,0,${Math.max(0,0.5-i*0.08)*(1-p*0.5)})`;
+            ctx.lineWidth=2.5-i*0.3;
+            ctx.beginPath();ctx.arc(cx2,cy2,lr,0,Math.PI*2);ctx.stroke();
+          }
+          t++;if(!skipRequested&&t<90)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(1.0,1800,600);
+        duration=2800;
+
+      } else if (conf.mode === 'primal_eruption') {
+        // 66 Primordial — 원시 화산 폭발
+        overlay.style.background='#0d0000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        const lavaPts=Array.from({length:50},()=>({x:cx2+(Math.random()-.5)*cw*0.3,y:cy2,vx:(Math.random()-.5)*5,vy:-(3+Math.random()*5),size:3+Math.random()*8}));
+        let t=0;
+        function draw(){
+          ctx.fillStyle='rgba(13,0,0,0.15)';ctx.fillRect(0,0,cw,ch);
+          lavaPts.forEach(p2=>{
+            p2.x+=p2.vx;p2.y+=p2.vy;p2.vy+=0.1;
+            if(p2.y>ch){p2.y=cy2;p2.x=cx2+(Math.random()-.5)*cw*0.3;p2.vx=(Math.random()-.5)*5;p2.vy=-(3+Math.random()*5);}
+            const op=Math.max(0,1-(p2.y-cy2)/ch);
+            ctx.fillStyle=`rgba(255,${Math.floor(Math.random()*100)},0,${op*0.8})`;
+            ctx.shadowColor='rgba(255,60,0,0.8)';ctx.shadowBlur=12;
+            ctx.beginPath();ctx.arc(p2.x,p2.y,p2.size,0,Math.PI*2);ctx.fill();
+          });
+          // 룬
+          const rp=Math.min(1,t/60);
+          const rs=Math.min(cw,ch)*0.25*rp;
+          ctx.strokeStyle=`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},${rp*0.8})`;
+          ctx.lineWidth=4;ctx.shadowColor=color;ctx.shadowBlur=25;ctx.lineCap='round';
+          ctx.beginPath();ctx.moveTo(cx2,cy2-rs);ctx.lineTo(cx2+rs*0.6,cy2+rs*0.5);ctx.lineTo(cx2-rs*0.6,cy2+rs*0.5);ctx.closePath();ctx.stroke();
+          ctx.beginPath();ctx.moveTo(cx2,cy2+rs);ctx.lineTo(cx2-rs*0.6,cy2-rs*0.5);ctx.lineTo(cx2+rs*0.6,cy2-rs*0.5);ctx.closePath();ctx.stroke();
+          ctx.lineCap='butt';ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<85)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(1.0,1800,500);
+        duration=2800;
+
+      } else if (conf.mode === 'god_emperor_pre') {
+        // 67 GOD EMPEROR — 왕관이 하늘에서 내려와 씌워짐
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/65);
+          const crownY=cy2-ch*0.35+p*ch*0.35;
+          const s=Math.min(cw,ch)*0.35;
+          // 왕권 광선
+          const rayN=24;
+          for(let i=0;i<rayN;i++){
+            const ra=(i/rayN)*Math.PI*2;
+            ctx.strokeStyle=`rgba(255,215,0,${p*0.12+Math.sin(t*0.05+i)*0.05})`;
+            ctx.lineWidth=1;
+            ctx.beginPath();ctx.moveTo(cx2,cy2);
+            ctx.lineTo(cx2+Math.cos(ra)*Math.min(cw,ch)*0.6,cy2+Math.sin(ra)*Math.min(cw,ch)*0.6);ctx.stroke();
+          }
+          // 왕관
+          ctx.strokeStyle='rgba(255,215,0,0.9)';ctx.fillStyle='rgba(255,215,0,0.1)';
+          ctx.lineWidth=3;ctx.shadowColor='rgba(255,215,0,1)';ctx.shadowBlur=30;
+          ctx.globalAlpha=p;
+          ctx.beginPath();
+          ctx.moveTo(cx2-s*0.4,crownY+s*0.18);
+          ctx.lineTo(cx2-s*0.4,crownY);
+          ctx.lineTo(cx2-s*0.22,crownY-s*0.28);
+          ctx.lineTo(cx2-s*0.1,crownY);
+          ctx.lineTo(cx2,crownY-s*0.48);
+          ctx.lineTo(cx2+s*0.1,crownY);
+          ctx.lineTo(cx2+s*0.22,crownY-s*0.28);
+          ctx.lineTo(cx2+s*0.4,crownY);
+          ctx.lineTo(cx2+s*0.4,crownY+s*0.18);
+          ctx.closePath();ctx.fill();ctx.stroke();
+          ctx.globalAlpha=1;ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<90)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(1.0,2000,500);
+        duration=3000;
+
+      } else if (conf.mode === 'rift_open') {
+        // 68 Riftwalker — 공간 균열이 열림
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          const riftH=ch*0.6*p;
+          // 균열 메인
+          ctx.strokeStyle=color;ctx.lineWidth=4;
+          ctx.shadowColor=color;ctx.shadowBlur=30;
+          ctx.beginPath();ctx.moveTo(cx2-10,cy2-riftH/2);ctx.lineTo(cx2+10,cy2+riftH/2);ctx.stroke();
+          // 균열 내부 빛
+          const rg=ctx.createLinearGradient(cx2,cy2-riftH/2,cx2,cy2+riftH/2);
+          rg.addColorStop(0,`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},0)`);
+          rg.addColorStop(0.5,'rgba(255,255,255,0.6)');
+          rg.addColorStop(1,`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},0)`);
+          ctx.fillStyle=rg;
+          ctx.beginPath();ctx.ellipse(cx2,cy2,8*p,riftH/2,0,0,Math.PI*2);ctx.fill();
+          // 균열 파편
+          for(let i=0;i<6;i++){
+            const side=i%2===0?1:-1;
+            const y=cy2-riftH*0.4+i*riftH*0.15;
+            const len=Math.min(cw,ch)*0.12*(0.5+Math.random()*0.5)*p;
+            ctx.strokeStyle=`rgba(0,172,193,${0.4+Math.random()*0.3})`;
+            ctx.lineWidth=1.5;ctx.shadowBlur=10;
+            ctx.beginPath();ctx.moveTo(cx2+side*5,y);ctx.lineTo(cx2+side*(5+len),y);ctx.stroke();
+          }
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(0.9,1600,400);
+        duration=2600;
+
+      } else if (conf.mode === 'void_bane_pre') {
+        // 69 Voidbane — 결계 6개가 동시에 형성
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          const r=Math.min(cw,ch)*0.3*p;
+          for(let i=0;i<6;i++){
+            const a=(i/6)*Math.PI*2;
+            const bx=cx2+Math.cos(a)*r*0.5,by=cy2+Math.sin(a)*r*0.5;
+            const br=r*0.25;
+            ctx.strokeStyle=`rgba(126,87,194,${0.7+Math.sin(t*0.08+i)*0.2})`;
+            ctx.lineWidth=2.5;ctx.shadowColor='rgba(126,87,194,0.6)';ctx.shadowBlur=15;
+            ctx.beginPath();ctx.arc(bx,by,br,0,Math.PI*2);ctx.stroke();
+            // 연결선
+            if(i>0){
+              const pa=(i-1)/6*Math.PI*2;
+              const px=cx2+Math.cos(pa)*r*0.5,py=cy2+Math.sin(pa)*r*0.5;
+              ctx.lineWidth=1;ctx.shadowBlur=5;
+              ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(px,py);ctx.stroke();
+            }
+          }
+          // 메인 링
+          ctx.strokeStyle=color;ctx.lineWidth=3;ctx.shadowColor=color;ctx.shadowBlur=20;
+          ctx.beginPath();ctx.arc(cx2,cy2,r,0,Math.PI*2);ctx.stroke();
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2600;
+
+      } else if (conf.mode === 'nether_surge') {
+        // 70 Netherstrike — 지하에서 에너지 급상승
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2;
+        let t=0;
+        function draw(){
+          ctx.fillStyle='rgba(0,0,0,0.15)';ctx.fillRect(0,0,cw,ch);
+          const p=Math.min(1,t/50);
+          // 지하에서 올라오는 에너지
+          for(let i=0;i<5;i++){
+            const bx=cx2+(i-2)*cw*0.12;
+            const bh=ch*p*(0.6+i%2*0.3);
+            const bg=ctx.createLinearGradient(bx,ch,bx,ch-bh);
+            bg.addColorStop(0,'rgba(229,57,53,0)');
+            bg.addColorStop(0.5,`rgba(229,57,53,${0.4+i*0.05})`);
+            bg.addColorStop(1,'rgba(255,255,255,0.9)');
+            ctx.fillStyle=bg;ctx.shadowColor='rgba(229,57,53,0.8)';ctx.shadowBlur=20;
+            ctx.fillRect(bx-5,ch-bh,10,bh);
+          }
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(0.9,1500,400);
+        duration=2600;
+
+      } else if (conf.mode === 'soul_shred') {
+        // 71 Soulrender — 영혼이 찢김
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/60);
+          // 4개의 찢김
+          for(let i=0;i<4;i++){
+            const off=(i-1.5)*Math.min(cw,ch)*0.1;
+            const h2=ch*0.5*p;
+            const sg=ctx.createLinearGradient(cx2+off,cy2-h2,cx2+off,cy2+h2);
+            sg.addColorStop(0,`rgba(136,14,79,0)`);
+            sg.addColorStop(0.5,`rgba(136,14,79,${0.7-i*0.1})`);
+            sg.addColorStop(1,`rgba(136,14,79,0)`);
+            ctx.strokeStyle=sg;ctx.lineWidth=3;ctx.shadowColor='rgba(136,14,79,0.8)';ctx.shadowBlur=20;
+            ctx.beginPath();
+            ctx.moveTo(cx2+off,cy2-h2);
+            ctx.bezierCurveTo(cx2+off+(i%2?.04:-.04)*cw,cy2,cx2+off-(i%2?.04:-.04)*cw,cy2,cx2+off,cy2+h2);
+            ctx.stroke();
+          }
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(1.0,1700,400);
+        duration=2600;
+
+      } else if (conf.mode === 'doom_loom') {
+        // 72 Doomweaver — 파멸의 직조가 완성됨
+        overlay.style.background='#050200';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        const pts3=Array.from({length:12},(_,i)=>{
+          const a=(i/12)*Math.PI*2;
+          return {x:cx2+Math.cos(a)*Math.min(cw,ch)*0.3,y:cy2+Math.sin(a)*Math.min(cw,ch)*0.3};
+        });
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/65);
+          const numLines=Math.floor(p*pts3.length*3);
+          let drawn=0;
+          for(let i=0;i<pts3.length&&drawn<numLines;i++){
+            for(let j=i+1;j<pts3.length&&drawn<numLines;j+=2){
+              ctx.strokeStyle=`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},${0.4+Math.sin(t*0.05+i)*0.2})`;
+              ctx.lineWidth=1.5;ctx.shadowColor=color;ctx.shadowBlur=10;
+              ctx.beginPath();ctx.moveTo(pts3[i].x,pts3[i].y);ctx.lineTo(pts3[j].x,pts3[j].y);ctx.stroke();
+              drawn++;
+            }
+          }
+          ctx.shadowBlur=0;
+          t++;if(!skipRequested&&t<80)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2600;
+
+      } else if (conf.mode === 'oblivion_pre') {
+        // 73 Oblivion — 망각, 화면이 서서히 사라짐
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/70);
+          // 역방향: 빛이 중심으로 수렴 후 사라짐
+          const r=Math.min(cw,ch)*0.4*(1-p*0.5);
+          const og=ctx.createRadialGradient(cx2,cy2,0,cx2,cy2,r);
+          og.addColorStop(0,'rgba(33,33,33,0.3)');
+          og.addColorStop(0.6,`rgba(33,33,33,${p*0.15})`);
+          og.addColorStop(1,'rgba(0,0,0,0)');
+          ctx.fillStyle=og;ctx.fillRect(0,0,cw,ch);
+          // 소멸하는 파티클
+          for(let i=0;i<20;i++){
+            const a=Math.random()*Math.PI*2;
+            const pr=(Math.random()*r);
+            const op=(1-p)*0.5*Math.random();
+            ctx.fillStyle=`rgba(33,33,33,${op})`;
+            ctx.beginPath();ctx.arc(cx2+Math.cos(a)*pr,cy2+Math.sin(a)*pr,2+Math.random()*4,0,Math.PI*2);ctx.fill();
+          }
+          // 남은 빛 (희미하게)
+          ctx.strokeStyle=`rgba(${parseInt(color.slice(1,3),16)},${parseInt(color.slice(3,5),16)},${parseInt(color.slice(5,7),16)},${(1-p)*0.4})`;
+          ctx.lineWidth=2;
+          ctx.beginPath();ctx.arc(cx2,cy2,r,0,Math.PI*2);ctx.stroke();
+          t++;if(!skipRequested&&t<90)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        duration=2800;
+
+      } else if (conf.mode === 'absolute_pre') {
+        // 74 THE ABSOLUTE — 모든 것을 초월, 빛과 어둠이 공존
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        const cw=canvas.width,ch=canvas.height,cx2=cw/2,cy2=ch/2;
+        let t=0;
+        function draw(){
+          ctx.clearRect(0,0,cw,ch);
+          const p=Math.min(1,t/70);
+          // 흰 빛 확산
+          const wg=ctx.createRadialGradient(cx2,cy2,0,cx2,cy2,Math.min(cw,ch)*0.5*p);
+          wg.addColorStop(0,'rgba(255,255,255,0.8)');
+          wg.addColorStop(0.4,'rgba(255,255,255,0.3)');
+          wg.addColorStop(1,'rgba(255,255,255,0)');
+          ctx.fillStyle=wg;ctx.fillRect(0,0,cw,ch);
+          // 검은 역방향 링
+          for(let i=0;i<5;i++){
+            const lr=Math.min(cw,ch)*0.45*p*(0.2+i*0.2);
+            ctx.strokeStyle=`rgba(0,0,0,${(0.5-i*0.08)*(1-p*0.3)})`;
+            ctx.lineWidth=3-i*0.4;
+            ctx.beginPath();ctx.arc(cx2,cy2,lr,0,Math.PI*2);ctx.stroke();
+          }
+          // 24방향 광선
+          for(let i=0;i<24;i++){
+            const ra=(i/24)*Math.PI*2+t*0.01;
+            ctx.strokeStyle=`rgba(255,255,255,${p*0.15})`;
+            ctx.lineWidth=1;
+            ctx.beginPath();ctx.moveTo(cx2,cy2);
+            ctx.lineTo(cx2+Math.cos(ra)*Math.min(cw,ch)*0.55,cy2+Math.sin(ra)*Math.min(cw,ch)*0.55);ctx.stroke();
+          }
+          t++;if(!skipRequested&&t<90)requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+        doFlashPulse(1.0,2200,600);
+        duration=3000;
+
+      } else if (conf.mode === 'scene') {
+        // fallback
+        overlay.style.background='#000';
+        canvas.style.opacity='1';
+        duration=1900+Math.min(900,Math.floor(item.tier*12));
+        runLightCanvas(canvas,item.tier,color,duration);
+        doFlashPulse(0.7,500,500);
       } else {
         // 안전망: 알 수 없는 등급은 캔버스 기본값으로
         overlay.style.background = `radial-gradient(circle at 50% 50%, ${color}1a 0%, #000 75%)`;
@@ -11238,7 +13302,7 @@
       // ── 배경 설정 ──
       bg.style.background = theme.bg;
       rays.innerHTML = buildRays(theme.ray);
-      if (item.tier >= 20) rays.classList.add('fast');
+      if (item.tier >= 33) rays.classList.add('fast');
 
       // ── 이름/등급 텍스트 설정 ──
       const stars = '★'.repeat(Math.min(7, Math.max(1, Math.floor((item.tier - 7) / 3))));
@@ -11288,36 +13352,36 @@
       }
 
       // ── 타이밍 ──
-      const baseTime = item.tier >= 35 ? 2600 : item.tier >= 29 ? 2200 : item.tier >= 19 ? 1900 : 1600;
+      const baseTime = item.tier >= 54 ? 2600 : item.tier >= 44 ? 2200 : item.tier >= 29 ? 1900 : 1600;
 
       // 1차: 이름 등장 + 셰이크
-      doFlash(item.tier >= 35 ? 1.0 : item.tier >= 29 ? 0.95 : 0.85, 600, baseTime);
+      doFlash(item.tier >= 54 ? 1.0 : item.tier >= 44 ? 0.95 : 0.85, 600, baseTime);
       setT(() => {
         doShake();
         nameBox.classList.add('show');
         playSfx('distortionBassy', Math.min(1, 0.65 + item.tier / 55));
       }, baseTime + 50);
 
-      // 2차 (Epic+)
-      if (item.tier >= 16) {
+      // 2차 (Frostbound+)
+      if (item.tier >= 23) {
         doFlash(0.7, 450, baseTime + 1200);
         setT(() => { doShake(); playStarSound(item.tier, 'burst'); spawnParticles(particles, theme.particleColor, 20); }, baseTime + 1250);
       }
 
-      // 3차 (Mythic+)
-      if (item.tier >= 23) {
+      // 3차 (Wraithlord+)
+      if (item.tier >= 25) {
         doFlash(0.85, 380, baseTime + 2200);
         setT(() => { doShake(); playStarSound(item.tier, 'burst'); spawnParticles(particles, theme.particleColor, theme.particleCount); }, baseTime + 2250);
       }
 
-      // 4차 (Eternal+)
-      if (item.tier >= 30) {
+      // 4차 (ETERNAL DESTROYER+)
+      if (item.tier >= 46) {
         doFlash(0.95, 320, baseTime + 3400);
         setT(() => { doShake(); playImpactSound(item.tier, 'cutscene'); spawnParticles(particles, theme.particleColor, theme.particleCount); }, baseTime + 3450);
       }
 
-      // 5차 (God+)
-      if (item.tier >= 35) {
+      // 5차 (Quantum Reaper+)
+      if (item.tier >= 56) {
         doFlash(1.0, 280, baseTime + 4800);
         setT(() => { doShake(); playImpactSound(item.tier, 'cutscene'); spawnParticles(particles, theme.particleColor, theme.particleCount * 2); }, baseTime + 4850);
         doFlash(1.0, 250, baseTime + 6200);
@@ -11326,7 +13390,7 @@
 
       // 주기적 파티클 보충
       const ambEnd = theme.duration - 1500;
-      for (let t = baseTime + (item.tier >= 35 ? 7000 : item.tier >= 30 ? 4500 : item.tier >= 23 ? 3200 : 2000); t < ambEnd; t += 4500) {
+      for (let t = baseTime + (item.tier >= 56 ? 7000 : item.tier >= 46 ? 4500 : item.tier >= 25 ? 3200 : 2000); t < ambEnd; t += 4500) {
         setT(() => spawnParticles(particles, theme.particleColor, 16), t);
       }
 
@@ -11409,8 +13473,8 @@
       let result = [...history];
       if (dojangFilter === 'good')      result = result.filter(h => h.item.tier >= 5);
       if (dojangFilter === 'legendary') result = result.filter(h => h.item.tier >= 9);
-      if (dojangFilter === 'mythic')    result = result.filter(h => h.item.tier >= 16);
-      if (dojangFilter === 'eternal')   result = result.filter(h => h.item.tier >= 30);
+      if (dojangFilter === 'mythic')    result = result.filter(h => h.item.tier >= 25); // Wraithlord+
+      if (dojangFilter === 'eternal')   result = result.filter(h => h.item.tier >= 46); // ETERNAL DESTROYER+
       if (dojangMutFilter !== 'all') {
         result = result.filter(h => {
           const m = h.mutation || 'None';
@@ -11619,7 +13683,7 @@
       <div class="odds-th" style="min-width:80px;text-align:right">포션 보상</div>
     </div>
     ${pool.filter(p => GOLDEN_ONLY_TIERS.includes(p.tier)).map(p => {
-        const note = p.tier === 45 ? 'Genesis보다 약간 위' : p.tier === 46 ? 'CHRONO OVERLORD급' : '최상위 · 20초 이펙트';
+        const note = p.tier === 75 ? 'Genesis보다 약간 위' : p.tier === 76 ? 'CHRONO OVERLORD급' : '최상위 · 20초 이펙트';
         return `
       <div class="odds-row">
         <div class="odds-dot" style="background:${p.color}"></div>
@@ -12170,7 +14234,7 @@
 
     function openBreweryPicker(slotIdx) {
       breweryPickerSlot = slotIdx;
-      const eligible = history.map((h,i)=>({h,i})).filter(({h}) => h.item.tier >= 9 && h.item.tier <= 27);
+      const eligible = history.map((h,i)=>({h,i})).filter(({h}) => h.item.tier >= 9 && h.item.tier <= 42);
       if (eligible.length === 0) { showPotionToast('도감에 Legendary~Infinity 범위 아이템 없음'); return; }
       const existing = document.getElementById('brewery-picker-modal');
       if (existing) existing.remove();
