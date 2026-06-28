@@ -1,4 +1,4 @@
-const CACHE = 'ugacha-v5';
+const CACHE = 'ugacha-v6';
 
 self.addEventListener('install', e => {
   e.waitUntil(
